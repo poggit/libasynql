@@ -1,0 +1,7 @@
+branches: master
+projects:
+  libasynql:
+    type: library
+    model: virion
+    path: libasynql
+
