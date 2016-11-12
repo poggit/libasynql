@@ -45,7 +45,6 @@ class PoolExample extends PluginBase implements Listener{
 				$this->getServer()->getPluginManager()->registerEvents($this, $this);
 			});
 		$this->getServer()->getScheduler()->scheduleAsyncTask($task);
-		$this->getServer()->getPluginManager()->registerEvents($this, $this);
 	}
 
 	/**
