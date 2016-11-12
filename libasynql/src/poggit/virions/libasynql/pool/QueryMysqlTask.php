@@ -1,7 +1,7 @@
 <?php
 
 /*
- * Poggit
+ * libasynql
  *
  * Copyright (C) 2016 Poggit
  *
@@ -18,14 +18,14 @@
  * limitations under the License.
  */
 
-namespace poggit\virions\libasynql\task;
+namespace poggit\virions\libasynql\pool;
 
 use pocketmine\scheduler\AsyncTask;
 use pocketmine\Server;
 use poggit\virions\libasynql\MysqlCredentials;
-use poggit\virions\libasynql\task\exception\MysqlConnectException;
-use poggit\virions\libasynql\task\exception\MysqlException;
-use poggit\virions\libasynql\task\result\MysqlErrorResult;
+use poggit\virions\libasynql\pool\exception\MysqlConnectException;
+use poggit\virions\libasynql\pool\exception\MysqlException;
+use poggit\virions\libasynql\pool\result\MysqlErrorResult;
 
 abstract class QueryMysqlTask extends AsyncTask{
 	/** @var string|MysqlCredentials */
@@ -71,7 +71,7 @@ abstract class QueryMysqlTask extends AsyncTask{
 	protected function getMysqli() : \mysqli{
 		/** @var MysqlCredentials $credentials */
 		$credentials = unserialize($this->credentials);
-		$identifier = str_replace("\\", ".", __NAMESPACE__) . ".mysql.task.$credentials";
+		$identifier = str_replace("\\", ".", __NAMESPACE__) . ".mysql.pool.$credentials";
 
 		$mysqli = $this->getFromThreadStore($identifier);
 		if(!($mysqli instanceof \mysqli)){

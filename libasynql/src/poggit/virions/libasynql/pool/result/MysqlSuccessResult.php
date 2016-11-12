@@ -1,7 +1,7 @@
 <?php
 
 /*
- * Poggit
+ * libasynql
  *
  * Copyright (C) 2016 Poggit
  *
@@ -18,8 +18,18 @@
  * limitations under the License.
  */
 
-namespace poggit\virions\libasynql\task\exception;
+namespace poggit\virions\libasynql\pool\result;
 
-class MysqlConnectException extends MysqlException{
+class MysqlSuccessResult{
+	/** @var int */
+	public $affectedRows;
+	/** @var int */
+	public $insertId;
 
+	public function asSelectResult() : MysqlSelectResult{
+		$result = new MysqlSelectResult();
+		$result->affectedRows=$this->affectedRows;
+		$result->insertId=$this->insertId;
+		return $result;
+	}
 }

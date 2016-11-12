@@ -4,4 +4,11 @@ projects:
     type: library
     model: virion
     path: libasynql
-
+  PoolExample:
+    path: examples/PoolExample
+    libs:
+      - local-project: libasynql
+  SerialExample:
+    path: exapmles/SerialExample
+    libs:
+      - local-project: libasynql

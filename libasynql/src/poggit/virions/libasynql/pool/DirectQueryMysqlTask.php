@@ -1,7 +1,7 @@
 <?php
 
 /*
- * Poggit
+ * libasynql
  *
  * Copyright (C) 2016 Poggit
  *
@@ -18,11 +18,11 @@
  * limitations under the License.
  */
 
-namespace poggit\virions\libasynql\task;
+namespace poggit\virions\libasynql\pool;
 
 use poggit\virions\libasynql\MysqlCredentials;
-use poggit\virions\libasynql\task\exception\MysqlQueryException;
-use poggit\virions\libasynql\task\result\MysqlSuccessResult;
+use poggit\virions\libasynql\pool\exception\MysqlQueryException;
+use poggit\virions\libasynql\pool\result\MysqlSuccessResult;
 
 class DirectQueryMysqlTask extends QueryMysqlTask{
 	/** @var string */

@@ -1,7 +1,7 @@
 <?php
 
 /*
- * Poggit
+ * libasynql
  *
  * Copyright (C) 2016 Poggit
  *
@@ -18,7 +18,7 @@
  * limitations under the License.
  */
 
-namespace poggit\virions\libasynql\task\result;
+namespace poggit\virions\libasynql\pool\exception;
 
-class MysqlResult{
+class MysqlException extends \RuntimeException{
 }

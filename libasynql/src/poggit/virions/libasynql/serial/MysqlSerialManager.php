@@ -1,7 +1,7 @@
 <?php
 
 /*
- * Poggit
+ * libasynql
  *
  * Copyright (C) 2016 Poggit
  *
@@ -18,13 +18,8 @@
  * limitations under the License.
  */
 
-namespace poggit\virions\libasynql\queue;
+namespace poggit\virions\libasynql\serial;
 
-use pocketmine\Worker;
-use poggit\virions\libasynql\MysqlCredentials;
-
-class MysqlQueue extends Worker{
-	public function __construct(MysqlCredentials $credentials){
-		// TODO work on libasynql.queue
-	}
+class MysqlSerialManager{
+	// TODO: work on // TODO work on libasynql.serial
 }

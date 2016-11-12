@@ -1,7 +1,7 @@
 <?php
 
 /*
- * Poggit
+ * libasynql
  *
  * Copyright (C) 2016 Poggit
  *
@@ -18,29 +18,8 @@
  * limitations under the License.
  */
 
-namespace poggit\virions\libasynql\task\result;
+namespace poggit\virions\libasynql\pool\exception;
 
-use poggit\virions\libasynql\task\exception\MysqlException;
+class MysqlConnectException extends MysqlException{
 
-class MysqlErrorResult extends MysqlResult{
-	/** @var string */
-	private $exception;
-
-	public function __construct(MysqlException $ex){
-		$this->setException($ex);
-	}
-
-	/**
-	 * @param MysqlException $exception
-	 */
-	public function setException(MysqlException $exception){
-		$this->exception = serialize($exception);
-	}
-
-	/**
-	 * @return MysqlException
-	 */
-	public function getException() : MysqlException{
-		return unserialize($this->exception);
-	}
 }

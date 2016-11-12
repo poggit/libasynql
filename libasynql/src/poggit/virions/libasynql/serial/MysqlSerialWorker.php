@@ -1,7 +1,7 @@
 <?php
 
 /*
- * Poggit
+ * libasynql
  *
  * Copyright (C) 2016 Poggit
  *
@@ -18,18 +18,13 @@
  * limitations under the License.
  */
 
-namespace poggit\virions\libasynql\task\result;
+namespace poggit\virions\libasynql\serial;
 
-class MysqlSuccessResult{
-	/** @var int */
-	public $affectedRows;
-	/** @var int */
-	public $insertId;
+use pocketmine\Worker;
+use poggit\virions\libasynql\MysqlCredentials;
 
-	public function asSelectResult() : MysqlSelectResult{
-		$result = new MysqlSelectResult();
-		$result->affectedRows=$this->affectedRows;
-		$result->insertId=$this->insertId;
-		return $result;
+class MysqlSerialWorker extends Worker{
+	public function __construct(MysqlCredentials $credentials){
+		// TODO work on libasynql.serial
 	}
 }

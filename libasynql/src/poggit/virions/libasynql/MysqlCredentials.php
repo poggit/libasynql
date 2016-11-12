@@ -1,7 +1,7 @@
 <?php
 
 /*
- * Poggit
+ * libasynql
  *
  * Copyright (C) 2016 Poggit
  *
@@ -20,7 +20,7 @@
 
 namespace poggit\virions\libasynql;
 
-use poggit\virions\libasynql\task\exception\MysqlConnectException;
+use poggit\virions\libasynql\pool\exception\MysqlConnectException;
 
 class MysqlCredentials implements \JsonSerializable{
 	/** @var string */
