@@ -58,7 +58,7 @@ class DirectQueryMysqlTask extends QueryMysqlTask{
 			$types .= $type;
 			$params[] = $arg;
 		}
-		$stmt->bind_param($types, $params);
+		$stmt->bind_param($types, ...$params);
 		if(!$stmt->execute()){
 			$stmt->close();
 			throw new MysqlQueryException($stmt->error);
