@@ -9,6 +9,6 @@ projects:
     libs:
       - local-project: libasynql
   SerialExample:
-    path: exapmles/SerialExample
+    path: examples/SerialExample
     libs:
       - local-project: libasynql
