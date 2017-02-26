@@ -3,3 +3,4 @@ author: poggit
 authors: [SOFe]
 antigen: poggit\virions\libasynql
 version: "1.0"
+api: [2.0.0]
