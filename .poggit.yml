@@ -1,4 +1,3 @@
-branches: master
 projects:
   libasynql:
     type: library
@@ -7,4 +6,4 @@ projects:
   PoolExample:
     path: examples/PoolExample
     libs:
-      - local-project libasynql 1.0
+      - virion poggit poggit/libasynql/libasynql 1.0
