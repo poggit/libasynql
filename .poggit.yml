@@ -7,8 +7,4 @@ projects:
   PoolExample:
     path: examples/PoolExample
     libs:
-      - local-project: libasynql
-  SerialExample:
-    path: examples/SerialExample
-    libs:
-      - local-project: libasynql
+      - local-project libasynql 1.0
