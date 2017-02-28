@@ -3,6 +3,7 @@ projects:
     type: library
     model: virion
     path: libasynql
+
   PoolExample:
     path: examples/PoolExample
     libs:
