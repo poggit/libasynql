@@ -6,4 +6,4 @@ projects:
   PoolExample:
     path: examples/PoolExample
     libs:
-      - virion poggit poggit/libasynql/libasynql 1.0
+      - virion project poggit/libasynql/libasynql 1.0
