@@ -1,0 +1,6 @@
+name: PoolExample
+version: 1.0.0
+api: [2.0.0]
+main: poggit\virions\libasynql\examples\poolexample\PoolExample
+author: Poggit
+authors: [SOFe]
