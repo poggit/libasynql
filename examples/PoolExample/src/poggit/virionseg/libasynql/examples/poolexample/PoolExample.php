@@ -18,7 +18,7 @@
  * limitations under the License.
  */
 
-namespace poggit\virions\libasynql\examples\poolexample;
+namespace poggit\virionseg\libasynql\examples\poolexample;
 
 use pocketmine\event\Listener;
 use pocketmine\event\player\PlayerJoinEvent;
