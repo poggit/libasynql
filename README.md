@@ -1,10 +1,13 @@
-# libasynql
+# libasynql [![Poggit-CI](https://poggit.pmmp.io/ci.badge/poggit/libasynql/libasynql)](https://poggit.pmmp.io/ci/poggit/libasynql/libasynql)
 Asynchronous MySQL access library for PocketMine plugins.
 
-libasynql provides two types of asynchronous access to MySQL, namely Pool and Serial.
+libasynql provides the ability to execute MySQL queries through asynchronous tasks from the PocketMine API. `callable` objects can be passed to execute actions after the query is executed and returned to the main thread.
+
+## Doxygen docs
+Visit https://poggit.github.io/libasynql for docs.
 
 ## MysqlCredentials
-Both Pool and Serial retrieve MySQL login parameters using the `MysqlCredentials` class. Developers can have something like this in their `config.yml`:
+MySQL login parameters are passed with the `MysqlCredentials` class. Developers can have something like this in their `config.yml`:
 
 ```yaml
 mysql:
@@ -56,7 +59,7 @@ The fourth parameter is optional. Passing null or void would cause nothing to be
 
 > **Warning**: Strong reference to the `callable` object will be retained until the task completes, according to the PocketMine `AsyncTask::fetchLocal` API. Hence, any objects in the `callable`, or the `$this` context that defined the callable as an anonymous function, as well as any variables `use`d by the anonymous function, will remain strongly referenced until the task completes. Therefore, creating a `DirectQueryMysqlTask` with callable may result in delay of garbage collection, or even memory leak if the AsyncTask runs for a long time (very unlikely with DirectQueryMysqlTask though, unless you have a really very slow query that takes minutes or hours to execute).
 
-This callable can accept up to one parameter, which shall receive a `MysqlResult` instance representing the outcome of the query. See the classes in the `poggit\virions\libasynql\pool\result` for more details.
+This callable can accept up to one parameter, which shall receive a `MysqlResult` instance representing the outcome of the query. See the classes in the `libasynql\result` for more details.
 
 ### MysqlSelectResult fixing
 PHP's `mysqli` API returns some values as strings or null for some values. The `MysqlSelectResult::fixTypes` method can be used to correct the types in the result rows.

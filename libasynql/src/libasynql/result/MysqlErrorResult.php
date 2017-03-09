@@ -24,8 +24,6 @@ use libasynql\exception\MysqlException;
 
 /**
  * MysqlResult when an error occurred during the query
- *
- * @package poggit\virions\libasynql\pool\result
  */
 class MysqlErrorResult extends MysqlResult{
 	/** @var string */
