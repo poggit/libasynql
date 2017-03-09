@@ -26,7 +26,7 @@ use libasynql\exception\MysqlException;
  * MysqlResult when an error occurred during the query
  */
 class MysqlErrorResult extends MysqlResult{
-	/** @var string */
+	/** @var string $exception Serialized form of the {@link MysqlException} object. */
 	private $exception;
 
 	public function __construct(MysqlException $ex){

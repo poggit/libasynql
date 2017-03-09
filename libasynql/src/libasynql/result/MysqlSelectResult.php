@@ -20,28 +20,49 @@
 
 namespace libasynql\result;
 
+/**
+ * This result is returned if the query is successful and contains a set of rows.
+ */
 class MysqlSelectResult extends MysqlSuccessResult{
-	const TYPE_STRING = 1; // CHAR, BINARY, BLOB
-	const TYPE_INT = 2; // INT
-	const TYPE_FLOAT = 3; // DECIMAL, FLOAT, DOUBLE
-	const TYPE_BOOL = 4; // BIT(1)
+	/**
+	 * Used with {@link #fixTypes()} for string columns like (VAR)CHAR, (VAR)BINARY, BLOB
+	 * @var TYPE_STRING
+	 */
+	const TYPE_STRING = 1;
+	/**
+	 * Used with {@link #fixTypes()} for integer columns like TINYINT, SMALLINT, MEDIUMINT, INT, BIGINT
+	 * @var TYPE_INT
+	 */
+	const TYPE_INT = 2;
+	/**
+	 * Used with {@link #fixTypes()} for floating point columns like FLOAT, DOUBLE, DECIMAL
+	 * @var TYPE_FLOAT
+	 */
+	const TYPE_FLOAT = 3;
+	/**
+	 * Used with {@link #fixTypes()} for boolean columns like BIT(1)
+	 * @var TYPE_BOOL
+	 */
+	const TYPE_BOOL = 4;
 
-	static $DEFAULTS = [
-		self::TYPE_STRING => "",
-		self::TYPE_INT => 0,
-		self::TYPE_FLOAT => 0.0,
-		self::TYPE_BOOL => false
-	];
-
-	/** @var array[] */
+	/**
+	 * The rows returned in the query. Some columns might be strings or null; correct them with {@link #fixTypes()}.
+	 *
+	 * @var array[] $rows
+	 */
 	public $rows;
 
+	/**
+	 * Some data in the {@link #rows} may not be in the types intended, e.g. ints may be in string form. Use this method to fix the types.
+	 *
+	 * Example usage: {@code $result->fixTypes(["name" => MysqlSelectResult::TYPE_STRING, "id" => MysqlSelectResult::TYPE_INT, "banned" => MysqlSelectResult::TYPE_BOOL])}
+	 *
+	 * @param array $columns an array of column names to TYPE_* constants.
+	 */
 	public function fixTypes(array $columns){
 		foreach($this->rows as &$row){
 			foreach($columns as $column => $type){
-				if(!isset($row[$column])){
-					$row[$column] = self::$DEFAULTS[$type];
-				}else{
+				if(isset($row[$column])){
 					switch($type){
 						case self::TYPE_STRING:
 							$row[$column] = (string) $row[$column];

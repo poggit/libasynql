@@ -23,17 +23,17 @@ namespace libasynql;
 use libasynql\exception\MysqlConnectException;
 
 class MysqlCredentials implements \JsonSerializable{
-	/** @var string */
+	/** @var string $host */
 	private $host;
-	/** @var string */
+	/** @var string $username */
 	private $username;
-	/** @var string */
+	/** @var string $password */
 	private $password;
-	/** @var string */
+	/** @var string $schema */
 	private $schema;
-	/** @var int */
+	/** @var int $port */
 	private $port;
-	/** @var string */
+	/** @var string $socket */
 	private $socket;
 
 	/**
@@ -68,7 +68,7 @@ class MysqlCredentials implements \JsonSerializable{
 	}
 
 	/**
-	 * Creates a new {@link mysqli} instance
+	 * Creates a new <a href="https://php.net/mysqli">mysqli</a> instance
 	 *
 	 * @return \mysqli
 	 *
@@ -107,14 +107,6 @@ class MysqlCredentials implements \JsonSerializable{
 		];
 	}
 
-	/**
-	 * Specify data which should be serialized to JSON
-	 *
-	 * @link  http://php.net/manual/en/jsonserializable.jsonserialize.php
-	 * @return mixed data which can be serialized by <b>json_encode</b>,
-	 *        which is a value of any type other than a resource.
-	 * @since 5.4.0
-	 */
 	public function jsonSerialize(){
 		return [
 			"host" => $this->host,

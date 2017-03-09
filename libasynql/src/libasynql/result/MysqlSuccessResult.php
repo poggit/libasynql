@@ -20,12 +20,33 @@
 
 namespace libasynql\result;
 
-class MysqlSuccessResult{
-	/** @var int */
+/**
+ * Represents a successful result of a MySQL query.
+ */
+class MysqlSuccessResult extends MysqlResult{
+	/**
+	 * The number of rows affected in this query. May return unexpected values. 
+	 * 
+	 * @see <a href="https://php.net/mysqli.affected-rows">mysqli::$affected_rows</a>
+	 *
+	 * @var int $affectedRows
+	 */
 	public $affectedRows;
-	/** @var int */
+	/**
+	 * The last insert ID returned from the database. <b>May be irrelevant to the query of this result.</b>
+	 *
+	 * @see <a href="https://php.net/mysqli.insert-id">mysqli::$insert_id</a>
+	 * @var int $insertId
+	 */
 	public $insertId;
 
+	/**
+	 * Creates a {@link MysqlSelectResult} and copies own contents into it.
+	 *
+	 * @internal Only intended for internal use.
+	 *
+	 * @return MysqlSelectResult
+	 */
 	public function asSelectResult() : MysqlSelectResult{
 		$result = new MysqlSelectResult();
 		$result->affectedRows=$this->affectedRows;

@@ -20,5 +20,8 @@
 
 namespace libasynql\result;
 
+/**
+ * Represents a successful or error result from MySQL.
+ */
 class MysqlResult{
 }

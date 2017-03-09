@@ -120,7 +120,8 @@ Inheritance diagram for MysqlSuccessResult:</div>
  <div class="center">
   <img src="../../df/d5a/classlibasynql_1_1result_1_1_mysql_success_result.png" usemap="#MysqlSuccessResult_map" alt=""/>
   <map id="MysqlSuccessResult_map" name="MysqlSuccessResult_map">
-<area href="../../dc/dfb/classlibasynql_1_1result_1_1_mysql_select_result.html" alt="MysqlSelectResult" shape="rect" coords="0,56,127,80"/>
+<area href="../../dc/df1/classlibasynql_1_1result_1_1_mysql_result.html" alt="MysqlResult" shape="rect" coords="0,0,127,24"/>
+<area href="../../dc/dfb/classlibasynql_1_1result_1_1_mysql_select_result.html" alt="MysqlSelectResult" shape="rect" coords="0,112,127,136"/>
 </map>
  </div></div>
 <table class="memberdecls">
@@ -131,14 +132,15 @@ Public Member Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Data Fields</h2></td></tr>
-<tr class="memitem:a5d71c0a3880cc1d40816fb5b7df3f764"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../df/d5a/classlibasynql_1_1result_1_1_mysql_success_result.html#a5d71c0a3880cc1d40816fb5b7df3f764">$affectedRows</a></td></tr>
-<tr class="separator:a5d71c0a3880cc1d40816fb5b7df3f764"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae85f1c85363404a049f0e4ea6587d5db"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../df/d5a/classlibasynql_1_1result_1_1_mysql_success_result.html#ae85f1c85363404a049f0e4ea6587d5db">$insertId</a></td></tr>
-<tr class="separator:ae85f1c85363404a049f0e4ea6587d5db"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8d8f9ad338a90e088ce57538f01bd1bc"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../df/d5a/classlibasynql_1_1result_1_1_mysql_success_result.html#a8d8f9ad338a90e088ce57538f01bd1bc">$affectedRows</a></td></tr>
+<tr class="separator:a8d8f9ad338a90e088ce57538f01bd1bc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aea78a2e14d68576774cace6724059ef6"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../df/d5a/classlibasynql_1_1result_1_1_mysql_success_result.html#aea78a2e14d68576774cace6724059ef6">$insertId</a></td></tr>
+<tr class="separator:aea78a2e14d68576774cace6724059ef6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock">
-<p>Definition at line <a class="el" href="../../de/d0e/_mysql_success_result_8php_source.html#l00023">23</a> of file <a class="el" href="../../de/d0e/_mysql_success_result_8php_source.html">MysqlSuccessResult.php</a>.</p>
+<div class="textblock"><p>Represents a successful result of a MySQL query. </p>
+
+<p>Definition at line <a class="el" href="../../de/d0e/_mysql_success_result_8php_source.html#l00026">26</a> of file <a class="el" href="../../de/d0e/_mysql_success_result_8php_source.html">MysqlSuccessResult.php</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
 <a class="anchor" id="a5aa1cf1319f1748402656a99d2bee85e"></a>
 <div class="memitem">
@@ -152,37 +154,42 @@ Data Fields</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Creates a <a class="el" href="../../dc/dfb/classlibasynql_1_1result_1_1_mysql_select_result.html">MysqlSelectResult</a> and copies own contents into it. </p>
 
-<p>Definition at line <a class="el" href="../../de/d0e/_mysql_success_result_8php_source.html#l00029">29</a> of file <a class="el" href="../../de/d0e/_mysql_success_result_8php_source.html">MysqlSuccessResult.php</a>.</p>
+<p>Definition at line <a class="el" href="../../de/d0e/_mysql_success_result_8php_source.html#l00050">50</a> of file <a class="el" href="../../de/d0e/_mysql_success_result_8php_source.html">MysqlSuccessResult.php</a>.</p>
 
 </div>
 </div>
 <h2 class="groupheader">Field Documentation</h2>
-<a class="anchor" id="a5d71c0a3880cc1d40816fb5b7df3f764"></a>
+<a class="anchor" id="a8d8f9ad338a90e088ce57538f01bd1bc"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">$affectedRows</td>
+          <td class="memname">int $affectedRows</td>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>The number of rows affected in this query. May return unexpected values.</p>
+<dl class="section see"><dt>See also</dt><dd><a href="https://php.net/mysqli.affected-rows">mysqli::$affected_rows</a> </dd></dl>
 
-<p>Definition at line <a class="el" href="../../de/d0e/_mysql_success_result_8php_source.html#l00025">25</a> of file <a class="el" href="../../de/d0e/_mysql_success_result_8php_source.html">MysqlSuccessResult.php</a>.</p>
+<p>Definition at line <a class="el" href="../../de/d0e/_mysql_success_result_8php_source.html#l00034">34</a> of file <a class="el" href="../../de/d0e/_mysql_success_result_8php_source.html">MysqlSuccessResult.php</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="ae85f1c85363404a049f0e4ea6587d5db"></a>
+<a class="anchor" id="aea78a2e14d68576774cace6724059ef6"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">$insertId</td>
+          <td class="memname">int $insertId</td>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>The last insert ID returned from the database. <b>May be irrelevant to the query of this result.</b></p>
+<dl class="section see"><dt>See also</dt><dd><a href="https://php.net/mysqli.insert-id">mysqli::$insert_id</a> </dd></dl>
 
-<p>Definition at line <a class="el" href="../../de/d0e/_mysql_success_result_8php_source.html#l00027">27</a> of file <a class="el" href="../../de/d0e/_mysql_success_result_8php_source.html">MysqlSuccessResult.php</a>.</p>
+<p>Definition at line <a class="el" href="../../de/d0e/_mysql_success_result_8php_source.html#l00041">41</a> of file <a class="el" href="../../de/d0e/_mysql_success_result_8php_source.html">MysqlSuccessResult.php</a>.</p>
 
 </div>
 </div>
