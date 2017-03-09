@@ -18,11 +18,11 @@
  * limitations under the License.
  */
 
-namespace poggit\virions\libasynql\pool;
+namespace libasynql;
 
-use poggit\virions\libasynql\MysqlCredentials;
-use poggit\virions\libasynql\pool\exception\MysqlQueryException;
-use poggit\virions\libasynql\pool\result\MysqlSuccessResult;
+use libasynql\MysqlCredentials;
+use libasynql\exception\MysqlQueryException;
+use libasynql\result\MysqlSuccessResult;
 
 class DirectQueryMysqlTask extends QueryMysqlTask{
 	/** @var string */

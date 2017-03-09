@@ -18,7 +18,7 @@
  * limitations under the License.
  */
 
-namespace poggit\virions\libasynql\pool\exception;
+namespace libasynql\exception;
 
 class MysqlConnectException extends MysqlException{
 

@@ -18,7 +18,18 @@
  * limitations under the License.
  */
 
-namespace poggit\virions\libasynql\pool\exception;
+namespace libasynql\result;
 
-class MysqlException extends \RuntimeException{
+class MysqlSuccessResult{
+	/** @var int */
+	public $affectedRows;
+	/** @var int */
+	public $insertId;
+
+	public function asSelectResult() : MysqlSelectResult{
+		$result = new MysqlSelectResult();
+		$result->affectedRows=$this->affectedRows;
+		$result->insertId=$this->insertId;
+		return $result;
+	}
 }

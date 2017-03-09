@@ -18,7 +18,8 @@
  * limitations under the License.
  */
 
-namespace poggit\virions\libasynql\pool\result;
+namespace libasynql\exception;
 
-class MysqlResult{
+class MysqlQueryException extends MysqlException{
+
 }

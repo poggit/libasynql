@@ -18,14 +18,14 @@
  * limitations under the License.
  */
 
-namespace poggit\virions\libasynql\pool;
+namespace libasynql;
 
 use pocketmine\scheduler\AsyncTask;
 use pocketmine\Server;
-use poggit\virions\libasynql\MysqlCredentials;
-use poggit\virions\libasynql\pool\exception\MysqlConnectException;
-use poggit\virions\libasynql\pool\exception\MysqlException;
-use poggit\virions\libasynql\pool\result\MysqlErrorResult;
+use libasynql\MysqlCredentials;
+use libasynql\exception\MysqlConnectException;
+use libasynql\exception\MysqlException;
+use libasynql\result\MysqlErrorResult;
 
 abstract class QueryMysqlTask extends AsyncTask{
 	/** @var string|MysqlCredentials */

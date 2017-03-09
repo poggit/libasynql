@@ -18,9 +18,9 @@
  * limitations under the License.
  */
 
-namespace poggit\virions\libasynql;
+namespace libasynql;
 
-use poggit\virions\libasynql\pool\exception\MysqlConnectException;
+use libasynql\exception\MysqlConnectException;
 
 class MysqlCredentials implements \JsonSerializable{
 	/** @var string */

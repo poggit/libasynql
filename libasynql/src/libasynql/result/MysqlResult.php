@@ -18,13 +18,7 @@
  * limitations under the License.
  */
 
-namespace poggit\virions\libasynql\serial;
+namespace libasynql\result;
 
-use pocketmine\Worker;
-use poggit\virions\libasynql\MysqlCredentials;
-
-class MysqlSerialWorker extends Worker{
-	public function __construct(MysqlCredentials $credentials){
-		// TODO work on libasynql.serial
-	}
+class MysqlResult{
 }

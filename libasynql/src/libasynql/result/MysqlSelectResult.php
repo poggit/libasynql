@@ -18,7 +18,7 @@
  * limitations under the License.
  */
 
-namespace poggit\virions\libasynql\pool\result;
+namespace libasynql\result;
 
 class MysqlSelectResult extends MysqlSuccessResult{
 	const TYPE_STRING = 1; // CHAR, BINARY, BLOB

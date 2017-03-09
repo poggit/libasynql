@@ -1,6 +1,6 @@
 name: libasynql
 author: poggit
 authors: [SOFe]
-antigen: poggit\virions\libasynql
+antigen: libasynql
 version: "1.0"
 api: [2.0.0]

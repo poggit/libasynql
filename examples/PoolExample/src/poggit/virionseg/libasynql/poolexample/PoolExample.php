@@ -18,15 +18,15 @@
  * limitations under the License.
  */
 
-namespace poggit\virionseg\libasynql\examples\poolexample;
+namespace poggit\virionseg\libasynql\poolexample;
 
 use pocketmine\event\Listener;
 use pocketmine\event\player\PlayerJoinEvent;
 use pocketmine\plugin\PluginBase;
-use poggit\virions\libasynql\MysqlCredentials;
-use poggit\virions\libasynql\pool\DirectQueryMysqlTask;
-use poggit\virions\libasynql\pool\result\MysqlResult;
-use poggit\virions\libasynql\pool\result\MysqlSelectResult;
+use libasynql\MysqlCredentials;
+use libasynql\DirectQueryMysqlTask;
+use libasynql\result\MysqlResult;
+use libasynql\result\MysqlSelectResult;
 
 class PoolExample extends PluginBase implements Listener{
 	private $mysqlCredentials;

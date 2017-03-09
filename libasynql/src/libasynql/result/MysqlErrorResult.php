@@ -18,9 +18,9 @@
  * limitations under the License.
  */
 
-namespace poggit\virions\libasynql\pool\result;
+namespace libasynql\result;
 
-use poggit\virions\libasynql\pool\exception\MysqlException;
+use libasynql\exception\MysqlException;
 
 /**
  * MysqlResult when an error occurred during the query
