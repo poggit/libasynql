@@ -7,4 +7,18 @@ projects:
   PoolExample:
     path: examples/PoolExample
     libs:
-      - virion project local:libasynql 1.0
+      - src: /libasynql
+        version: 1.0
+        shade: syntax
+        # format: virion
+        # vendor: poggit-project
+
+# possible shade strategies:
+#   syntax (use token_get_all() to scan all syntactical references)
+#   single (use str_replace(); will also replace single-quoted references)
+#   double (use str_replace() with \ and \\; will also replace double-quoted references
+
+# possible formats: virion
+# planning to add composer too
+
+# possible vendors: poggit-project, file, url
