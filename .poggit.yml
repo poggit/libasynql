@@ -21,4 +21,4 @@ projects:
 # possible formats: virion
 # planning to add composer too
 
-# possible vendors: poggit-project, file, url
+# possible vendors: poggit-project, raw
