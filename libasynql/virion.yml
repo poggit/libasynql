@@ -2,5 +2,5 @@ name: libasynql
 author: poggit
 authors: [SOFe]
 antigen: libasynql
-version: "1.0"
+version: 1.0.0
 api: [2.0.0]
