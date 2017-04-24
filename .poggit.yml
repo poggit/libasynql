@@ -9,7 +9,7 @@ projects:
     libs:
       - src: /libasynql
         version: 1.0
-        shade: syntax
+        # shade: syntax
         # format: virion
         # vendor: poggit-project
 
