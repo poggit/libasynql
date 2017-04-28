@@ -22,6 +22,7 @@ namespace libasynql;
 
 use libasynql\MysqlCredentials;
 use libasynql\exception\MysqlQueryException;
+use libasynql\result\MysqlResult;
 use libasynql\result\MysqlSuccessResult;
 
 class DirectQueryMysqlTask extends QueryMysqlTask{
@@ -48,32 +49,8 @@ class DirectQueryMysqlTask extends QueryMysqlTask{
 		$mysqli = $this->getMysqli();
 		$args = unserialize($this->args);
 
-		$taskResult = new MysqlSuccessResult();
+		$taskResult = MysqlResult::executeQuery($mysqli, $this->query, $args);
 
-		$stmt = $mysqli->prepare($this->query);
-		$types = "";
-		$params = [];
-		foreach($args as list($type, $arg)){
-			assert(strlen($type) === 1);
-			$types .= $type;
-			$params[] = $arg;
-		}
-		$stmt->bind_param($types, ...$params);
-		if(!$stmt->execute()){
-			$stmt->close();
-			throw new MysqlQueryException($stmt->error);
-		}
-		$taskResult->affectedRows = $stmt->affected_rows;
-		$result = $stmt->get_result();
-		if($result instanceof \mysqli_result){
-			$taskResult = $taskResult->asSelectResult();
-			$taskResult->rows = [];
-			while(is_array($row = $result->fetch_assoc())){
-				$taskResult->rows[] = $row;
-			}
-		}
-		$stmt->close();
-		$result->close();
 		$this->setResult($taskResult);
 	}
 }

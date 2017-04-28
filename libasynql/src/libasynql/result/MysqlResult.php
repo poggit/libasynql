@@ -20,8 +20,51 @@
 
 namespace libasynql\result;
 
+use libasynql\exception\MysqlException;
+use libasynql\exception\MysqlQueryException;
+
 /**
  * Represents a successful or error result from MySQL.
  */
-class MysqlResult{
+abstract class MysqlResult{
+	public static function executeQuery(\mysqli $mysqli, string $query, array $args) : MysqlResult{
+		try{
+			$stmt = $mysqli->prepare($query);
+			$types = "";
+			$params = [];
+			foreach($args as list($type, $arg)){
+				assert(strlen($type) === 1);
+				$types .= $type;
+				$params[] = $arg;
+			}
+			$stmt->bind_param($types, ...$params);
+			if(!$stmt->execute()){
+				throw new MysqlQueryException($stmt->error);
+			}
+
+			$taskResult = new MysqlSuccessResult();
+			$taskResult->affectedRows = $stmt->affected_rows;
+			$result = $stmt->get_result();
+			if($result instanceof \mysqli_result){
+				$taskResult = $taskResult->asSelectResult();
+				$taskResult->rows = [];
+				while(is_array($row = $result->fetch_assoc())){
+					$taskResult->rows[] = $row;
+				}
+			}else{
+				$taskResult->insertId = $stmt->insert_id;
+			}
+
+			return $taskResult;
+		}catch(MysqlException $ex){
+			return new MysqlErrorResult($ex);
+		}finally{
+			if(isset($stmt)){
+				$stmt->close();
+			}
+			if(isset($result) and $result instanceof \mysqli_result){
+				$result->close();
+			}
+		}
+	}
 }
