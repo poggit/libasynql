@@ -20,15 +20,14 @@
 
 namespace libasynql;
 
-use pocketmine\scheduler\AsyncTask;
-use pocketmine\Server;
-use libasynql\MysqlCredentials;
 use libasynql\exception\MysqlConnectException;
 use libasynql\exception\MysqlException;
 use libasynql\result\MysqlErrorResult;
+use pocketmine\scheduler\AsyncTask;
+use pocketmine\Server;
 
 abstract class QueryMysqlTask extends AsyncTask{
-	/** @var string|MysqlCredentials */
+	/** @var string serialize(MysqlCredentials) */
 	private $credentials;
 	/** @var bool */
 	private $hasCallback = false;
@@ -80,5 +79,9 @@ abstract class QueryMysqlTask extends AsyncTask{
 		}
 
 		return $mysqli;
+	}
+
+	public function getCredentials() : MysqlCredentials{
+		return unserialize($this->credentials);
 	}
 }
