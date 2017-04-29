@@ -32,11 +32,19 @@ abstract class QueryMysqlTask extends AsyncTask{
 	/** @var bool */
 	private $hasCallback = false;
 
-	public function __construct(MysqlCredentials $credentials, callable $callback = null){
+	/**
+	 * Initializes a QueryMysqlTask.
+	 *
+	 * @param MysqlCredentials    $credentials the credentials used to create a connection
+	 * @param callable|mixed|null $callback    the callback to execute, or any arbitrary value that shall be retrieved by fetchLocal()
+	 */
+	public function __construct(MysqlCredentials $credentials, $callback = null){
 		$this->credentials = serialize($credentials);
 		if($callback !== null){
 			parent::__construct($callback);
-			$this->hasCallback = true;
+			if(is_callable($callback)){
+				$this->hasCallback = true;
+			}
 		}
 	}
 
