@@ -78,7 +78,7 @@ abstract class QueryMysqlTask extends AsyncTask{
 	protected function getMysqli() : \mysqli{
 		/** @var MysqlCredentials $credentials */
 		$credentials = unserialize($this->credentials);
-		$identifier = str_replace("\\", ".", __NAMESPACE__) . ".mysql.pool.$credentials";
+		$identifier = QueryMysqlTask::getIdentifier($credentials);
 
 		$mysqli = $this->getFromThreadStore($identifier);
 		if(!($mysqli instanceof \mysqli)){
@@ -91,5 +91,9 @@ abstract class QueryMysqlTask extends AsyncTask{
 
 	public function getCredentials() : MysqlCredentials{
 		return unserialize($this->credentials);
+	}
+
+	public static function getIdentifier(MysqlCredentials $credentials) : string{
+		return str_replace("\\", ".", __NAMESPACE__) . ".mysql.pool.$credentials";
 	}
 }

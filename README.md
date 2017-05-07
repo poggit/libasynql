@@ -3,6 +3,17 @@ Asynchronous MySQL access library for PocketMine plugins.
 
 libasynql provides the ability to execute MySQL queries through asynchronous tasks from the PocketMine API. `callable` objects can be passed to execute actions after the query is executed and returned to the main thread.
 
+## Initialization
+Plugins using libasynql should call `\libasynql\PingMysqlTask::init()` during startup if asynchronous MySQLi connections are to be created.
+
+For example, it should have a line like this:
+
+```php
+\libasynql\PingMysqlTask::init($this, $credentials);`
+```
+
+where `$this` refers to the plugin main class and `$credentials` is the [`MysqlCredentials`](#mysqlcredentials) representing the connection credentials.
+
 ## Doxygen docs
 Visit https://poggit.github.io/libasynql for docs.
 
@@ -25,7 +36,7 @@ A `MysqlCredentials` instance can be directly created from this array:
 $credentials = MysqlCredentials::fromArray($this->getConfig()->get("mysql"));
 ```
 
-Aparat from `schema`, all other attributes are optional, and their default values are as shown in the YAML snippet above.
+Apart from `schema`, all other attributes are optional, and their default values are as shown in the YAML snippet above.
 
 ## Pool
 Pool MySQL Access provides MySQL access through PocketMine's AsyncTask API. 
