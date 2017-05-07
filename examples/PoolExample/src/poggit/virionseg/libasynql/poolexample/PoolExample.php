@@ -20,6 +20,7 @@
 
 namespace poggit\virionseg\libasynql\poolexample;
 
+use libasynql\PingMysqlTask;
 use pocketmine\event\Listener;
 use pocketmine\event\player\PlayerJoinEvent;
 use pocketmine\plugin\PluginBase;
@@ -34,6 +35,7 @@ class PoolExample extends PluginBase implements Listener{
 	public function onEnable(){
 		$this->saveDefaultConfig();
 		$this->mysqlCredentials = MysqlCredentials::fromArray($this->getConfig()->get("mysql"));
+		PingMysqlTask::init($this, $this->mysqlCredentials);
 		$task = new DirectQueryMysqlTask($this->mysqlCredentials,
 			"CREATE TABLE IF NOT EXISTS players (
 				username VARCHAR(16) PRIMARY KEY,
