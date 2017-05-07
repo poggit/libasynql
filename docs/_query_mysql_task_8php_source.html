@@ -130,72 +130,77 @@ $(document).ready(function(){initNavTree('_query_mysql_task_8php_source.html',''
 <div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;</div>
 <div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="keyword">namespace </span><a class="code" href="namespacelibasynql.html">libasynql</a>;</div>
 <div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;use <a class="code" href="namespacepocketmine_1_1scheduler_1_1_async_task.html">pocketmine\scheduler\AsyncTask</a>;</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;use <a class="code" href="namespacepocketmine_1_1_server.html">pocketmine\Server</a>;</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;use <a class="code" href="namespacelibasynql_1_1_mysql_credentials.html">libasynql\MysqlCredentials</a>;</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;use <a class="code" href="namespacelibasynql_1_1exception_1_1_mysql_connect_exception.html">libasynql\exception\MysqlConnectException</a>;</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;use <a class="code" href="namespacelibasynql_1_1exception_1_1_mysql_exception.html">libasynql\exception\MysqlException</a>;</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;use <a class="code" href="namespacelibasynql_1_1result_1_1_mysql_error_result.html">libasynql\result\MysqlErrorResult</a>;</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;</div>
-<div class="line"><a name="l00030"></a><span class="lineno"><a class="line" href="classlibasynql_1_1_query_mysql_task.html">   30</a></span>&#160;<span class="keyword">abstract</span> <span class="keyword">class </span><a class="code" href="classlibasynql_1_1_query_mysql_task.html">QueryMysqlTask</a> <span class="keyword">extends</span> AsyncTask{</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    <span class="keyword">private</span> $credentials;</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    <span class="keyword">private</span> $hasCallback = <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;</div>
-<div class="line"><a name="l00036"></a><span class="lineno"><a class="line" href="classlibasynql_1_1_query_mysql_task.html#a3f6fa122c32bb550f1e4f36dfd3e67b3">   36</a></span>&#160;    <span class="keyword">public</span> <span class="keyword">function</span> <a class="code" href="classlibasynql_1_1_query_mysql_task.html#a3f6fa122c32bb550f1e4f36dfd3e67b3">__construct</a>(<a class="code" href="classlibasynql_1_1_mysql_credentials.html">MysqlCredentials</a> $credentials, callable $callback = null){</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;        $this-&gt;credentials = serialize($credentials);</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;        <span class="keywordflow">if</span>($callback !== null){</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;            parent::__construct($callback);</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;            $this-&gt;hasCallback = <span class="keyword">true</span>;</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;        }</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    }</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;</div>
-<div class="line"><a name="l00044"></a><span class="lineno"><a class="line" href="classlibasynql_1_1_query_mysql_task.html#ab02051b6c2b0a5b0dfecf5cdc5120091">   44</a></span>&#160;    <span class="keyword">public</span> <span class="keyword">function</span> <a class="code" href="classlibasynql_1_1_query_mysql_task.html#ab02051b6c2b0a5b0dfecf5cdc5120091">onCompletion</a>(Server $server){</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;        $result = $this-&gt;getResult();</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;        <span class="keywordflow">if</span>($this-&gt;hasCallback){</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;            $cb = $this-&gt;fetchLocal($server);</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;            $cb($result);</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;        }elseif($result instanceof <a class="code" href="classlibasynql_1_1result_1_1_mysql_error_result.html">MysqlErrorResult</a>){</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;            $server-&gt;getLogger()-&gt;logException($result-&gt;getException());</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;        }</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    }</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;</div>
-<div class="line"><a name="l00054"></a><span class="lineno"><a class="line" href="classlibasynql_1_1_query_mysql_task.html#aa2eb34e3894c9da534c026d54443ae86">   54</a></span>&#160;    <span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">function</span> <a class="code" href="classlibasynql_1_1_query_mysql_task.html#aa2eb34e3894c9da534c026d54443ae86">onRun</a>(){</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;        <span class="keywordflow">try</span>{</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;            $this-&gt;execute();</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;        }<span class="keywordflow">catch</span>(<a class="code" href="classlibasynql_1_1exception_1_1_mysql_exception.html">MysqlException</a> $ex){</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;            $this-&gt;setResult(<span class="keyword">new</span> <a class="code" href="classlibasynql_1_1result_1_1_mysql_error_result.html">MysqlErrorResult</a>($ex));</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;        }</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    }</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    <span class="keyword">protected</span> <span class="keyword">abstract</span> <span class="keyword">function</span> execute();</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    <span class="keyword">protected</span> <span class="keyword">function</span> getMysqli() : \mysqli{</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;        $credentials = unserialize($this-&gt;credentials);</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;        $identifier = str_replace(<span class="stringliteral">&quot;\\&quot;</span>, <span class="stringliteral">&quot;.&quot;</span>, __NAMESPACE__) . <span class="stringliteral">&quot;.mysql.pool.$credentials&quot;</span>;</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;        $mysqli = $this-&gt;getFromThreadStore($identifier);</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;        <span class="keywordflow">if</span>(!($mysqli instanceof \mysqli)){</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;            $mysqli = $credentials-&gt;newMysqli();</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;            $this-&gt;saveToThreadStore($identifier, $mysqli);</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;        }</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;        <span class="keywordflow">return</span> $mysqli;</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    }</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;}</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;use <a class="code" href="namespacelibasynql_1_1exception_1_1_mysql_connect_exception.html">libasynql\exception\MysqlConnectException</a>;</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;use <a class="code" href="namespacelibasynql_1_1exception_1_1_mysql_exception.html">libasynql\exception\MysqlException</a>;</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;use <a class="code" href="namespacelibasynql_1_1result_1_1_mysql_error_result.html">libasynql\result\MysqlErrorResult</a>;</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;use <a class="code" href="namespacepocketmine_1_1scheduler_1_1_async_task.html">pocketmine\scheduler\AsyncTask</a>;</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;use <a class="code" href="namespacepocketmine_1_1_server.html">pocketmine\Server</a>;</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;</div>
+<div class="line"><a name="l00029"></a><span class="lineno"><a class="line" href="classlibasynql_1_1_query_mysql_task.html">   29</a></span>&#160;<span class="keyword">abstract</span> <span class="keyword">class </span><a class="code" href="classlibasynql_1_1_query_mysql_task.html">QueryMysqlTask</a> <span class="keyword">extends</span> AsyncTask{</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    <span class="keyword">private</span> $credentials;</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    <span class="keyword">private</span> $hasCallback = <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;</div>
+<div class="line"><a name="l00041"></a><span class="lineno"><a class="line" href="classlibasynql_1_1_query_mysql_task.html#adc388600317779e102a0316e37aa80ab">   41</a></span>&#160;    <span class="keyword">public</span> <span class="keyword">function</span> <a class="code" href="classlibasynql_1_1_query_mysql_task.html#adc388600317779e102a0316e37aa80ab">__construct</a>(<a class="code" href="classlibasynql_1_1_mysql_credentials.html">MysqlCredentials</a> $credentials, $callback = null){</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;        $this-&gt;credentials = serialize($credentials);</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;        <span class="keywordflow">if</span>($callback !== null){</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;            parent::__construct($callback);</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;            <span class="keywordflow">if</span>(is_callable($callback)){</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;                $this-&gt;hasCallback = <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;            }</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;        }</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    }</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;</div>
+<div class="line"><a name="l00051"></a><span class="lineno"><a class="line" href="classlibasynql_1_1_query_mysql_task.html#ab02051b6c2b0a5b0dfecf5cdc5120091">   51</a></span>&#160;    <span class="keyword">public</span> <span class="keyword">function</span> <a class="code" href="classlibasynql_1_1_query_mysql_task.html#ab02051b6c2b0a5b0dfecf5cdc5120091">onCompletion</a>(Server $server){</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;        $result = $this-&gt;getResult();</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;        <span class="keywordflow">if</span>($this-&gt;hasCallback){</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;            $cb = $this-&gt;fetchLocal($server);</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;            $cb($result);</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;        }elseif($result instanceof <a class="code" href="classlibasynql_1_1result_1_1_mysql_error_result.html">MysqlErrorResult</a>){</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;            $server-&gt;getLogger()-&gt;logException($result-&gt;getException());</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;        }</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    }</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;</div>
+<div class="line"><a name="l00061"></a><span class="lineno"><a class="line" href="classlibasynql_1_1_query_mysql_task.html#aa2eb34e3894c9da534c026d54443ae86">   61</a></span>&#160;    <span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">function</span> <a class="code" href="classlibasynql_1_1_query_mysql_task.html#aa2eb34e3894c9da534c026d54443ae86">onRun</a>(){</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;        <span class="keywordflow">try</span>{</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;            $this-&gt;execute();</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;        }<span class="keywordflow">catch</span>(<a class="code" href="classlibasynql_1_1exception_1_1_mysql_exception.html">MysqlException</a> $ex){</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;            $this-&gt;setResult(<span class="keyword">new</span> <a class="code" href="classlibasynql_1_1result_1_1_mysql_error_result.html">MysqlErrorResult</a>($ex));</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;        }</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    }</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    <span class="keyword">protected</span> <span class="keyword">abstract</span> <span class="keyword">function</span> execute();</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    <span class="keyword">protected</span> <span class="keyword">function</span> getMysqli() : \mysqli{</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;        $credentials = unserialize($this-&gt;credentials);</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;        $identifier = str_replace(<span class="stringliteral">&quot;\\&quot;</span>, <span class="stringliteral">&quot;.&quot;</span>, __NAMESPACE__) . <span class="stringliteral">&quot;.mysql.pool.$credentials&quot;</span>;</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;        $mysqli = $this-&gt;getFromThreadStore($identifier);</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;        <span class="keywordflow">if</span>(!($mysqli instanceof \mysqli)){</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;            $mysqli = $credentials-&gt;newMysqli();</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;            $this-&gt;saveToThreadStore($identifier, $mysqli);</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;        }</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;        <span class="keywordflow">return</span> $mysqli;</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;    }</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;</div>
+<div class="line"><a name="l00092"></a><span class="lineno"><a class="line" href="classlibasynql_1_1_query_mysql_task.html#af866f8126bcdf44fe28d92f7dbac4b89">   92</a></span>&#160;    <span class="keyword">public</span> <span class="keyword">function</span> <a class="code" href="classlibasynql_1_1_query_mysql_task.html#af866f8126bcdf44fe28d92f7dbac4b89">getCredentials</a>() : <a class="code" href="classlibasynql_1_1_mysql_credentials.html">MysqlCredentials</a>{</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;        <span class="keywordflow">return</span> unserialize($this-&gt;credentials);</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;    }</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;}</div>
 <div class="ttc" id="classlibasynql_1_1result_1_1_mysql_error_result_html"><div class="ttname"><a href="classlibasynql_1_1result_1_1_mysql_error_result.html">libasynql\result\MysqlErrorResult</a></div><div class="ttdef"><b>Definition:</b> <a href="_mysql_error_result_8php_source.html#l00028">MysqlErrorResult.php:28</a></div></div>
-<div class="ttc" id="classlibasynql_1_1_query_mysql_task_html_a3f6fa122c32bb550f1e4f36dfd3e67b3"><div class="ttname"><a href="classlibasynql_1_1_query_mysql_task.html#a3f6fa122c32bb550f1e4f36dfd3e67b3">libasynql\QueryMysqlTask\__construct</a></div><div class="ttdeci">__construct(MysqlCredentials $credentials, callable $callback=null)</div><div class="ttdef"><b>Definition:</b> <a href="_query_mysql_task_8php_source.html#l00036">QueryMysqlTask.php:36</a></div></div>
 <div class="ttc" id="namespacepocketmine_1_1_server_html"><div class="ttname"><a href="namespacepocketmine_1_1_server.html">Server</a></div></div>
+<div class="ttc" id="classlibasynql_1_1_query_mysql_task_html_adc388600317779e102a0316e37aa80ab"><div class="ttname"><a href="classlibasynql_1_1_query_mysql_task.html#adc388600317779e102a0316e37aa80ab">libasynql\QueryMysqlTask\__construct</a></div><div class="ttdeci">__construct(MysqlCredentials $credentials, $callback=null)</div><div class="ttdef"><b>Definition:</b> <a href="_query_mysql_task_8php_source.html#l00041">QueryMysqlTask.php:41</a></div></div>
 <div class="ttc" id="namespacelibasynql_1_1exception_1_1_mysql_connect_exception_html"><div class="ttname"><a href="namespacelibasynql_1_1exception_1_1_mysql_connect_exception.html">MysqlConnectException</a></div></div>
-<div class="ttc" id="classlibasynql_1_1_query_mysql_task_html_ab02051b6c2b0a5b0dfecf5cdc5120091"><div class="ttname"><a href="classlibasynql_1_1_query_mysql_task.html#ab02051b6c2b0a5b0dfecf5cdc5120091">libasynql\QueryMysqlTask\onCompletion</a></div><div class="ttdeci">onCompletion(Server $server)</div><div class="ttdef"><b>Definition:</b> <a href="_query_mysql_task_8php_source.html#l00044">QueryMysqlTask.php:44</a></div></div>
+<div class="ttc" id="classlibasynql_1_1_query_mysql_task_html_ab02051b6c2b0a5b0dfecf5cdc5120091"><div class="ttname"><a href="classlibasynql_1_1_query_mysql_task.html#ab02051b6c2b0a5b0dfecf5cdc5120091">libasynql\QueryMysqlTask\onCompletion</a></div><div class="ttdeci">onCompletion(Server $server)</div><div class="ttdef"><b>Definition:</b> <a href="_query_mysql_task_8php_source.html#l00051">QueryMysqlTask.php:51</a></div></div>
 <div class="ttc" id="namespacelibasynql_1_1exception_1_1_mysql_exception_html"><div class="ttname"><a href="namespacelibasynql_1_1exception_1_1_mysql_exception.html">MysqlException</a></div></div>
 <div class="ttc" id="namespacelibasynql_html"><div class="ttname"><a href="namespacelibasynql.html">libasynql</a></div><div class="ttdef"><b>Definition:</b> <a href="_direct_query_mysql_task_8php_source.html#l00021">DirectQueryMysqlTask.php:21</a></div></div>
-<div class="ttc" id="classlibasynql_1_1_query_mysql_task_html_aa2eb34e3894c9da534c026d54443ae86"><div class="ttname"><a href="classlibasynql_1_1_query_mysql_task.html#aa2eb34e3894c9da534c026d54443ae86">libasynql\QueryMysqlTask\onRun</a></div><div class="ttdeci">onRun()</div><div class="ttdef"><b>Definition:</b> <a href="_query_mysql_task_8php_source.html#l00054">QueryMysqlTask.php:54</a></div></div>
+<div class="ttc" id="classlibasynql_1_1_query_mysql_task_html_aa2eb34e3894c9da534c026d54443ae86"><div class="ttname"><a href="classlibasynql_1_1_query_mysql_task.html#aa2eb34e3894c9da534c026d54443ae86">libasynql\QueryMysqlTask\onRun</a></div><div class="ttdeci">onRun()</div><div class="ttdef"><b>Definition:</b> <a href="_query_mysql_task_8php_source.html#l00061">QueryMysqlTask.php:61</a></div></div>
 <div class="ttc" id="namespacepocketmine_1_1scheduler_1_1_async_task_html"><div class="ttname"><a href="namespacepocketmine_1_1scheduler_1_1_async_task.html">AsyncTask</a></div></div>
-<div class="ttc" id="namespacelibasynql_1_1_mysql_credentials_html"><div class="ttname"><a href="namespacelibasynql_1_1_mysql_credentials.html">MysqlCredentials</a></div></div>
 <div class="ttc" id="classlibasynql_1_1_mysql_credentials_html"><div class="ttname"><a href="classlibasynql_1_1_mysql_credentials.html">libasynql\MysqlCredentials</a></div><div class="ttdef"><b>Definition:</b> <a href="_mysql_credentials_8php_source.html#l00025">MysqlCredentials.php:25</a></div></div>
 <div class="ttc" id="namespacelibasynql_1_1result_1_1_mysql_error_result_html"><div class="ttname"><a href="namespacelibasynql_1_1result_1_1_mysql_error_result.html">MysqlErrorResult</a></div></div>
-<div class="ttc" id="classlibasynql_1_1_query_mysql_task_html"><div class="ttname"><a href="classlibasynql_1_1_query_mysql_task.html">libasynql\QueryMysqlTask</a></div><div class="ttdef"><b>Definition:</b> <a href="_query_mysql_task_8php_source.html#l00030">QueryMysqlTask.php:30</a></div></div>
+<div class="ttc" id="classlibasynql_1_1_query_mysql_task_html"><div class="ttname"><a href="classlibasynql_1_1_query_mysql_task.html">libasynql\QueryMysqlTask</a></div><div class="ttdef"><b>Definition:</b> <a href="_query_mysql_task_8php_source.html#l00029">QueryMysqlTask.php:29</a></div></div>
 <div class="ttc" id="classlibasynql_1_1exception_1_1_mysql_exception_html"><div class="ttname"><a href="classlibasynql_1_1exception_1_1_mysql_exception.html">libasynql\exception\MysqlException</a></div><div class="ttdef"><b>Definition:</b> <a href="_mysql_exception_8php_source.html#l00023">MysqlException.php:23</a></div></div>
+<div class="ttc" id="classlibasynql_1_1_query_mysql_task_html_af866f8126bcdf44fe28d92f7dbac4b89"><div class="ttname"><a href="classlibasynql_1_1_query_mysql_task.html#af866f8126bcdf44fe28d92f7dbac4b89">libasynql\QueryMysqlTask\getCredentials</a></div><div class="ttdeci">getCredentials()</div><div class="ttdef"><b>Definition:</b> <a href="_query_mysql_task_8php_source.html#l00092">QueryMysqlTask.php:92</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

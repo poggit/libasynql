@@ -130,10 +130,77 @@ $(document).ready(function(){initNavTree('_mysql_result_8php_source.html','');})
 <div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;</div>
 <div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="keyword">namespace </span><a class="code" href="namespacelibasynql_1_1result.html">libasynql\result</a>;</div>
 <div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;</div>
-<div class="line"><a name="l00026"></a><span class="lineno"><a class="line" href="classlibasynql_1_1result_1_1_mysql_result.html">   26</a></span>&#160;<span class="keyword">class </span><a class="code" href="classlibasynql_1_1result_1_1_mysql_result.html">MysqlResult</a>{</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;}</div>
-<div class="ttc" id="classlibasynql_1_1result_1_1_mysql_result_html"><div class="ttname"><a href="classlibasynql_1_1result_1_1_mysql_result.html">libasynql\result\MysqlResult</a></div><div class="ttdef"><b>Definition:</b> <a href="_mysql_result_8php_source.html#l00026">MysqlResult.php:26</a></div></div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;use <a class="code" href="namespacelibasynql_1_1exception_1_1_mysql_exception.html">libasynql\exception\MysqlException</a>;</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;use <a class="code" href="namespacelibasynql_1_1exception_1_1_mysql_query_exception.html">libasynql\exception\MysqlQueryException</a>;</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;</div>
+<div class="line"><a name="l00029"></a><span class="lineno"><a class="line" href="classlibasynql_1_1result_1_1_mysql_result.html">   29</a></span>&#160;<span class="keyword">abstract</span> <span class="keyword">class </span><a class="code" href="classlibasynql_1_1result_1_1_mysql_result.html">MysqlResult</a>{</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    <span class="keyword">private</span> $timing;</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;</div>
+<div class="line"><a name="l00033"></a><span class="lineno"><a class="line" href="classlibasynql_1_1result_1_1_mysql_result.html#ae206dd4a26f9fff7c5c8a9bb34afd389">   33</a></span>&#160;    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">function</span> <a class="code" href="classlibasynql_1_1result_1_1_mysql_result.html#ae206dd4a26f9fff7c5c8a9bb34afd389">executeQuery</a>(\mysqli $mysqli, <span class="keywordtype">string</span> $query, array $args) : <a class="code" href="classlibasynql_1_1result_1_1_mysql_result.html">MysqlResult</a>{</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;        $start = microtime(<span class="keyword">true</span>);</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;        <span class="keywordflow">try</span>{</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;            $stmt = $mysqli-&gt;prepare($query);</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;            $types = <span class="stringliteral">&quot;&quot;</span>;</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;            $params = [];</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;            <span class="keywordflow">foreach</span>($args as list($type, $arg)){</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;                assert(strlen($type) === 1);</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;                $types .= $type;</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;                $params[] = $arg;</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;            }</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;            $stmt-&gt;bind_param($types, ...$params);</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;            <span class="keywordflow">if</span>(!$stmt-&gt;execute()){</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;                <span class="keywordflow">throw</span> <span class="keyword">new</span> <a class="code" href="classlibasynql_1_1exception_1_1_mysql_query_exception.html">MysqlQueryException</a>($stmt-&gt;error);</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;            }</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;            $taskResult = <span class="keyword">new</span> <a class="code" href="classlibasynql_1_1result_1_1_mysql_success_result.html">MysqlSuccessResult</a>();</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;            $taskResult-&gt;affectedRows = $stmt-&gt;affected_rows;</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;            $result = $stmt-&gt;get_result();</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;            <span class="keywordflow">if</span>($result instanceof \mysqli_result){</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;                $taskResult = $taskResult-&gt;asSelectResult();</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;                $taskResult-&gt;rows = [];</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;                <span class="keywordflow">while</span>(is_array($row = $result-&gt;fetch_assoc())){</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;                    $taskResult-&gt;rows[] = $row;</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;                }</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;            }<span class="keywordflow">else</span>{</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;                $taskResult-&gt;insertId = $stmt-&gt;insert_id;</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;            }</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;            $end = microtime(<span class="keyword">true</span>);</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;            <span class="keywordflow">return</span> $taskResult-&gt;setTiming($end - $start);</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;        }<span class="keywordflow">catch</span>(<a class="code" href="classlibasynql_1_1exception_1_1_mysql_exception.html">MysqlException</a> $ex){</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;            $end = microtime(<span class="keyword">true</span>);</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;            <span class="keywordflow">return</span> (<span class="keyword">new</span> <a class="code" href="classlibasynql_1_1result_1_1_mysql_error_result.html">MysqlErrorResult</a>($ex))-&gt;setTiming($end - $start);</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;        }<span class="keywordflow">finally</span>{</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;            <span class="keywordflow">if</span>(isset($stmt)){</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;                $stmt-&gt;close();</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;            }</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;            <span class="keywordflow">if</span>(isset($result) and $result instanceof \mysqli_result){</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;                $result-&gt;close();</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;            }</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;        }</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    }</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;</div>
+<div class="line"><a name="l00078"></a><span class="lineno"><a class="line" href="classlibasynql_1_1result_1_1_mysql_result.html#a67610adb43f1fe53cb08a3eab97dc687">   78</a></span>&#160;    <span class="keyword">public</span> <span class="keyword">function</span> <a class="code" href="classlibasynql_1_1result_1_1_mysql_result.html#a67610adb43f1fe53cb08a3eab97dc687">setTiming</a>(<span class="keywordtype">float</span> $timing) : <a class="code" href="classlibasynql_1_1result_1_1_mysql_result.html">MysqlResult</a>{</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;        $this-&gt;timing = $timing;</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;        <span class="keywordflow">return</span> $this;</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    }</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;</div>
+<div class="line"><a name="l00083"></a><span class="lineno"><a class="line" href="classlibasynql_1_1result_1_1_mysql_result.html#a0ef31d6523417133ca4e9f4792e5c37f">   83</a></span>&#160;    <span class="keyword">public</span> <span class="keyword">function</span> <a class="code" href="classlibasynql_1_1result_1_1_mysql_result.html#a0ef31d6523417133ca4e9f4792e5c37f">getTiming</a>() : float{</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;        <span class="keywordflow">return</span> $this-&gt;timing;</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    }</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;}</div>
+<div class="ttc" id="classlibasynql_1_1result_1_1_mysql_error_result_html"><div class="ttname"><a href="classlibasynql_1_1result_1_1_mysql_error_result.html">libasynql\result\MysqlErrorResult</a></div><div class="ttdef"><b>Definition:</b> <a href="_mysql_error_result_8php_source.html#l00028">MysqlErrorResult.php:28</a></div></div>
+<div class="ttc" id="namespacelibasynql_1_1exception_1_1_mysql_query_exception_html"><div class="ttname"><a href="namespacelibasynql_1_1exception_1_1_mysql_query_exception.html">MysqlQueryException</a></div></div>
+<div class="ttc" id="classlibasynql_1_1exception_1_1_mysql_query_exception_html"><div class="ttname"><a href="classlibasynql_1_1exception_1_1_mysql_query_exception.html">libasynql\exception\MysqlQueryException</a></div><div class="ttdef"><b>Definition:</b> <a href="_mysql_query_exception_8php_source.html#l00023">MysqlQueryException.php:23</a></div></div>
+<div class="ttc" id="namespacelibasynql_1_1exception_1_1_mysql_exception_html"><div class="ttname"><a href="namespacelibasynql_1_1exception_1_1_mysql_exception.html">MysqlException</a></div></div>
+<div class="ttc" id="classlibasynql_1_1result_1_1_mysql_result_html_ae206dd4a26f9fff7c5c8a9bb34afd389"><div class="ttname"><a href="classlibasynql_1_1result_1_1_mysql_result.html#ae206dd4a26f9fff7c5c8a9bb34afd389">libasynql\result\MysqlResult\executeQuery</a></div><div class="ttdeci">static executeQuery(\mysqli $mysqli, string $query, array $args)</div><div class="ttdef"><b>Definition:</b> <a href="_mysql_result_8php_source.html#l00033">MysqlResult.php:33</a></div></div>
+<div class="ttc" id="classlibasynql_1_1result_1_1_mysql_result_html"><div class="ttname"><a href="classlibasynql_1_1result_1_1_mysql_result.html">libasynql\result\MysqlResult</a></div><div class="ttdef"><b>Definition:</b> <a href="_mysql_result_8php_source.html#l00029">MysqlResult.php:29</a></div></div>
+<div class="ttc" id="classlibasynql_1_1result_1_1_mysql_result_html_a67610adb43f1fe53cb08a3eab97dc687"><div class="ttname"><a href="classlibasynql_1_1result_1_1_mysql_result.html#a67610adb43f1fe53cb08a3eab97dc687">libasynql\result\MysqlResult\setTiming</a></div><div class="ttdeci">setTiming(float $timing)</div><div class="ttdef"><b>Definition:</b> <a href="_mysql_result_8php_source.html#l00078">MysqlResult.php:78</a></div></div>
+<div class="ttc" id="classlibasynql_1_1exception_1_1_mysql_exception_html"><div class="ttname"><a href="classlibasynql_1_1exception_1_1_mysql_exception.html">libasynql\exception\MysqlException</a></div><div class="ttdef"><b>Definition:</b> <a href="_mysql_exception_8php_source.html#l00023">MysqlException.php:23</a></div></div>
+<div class="ttc" id="classlibasynql_1_1result_1_1_mysql_success_result_html"><div class="ttname"><a href="classlibasynql_1_1result_1_1_mysql_success_result.html">libasynql\result\MysqlSuccessResult</a></div><div class="ttdef"><b>Definition:</b> <a href="_mysql_success_result_8php_source.html#l00026">MysqlSuccessResult.php:26</a></div></div>
 <div class="ttc" id="namespacelibasynql_1_1result_html"><div class="ttname"><a href="namespacelibasynql_1_1result.html">libasynql\result</a></div><div class="ttdef"><b>Definition:</b> <a href="_mysql_error_result_8php_source.html#l00021">MysqlErrorResult.php:21</a></div></div>
+<div class="ttc" id="classlibasynql_1_1result_1_1_mysql_result_html_a0ef31d6523417133ca4e9f4792e5c37f"><div class="ttname"><a href="classlibasynql_1_1result_1_1_mysql_result.html#a0ef31d6523417133ca4e9f4792e5c37f">libasynql\result\MysqlResult\getTiming</a></div><div class="ttdeci">getTiming()</div><div class="ttdef"><b>Definition:</b> <a href="_mysql_result_8php_source.html#l00083">MysqlResult.php:83</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

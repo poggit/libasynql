@@ -27,7 +27,11 @@ use libasynql\exception\MysqlQueryException;
  * Represents a successful or error result from MySQL.
  */
 abstract class MysqlResult{
+	/** @var float */
+	private $timing;
+
 	public static function executeQuery(\mysqli $mysqli, string $query, array $args) : MysqlResult{
+		$start = microtime(true);
 		try{
 			$stmt = $mysqli->prepare($query);
 			$types = "";
@@ -55,9 +59,12 @@ abstract class MysqlResult{
 				$taskResult->insertId = $stmt->insert_id;
 			}
 
-			return $taskResult;
+			$end = microtime(true);
+
+			return $taskResult->setTiming($end - $start);
 		}catch(MysqlException $ex){
-			return new MysqlErrorResult($ex);
+			$end = microtime(true);
+			return (new MysqlErrorResult($ex))->setTiming($end - $start);
 		}finally{
 			if(isset($stmt)){
 				$stmt->close();
@@ -66,5 +73,14 @@ abstract class MysqlResult{
 				$result->close();
 			}
 		}
+	}
+
+	public function setTiming(float $timing) : MysqlResult{
+		$this->timing = $timing;
+		return $this;
+	}
+
+	public function getTiming() : float{
+		return $this->timing;
 	}
 }
