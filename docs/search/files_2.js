@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['querymysqltask_2ephp',['QueryMysqlTask.php',['../_query_mysql_task_8php.html',1,'']]]
+  ['pingmysqltask_2ephp',['PingMysqlTask.php',['../_ping_mysql_task_8php.html',1,'']]]
 ];

@@ -8,6 +8,9 @@ var dir_ca53d0e10c6dc72af2c8b3838ee92dca =
     [ "MysqlCredentials.php", "_mysql_credentials_8php.html", [
       [ "MysqlCredentials", "classlibasynql_1_1_mysql_credentials.html", "classlibasynql_1_1_mysql_credentials" ]
     ] ],
+    [ "PingMysqlTask.php", "_ping_mysql_task_8php.html", [
+      [ "PingMysqlTask", "classlibasynql_1_1_ping_mysql_task.html", "classlibasynql_1_1_ping_mysql_task" ]
+    ] ],
     [ "QueryMysqlTask.php", "_query_mysql_task_8php.html", [
       [ "QueryMysqlTask", "classlibasynql_1_1_query_mysql_task.html", "classlibasynql_1_1_query_mysql_task" ]
     ] ]

@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['setexception',['setException',['../classlibasynql_1_1result_1_1_mysql_error_result.html#aacbcfc41265d29e0a3cf8bb11e8fdddb',1,'libasynql::result::MysqlErrorResult']]],
-  ['settiming',['setTiming',['../classlibasynql_1_1result_1_1_mysql_result.html#a67610adb43f1fe53cb08a3eab97dc687',1,'libasynql::result::MysqlResult']]]
+  ['oncompletion',['onCompletion',['../classlibasynql_1_1_query_mysql_task.html#ab02051b6c2b0a5b0dfecf5cdc5120091',1,'libasynql::QueryMysqlTask']]],
+  ['onrun',['onRun',['../classlibasynql_1_1_query_mysql_task.html#aa2eb34e3894c9da534c026d54443ae86',1,'libasynql::QueryMysqlTask']]]
 ];

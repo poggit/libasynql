@@ -21,6 +21,7 @@
 namespace libasynql;
 
 use libasynql\exception\MysqlConnectException;
+use mysqli;
 
 class MysqlCredentials implements \JsonSerializable{
 	/** @var string $host */
@@ -70,12 +71,12 @@ class MysqlCredentials implements \JsonSerializable{
 	/**
 	 * Creates a new <a href="https://php.net/mysqli">mysqli</a> instance
 	 *
-	 * @return \mysqli
+	 * @return mysqli
 	 *
 	 * @throws MysqlConnectException
 	 */
-	public function newMysqli() : \mysqli{
-		$mysqli = @new \mysqli($this->host, $this->username, $this->password, $this->schema, $this->port, $this->socket);
+	public function newMysqli() : mysqli{
+		$mysqli = @new mysqli($this->host, $this->username, $this->password, $this->schema, $this->port, $this->socket);
 		if($mysqli->connect_error){
 			throw new MysqlConnectException("Failure to connect to MySQL: $mysqli->connect_error");
 		}

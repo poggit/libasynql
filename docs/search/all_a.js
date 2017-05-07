@@ -1,4 +1,19 @@
 var searchData=
 [
-  ['newmysqli',['newMysqli',['../classlibasynql_1_1_mysql_credentials.html#ae95d8cd1a36b123ddfe0e1c997ce9b12',1,'libasynql::MysqlCredentials']]]
+  ['mysqlconnectexception',['MysqlConnectException',['../classlibasynql_1_1exception_1_1_mysql_connect_exception.html',1,'libasynql::exception']]],
+  ['mysqlconnectexception_2ephp',['MysqlConnectException.php',['../_mysql_connect_exception_8php.html',1,'']]],
+  ['mysqlcredentials',['MysqlCredentials',['../classlibasynql_1_1_mysql_credentials.html',1,'libasynql']]],
+  ['mysqlcredentials_2ephp',['MysqlCredentials.php',['../_mysql_credentials_8php.html',1,'']]],
+  ['mysqlerrorresult',['MysqlErrorResult',['../classlibasynql_1_1result_1_1_mysql_error_result.html',1,'libasynql::result']]],
+  ['mysqlerrorresult_2ephp',['MysqlErrorResult.php',['../_mysql_error_result_8php.html',1,'']]],
+  ['mysqlexception',['MysqlException',['../classlibasynql_1_1exception_1_1_mysql_exception.html',1,'libasynql::exception']]],
+  ['mysqlexception_2ephp',['MysqlException.php',['../_mysql_exception_8php.html',1,'']]],
+  ['mysqlqueryexception',['MysqlQueryException',['../classlibasynql_1_1exception_1_1_mysql_query_exception.html',1,'libasynql::exception']]],
+  ['mysqlqueryexception_2ephp',['MysqlQueryException.php',['../_mysql_query_exception_8php.html',1,'']]],
+  ['mysqlresult',['MysqlResult',['../classlibasynql_1_1result_1_1_mysql_result.html',1,'libasynql::result']]],
+  ['mysqlresult_2ephp',['MysqlResult.php',['../_mysql_result_8php.html',1,'']]],
+  ['mysqlselectresult',['MysqlSelectResult',['../classlibasynql_1_1result_1_1_mysql_select_result.html',1,'libasynql::result']]],
+  ['mysqlselectresult_2ephp',['MysqlSelectResult.php',['../_mysql_select_result_8php.html',1,'']]],
+  ['mysqlsuccessresult',['MysqlSuccessResult',['../classlibasynql_1_1result_1_1_mysql_success_result.html',1,'libasynql::result']]],
+  ['mysqlsuccessresult_2ephp',['MysqlSuccessResult.php',['../_mysql_success_result_8php.html',1,'']]]
 ];

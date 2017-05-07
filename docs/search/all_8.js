@@ -1,6 +1,4 @@
 var searchData=
 [
-  ['exception',['exception',['../namespacelibasynql_1_1exception.html',1,'libasynql']]],
-  ['libasynql',['libasynql',['../namespacelibasynql.html',1,'']]],
-  ['result',['result',['../namespacelibasynql_1_1result.html',1,'libasynql']]]
+  ['jsonserialize',['jsonSerialize',['../classlibasynql_1_1_mysql_credentials.html#ad402d8679325bc514874370f02b5c2ac',1,'libasynql::MysqlCredentials']]]
 ];

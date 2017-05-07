@@ -19,5 +19,8 @@ var hierarchy =
       [ "QueryMysqlTask", "classlibasynql_1_1_query_mysql_task.html", [
         [ "DirectQueryMysqlTask", "classlibasynql_1_1_direct_query_mysql_task.html", null ]
       ] ]
+    ] ],
+    [ "PluginTask", null, [
+      [ "PingMysqlTask", "classlibasynql_1_1_ping_mysql_task.html", null ]
     ] ]
 ];
