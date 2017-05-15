@@ -66,7 +66,7 @@ abstract class MysqlResult{
 			$end = microtime(true);
 			return (new MysqlErrorResult($ex))->setTiming($end - $start);
 		}finally{
-			if(isset($stmt)){
+			if(isset($stmt) and $stmt instanceof \mysqli_stmt){
 				$stmt->close();
 			}
 			if(isset($result) and $result instanceof \mysqli_result){
