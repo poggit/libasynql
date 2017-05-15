@@ -34,14 +34,22 @@ abstract class MysqlResult{
 		$start = microtime(true);
 		try{
 			$stmt = $mysqli->prepare($query);
-			$types = "";
-			$params = [];
-			foreach($args as list($type, $arg)){
-				assert(strlen($type) === 1);
-				$types .= $type;
-				$params[] = $arg;
+			if($stmt === false){
+				throw new MysqlQueryException($mysqli->error);
 			}
-			$stmt->bind_param($types, ...$params);
+			if(count($args) > 0){
+				$types = "";
+				$params = [];
+				foreach($args as list($type, $arg)){
+					assert(strlen($type) === 1);
+					$types .= $type;
+					$params[] = $arg;
+				}
+				$successBind = $stmt->bind_param($types, ...$params);
+				if(!$successBind){
+					throw new MysqlQueryException($stmt->error);
+				}
+			}
 			if(!$stmt->execute()){
 				throw new MysqlQueryException($stmt->error);
 			}

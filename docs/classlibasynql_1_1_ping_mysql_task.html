@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.10"/>
-<title>libasynql: MysqlResult Class Reference</title>
+<title>libasynql: PingMysqlTask Class Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -89,7 +89,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   </div>
 </div>
 <script type="text/javascript">
-$(document).ready(function(){initNavTree('classlibasynql_1_1result_1_1_mysql_result.html','');});
+$(document).ready(function(){initNavTree('classlibasynql_1_1_ping_mysql_task.html','');});
 </script>
 <div id="doc-content">
 <!-- window showing the filter options -->
@@ -111,39 +111,62 @@ $(document).ready(function(){initNavTree('classlibasynql_1_1result_1_1_mysql_res
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#pub-static-methods">Static Public Member Functions</a>  </div>
   <div class="headertitle">
-<div class="title">MysqlResult Class Reference</div>  </div>
+<div class="title">PingMysqlTask Class Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
 <div class="dynheader">
-Inheritance diagram for MysqlResult:</div>
+Inheritance diagram for PingMysqlTask:</div>
 <div class="dyncontent">
  <div class="center">
-  <img src="classlibasynql_1_1result_1_1_mysql_result.png" usemap="#MysqlResult_map" alt=""/>
-  <map id="MysqlResult_map" name="MysqlResult_map">
-<area href="classlibasynql_1_1result_1_1_mysql_error_result.html" alt="MysqlErrorResult" shape="rect" coords="0,56,127,80"/>
-<area href="classlibasynql_1_1result_1_1_mysql_success_result.html" alt="MysqlSuccessResult" shape="rect" coords="137,56,264,80"/>
-<area href="classlibasynql_1_1result_1_1_mysql_select_result.html" alt="MysqlSelectResult" shape="rect" coords="137,112,264,136"/>
+  <img src="classlibasynql_1_1_ping_mysql_task.png" usemap="#PingMysqlTask_map" alt=""/>
+  <map id="PingMysqlTask_map" name="PingMysqlTask_map">
 </map>
  </div></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a67610adb43f1fe53cb08a3eab97dc687"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlibasynql_1_1result_1_1_mysql_result.html#a67610adb43f1fe53cb08a3eab97dc687">setTiming</a> (float $timing)</td></tr>
-<tr class="separator:a67610adb43f1fe53cb08a3eab97dc687"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0ef31d6523417133ca4e9f4792e5c37f"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlibasynql_1_1result_1_1_mysql_result.html#a0ef31d6523417133ca4e9f4792e5c37f">getTiming</a> ()</td></tr>
-<tr class="separator:a0ef31d6523417133ca4e9f4792e5c37f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ade1f939f11edd5e8d5894f795453002a"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlibasynql_1_1_ping_mysql_task.html#ade1f939f11edd5e8d5894f795453002a">__construct</a> (Plugin $owner, <a class="el" href="classlibasynql_1_1_mysql_credentials.html">MysqlCredentials</a> $credentials)</td></tr>
+<tr class="separator:ade1f939f11edd5e8d5894f795453002a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
-<tr class="memitem:ae206dd4a26f9fff7c5c8a9bb34afd389"><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlibasynql_1_1result_1_1_mysql_result.html#ae206dd4a26f9fff7c5c8a9bb34afd389">executeQuery</a> (\mysqli $mysqli, string $query, array $args)</td></tr>
-<tr class="separator:ae206dd4a26f9fff7c5c8a9bb34afd389"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9d5540c84f822d1c3c61361ce1e63df3"><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classlibasynql_1_1_ping_mysql_task.html#a9d5540c84f822d1c3c61361ce1e63df3">init</a> (Plugin $plugin, <a class="el" href="classlibasynql_1_1_mysql_credentials.html">MysqlCredentials</a> $credentials)</td></tr>
+<tr class="separator:a9d5540c84f822d1c3c61361ce1e63df3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><p>Represents a successful or error result from MySQL. </p>
+<div class="textblock">
+<p>Definition at line <a class="el" href="_ping_mysql_task_8php_source.html#l00021">21</a> of file <a class="el" href="_ping_mysql_task_8php_source.html">PingMysqlTask.php</a>.</p>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a class="anchor" id="ade1f939f11edd5e8d5894f795453002a"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">__construct </td>
+          <td>(</td>
+          <td class="paramtype">Plugin&#160;</td>
+          <td class="paramname"><em>$owner</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classlibasynql_1_1_mysql_credentials.html">MysqlCredentials</a>&#160;</td>
+          <td class="paramname"><em>$credentials</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_mysql_result_8php_source.html#l00029">29</a> of file <a class="el" href="_mysql_result_8php_source.html">MysqlResult.php</a>.</p>
-</div><h2 class="groupheader">Member Function Documentation</h2>
-<a class="anchor" id="ae206dd4a26f9fff7c5c8a9bb34afd389"></a>
+<p>Definition at line <a class="el" href="_ping_mysql_task_8php_source.html#l00035">35</a> of file <a class="el" href="_ping_mysql_task_8php_source.html">PingMysqlTask.php</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a class="anchor" id="a9d5540c84f822d1c3c61361ce1e63df3"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -151,22 +174,16 @@ Static Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static executeQuery </td>
+          <td class="memname">static init </td>
           <td>(</td>
-          <td class="paramtype">\mysqli&#160;</td>
-          <td class="paramname"><em>$mysqli</em>, </td>
+          <td class="paramtype">Plugin&#160;</td>
+          <td class="paramname"><em>$plugin</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">string&#160;</td>
-          <td class="paramname"><em>$query</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">array&#160;</td>
-          <td class="paramname"><em>$args</em>&#160;</td>
+          <td class="paramtype"><a class="el" href="classlibasynql_1_1_mysql_credentials.html">MysqlCredentials</a>&#160;</td>
+          <td class="paramname"><em>$credentials</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -181,54 +198,19 @@ Static Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="_mysql_result_8php_source.html#l00033">33</a> of file <a class="el" href="_mysql_result_8php_source.html">MysqlResult.php</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a0ef31d6523417133ca4e9f4792e5c37f"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">getTiming </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="_mysql_result_8php_source.html#l00091">91</a> of file <a class="el" href="_mysql_result_8php_source.html">MysqlResult.php</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a67610adb43f1fe53cb08a3eab97dc687"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">setTiming </td>
-          <td>(</td>
-          <td class="paramtype">float&#160;</td>
-          <td class="paramname"><em>$timing</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="_mysql_result_8php_source.html#l00086">86</a> of file <a class="el" href="_mysql_result_8php_source.html">MysqlResult.php</a>.</p>
+<p>Definition at line <a class="el" href="_ping_mysql_task_8php_source.html#l00024">24</a> of file <a class="el" href="_ping_mysql_task_8php_source.html">PingMysqlTask.php</a>.</p>
 
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li>libasynql/src/libasynql/result/<a class="el" href="_mysql_result_8php_source.html">MysqlResult.php</a></li>
+<li>libasynql/src/libasynql/<a class="el" href="_ping_mysql_task_8php_source.html">PingMysqlTask.php</a></li>
 </ul>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="namespacelibasynql.html">libasynql</a></li><li class="navelem"><a class="el" href="namespacelibasynql_1_1result.html">result</a></li><li class="navelem"><a class="el" href="classlibasynql_1_1result_1_1_mysql_result.html">MysqlResult</a></li>
+    <li class="navelem"><a class="el" href="namespacelibasynql.html">libasynql</a></li><li class="navelem"><a class="el" href="classlibasynql_1_1_ping_mysql_task.html">PingMysqlTask</a></li>
     <li class="footer">Generated by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.10 </li>
