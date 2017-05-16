@@ -14,6 +14,15 @@ For example, it should have a line like this:
 
 where `$this` refers to the plugin main class and `$credentials` is the [`MysqlCredentials`](#mysqlcredentials) representing the connection credentials.
 
+## Finalization
+It is a good practice to close mysqli connections in async workers before the plugin gets disabled. To do so, all `\libasynql\ClearMysqlTask::closeAll()` in `onDisable()` of your plugin.
+
+For example:
+
+```php
+\libasynql\PingMysqlTask::close($this, $credentials);`
+```
+
 ## Doxygen docs
 Visit https://poggit.github.io/libasynql for docs.
 
