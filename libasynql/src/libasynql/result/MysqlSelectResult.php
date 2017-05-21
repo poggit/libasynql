@@ -72,15 +72,30 @@ class MysqlSelectResult extends MysqlSuccessResult{
 							$row[$column] = (string) $row[$column];
 							break;
 						case self::TYPE_INT:
+							if(!is_numeric($row[$column])){
+								throw new \UnexpectedValueException("Value " . json_encode($row[$column]) . " cannot be converted to int");
+							}
 							$row[$column] = (int) $row[$column];
 							break;
 						case self::TYPE_FLOAT:
+							if(!is_numeric($row[$column])){
+								throw new \UnexpectedValueException("Value " . json_encode($row[$column]) . " cannot be converted to float");
+							}
 							$row[$column] = (float) $row[$column];
 							break;
 						case self::TYPE_BOOL:
-							$row[$column] = (bool) ord($row[$column]);
+							$value = $row[$column];
+							if(is_numeric($value)){
+								$row[$column] = (bool) (int) $value;
+							}elseif($value === "\0" or $value === "\1"){
+								$row[$column] = (bool) ord($value);
+							}else{
+								throw new \UnexpectedValueException("Value " . json_encode($value) . " cannot be converted to boolean");
+							}
 							break;
 					}
+				}else{
+					$row[$column] = null; // this should have been set to null already, but just to make sure
 				}
 			}
 		}
