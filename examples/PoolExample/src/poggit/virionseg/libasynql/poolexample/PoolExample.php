@@ -20,14 +20,14 @@
 
 namespace poggit\virionseg\libasynql\poolexample;
 
-use libasynql\PingMysqlTask;
+use libasynql\mysql\DirectMysqlQueryTask;
+use libasynql\mysql\MysqlCredentials;
+use libasynql\mysql\MysqlUtils;
+use libasynql\result\SqlResult;
+use libasynql\result\SqlSelectResult;
 use pocketmine\event\Listener;
 use pocketmine\event\player\PlayerJoinEvent;
 use pocketmine\plugin\PluginBase;
-use libasynql\MysqlCredentials;
-use libasynql\DirectQueryMysqlTask;
-use libasynql\result\MysqlResult;
-use libasynql\result\MysqlSelectResult;
 
 class PoolExample extends PluginBase implements Listener{
 	private $mysqlCredentials;
@@ -35,40 +35,48 @@ class PoolExample extends PluginBase implements Listener{
 	public function onEnable(){
 		$this->saveDefaultConfig();
 		$this->mysqlCredentials = MysqlCredentials::fromArray($this->getConfig()->get("mysql"));
-		PingMysqlTask::init($this, $this->mysqlCredentials);
-		$task = new DirectQueryMysqlTask($this->mysqlCredentials,
+		MysqlUtils::init($this, $this->mysqlCredentials);
+		$task = new DirectMysqlQueryTask($this->mysqlCredentials,
 			"CREATE TABLE IF NOT EXISTS players (
 				username VARCHAR(16) PRIMARY KEY,
 				registerTime TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 				lastJoin TIMESTATMP DEFAULT CURRENT_TIMESTAMP
 			)", [],
-			function (){
+			function(){
 				// event handlers won't work until the database has been prepared
 				$this->getServer()->getPluginManager()->registerEvents($this, $this);
 			});
 		$this->getServer()->getScheduler()->scheduleAsyncTask($task);
 	}
 
+	public function onDisable(){
+		MysqlUtils::closeAll($this, $this->mysqlCredentials);
+	}
+
 	/**
 	 * @param PlayerJoinEvent $event
+	 *
 	 * @priority MONITOR
 	 */
 	public function onJoin(PlayerJoinEvent $event){
 		$name = strtolower($event->getPlayer()->getName());
-		$task = new DirectQueryMysqlTask($this->mysqlCredentials,
+		$task = new DirectMysqlQueryTask($this->mysqlCredentials,
 			"SELECT UNIX_TIMESTAMP(registerTime) AS reg, UNIX_TIMESTAMP(lastJoin) AS lj FROM players WHERE username = ?", [["s", $name]],
-			function (MysqlResult $result) use ($name){
+			function(SqlResult $result) use ($name){
 				if($this->isDisabled()){
 					return;
 				}
-				if($result instanceof MysqlSelectResult){
-					$task = new DirectQueryMysqlTask($this->mysqlCredentials,
+				if($result instanceof SqlSelectResult){
+					$task = new DirectMysqlQueryTask($this->mysqlCredentials,
 						"INSERT INTO players (username) VALUES (?) ON DUPLICATE KEY UPDATE lastJoin = CURRENT_TIMESTAMP ", [["s", $name]]);
 					$this->getServer()->getScheduler()->scheduleAsyncTask($task);
 					if(count($result->rows) === 0){
 						$this->getServer()->broadcastMessage("$name is a new player!");
 					}else{
-						$result->fixTypes(["reg" => MysqlSelectResult::TYPE_INT, "lj" => MysqlSelectResult::TYPE_INT]);
+						$result->fixTypes([
+							"reg" => SqlSelectResult::TYPE_INT,
+							"lj" => SqlSelectResult::TYPE_INT
+						]);
 						$row = $result->rows[0];
 						$this->getServer()->broadcastMessage(sprintf("%s is an old player, registered on %s and last joined on %s",
 							$name, date("Y-m-d H:i:s", $row["reg"]), date("Y-m-d H:i:s", $row["lj"])));

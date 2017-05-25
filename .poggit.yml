@@ -8,7 +8,7 @@ projects:
     path: examples/PoolExample
     libs:
       - src: /libasynql
-        version: 1.0
+        version: ^2.0
         # shade: syntax
         # format: virion
         # vendor: poggit-project

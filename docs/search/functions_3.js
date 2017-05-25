@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['fixtypes',['fixTypes',['../classlibasynql_1_1result_1_1_mysql_select_result.html#a0091fb76a57d619aa17488cd194b4e75',1,'libasynql::result::MysqlSelectResult']]],
-  ['fromarray',['fromArray',['../classlibasynql_1_1_mysql_credentials.html#af4aa77224a40b38f995dabf96b3cc055',1,'libasynql::MysqlCredentials']]]
+  ['execute',['execute',['../classlibasynql_1_1mysql_1_1_direct_mysql_query_task.html#a1909f4b7f8129c7790cb75de2ffbe1e4',1,'libasynql\mysql\DirectMysqlQueryTask\execute()'],['../classlibasynql_1_1mysql_1_1_mysql_close_task.html#a1909f4b7f8129c7790cb75de2ffbe1e4',1,'libasynql\mysql\MysqlCloseTask\execute()'],['../classlibasynql_1_1mysql_1_1_mysql_query_task.html#a1909f4b7f8129c7790cb75de2ffbe1e4',1,'libasynql\mysql\MysqlQueryTask\execute()'],['../classlibasynql_1_1sqlite_1_1_direct_sqlite_query_task.html#a1909f4b7f8129c7790cb75de2ffbe1e4',1,'libasynql\sqlite\DirectSqliteQueryTask\execute()'],['../classlibasynql_1_1sqlite_1_1_sqlite_close_task.html#a1909f4b7f8129c7790cb75de2ffbe1e4',1,'libasynql\sqlite\SqliteCloseTask\execute()'],['../classlibasynql_1_1sqlite_1_1_sqlite_query_task.html#a1909f4b7f8129c7790cb75de2ffbe1e4',1,'libasynql\sqlite\SqliteQueryTask\execute()']]]
 ];

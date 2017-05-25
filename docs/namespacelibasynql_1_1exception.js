@@ -1,6 +1,6 @@
 var namespacelibasynql_1_1exception =
 [
-    [ "MysqlConnectException", "classlibasynql_1_1exception_1_1_mysql_connect_exception.html", null ],
-    [ "MysqlException", "classlibasynql_1_1exception_1_1_mysql_exception.html", null ],
-    [ "MysqlQueryException", "classlibasynql_1_1exception_1_1_mysql_query_exception.html", null ]
+    [ "SqlConnectException", "classlibasynql_1_1exception_1_1_sql_connect_exception.html", null ],
+    [ "SqlException", "classlibasynql_1_1exception_1_1_sql_exception.html", null ],
+    [ "SqlQueryException", "classlibasynql_1_1exception_1_1_sql_query_exception.html", null ]
 ];

@@ -1,5 +1,25 @@
 var searchData=
 [
-  ['setexception',['setException',['../classlibasynql_1_1result_1_1_mysql_error_result.html#aacbcfc41265d29e0a3cf8bb11e8fdddb',1,'libasynql::result::MysqlErrorResult']]],
-  ['settiming',['setTiming',['../classlibasynql_1_1result_1_1_mysql_result.html#a67610adb43f1fe53cb08a3eab97dc687',1,'libasynql::result::MysqlResult']]]
+  ['setexception',['setException',['../classlibasynql_1_1result_1_1_sql_error_result.html#a0939ff0861e8f1f188a8b1d12401651f',1,'libasynql::result::SqlErrorResult']]],
+  ['settiming',['setTiming',['../classlibasynql_1_1result_1_1_sql_result.html#a67610adb43f1fe53cb08a3eab97dc687',1,'libasynql::result::SqlResult']]],
+  ['sqlconnectexception',['SqlConnectException',['../classlibasynql_1_1exception_1_1_sql_connect_exception.html',1,'libasynql::exception']]],
+  ['sqlconnectexception_2ephp',['SqlConnectException.php',['../_sql_connect_exception_8php.html',1,'']]],
+  ['sqlerrorresult',['SqlErrorResult',['../classlibasynql_1_1result_1_1_sql_error_result.html',1,'libasynql::result']]],
+  ['sqlerrorresult_2ephp',['SqlErrorResult.php',['../_sql_error_result_8php.html',1,'']]],
+  ['sqlexception',['SqlException',['../classlibasynql_1_1exception_1_1_sql_exception.html',1,'libasynql::exception']]],
+  ['sqlexception_2ephp',['SqlException.php',['../_sql_exception_8php.html',1,'']]],
+  ['sqliteclosetask',['SqliteCloseTask',['../classlibasynql_1_1sqlite_1_1_sqlite_close_task.html',1,'libasynql::sqlite']]],
+  ['sqliteclosetask_2ephp',['SqliteCloseTask.php',['../_sqlite_close_task_8php.html',1,'']]],
+  ['sqlitequerytask',['SqliteQueryTask',['../classlibasynql_1_1sqlite_1_1_sqlite_query_task.html',1,'libasynql::sqlite']]],
+  ['sqlitequerytask_2ephp',['SqliteQueryTask.php',['../_sqlite_query_task_8php.html',1,'']]],
+  ['sqliteutils',['SqliteUtils',['../classlibasynql_1_1sqlite_1_1_sqlite_utils.html',1,'libasynql::sqlite']]],
+  ['sqliteutils_2ephp',['SqliteUtils.php',['../_sqlite_utils_8php.html',1,'']]],
+  ['sqlqueryexception',['SqlQueryException',['../classlibasynql_1_1exception_1_1_sql_query_exception.html',1,'libasynql::exception']]],
+  ['sqlqueryexception_2ephp',['SqlQueryException.php',['../_sql_query_exception_8php.html',1,'']]],
+  ['sqlresult',['SqlResult',['../classlibasynql_1_1result_1_1_sql_result.html',1,'libasynql::result']]],
+  ['sqlresult_2ephp',['SqlResult.php',['../_sql_result_8php.html',1,'']]],
+  ['sqlselectresult',['SqlSelectResult',['../classlibasynql_1_1result_1_1_sql_select_result.html',1,'libasynql::result']]],
+  ['sqlselectresult_2ephp',['SqlSelectResult.php',['../_sql_select_result_8php.html',1,'']]],
+  ['sqlsuccessresult',['SqlSuccessResult',['../classlibasynql_1_1result_1_1_sql_success_result.html',1,'libasynql::result']]],
+  ['sqlsuccessresult_2ephp',['SqlSuccessResult.php',['../_sql_success_result_8php.html',1,'']]]
 ];
