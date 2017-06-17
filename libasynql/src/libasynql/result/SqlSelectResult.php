@@ -62,6 +62,8 @@ class SqlSelectResult extends SqlSuccessResult{
 	 * Example usage: {@code $result->fixTypes(["name" => MysqlSelectResult::TYPE_STRING, "id" => MysqlSelectResult::TYPE_INT, "banned" => MysqlSelectResult::TYPE_BOOL])}
 	 *
 	 * @param array $columns an array of column names to TYPE_* constants.
+	 *
+	 * @return SqlSelectResult
 	 */
 	public function fixTypes(array $columns){
 		foreach($this->rows as &$row){
@@ -99,5 +101,6 @@ class SqlSelectResult extends SqlSuccessResult{
 				}
 			}
 		}
+		return $this;
 	}
 }

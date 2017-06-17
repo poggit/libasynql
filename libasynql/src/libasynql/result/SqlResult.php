@@ -21,7 +21,7 @@
 namespace libasynql\result;
 
 /**
- * Represents a successful or error result from MySQL.
+ * Represents a successful or error result from the database.
  */
 abstract class SqlResult{
 	/** @var float */
@@ -34,5 +34,15 @@ abstract class SqlResult{
 
 	public function getTiming() : float{
 		return $this->timing;
+	}
+
+	public function assertSelect() : SqlSelectResult{
+		if($this instanceof SqlSelectResult){
+			return $this;
+		}else{
+			assert($this instanceof SqlErrorResult);
+			/** @var SqlErrorResult $this */
+			throw $this->getException();
+		}
 	}
 }
