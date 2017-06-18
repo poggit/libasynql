@@ -36,17 +36,10 @@ class PoolExample extends PluginBase implements Listener{
 		$this->saveDefaultConfig();
 		$this->mysqlCredentials = MysqlCredentials::fromArray($this->getConfig()->get("mysql"));
 		MysqlUtils::init($this, $this->mysqlCredentials);
-		$task = new DirectMysqlQueryTask($this->mysqlCredentials,
-			"CREATE TABLE IF NOT EXISTS players (
-				username VARCHAR(16) PRIMARY KEY,
-				registerTime TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-				lastJoin TIMESTATMP DEFAULT CURRENT_TIMESTAMP
-			)", [],
-			function(){
-				// event handlers won't work until the database has been prepared
-				$this->getServer()->getPluginManager()->registerEvents($this, $this);
-			});
-		$this->getServer()->getScheduler()->scheduleAsyncTask($task);
+		$r = $this->getResource("database.yml");
+		$data = stream_get_contents($r);
+		fclose($r);
+		MysqlUtils::versionDatabase($this->mysqlCredentials->newMysqli(), yaml_parse($data), true);
 	}
 
 	public function onDisable(){

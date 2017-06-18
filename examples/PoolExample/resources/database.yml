@@ -1,0 +1,18 @@
+---
+tablePrefix: "poolexample_"
+metaTable: "metadata"
+
+versions:
+  1.0:
+    tables:
+      players:
+        username: {type: "varchar(20)", primaryKey: true}
+        registerTime: {type: "timestamp", default: "CURRENT_TIMESTAMP"}
+        lastJoin: {type: "timestamp", default: "CURRENT_TIMESTAMP"}
+  1.1: # the latest version is automatically selected
+    tables:
+      players:
+        username: {type: "varchar(20)", primaryKey: true}
+        registerTime: {type: "timestamp", default: "CURRENT_TIMESTAMP", notNull: true}
+        lastJoin: {type: "timestamp", default: "CURRENT_TIMESTAMP", notNull: true}
+...
