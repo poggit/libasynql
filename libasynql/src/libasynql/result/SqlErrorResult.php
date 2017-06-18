@@ -37,7 +37,13 @@ class SqlErrorResult extends SqlResult{
 	 * @param SqlException $exception
 	 */
 	public function setException(SqlException $exception){
-		$this->exception = serialize($exception);
+		try{
+			$this->exception = serialize($exception);
+		}catch(\BadMethodCallException $e){
+			if($e->getMessage() === "Cannot serialize Server instance"){
+				throw $exception; // we can safely throw exception on main thread
+			}
+		}
 	}
 
 	/**

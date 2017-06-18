@@ -42,7 +42,7 @@ abstract class SqlResult{
 		}else{
 			assert($this instanceof SqlErrorResult);
 			/** @var SqlErrorResult $this */
-			throw $this->getException();
+			throw $this->throw();
 		}
 	}
 }
