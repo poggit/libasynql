@@ -27,25 +27,25 @@ class MysqlSelectResult extends MysqlSuccessResult{
 	/**
 	 * Used with {@link #fixTypes()} for string columns like (VAR)CHAR, (VAR)BINARY, BLOB
 	 *
-	 * @var TYPE_STRING
+	 * @var int TYPE_STRING
 	 */
 	const TYPE_STRING = 1;
 	/**
 	 * Used with {@link #fixTypes()} for integer columns like TINYINT, SMALLINT, MEDIUMINT, INT, BIGINT
 	 *
-	 * @var TYPE_INT
+	 * @var int TYPE_INT
 	 */
 	const TYPE_INT = 2;
 	/**
 	 * Used with {@link #fixTypes()} for floating point columns like FLOAT, DOUBLE, DECIMAL
 	 *
-	 * @var TYPE_FLOAT
+	 * @var int TYPE_FLOAT
 	 */
 	const TYPE_FLOAT = 3;
 	/**
 	 * Used with {@link #fixTypes()} for boolean columns like BIT(1)
 	 *
-	 * @var TYPE_BOOL
+	 * @var int TYPE_BOOL
 	 */
 	const TYPE_BOOL = 4;
 

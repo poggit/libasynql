@@ -20,10 +20,7 @@
 
 namespace libasynql;
 
-use libasynql\MysqlCredentials;
-use libasynql\exception\MysqlQueryException;
 use libasynql\result\MysqlResult;
-use libasynql\result\MysqlSuccessResult;
 
 class DirectQueryMysqlTask extends QueryMysqlTask{
 	/** @var string */
