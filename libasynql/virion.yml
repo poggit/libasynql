@@ -1,6 +1,5 @@
 name: libasynql
 authors: [SOFe]
 antigen: libasynql
-version: 1.4.0
-api:
-- 3.0.0-alpha8
+version: 2.0.0-dev
+api: [3.0.0-alpha8]

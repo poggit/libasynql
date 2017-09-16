@@ -22,7 +22,7 @@ var NAVTREE =
 
 var NAVTREEINDEX =
 [
-"_direct_query_mysql_task_8php.html"
+"_direct_mysql_query_task_8php.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';
