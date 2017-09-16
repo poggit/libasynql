@@ -32,7 +32,7 @@ class MysqlPingTask extends PluginTask{
 		$this->credentials = $credentials;
 	}
 
-	public function onRun($currentTick){
+	public function onRun(int $currentTick){
 		$scheduler = $this->getOwner()->getServer()->getScheduler();
 		$size = $scheduler->getAsyncTaskPoolSize();
 		$credentials = $this->credentials;
