@@ -22,6 +22,7 @@ declare(strict_types=1);
 
 namespace poggit\libasynql\generic;
 
+use poggit\libasynql\GenericStatement;
 use const PREG_SPLIT_NO_EMPTY;
 use const PREG_SPLIT_OFFSET_CAPTURE;
 use function array_pop;
@@ -38,16 +39,23 @@ use function substr;
 use function trim;
 
 class GenericStatementFileParser{
+	/** @var resource */
 	private $fh;
+	/** @var int */
 	private $lineNo = 0;
 
+	/** @var string[] */
 	private $identifierStack = [];
+	/** @var bool */
 	private $parsingQuery = false;
+	/** @var GenericVariable[] */
 	private $variables = [];
+	/** @var string[] */
 	private $buffer = [];
 
 	/** @var string|null */
 	private $knownDialect = null;
+	/** @var GenericStatement[] */
 	private $results = [];
 
 	/**
@@ -62,6 +70,16 @@ class GenericStatementFileParser{
 			$this->readLine();
 		}
 		fclose($this->fh);
+		if(!empty($this->identifierStack)){
+			$this->error("Unexpected end of file, " . count($this->identifierStack) . " groups not closed");
+		}
+	}
+
+	/**
+	 * @return GenericStatement[]
+	 */
+	public function getResults() : array{
+		return $this->results;
 	}
 
 	private function readLine() : void{
@@ -167,6 +185,9 @@ class GenericStatementFileParser{
 				}
 
 				$var = new GenericVariable($args[0], $args[1], isset($args[2]) ? substr($line, $argOffsets[2] + 1) : null);
+				if(isset($this->variables[$var->getName()])){
+					$this->error("Duplicate variable definition of :{$var->getName()}");
+				}
 				$this->variables[$var->getName()] = $var;
 				$this->parsingQuery = true;
 				return true;

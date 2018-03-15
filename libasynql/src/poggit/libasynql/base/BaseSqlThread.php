@@ -20,10 +20,13 @@
 
 declare(strict_types=1);
 
-namespace poggit\libasynql;
+namespace poggit\libasynql\base;
 
 use InvalidArgumentException;
 use pocketmine\Thread;
+use poggit\libasynql\SqlError;
+use poggit\libasynql\SqlResult;
+use poggit\libasynql\SqlThread;
 use Threaded;
 use function is_array;
 

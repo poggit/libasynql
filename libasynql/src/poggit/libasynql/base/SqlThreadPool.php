@@ -20,9 +20,10 @@
 
 declare(strict_types=1);
 
-namespace poggit\libasynql;
+namespace poggit\libasynql\base;
 
 use InvalidArgumentException;
+use poggit\libasynql\SqlThread;
 use Threaded;
 use function count;
 use function is_array;

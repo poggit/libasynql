@@ -26,7 +26,7 @@ use InvalidArgumentException;
 use mysqli;
 use mysqli_result;
 use mysqli_stmt;
-use poggit\libasynql\BaseSqlThread;
+use poggit\libasynql\base\BaseSqlThread;
 use poggit\libasynql\result\SqlChangeResult;
 use poggit\libasynql\result\SqlColumnInfo;
 use poggit\libasynql\result\SqlInsertResult;

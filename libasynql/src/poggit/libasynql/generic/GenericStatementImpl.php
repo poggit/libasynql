@@ -142,6 +142,7 @@ abstract class GenericStatementImpl implements GenericStatement{
 	}
 
 	public function format(array $vars, ?string $placeHolder, array &$outArgs) : string{
+		$outArgs = [];
 		foreach($this->variables as $variable){
 			if(!$variable->isOptional() && !isset($vars[$variable->getName()])){
 				throw new InvalidArgumentException("Missing required variable {$variable->getName()}");
