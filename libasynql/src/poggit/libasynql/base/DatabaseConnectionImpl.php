@@ -36,7 +36,7 @@ class DatabaseConnectionImpl implements DatabaseConnection{
 	private $queries = [];
 	private $handlers = [];
 	private $queryId = 0;
-	/** @var null|string */
+	/** @var string|null */
 	private $placeHolder;
 
 	/**
