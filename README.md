@@ -1,85 +1,122 @@
 # libasynql [![Poggit-CI](https://poggit.pmmp.io/ci.badge/poggit/libasynql/libasynql)](https://poggit.pmmp.io/ci/poggit/libasynql/libasynql)
-Asynchronous MySQL access library for PocketMine plugins.
+Asynchronous SQL access library for PocketMine plugins.
 
-libasynql provides the ability to execute MySQL queries through asynchronous tasks from the PocketMine API. `callable` objects can be passed to execute actions after the query is executed and returned to the main thread.
+## Prepared Statement File Format
+A Prepared Statement File (PSF) contains the queries that a plugin uses. The content is valid SQL, so it is OK to edit with a normal SQL editor.
 
-## Initialization
-Plugins using libasynql should call `\libasynql\PingMysqlTask::init()` during startup if asynchronous MySQLi connections are to be created.
+The PSF is annotated by "command lines", which start with `-- #`, followed by the command symbol, then the arguments. Between the `#` and the command symbol, there can be zero to infinite spaces or tabs; between the command symbol and the arguments, there can also be zero to infinite spaces or tabs. Between every two arguments, one to infinite spaces or tabs are required.
 
-For example, it should have a line like this:
+In other words, this is the regular expression for a command line:
 
-```php
-\libasynql\PingMysqlTask::init($this, $credentials);`
+```RegExp
+-- #[ \t]*([!\{\}:])[ \t]*([^ \t]+)([ \t]+([^ \t]+))*
 ```
 
-where `$this` refers to the plugin main class and `$credentials` is the [`MysqlCredentials`](#mysqlcredentials) representing the connection credentials.
+### Dialect declaration
+A PSF always starts with a dialect declaration.
 
-## Finalization
-It is a good practice to close mysqli connections in async workers before the plugin gets disabled. To do so, all `\libasynql\ClearMysqlTask::closeAll()` in `onDisable()` of your plugin.
+#### Symbol
+`!`
 
-For example:
+#### Arguments
+##### DIALECT
+Possible values: `mysql`, `sqlite`
 
-```php
-\libasynql\PingMysqlTask::close($this, $credentials);`
+#### Example
+
+```sql
+-- #! mysql
 ```
 
-## Doxygen docs
-Visit https://poggit.github.io/libasynql for docs.
+### Group declaration
+Queries may be organized by groups. Each group has an identifier name, and a group can be stacked under another. Groups and queries under a group will be prepended the parent group's identifier plus a period in their own identifiers.
 
-## MysqlCredentials
-MySQL login parameters are passed with the `MysqlCredentials` class. Developers can have something like this in their `config.yml`:
+For example, if a parent group declares an identifier `foo`, and the child group/query declares an identifier `bar`, the real identifier for the child group/query is `foo.bar`.
 
-```yaml
-mysql:
-  host: 127.0.0.1
-  username: root
-  password: ""
-  schema: "schema_name"
-  port: 3306
-  socket: ""
+Duplicate group identifier declarations are allowed, as long as the resultant queries do not have identical full identifiers.
+
+#### Symbol
+- Start: `{`
+- End: `}`
+
+#### Arguments (Start)
+##### IDENTIFIER_NAME
+The name of this group.
+
+All characters except spaces and tabs are allowed, including periods.
+
+#### Example
+
+```sql
+-- #{ group.name.here
+	-- #{ child.name
+		-- the identifier of the child group is "group.name.here.child.name"
+	-- #}
+-- #}
 ```
 
-A `MysqlCredentials` instance can be directly created from this array:
+Note that PSF is insensitive about spaces and tabs, so this variant is equivalent:
 
-```php
-$credentials = MysqlCredentials::fromArray($this->getConfig()->get("mysql"));
+```sql
+-- #{ group.name.here
+-- #    { child.name
+		-- the identifier of the child group is still "group.name.here.child.name"
+-- #    }
+-- #}
 ```
 
-Apart from `schema`, all other attributes are optional, and their default values are as shown in the YAML snippet above.
+### Query declaration
+A query is declared like a group. A query does not need to belong to a group, because the query can declare the periods in its own identifier, which has equivalent effect as groups.
 
-## Pool
-Pool MySQL Access provides MySQL access through PocketMine's AsyncTask API. 
+Child groups are not allowed in a query declaration. In other words, a `{}` pair either has other group/query declarations inside, or has query text (and optionally variable declarations) inside. It cannot have both.
 
-### `QueryMysqlTask::getMysqli`
-This is the superclass for all pool query AsyncTask classes. It provides a `getMysqli` method, which caches the `mysqli` instance in a worker thread local storage.
+#### Symbol
+- Start: `{` (same as group declaration)
+- End: `}`
 
-In simple words, each `mysqli` instance can only be used in one thread, but the PocketMine AsyncTask API executes the AsyncTasks in different worker threads. Therefore, the AsyncTask thread store is used to store a `mysqli` instance per thread.
+#### Arguments
+Same arguments as a group declaration.
 
-### `DirectQueryMysqlTask`, the direct implementation
-This class is instantiable, so you can execute queries with it directly.
+### Variable declaration
+A variable declaration declares the required and optional variables for this query. It is only allowed inside a query declaration.
 
-```php
-public function DirectQueryMysqlTask::__construct(MysqlCredentials $credentials, string $query, array $args = [], callable $callback = null);
-```
+#### Symbol
+- `:`
 
-The first parameter is the `MysqlCredentials` used to instantiate a new `mysqli` connection, if this worker thread has never handled any MySQL tasks yet. **Always** pass a valid value for this parameter even if you have already executed a MySQL query before.
+#### Arguments
+##### VAR_NAME
+The name of the variable. Any characters apart from spaces, tabs and colons are allowed. However, to comply with ordinary SQL editors, using "normal" symbols (e.g. variable names in other programming languages) is recommended.
 
-The second parameter is the query string to execute. It can contain `?` for parameters, which are bound with the third parameter, `$args`. Refer to [PHP documentation for `mysqli_stmt::bind_param`](http://php.net/mysqli-stmt.bind-param) for reference.
+##### VAR_TYPE
+The variable type. Possible values:
+- `string`
+- `int`
+- `float`
+- `bool`
 
-The third parameter is an array of parameter entries. Each parameter entry must be an array of two elements, the first one the type (`i` for integer, `d` for floats or `s` for strings) (libasynql does not have proper support for blobs yet) and the second one the value. **Only pass primitive values for the value**, i.e. only strings and numbers. An example of `$args` should look like this:
+##### VAR_DEFAULT
+If the variable is optional, it declares a default value.
 
-```php
-[
-    ["i", 0xF00BA4],
-    ["s", "foobar"]
-]
-```
+This argument is not affected by spaces. It starts from the first non-space non-tab character after VAR_TYPE, and ends before the trailing space/tab characters of the line
 
-The fourth parameter is optional. Passing null or void would cause nothing to be executed after task completion, except that warning will be raised upon errors in the query. Otherwise, it should be a `callable` (i.e. a `Closure` anonymous function, a function name or an array of object and method name). 
+###### `string` default
+There are two modes, literal string and JSON string.
 
-> **Warning**: Strong reference to the `callable` object will be retained until the task completes, according to the PocketMine `AsyncTask::fetchLocal` API. Hence, any objects in the `callable`, or the `$this` context that defined the callable as an anonymous function, as well as any variables `use`d by the anonymous function, will remain strongly referenced until the task completes. Therefore, creating a `DirectQueryMysqlTask` with callable may result in delay of garbage collection, or even memory leak if the AsyncTask runs for a long time (very unlikely with DirectQueryMysqlTask though, unless you have a really very slow query that takes minutes or hours to execute).
+If the argument starts with a `"` and ends with a `"`, the whole argument will be parsed in JSON. Otherwise, the whole string is taken literally.
 
-This callable can accept up to one parameter, which shall receive a `MysqlResult` instance representing the outcome of the query. See the classes in the `libasynql\result` for more details.
+###### `int` default
+A numeric value that can be parsed by [`(int)` cast, equivalent to `intval`](https://php.net/intval).
 
-### MysqlSelectResult fixing
-PHP's `mysqli` API returns some values as strings or null for some values. The `MysqlSelectResult::fixTypes` method can be used to correct the types in the result rows.
+###### `float` default
+A numeric value that can be parsed by [`(float)` cast, equivalent to `floatval`](https://php.net/floatval).
+
+###### `bool` default
+`true`, `on`, `yes` or `1` will result in true. Other values, as long as there is something, will result default false. (If there is nothing, the variable will not be optional)
+
+### Query text
+Query text is not a command, but the non-commented part between the start and end commands of a query declaration.
+
+Variables are interpolated in query text using the `:var` format. Note that libasynql uses a homebrew algorithm for identifying the variable positions, so they might be inaccurate.
+
+### Overall example
+See [mysql.sql](LibasynqlExample/resources/mysql.sql) and [sqlite3.sql](LibasynqlExample/resources/sqlite3.sql) in the example plugin.

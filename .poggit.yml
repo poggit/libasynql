@@ -1,14 +1,14 @@
-# Note: libasynql is placed above PoolExample so that libasynql is built before PoolExample. This ensures that the latest version of libasynql is used to infect PoolExample.
+# Note: libasynql is placed above LibasynqlExample so that libasynql is built before LibasynqlExample. This ensures that the latest version of libasynql is used to infect LibasynqlExample.
 projects:
   libasynql:
     type: library
     model: virion
     path: libasynql
-  PoolExample:
-    path: examples/PoolExample
+  LibasynqlExample:
+    path: LibasynqlExample
     libs:
       - src: /libasynql
-        version: 1.0
+        version: 3.0
         # shade: syntax
         # format: virion
         # vendor: poggit-project

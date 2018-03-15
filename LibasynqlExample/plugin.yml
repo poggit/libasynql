@@ -1,0 +1,7 @@
+name: LibasynqlExapmle
+desceription: This example plugin logs player IPs, last login and register time in an SQL database.
+main: virion_examples\poggit\libasynql\v3\LibasynqlExample\Main
+author: SOFe
+version: 3.0.0
+api:
+  - 3.0.0-ALPHA11
