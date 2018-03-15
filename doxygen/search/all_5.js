@@ -2,6 +2,8 @@ var searchData=
 [
   ['databaseconnection',['DatabaseConnection',['../interfacepoggit_1_1libasynql_1_1_database_connection.html',1,'poggit::libasynql']]],
   ['databaseconnection_2ephp',['DatabaseConnection.php',['../_database_connection_8php.html',1,'']]],
+  ['databaseconnectionimpl',['DatabaseConnectionImpl',['../classpoggit_1_1libasynql_1_1base_1_1_database_connection_impl.html',1,'poggit::libasynql::base']]],
+  ['databaseconnectionimpl_2ephp',['DatabaseConnectionImpl.php',['../_database_connection_impl_8php.html',1,'']]],
   ['date',['DATE',['../interfacepoggit_1_1libasynql_1_1mysql_1_1_mysql_types.html#a2710435d730458ebdf5de85f8fee5c85',1,'poggit::libasynql::mysql::MysqlTypes']]],
   ['datetime',['DATETIME',['../interfacepoggit_1_1libasynql_1_1mysql_1_1_mysql_types.html#a864dd340de42f0b84af9517e4978cd50',1,'poggit::libasynql::mysql::MysqlTypes']]],
   ['datetime2',['DATETIME2',['../interfacepoggit_1_1libasynql_1_1mysql_1_1_mysql_types.html#a44f57c132e72306527e94ed7a54b3f6d',1,'poggit::libasynql::mysql::MysqlTypes']]],

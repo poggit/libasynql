@@ -22,12 +22,12 @@ var searchData=
   ['sqlselectresult_2ephp',['SqlSelectResult.php',['../_sql_select_result_8php.html',1,'']]],
   ['sqlthread',['SqlThread',['../interfacepoggit_1_1libasynql_1_1_sql_thread.html',1,'poggit::libasynql']]],
   ['sqlthread_2ephp',['SqlThread.php',['../_sql_thread_8php.html',1,'']]],
-  ['sqlthreadpool',['SqlThreadPool',['../classpoggit_1_1libasynql_1_1_sql_thread_pool.html',1,'poggit::libasynql']]],
+  ['sqlthreadpool',['SqlThreadPool',['../classpoggit_1_1libasynql_1_1base_1_1_sql_thread_pool.html',1,'poggit::libasynql::base']]],
   ['sqlthreadpool_2ephp',['SqlThreadPool.php',['../_sql_thread_pool_8php.html',1,'']]],
   ['stage_5fconnect',['STAGE_CONNECT',['../classpoggit_1_1libasynql_1_1_sql_error.html#a22eb1dcbda8a7fd1c5d1f51d899342ec',1,'poggit::libasynql::SqlError']]],
   ['stage_5fexecute',['STAGE_EXECUTE',['../classpoggit_1_1libasynql_1_1_sql_error.html#a3ff19607aeafd7e6a3206f5b59d23dcb',1,'poggit::libasynql::SqlError']]],
   ['stage_5fprepare',['STAGE_PREPARE',['../classpoggit_1_1libasynql_1_1_sql_error.html#a1137278d2cd4e1faa1866ea42707b5d7',1,'poggit::libasynql::SqlError']]],
   ['stage_5fresponse',['STAGE_RESPONSE',['../classpoggit_1_1libasynql_1_1_sql_error.html#a2b5eb9d49906dc0d1294554276054718',1,'poggit::libasynql::SqlError']]],
-  ['stoprunning',['stopRunning',['../classpoggit_1_1libasynql_1_1_base_sql_thread.html#a3d7e93ce9b22e38634f39dd15774bd5a',1,'poggit\libasynql\BaseSqlThread\stopRunning()'],['../interfacepoggit_1_1libasynql_1_1_sql_thread.html#a3d7e93ce9b22e38634f39dd15774bd5a',1,'poggit\libasynql\SqlThread\stopRunning()'],['../classpoggit_1_1libasynql_1_1_sql_thread_pool.html#a3d7e93ce9b22e38634f39dd15774bd5a',1,'poggit\libasynql\SqlThreadPool\stopRunning()']]],
+  ['stoprunning',['stopRunning',['../classpoggit_1_1libasynql_1_1base_1_1_base_sql_thread.html#a3d7e93ce9b22e38634f39dd15774bd5a',1,'poggit\libasynql\base\BaseSqlThread\stopRunning()'],['../classpoggit_1_1libasynql_1_1base_1_1_sql_thread_pool.html#a3d7e93ce9b22e38634f39dd15774bd5a',1,'poggit\libasynql\base\SqlThreadPool\stopRunning()'],['../interfacepoggit_1_1libasynql_1_1_sql_thread.html#a3d7e93ce9b22e38634f39dd15774bd5a',1,'poggit\libasynql\SqlThread\stopRunning()']]],
   ['string',['STRING',['../interfacepoggit_1_1libasynql_1_1mysql_1_1_mysql_types.html#a4741c51e0511fadf27ab3b4028479ae0',1,'poggit::libasynql::mysql::MysqlTypes']]]
 ];

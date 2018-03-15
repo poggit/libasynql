@@ -9,5 +9,5 @@ var searchData=
   ['sqlresult',['SqlResult',['../classpoggit_1_1libasynql_1_1_sql_result.html',1,'poggit::libasynql']]],
   ['sqlselectresult',['SqlSelectResult',['../classpoggit_1_1libasynql_1_1result_1_1_sql_select_result.html',1,'poggit::libasynql::result']]],
   ['sqlthread',['SqlThread',['../interfacepoggit_1_1libasynql_1_1_sql_thread.html',1,'poggit::libasynql']]],
-  ['sqlthreadpool',['SqlThreadPool',['../classpoggit_1_1libasynql_1_1_sql_thread_pool.html',1,'poggit::libasynql']]]
+  ['sqlthreadpool',['SqlThreadPool',['../classpoggit_1_1libasynql_1_1base_1_1_sql_thread_pool.html',1,'poggit::libasynql::base']]]
 ];

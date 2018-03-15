@@ -1,6 +1,8 @@
 var hierarchy =
 [
-    [ "DatabaseConnection", "interfacepoggit_1_1libasynql_1_1_database_connection.html", null ],
+    [ "DatabaseConnection", "interfacepoggit_1_1libasynql_1_1_database_connection.html", [
+      [ "DatabaseConnectionImpl", "classpoggit_1_1libasynql_1_1base_1_1_database_connection_impl.html", null ]
+    ] ],
     [ "GenericStatement", "interfacepoggit_1_1libasynql_1_1_generic_statement.html", [
       [ "GenericStatementImpl", "classpoggit_1_1libasynql_1_1generic_1_1_generic_statement_impl.html", [
         [ "MysqlStatementImpl", "classpoggit_1_1libasynql_1_1generic_1_1_mysql_statement_impl.html", null ],
@@ -22,10 +24,10 @@ var hierarchy =
       [ "SqlSelectResult", "classpoggit_1_1libasynql_1_1result_1_1_sql_select_result.html", null ]
     ] ],
     [ "SqlThread", "interfacepoggit_1_1libasynql_1_1_sql_thread.html", [
-      [ "BaseSqlThread", "classpoggit_1_1libasynql_1_1_base_sql_thread.html", [
+      [ "BaseSqlThread", "classpoggit_1_1libasynql_1_1base_1_1_base_sql_thread.html", [
         [ "MysqlThread", "classpoggit_1_1libasynql_1_1mysql_1_1_mysql_thread.html", null ]
       ] ],
-      [ "SqlThreadPool", "classpoggit_1_1libasynql_1_1_sql_thread_pool.html", null ]
+      [ "SqlThreadPool", "classpoggit_1_1libasynql_1_1base_1_1_sql_thread_pool.html", null ]
     ] ],
     [ "Exception", null, [
       [ "SqlError", "classpoggit_1_1libasynql_1_1_sql_error.html", null ]
@@ -37,6 +39,6 @@ var hierarchy =
       [ "MysqlCredentials", "classpoggit_1_1libasynql_1_1mysql_1_1_mysql_credentials.html", null ]
     ] ],
     [ "Thread", null, [
-      [ "BaseSqlThread", "classpoggit_1_1libasynql_1_1_base_sql_thread.html", null ]
+      [ "BaseSqlThread", "classpoggit_1_1libasynql_1_1base_1_1_base_sql_thread.html", null ]
     ] ]
 ];
