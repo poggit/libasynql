@@ -66,8 +66,8 @@ abstract class GenericStatementImpl implements GenericStatement{
 			SqlDialect::MYSQL => MysqlStatementImpl::class,
 			SqlDialect::SQLITE => SqliteStatementImpl::class,
 		];
-		/** @noinspection UnnecessaryParenthesesInspection */
-		return new ($classMap[$dialect])($name, $query, $variables);
+		$className = $classMap[$dialect];
+		return new $className($name, $query, $variables);
 	}
 
 	protected function __construct(string $name, string $query, array $variables){
