@@ -22,9 +22,11 @@ declare(strict_types=1);
 
 namespace poggit\libasynql\mysql;
 
+use InvalidArgumentException;
 use JsonSerializable;
 use mysqli;
 use poggit\libasynql\SqlError;
+use RuntimeException;
 use function strlen;
 
 class MysqlCredentials implements JsonSerializable{
@@ -40,17 +42,30 @@ class MysqlCredentials implements JsonSerializable{
 	private $port;
 	/** @var string $socket */
 	private $socket;
+
 	/**
-	 * Creates a new {@link MysqlCredentials} instance from an array (e.g. from Config)
+	 * Creates a new {@link MysqlCredentials} instance from an array (e.g. from Config), with the following defaults:
+	 * <pre>
+	 * host: 127.0.0.1
+	 * username: root
+	 * password: ""
+	 * schema: (required)
+	 * port: 3306
+	 * socket: ""
+	 * </pre>
 	 *
 	 * @param array $array
 	 *
 	 * @return MysqlCredentials
 	 */
 	public static function fromArray(array $array) : MysqlCredentials{
+		if(!isset($array["schema"])){
+			throw new InvalidArgumentException("The attribute \"schema\" is missing in the MySQL settings");
+		}
 		return new MysqlCredentials($array["host"] ?? "127.0.0.1", $array["username"] ?? "root",
 			$array["password"] ?? "", $array["schema"], $array["port"] ?? 3306, $array["socket"] ?? "");
 	}
+
 	/**
 	 * Constructs a new {@link MysqlCredentials} by passing parameters directly.
 	 *
@@ -69,6 +84,7 @@ class MysqlCredentials implements JsonSerializable{
 		$this->port = $port;
 		$this->socket = $socket;
 	}
+
 	/**
 	 * Creates a new <a href="https://php.net/mysqli">mysqli</a> instance
 	 *
@@ -83,6 +99,7 @@ class MysqlCredentials implements JsonSerializable{
 		}
 		return $mysqli;
 	}
+
 	/**
 	 * Produces a human-readable output without leaking password
 	 *
@@ -91,6 +108,7 @@ class MysqlCredentials implements JsonSerializable{
 	public function __toString() : string{
 		return "$this->username@$this->host:$this->port/schema,$this->socket";
 	}
+
 	/**
 	 * Prepares value to be var_dump()'ed without leaking password
 	 *
@@ -106,6 +124,7 @@ class MysqlCredentials implements JsonSerializable{
 			"socket" => $this->socket
 		];
 	}
+
 	public function jsonSerialize() : array{
 		return [
 			"host" => $this->host,

@@ -34,6 +34,7 @@ use poggit\libasynql\result\SqlSelectResult;
 use poggit\libasynql\SqlError;
 use poggit\libasynql\SqlResult;
 use poggit\libasynql\SqlThread;
+use Threaded;
 use function array_map;
 use function gettype;
 use function implode;
@@ -50,8 +51,8 @@ class MysqlThread extends BaseSqlThread{
 	/** @var mysqli */
 	private $mysqli;
 
-	public function __construct(MysqlCredentials $credentials){
-		parent::__construct();
+	public function __construct(MysqlCredentials $credentials, Threaded $bufferSend = null, Threaded $bufferRecv = null){
+		parent::__construct($bufferSend, $bufferRecv);
 		$this->credentials = json_encode($credentials);
 	}
 

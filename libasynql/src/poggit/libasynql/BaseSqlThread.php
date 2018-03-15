@@ -33,10 +33,13 @@ abstract class BaseSqlThread extends Thread implements SqlThread{
 	protected $bufferRecv;
 	protected $connCreated = false;
 	protected $connError;
+	protected $working = false;
 
-	protected function __construct(){
-		$this->bufferSend = new Threaded();
-		$this->bufferRecv = new Threaded();
+	protected function __construct(Threaded $bufferSend = null, Threaded $bufferRecv = null){
+		$this->bufferSend = $bufferSend ?? new Threaded();
+		$this->bufferRecv = $bufferRecv ?? new Threaded();
+
+		$this->start();
 	}
 
 	public function run(){
@@ -47,6 +50,7 @@ abstract class BaseSqlThread extends Thread implements SqlThread{
 		if($error !== null){
 			while($this->running){
 				while(is_array($querySet = $this->bufferSend->shift())){
+					$this->working = true;
 					[$queryId, $mode, $query, $params] = $querySet;
 					try{
 						$result = $this->executeQuery($mode, $query, $params);
@@ -55,13 +59,19 @@ abstract class BaseSqlThread extends Thread implements SqlThread{
 					}
 					$this->bufferRecv[] = [$queryId, $result];
 				}
+				$this->working = false;
 			}
 			$this->close();
 		}
 	}
 
-	public function isReallyRunning() : bool{
-		return $this->running;
+	/**
+	 * Returns true if this thread is working, false if waiting for requests
+	 *
+	 * @return bool
+	 */
+	public function isWorking() : bool{
+		return $this->working;
 	}
 
 	public function stopRunning() : void{
