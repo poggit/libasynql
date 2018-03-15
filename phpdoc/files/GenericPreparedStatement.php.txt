@@ -1,0 +1,109 @@
+<?php
+
+/*
+ * libasynql_v3
+ *
+ * Copyright (C) 2018 SOFe
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+declare(strict_types=1);
+
+namespace poggit\libasynql;
+
+use InvalidArgumentException;
+use pocketmine\utils\UUID;
+use UnexpectedValueException;
+use const SORT_NUMERIC;
+use function array_slice;
+use function assert;
+use function count;
+use function explode;
+use function fclose;
+use function feof;
+use function fgets;
+use function is_float;
+use function is_int;
+use function mb_strlen;
+use function mb_strpos;
+use function mb_substr;
+use function sprintf;
+use function str_split;
+use function strlen;
+use function strpos;
+use function substr;
+use function substr_replace;
+use function trim;
+use function uksort;
+
+/**
+ * SECURITY WARNING: Connections must use the UTF-8 charset so that escapeMultiByte() works as intended.
+ */
+interface GenericPreparedStatement{
+	public function getName() : string;
+
+	/**
+	 * @return string[][]|mixed[][]
+	 */
+	public function getVariables() : array;
+
+	public function getQuery() : string{
+		return $this->query;
+	}
+
+	public function compilePositions() : void{
+		uksort($this->variables, function(string $name1, string $name2) : int{
+			return strlen($name1) <=> strlen($name2); // shortest name first
+		});
+		foreach($this->variables as $name => $t){
+			for($offset = 0; ($pos = strpos($this->query, $name, $offset)) !== false; $offset = $pos + 1){
+				$before = $this->query{$pos - 1};
+				if($before === "(" || $before === " " || $before === "\n"){
+					$this->positions[$pos] = $name;
+				}
+			}
+		}
+		ksort($this->positions, SORT_NUMERIC);
+		$copy = $this->variables;
+		foreach($this->positions as $name){
+			if(isset($copy[$name])){
+				unset($copy[$name]);
+			}
+		}
+		if(count($copy) > 0){
+			throw new UnexpectedValueException("Statement $this->name has unused var: " . implode(", ", $copy));
+		}
+	}
+
+
+	public function format(array $vars) : string{
+		$conversions = [];
+		foreach($this->variables as $name => $typeInfo){
+			if(!isset($vars[$name])){
+				throw new InvalidArgumentException("Missing parameter \"$name\"");
+			}
+			$conversions[$name] = self::convertParam($vars[$name], $typeInfo);
+			unset($vars[$name]);
+		}
+		$shift = 0;
+		$query = $this->query;
+		foreach($this->positions as $position => $name){
+			$value = $conversions[$name];
+			$shift += strlen($value) - strlen($name);
+			$query = substr_replace($query, $value, $position + $shift, strlen($name));
+		}
+		return $query;
+	}
+}
+
