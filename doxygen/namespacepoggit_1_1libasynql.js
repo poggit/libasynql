@@ -9,5 +9,6 @@ var namespacepoggit_1_1libasynql =
     [ "SqlDialect", "interfacepoggit_1_1libasynql_1_1_sql_dialect.html", "interfacepoggit_1_1libasynql_1_1_sql_dialect" ],
     [ "SqlError", "classpoggit_1_1libasynql_1_1_sql_error.html", "classpoggit_1_1libasynql_1_1_sql_error" ],
     [ "SqlResult", "classpoggit_1_1libasynql_1_1_sql_result.html", null ],
-    [ "SqlThread", "interfacepoggit_1_1libasynql_1_1_sql_thread.html", "interfacepoggit_1_1libasynql_1_1_sql_thread" ]
+    [ "SqlThread", "interfacepoggit_1_1libasynql_1_1_sql_thread.html", "interfacepoggit_1_1libasynql_1_1_sql_thread" ],
+    [ "SqlThreadPool", "classpoggit_1_1libasynql_1_1_sql_thread_pool.html", "classpoggit_1_1libasynql_1_1_sql_thread_pool" ]
 ];

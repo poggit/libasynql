@@ -24,7 +24,8 @@ var hierarchy =
     [ "SqlThread", "interfacepoggit_1_1libasynql_1_1_sql_thread.html", [
       [ "BaseSqlThread", "classpoggit_1_1libasynql_1_1_base_sql_thread.html", [
         [ "MysqlThread", "classpoggit_1_1libasynql_1_1mysql_1_1_mysql_thread.html", null ]
-      ] ]
+      ] ],
+      [ "SqlThreadPool", "classpoggit_1_1libasynql_1_1_sql_thread_pool.html", null ]
     ] ],
     [ "Exception", null, [
       [ "SqlError", "classpoggit_1_1libasynql_1_1_sql_error.html", null ]

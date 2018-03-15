@@ -95,18 +95,15 @@ Inheritance diagram for SqlThread:</div>
   <img src="interfacepoggit_1_1libasynql_1_1_sql_thread.png" usemap="#SqlThread_map" alt=""/>
   <map id="SqlThread_map" name="SqlThread_map">
 <area href="classpoggit_1_1libasynql_1_1_base_sql_thread.html" alt="BaseSqlThread" shape="rect" coords="0,56,97,80"/>
+<area href="classpoggit_1_1libasynql_1_1_sql_thread_pool.html" alt="SqlThreadPool" shape="rect" coords="107,56,204,80"/>
 <area href="classpoggit_1_1libasynql_1_1mysql_1_1_mysql_thread.html" alt="MysqlThread" shape="rect" coords="0,112,97,136"/>
 </map>
  </div></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:af8fa59992209e36dccb3eefb0f75531f"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interfacepoggit_1_1libasynql_1_1_sql_thread.html#af8fa59992209e36dccb3eefb0f75531f">start</a> ()</td></tr>
-<tr class="separator:af8fa59992209e36dccb3eefb0f75531f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa99149be8621fb1b53890ac267e504ef"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interfacepoggit_1_1libasynql_1_1_sql_thread.html#aa99149be8621fb1b53890ac267e504ef">join</a> ()</td></tr>
 <tr class="separator:aa99149be8621fb1b53890ac267e504ef"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2020e75fbf73005873c20e0d2399b598"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interfacepoggit_1_1libasynql_1_1_sql_thread.html#a2020e75fbf73005873c20e0d2399b598">isReallyRunning</a> ()</td></tr>
-<tr class="separator:a2020e75fbf73005873c20e0d2399b598"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3d7e93ce9b22e38634f39dd15774bd5a"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interfacepoggit_1_1libasynql_1_1_sql_thread.html#a3d7e93ce9b22e38634f39dd15774bd5a">stopRunning</a> ()</td></tr>
 <tr class="separator:a3d7e93ce9b22e38634f39dd15774bd5a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3e667144da13484c61020f75d2e76cd8"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interfacepoggit_1_1libasynql_1_1_sql_thread.html#a3e667144da13484c61020f75d2e76cd8">addQuery</a> (int $queryId, int $mode, string $query, array $params)</td></tr>
@@ -133,7 +130,7 @@ Data Fields</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock">
-<p class="definition">Definition at line <a class="el" href="_sql_thread_8php_source.html#l00025">25</a> of file <a class="el" href="_sql_thread_8php_source.html">SqlThread.php</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_sql_thread_8php_source.html#l00027">27</a> of file <a class="el" href="_sql_thread_8php_source.html">SqlThread.php</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
 <a id="a3e667144da13484c61020f75d2e76cd8"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a3e667144da13484c61020f75d2e76cd8">&#9670;&nbsp;</a></span>addQuery()</h2>
@@ -172,8 +169,18 @@ Data Fields</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Adds a query to the queue.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramtype">int</td><td class="paramname">$queryId</td><td></td></tr>
+    <tr><td class="paramtype">int</td><td class="paramname">$mode</td><td></td></tr>
+    <tr><td class="paramtype">string</td><td class="paramname">$query</td><td></td></tr>
+    <tr><td class="paramtype"></td><td class="paramname">mixed[]</td><td>$params </td></tr>
+  </table>
+  </dd>
+</dl>
 
-<p>Implemented in <a class="el" href="classpoggit_1_1libasynql_1_1_base_sql_thread.html#a3e667144da13484c61020f75d2e76cd8">BaseSqlThread</a>.</p>
+<p>Implemented in <a class="el" href="classpoggit_1_1libasynql_1_1_base_sql_thread.html#a3e667144da13484c61020f75d2e76cd8">BaseSqlThread</a>, and <a class="el" href="classpoggit_1_1libasynql_1_1_sql_thread_pool.html#a3e667144da13484c61020f75d2e76cd8">SqlThreadPool</a>.</p>
 
 </div>
 </div>
@@ -191,8 +198,10 @@ Data Fields</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Checks if the initial connection has been made, no matter successful or not.</p>
+<dl class="section return"><dt>Returns</dt><dd>bool </dd></dl>
 
-<p>Implemented in <a class="el" href="classpoggit_1_1libasynql_1_1_base_sql_thread.html#ae47681b8648610e27fedf7cdf0cb87dd">BaseSqlThread</a>.</p>
+<p>Implemented in <a class="el" href="classpoggit_1_1libasynql_1_1_sql_thread_pool.html#ae47681b8648610e27fedf7cdf0cb87dd">SqlThreadPool</a>, and <a class="el" href="classpoggit_1_1libasynql_1_1_base_sql_thread.html#ae47681b8648610e27fedf7cdf0cb87dd">BaseSqlThread</a>.</p>
 
 </div>
 </div>
@@ -210,8 +219,10 @@ Data Fields</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Gets the error of the initial connection.</p>
+<dl class="section return"><dt>Returns</dt><dd>null|string </dd></dl>
 
-<p>Implemented in <a class="el" href="classpoggit_1_1libasynql_1_1_base_sql_thread.html#a8f8b3166d1a961b00ef91439b6d0e505">BaseSqlThread</a>.</p>
+<p>Implemented in <a class="el" href="classpoggit_1_1libasynql_1_1_sql_thread_pool.html#a8f8b3166d1a961b00ef91439b6d0e505">SqlThreadPool</a>, and <a class="el" href="classpoggit_1_1libasynql_1_1_base_sql_thread.html#a8f8b3166d1a961b00ef91439b6d0e505">BaseSqlThread</a>.</p>
 
 </div>
 </div>
@@ -229,27 +240,10 @@ Data Fields</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Checks if the initial connection failed.</p>
+<dl class="section return"><dt>Returns</dt><dd>bool </dd></dl>
 
-<p>Implemented in <a class="el" href="classpoggit_1_1libasynql_1_1_base_sql_thread.html#a155f9e9704a43590a1b56601d298ba86">BaseSqlThread</a>.</p>
-
-</div>
-</div>
-<a id="a2020e75fbf73005873c20e0d2399b598"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a2020e75fbf73005873c20e0d2399b598">&#9670;&nbsp;</a></span>isReallyRunning()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">isReallyRunning </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Implemented in <a class="el" href="classpoggit_1_1libasynql_1_1_base_sql_thread.html#a2020e75fbf73005873c20e0d2399b598">BaseSqlThread</a>.</p>
+<p>Implemented in <a class="el" href="classpoggit_1_1libasynql_1_1_sql_thread_pool.html#a155f9e9704a43590a1b56601d298ba86">SqlThreadPool</a>, and <a class="el" href="classpoggit_1_1libasynql_1_1_base_sql_thread.html#a155f9e9704a43590a1b56601d298ba86">BaseSqlThread</a>.</p>
 
 </div>
 </div>
@@ -267,6 +261,10 @@ Data Fields</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Joins the thread</p>
+<dl class="section see"><dt>See also</dt><dd><a href="https://php.net/thread.join">https://php.net/thread.join</a> Thread::join </dd></dl>
+
+<p>Implemented in <a class="el" href="classpoggit_1_1libasynql_1_1_sql_thread_pool.html#aa99149be8621fb1b53890ac267e504ef">SqlThreadPool</a>.</p>
 
 </div>
 </div>
@@ -285,25 +283,15 @@ Data Fields</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Handles the results that this query has completed</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">callable[]</td><td>$callbacks </td></tr>
+  </table>
+  </dd>
+</dl>
 
-<p>Implemented in <a class="el" href="classpoggit_1_1libasynql_1_1_base_sql_thread.html#a4fe369adfe9be8234c5bf9f5141e1474">BaseSqlThread</a>.</p>
-
-</div>
-</div>
-<a id="af8fa59992209e36dccb3eefb0f75531f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#af8fa59992209e36dccb3eefb0f75531f">&#9670;&nbsp;</a></span>start()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">start </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
+<p>Implemented in <a class="el" href="classpoggit_1_1libasynql_1_1_sql_thread_pool.html#a4fe369adfe9be8234c5bf9f5141e1474">SqlThreadPool</a>, and <a class="el" href="classpoggit_1_1libasynql_1_1_base_sql_thread.html#a4fe369adfe9be8234c5bf9f5141e1474">BaseSqlThread</a>.</p>
 
 </div>
 </div>
@@ -321,8 +309,9 @@ Data Fields</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>Signals the thread to stop waiting for queries when the send buffer is cleared. </p>
 
-<p>Implemented in <a class="el" href="classpoggit_1_1libasynql_1_1_base_sql_thread.html#a3d7e93ce9b22e38634f39dd15774bd5a">BaseSqlThread</a>.</p>
+<p>Implemented in <a class="el" href="classpoggit_1_1libasynql_1_1_base_sql_thread.html#a3d7e93ce9b22e38634f39dd15774bd5a">BaseSqlThread</a>, and <a class="el" href="classpoggit_1_1libasynql_1_1_sql_thread_pool.html#a3d7e93ce9b22e38634f39dd15774bd5a">SqlThreadPool</a>.</p>
 
 </div>
 </div>
@@ -339,7 +328,7 @@ Data Fields</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_sql_thread_8php_source.html#l00027">27</a> of file <a class="el" href="_sql_thread_8php_source.html">SqlThread.php</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_sql_thread_8php_source.html#l00029">29</a> of file <a class="el" href="_sql_thread_8php_source.html">SqlThread.php</a>.</p>
 
 </div>
 </div>
@@ -355,7 +344,7 @@ Data Fields</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_sql_thread_8php_source.html#l00026">26</a> of file <a class="el" href="_sql_thread_8php_source.html">SqlThread.php</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_sql_thread_8php_source.html#l00028">28</a> of file <a class="el" href="_sql_thread_8php_source.html">SqlThread.php</a>.</p>
 
 </div>
 </div>
@@ -371,7 +360,7 @@ Data Fields</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_sql_thread_8php_source.html#l00028">28</a> of file <a class="el" href="_sql_thread_8php_source.html">SqlThread.php</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_sql_thread_8php_source.html#l00030">30</a> of file <a class="el" href="_sql_thread_8php_source.html">SqlThread.php</a>.</p>
 
 </div>
 </div>
@@ -387,7 +376,7 @@ Data Fields</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_sql_thread_8php_source.html#l00029">29</a> of file <a class="el" href="_sql_thread_8php_source.html">SqlThread.php</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_sql_thread_8php_source.html#l00031">31</a> of file <a class="el" href="_sql_thread_8php_source.html">SqlThread.php</a>.</p>
 
 </div>
 </div>

@@ -1,8 +1,19 @@
 var NAVTREEINDEX1 =
 {
+"interfacepoggit_1_1libasynql_1_1mysql_1_1_mysql_types.html#aee6315761c9eccd7954a29c1d070c7a5":[1,0,0,0,1,4,11],
+"interfacepoggit_1_1libasynql_1_1mysql_1_1_mysql_types.html#afc8a1933ab5e57f778452a0f5508efe1":[1,0,0,0,1,4,7],
+"interfacepoggit_1_1libasynql_1_1mysql_1_1_mysql_types.html#afd87c96ae3a25bf5804a4f3d2183a9f7":[1,0,0,0,1,4,6],
+"interfacepoggit_1_1libasynql_1_1mysql_1_1_mysql_types.html#aff4c5748bdcf601d41a97d81fb36b32e":[1,0,0,0,1,4,25],
+"namespacepoggit.html":[1,0,0],
+"namespacepoggit.html":[0,0,0],
+"namespacepoggit_1_1libasynql.html":[1,0,0,0],
+"namespacepoggit_1_1libasynql.html":[0,0,0,0],
+"namespacepoggit_1_1libasynql_1_1generic.html":[1,0,0,0,0],
+"namespacepoggit_1_1libasynql_1_1generic.html":[0,0,0,0,0],
+"namespacepoggit_1_1libasynql_1_1mysql.html":[0,0,0,0,1],
 "namespacepoggit_1_1libasynql_1_1mysql.html":[1,0,0,0,1],
-"namespacepoggit_1_1libasynql_1_1result.html":[1,0,0,0,2],
 "namespacepoggit_1_1libasynql_1_1result.html":[0,0,0,0,2],
+"namespacepoggit_1_1libasynql_1_1result.html":[1,0,0,0,2],
 "namespaces.html":[0,0],
 "pages.html":[]
 };

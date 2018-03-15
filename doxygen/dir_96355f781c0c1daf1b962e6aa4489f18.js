@@ -23,5 +23,8 @@ var dir_96355f781c0c1daf1b962e6aa4489f18 =
     ] ],
     [ "SqlThread.php", "_sql_thread_8php.html", [
       [ "SqlThread", "interfacepoggit_1_1libasynql_1_1_sql_thread.html", "interfacepoggit_1_1libasynql_1_1_sql_thread" ]
+    ] ],
+    [ "SqlThreadPool.php", "_sql_thread_pool_8php.html", [
+      [ "SqlThreadPool", "classpoggit_1_1libasynql_1_1_sql_thread_pool.html", "classpoggit_1_1libasynql_1_1_sql_thread_pool" ]
     ] ]
 ];
