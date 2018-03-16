@@ -24,9 +24,7 @@ namespace poggit\libasynql\base;
 
 use InvalidArgumentException;
 use poggit\libasynql\SqlThread;
-use Threaded;
 use function count;
-use function is_array;
 
 class SqlThreadPool implements SqlThread{
 	private $workerCreator;
@@ -35,9 +33,9 @@ class SqlThreadPool implements SqlThread{
 	/** @var int */
 	private $workerLimit;
 
-	/** @var Threaded */
+	/** @var QuerySendQueue */
 	private $bufferSend;
-	/** @var Threaded */
+	/** @var QueryRecvQueue */
 	private $bufferRecv;
 
 	/**
@@ -49,8 +47,8 @@ class SqlThreadPool implements SqlThread{
 	public function __construct(callable $workerCreator, int $workerLimit){
 		$this->workerCreator = $workerCreator;
 		$this->workerLimit = $workerLimit;
-		$this->bufferSend = new Threaded();
-		$this->bufferRecv = new Threaded();
+		$this->bufferSend = new QuerySendQueue();
+		$this->bufferRecv = new QueryRecvQueue();
 		if(empty($this->workers)){
 			$this->addWorker();
 		}
@@ -73,21 +71,21 @@ class SqlThreadPool implements SqlThread{
 	}
 
 	public function addQuery(int $queryId, int $mode, string $query, array $params) : void{
-		$this->bufferSend[] = [$queryId, $mode, $query, $params];
+		$this->bufferSend->scheduleQuery($queryId, $mode, $query, $params);
+
+		// check if we need to increase worker size
 		foreach($this->workers as $worker){
-			if($worker->isWorking()){
+			if(!$worker->isWorking()){
 				return;
 			}
 		}
-
 		if(count($this->workers) < $this->workerLimit){
 			$this->addWorker();
 		}
 	}
 
 	public function readResults(array &$callbacks) : void{
-		while(is_array($resultSet = $this->bufferRecv->shift())){
-			[$queryId, $result] = $resultSet;
+		while($this->bufferRecv->fetchResult($queryId, $result)){
 			if(!isset($callbacks[$queryId])){
 				throw new InvalidArgumentException("Missing handler for query #$queryId");
 			}

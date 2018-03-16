@@ -27,8 +27,6 @@ use pocketmine\Thread;
 use poggit\libasynql\SqlError;
 use poggit\libasynql\SqlResult;
 use poggit\libasynql\SqlThread;
-use Threaded;
-use function is_array;
 
 abstract class BaseSqlThread extends Thread implements SqlThread{
 	private $running = true;
@@ -38,9 +36,9 @@ abstract class BaseSqlThread extends Thread implements SqlThread{
 	protected $connError;
 	protected $working = false;
 
-	protected function __construct(Threaded $bufferSend = null, Threaded $bufferRecv = null){
-		$this->bufferSend = $bufferSend ?? new Threaded();
-		$this->bufferRecv = $bufferRecv ?? new Threaded();
+	protected function __construct(QuerySendQueue $bufferSend = null, QueryRecvQueue $bufferRecv = null){
+		$this->bufferSend = $bufferSend ?? new QuerySendQueue();
+		$this->bufferRecv = $bufferRecv ?? new QueryRecvQueue();
 
 		$this->start();
 	}
@@ -52,15 +50,14 @@ abstract class BaseSqlThread extends Thread implements SqlThread{
 
 		if($error !== null){
 			while($this->running){
-				while(is_array($querySet = $this->bufferSend->shift())){
+				while($this->bufferSend->fetchQuery($queryId, $mode, $query, $params)){
 					$this->working = true;
-					[$queryId, $mode, $query, $params] = $querySet;
 					try{
 						$result = $this->executeQuery($mode, $query, $params);
+						$this->bufferRecv->publishResult($queryId, $result);
 					}catch(SqlError $error){
-						$result = $error;
+						$this->bufferRecv->publishError($queryId, $error);
 					}
-					$this->bufferRecv[] = [$queryId, $result];
 				}
 				$this->working = false;
 			}
@@ -82,12 +79,11 @@ abstract class BaseSqlThread extends Thread implements SqlThread{
 	}
 
 	public function addQuery(int $queryId, int $mode, string $query, array $params) : void{
-		$this->bufferSend[] = [$queryId, $mode, $query, $params];
+		$this->bufferSend->scheduleQuery($queryId, $mode, $query, $params);
 	}
 
 	public function readResults(array &$callbacks) : void{
-		while(is_array($resultSet = $this->bufferRecv->shift())){
-			[$queryId, $result] = $resultSet;
+		while($this->bufferRecv->fetchResult($queryId, $result)){
 			if(!isset($callbacks[$queryId])){
 				throw new InvalidArgumentException("Missing handler for query #$queryId");
 			}

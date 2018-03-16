@@ -27,6 +27,8 @@ use mysqli;
 use mysqli_result;
 use mysqli_stmt;
 use poggit\libasynql\base\BaseSqlThread;
+use poggit\libasynql\base\QueryRecvQueue;
+use poggit\libasynql\base\QuerySendQueue;
 use poggit\libasynql\result\SqlChangeResult;
 use poggit\libasynql\result\SqlColumnInfo;
 use poggit\libasynql\result\SqlInsertResult;
@@ -34,7 +36,6 @@ use poggit\libasynql\result\SqlSelectResult;
 use poggit\libasynql\SqlError;
 use poggit\libasynql\SqlResult;
 use poggit\libasynql\SqlThread;
-use Threaded;
 use function array_map;
 use function gettype;
 use function implode;
@@ -51,7 +52,7 @@ class MysqlThread extends BaseSqlThread{
 	/** @var mysqli */
 	private $mysqli;
 
-	public function __construct(MysqlCredentials $credentials, Threaded $bufferSend = null, Threaded $bufferRecv = null){
+	public function __construct(MysqlCredentials $credentials, QuerySendQueue $bufferSend = null, QueryRecvQueue $bufferRecv = null){
 		parent::__construct($bufferSend, $bufferRecv);
 		$this->credentials = json_encode($credentials);
 	}
