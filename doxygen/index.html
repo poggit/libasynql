@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.13"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>libasynql: Main Page</title>
+<title>libasynql: libasynql v3.0.0 &lt;img src=&quot;https://poggit.pmmp.io/ci.badge/poggit/libasynql/libasynql&quot; align=&quot;right&quot;/&gt;</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -82,10 +82,43 @@ $(document).ready(function(){initNavTree('index.html','');});
 
 <div class="header">
   <div class="headertitle">
-<div class="title">libasynql Documentation</div>  </div>
+<div class="title">libasynql v3.0.0 </p><div class="image">
+<img src="https://poggit.pmmp.io/ci.badge/poggit/libasynql/libasynql" align="right"/>
+</div>
+ </div>  </div>
 </div><!--header-->
 <div class="contents">
-</div><!-- contents -->
+<div class="textblock"><p>Asynchronous SQL access library for PocketMine plugins.</p>
+<h2>Usage</h2>
+<p>The basic use of libasynql has 5 steps:</p><ol type="1">
+<li>Add default database settings in your <code>config.yml</code>.</li>
+<li>Write down all the SQL queries you will use in a resource file</li>
+<li>Initialize the database in <code>onEnable()</code>.</li>
+<li>Finalize the database in <code>onDisable()</code>.</li>
+<li>Obviously, and most importantly, use libasynql in your code.</li>
+</ol>
+<h3>Configuration</h3>
+<p>To let the user choose what database to use, copy the following into your default <code>config.yml</code>. Remember to change the default schema name under <code>mysql</code>.</p>
+<div class="fragment"><div class="line">database:</div><div class="line">  # The database type. &quot;sqlite&quot; and &quot;mysql&quot; are supported.</div><div class="line">  type: sqlite</div><div class="line"></div><div class="line">  # Edit these settings only if you choose &quot;sqlite&quot;.</div><div class="line">  sqlite:</div><div class="line">    # The file name of the database in the plugin data folder.</div><div class="line">    # You can also put an absolute path here.</div><div class="line">    file: data.sqlite</div><div class="line">  # Edit these settings only if you choose &quot;mysql&quot;.</div><div class="line">  mysql:</div><div class="line">    host: 127.0.0.1</div><div class="line">    # Avoid using the &quot;root&quot; user for security reasons.</div><div class="line">    username: root</div><div class="line">    password: &quot;&quot;</div><div class="line">    schema: your_schema</div></div><!-- fragment --><h3>Initialization and Finalization</h3>
+<p>libasynql simplifies the process of initializing a database into a single function call.</p>
+<div class="fragment"><div class="line">use pocketmine\plugin\PluginBase;</div><div class="line">use <a class="code" href="classpoggit_1_1libasynql_1_1libasynql.html">poggit\libasynql\libasynql</a>;</div><div class="line"></div><div class="line"><span class="keyword">class </span>Main <span class="keyword">extends</span> PluginBase{</div><div class="line">    <span class="keyword">private</span> $database;</div><div class="line"></div><div class="line">    <span class="keyword">public</span> <span class="keyword">function</span> onEnable(){</div><div class="line">        $this-&gt;saveDefaultConfig();</div><div class="line">        $this-&gt;database = libasynql::create($this, $this-&gt;getConfig()-&gt;<span class="keyword">get</span>(<span class="stringliteral">&quot;database&quot;</span>), [</div><div class="line">            <span class="stringliteral">&quot;sqlite&quot;</span> =&gt; <span class="stringliteral">&quot;sqlite.sql&quot;</span>,</div><div class="line">            <span class="stringliteral">&quot;mysql&quot;</span> =&gt; <span class="stringliteral">&quot;mysql.sql&quot;</span></div><div class="line">        ]);</div><div class="line">    }</div><div class="line"></div><div class="line">    <span class="keyword">public</span> <span class="keyword">function</span> onDisable(){</div><div class="line">        <span class="keywordflow">if</span>($this-&gt;database) $this-&gt;database-&gt;close();</div><div class="line">    }</div><div class="line">}</div></div><!-- fragment --><p><code>sqlite.sql</code> and <code>mysql.sql</code> are the files we are going to create in the next step.</p>
+<h3>Creating SQL files</h3>
+<p>In the resources file, create one file for each SQL dialect you are supporting, e.g. <code>resources/sqlite.sql</code> and <code>resources/mysql.sql</code>.</p>
+<p>Write down all the queries you are going to use in each file, using the <a href="#prepared-statement-file-format">Prepared Statement File format</a>.</p>
+<h3>Calling libasynql functions</h3>
+<p>Finally, we are prepared to use libasynql in code!</p>
+<p>There are 4 query modes you can ues: GENERIC, CHANGE, INSERT and SELECT.</p><ul>
+<li>GENERIC: You don't want to know anything about the query except whether it is successful. You may want to use this in <code>CREATE TABLE</code> statements.</li>
+<li>CHANGE: Your query modifies the database, and you want to know how many rows are changed. Useful in <code>UPDATE</code>/<code>DELETE</code> statements.</li>
+<li>INSERT: Your query is an <code>INSERT INTO</code> query for a table with an <code>AUTO_INCREMENT</code> key. You will receive the auto-incremented row ID.</li>
+<li>SELECT: Your query expects a result set, e.g. a <code>SELECT</code> statement, or reflection queries like <code>EXPLAIN</code> and <code>SHOW TABLES</code>. You will receive a <code>SqlSelectResult</code> object that represents the columns and rows returned.</li>
+</ul>
+<h2>Prepared Statement File Format</h2>
+<p>A Prepared Statement File (PSF) contains the queries that a plugin uses. The content is valid SQL, so it is OK to edit with a normal SQL editor.</p>
+<p>The PSF is annotated by "command lines", which start with <code>-- #</code>, followed by the command symbol, then the arguments. Between the <code>#</code> and the command symbol, there can be zero to infinite spaces or tabs; between the command symbol and the arguments, there can also be zero to infinite spaces or tabs. Between every two arguments, one to infinite spaces or tabs are required.</p>
+<p>In other words, this is the regular expression for a command line:</p>
+<p>```RegExp &ndash; #[ ]*([! </p>
+</div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->

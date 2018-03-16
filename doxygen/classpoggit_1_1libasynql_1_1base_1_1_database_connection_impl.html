@@ -93,7 +93,6 @@ Inheritance diagram for DatabaseConnectionImpl:</div>
  <div class="center">
   <img src="classpoggit_1_1libasynql_1_1base_1_1_database_connection_impl.png" usemap="#DatabaseConnectionImpl_map" alt=""/>
   <map id="DatabaseConnectionImpl_map" name="DatabaseConnectionImpl_map">
-<area href="interfacepoggit_1_1libasynql_1_1_database_connection.html" alt="DatabaseConnection" shape="rect" coords="0,0,151,24"/>
 </map>
  </div></div>
 <table class="memberdecls">
@@ -118,7 +117,7 @@ Public Member Functions</h2></td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock">
-<p class="definition">Definition at line <a class="el" href="_database_connection_impl_8php_source.html#l00032">32</a> of file <a class="el" href="_database_connection_impl_8php_source.html">DatabaseConnectionImpl.php</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_database_connection_impl_8php_source.html#l00033">33</a> of file <a class="el" href="_database_connection_impl_8php_source.html">DatabaseConnectionImpl.php</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="adb08aa1528e5b9dd84f0dae13a3ba0ea"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#adb08aa1528e5b9dd84f0dae13a3ba0ea">&#9670;&nbsp;</a></span>__construct()</h2>
@@ -145,7 +144,7 @@ Public Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Creates a <a class="el" href="interfacepoggit_1_1libasynql_1_1_database_connection.html">DatabaseConnection</a>.</p>
+<p>Creates a DatabaseConnection.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramtype"><a class="el" href="interfacepoggit_1_1libasynql_1_1_sql_thread.html">SqlThread</a></td><td class="paramname">$thread</td><td>the backend <a class="el" href="interfacepoggit_1_1libasynql_1_1_sql_thread.html">SqlThread</a> to connect with </td></tr>
@@ -154,7 +153,7 @@ Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_database_connection_impl_8php_source.html#l00048">48</a> of file <a class="el" href="_database_connection_impl_8php_source.html">DatabaseConnectionImpl.php</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_database_connection_impl_8php_source.html#l00049">49</a> of file <a class="el" href="_database_connection_impl_8php_source.html">DatabaseConnectionImpl.php</a>.</p>
 
 </div>
 </div>
@@ -173,11 +172,8 @@ Public Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Closes the connection and/or all child connections. Remember to call this method when the plugin is disabled or the data provider is switched. </p>
 
-<p>Implements <a class="el" href="interfacepoggit_1_1libasynql_1_1_database_connection.html#aa69c8bf1f1dcf4e72552efff1fe3e87e">DatabaseConnection</a>.</p>
-
-<p class="definition">Definition at line <a class="el" href="_database_connection_impl_8php_source.html#l00124">124</a> of file <a class="el" href="_database_connection_impl_8php_source.html">DatabaseConnectionImpl.php</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_database_connection_impl_8php_source.html#l00125">125</a> of file <a class="el" href="_database_connection_impl_8php_source.html">DatabaseConnectionImpl.php</a>.</p>
 
 </div>
 </div>
@@ -218,20 +214,8 @@ Public Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Executes a query that changes data.</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramtype">string</td><td class="paramname">$name</td><td>the <a class="el" href="">GenericPreparedStatement</a> query name </td></tr>
-    <tr><td class="paramtype"></td><td class="paramname">mixed[]</td><td>$args the variables as defined in the <a class="el" href="">GenericPreparedStatement</a> </td></tr>
-    <tr><td class="paramtype">callable&#160;|&#160;null</td><td class="paramname">$onSuccess</td><td>an optional callback when the query has succeeded: <code>function(int $affectedRows) : void{}</code> </td></tr>
-    <tr><td class="paramtype">callable&#160;|&#160;null</td><td class="paramname">$onError</td><td>an optional callback when the query has failed: <code>function(<a class="el" href="classpoggit_1_1libasynql_1_1_sql_error.html">SqlError</a> $error) : void{}</code> </td></tr>
-  </table>
-  </dd>
-</dl>
 
-<p>Implements <a class="el" href="interfacepoggit_1_1libasynql_1_1_database_connection.html#af96254a7b8aa8962f9ff1b7cc274c72f">DatabaseConnection</a>.</p>
-
-<p class="definition">Definition at line <a class="el" href="_database_connection_impl_8php_source.html#l00082">82</a> of file <a class="el" href="_database_connection_impl_8php_source.html">DatabaseConnectionImpl.php</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_database_connection_impl_8php_source.html#l00083">83</a> of file <a class="el" href="_database_connection_impl_8php_source.html">DatabaseConnectionImpl.php</a>.</p>
 
 </div>
 </div>
@@ -272,20 +256,8 @@ Public Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Executes a generic query that either succeeds or fails.</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramtype">string</td><td class="paramname">$name</td><td>the <a class="el" href="">GenericPreparedStatement</a> query name </td></tr>
-    <tr><td class="paramtype"></td><td class="paramname">mixed[]</td><td>$args the variables as defined in the <a class="el" href="">GenericPreparedStatement</a> </td></tr>
-    <tr><td class="paramtype">callable&#160;|&#160;null</td><td class="paramname">$onSuccess</td><td>an optional callback when the query has succeeded: <code>function() : void{}</code> </td></tr>
-    <tr><td class="paramtype">callable&#160;|&#160;null</td><td class="paramname">$onError</td><td>an optional callback when the query has failed: <code>function(<a class="el" href="classpoggit_1_1libasynql_1_1_sql_error.html">SqlError</a> $error) : void{}</code> </td></tr>
-  </table>
-  </dd>
-</dl>
 
-<p>Implements <a class="el" href="interfacepoggit_1_1libasynql_1_1_database_connection.html#a9617cbcafd908a5da583245f1c71d0de">DatabaseConnection</a>.</p>
-
-<p class="definition">Definition at line <a class="el" href="_database_connection_impl_8php_source.html#l00068">68</a> of file <a class="el" href="_database_connection_impl_8php_source.html">DatabaseConnectionImpl.php</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_database_connection_impl_8php_source.html#l00069">69</a> of file <a class="el" href="_database_connection_impl_8php_source.html">DatabaseConnectionImpl.php</a>.</p>
 
 </div>
 </div>
@@ -326,20 +298,8 @@ Public Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Executes an insert query that results in an insert ID.</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramtype">string</td><td class="paramname">$name</td><td>the <a class="el" href="">GenericPreparedStatement</a> query name </td></tr>
-    <tr><td class="paramtype"></td><td class="paramname">mixed[]</td><td>$args the variables as defined in the <a class="el" href="">GenericPreparedStatement</a> </td></tr>
-    <tr><td class="paramtype">callable&#160;|&#160;null</td><td class="paramname">$onInserted</td><td>an optional callback when the query has succeeded: <code>function(int $insertId) : void{}</code> </td></tr>
-    <tr><td class="paramtype">callable&#160;|&#160;null</td><td class="paramname">$onError</td><td>an optional callback when the query has failed: <code>function(<a class="el" href="classpoggit_1_1libasynql_1_1_sql_error.html">SqlError</a> $error) : void{}</code> </td></tr>
-  </table>
-  </dd>
-</dl>
 
-<p>Implements <a class="el" href="interfacepoggit_1_1libasynql_1_1_database_connection.html#a1ea8d452560f893365dcc86fb6fd5921">DatabaseConnection</a>.</p>
-
-<p class="definition">Definition at line <a class="el" href="_database_connection_impl_8php_source.html#l00096">96</a> of file <a class="el" href="_database_connection_impl_8php_source.html">DatabaseConnectionImpl.php</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_database_connection_impl_8php_source.html#l00097">97</a> of file <a class="el" href="_database_connection_impl_8php_source.html">DatabaseConnectionImpl.php</a>.</p>
 
 </div>
 </div>
@@ -380,20 +340,8 @@ Public Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Executes a select query that returns an SQL result set. This does not strictly need to be SELECT queries &ndash; reflection queries like MySQL's <code>SHOW TABLES</code> query are also allowed.</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramtype">string</td><td class="paramname">$name</td><td>the <a class="el" href="">GenericPreparedStatement</a> query name </td></tr>
-    <tr><td class="paramtype"></td><td class="paramname">mixed[]</td><td>$args the variables as defined in the <a class="el" href="">GenericPreparedStatement</a> </td></tr>
-    <tr><td class="paramtype">callable&#160;|&#160;null</td><td class="paramname">$onSelect</td><td>an optional callback when the query has succeeded: <code>function(int $insertId) : void{}</code> </td></tr>
-    <tr><td class="paramtype">callable&#160;|&#160;null</td><td class="paramname">$onError</td><td>an optional callback when the query has failed: <code>function(<a class="el" href="classpoggit_1_1libasynql_1_1_sql_error.html">SqlError</a> $error) : void{}</code> </td></tr>
-  </table>
-  </dd>
-</dl>
 
-<p>Implements <a class="el" href="interfacepoggit_1_1libasynql_1_1_database_connection.html#a3e100aff4b1945cb26425f61bb79c27e">DatabaseConnection</a>.</p>
-
-<p class="definition">Definition at line <a class="el" href="_database_connection_impl_8php_source.html#l00110">110</a> of file <a class="el" href="_database_connection_impl_8php_source.html">DatabaseConnectionImpl.php</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_database_connection_impl_8php_source.html#l00111">111</a> of file <a class="el" href="_database_connection_impl_8php_source.html">DatabaseConnectionImpl.php</a>.</p>
 
 </div>
 </div>
@@ -412,17 +360,8 @@ Public Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Loads a pre-formatted query.</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramtype"><a class="el" href="interfacepoggit_1_1libasynql_1_1_generic_statement.html">GenericStatement</a></td><td class="paramname">$stmt</td><td></td></tr>
-  </table>
-  </dd>
-</dl>
 
-<p>Implements <a class="el" href="interfacepoggit_1_1libasynql_1_1_database_connection.html#a3e4b737eba0ddd5cf7ac545298094365">DatabaseConnection</a>.</p>
-
-<p class="definition">Definition at line <a class="el" href="_database_connection_impl_8php_source.html#l00061">61</a> of file <a class="el" href="_database_connection_impl_8php_source.html">DatabaseConnectionImpl.php</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_database_connection_impl_8php_source.html#l00062">62</a> of file <a class="el" href="_database_connection_impl_8php_source.html">DatabaseConnectionImpl.php</a>.</p>
 
 </div>
 </div>
@@ -441,18 +380,8 @@ Public Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Loads pre-formatted queries from a readable stream resource.</p>
-<p>The implementation will close the stream after reading.</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramtype">resource</td><td class="paramname">$fh</td><td>a stream that supports <code>feof()</code>, <code>fgets()</code> and <code>fclose()</code>. </td></tr>
-  </table>
-  </dd>
-</dl>
 
-<p>Implements <a class="el" href="interfacepoggit_1_1libasynql_1_1_database_connection.html#aaa4b348460b4d10823dc8bd6bbc21a25">DatabaseConnection</a>.</p>
-
-<p class="definition">Definition at line <a class="el" href="_database_connection_impl_8php_source.html#l00053">53</a> of file <a class="el" href="_database_connection_impl_8php_source.html">DatabaseConnectionImpl.php</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_database_connection_impl_8php_source.html#l00054">54</a> of file <a class="el" href="_database_connection_impl_8php_source.html">DatabaseConnectionImpl.php</a>.</p>
 
 </div>
 </div>

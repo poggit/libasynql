@@ -1,13 +1,9 @@
 var searchData=
 [
-  ['sqlchangeresult',['SqlChangeResult',['../classpoggit_1_1libasynql_1_1result_1_1_sql_change_result.html',1,'poggit::libasynql::result']]],
-  ['sqlcolumninfo',['SqlColumnInfo',['../classpoggit_1_1libasynql_1_1result_1_1_sql_column_info.html',1,'poggit::libasynql::result']]],
-  ['sqldialect',['SqlDialect',['../interfacepoggit_1_1libasynql_1_1_sql_dialect.html',1,'poggit::libasynql']]],
-  ['sqlerror',['SqlError',['../classpoggit_1_1libasynql_1_1_sql_error.html',1,'poggit::libasynql']]],
-  ['sqlinsertresult',['SqlInsertResult',['../classpoggit_1_1libasynql_1_1result_1_1_sql_insert_result.html',1,'poggit::libasynql::result']]],
-  ['sqlitestatementimpl',['SqliteStatementImpl',['../classpoggit_1_1libasynql_1_1generic_1_1_sqlite_statement_impl.html',1,'poggit::libasynql::generic']]],
-  ['sqlresult',['SqlResult',['../classpoggit_1_1libasynql_1_1_sql_result.html',1,'poggit::libasynql']]],
-  ['sqlselectresult',['SqlSelectResult',['../classpoggit_1_1libasynql_1_1result_1_1_sql_select_result.html',1,'poggit::libasynql::result']]],
-  ['sqlthread',['SqlThread',['../interfacepoggit_1_1libasynql_1_1_sql_thread.html',1,'poggit::libasynql']]],
-  ['sqlthreadpool',['SqlThreadPool',['../classpoggit_1_1libasynql_1_1base_1_1_sql_thread_pool.html',1,'poggit::libasynql::base']]]
+  ['mysqlcolumninfo',['MysqlColumnInfo',['../classpoggit_1_1libasynql_1_1mysqli_1_1_mysql_column_info.html',1,'poggit::libasynql::mysqli']]],
+  ['mysqlcredentials',['MysqlCredentials',['../classpoggit_1_1libasynql_1_1mysqli_1_1_mysql_credentials.html',1,'poggit::libasynql::mysqli']]],
+  ['mysqlflags',['MysqlFlags',['../interfacepoggit_1_1libasynql_1_1mysqli_1_1_mysql_flags.html',1,'poggit::libasynql::mysqli']]],
+  ['mysqlithread',['MysqliThread',['../classpoggit_1_1libasynql_1_1mysqli_1_1_mysqli_thread.html',1,'poggit::libasynql::mysqli']]],
+  ['mysqlstatementimpl',['MysqlStatementImpl',['../classpoggit_1_1libasynql_1_1generic_1_1_mysql_statement_impl.html',1,'poggit::libasynql::generic']]],
+  ['mysqltypes',['MysqlTypes',['../interfacepoggit_1_1libasynql_1_1mysqli_1_1_mysql_types.html',1,'poggit::libasynql::mysqli']]]
 ];

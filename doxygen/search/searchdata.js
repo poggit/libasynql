@@ -1,11 +1,12 @@
 var indexSectionsWithContent =
 {
   0: "$_abcdefghijlmnopqrstuvyz",
-  1: "bdgmqs",
+  1: "cdeglmqs",
   2: "p",
-  3: "bdgmqs",
+  3: "cdeglmqrs",
   4: "_acefghijlnprs",
-  5: "$abdefgilmnopstuvyz"
+  5: "$abdefgilmnopstuvyz",
+  6: "l"
 };
 
 var indexSectionNames =
@@ -15,7 +16,8 @@ var indexSectionNames =
   2: "namespaces",
   3: "files",
   4: "functions",
-  5: "variables"
+  5: "variables",
+  6: "pages"
 };
 
 var indexSectionLabels =
@@ -25,6 +27,7 @@ var indexSectionLabels =
   2: "Namespaces",
   3: "Files",
   4: "Functions",
-  5: "Variables"
+  5: "Variables",
+  6: "Pages"
 };
 

@@ -1,6 +1,7 @@
 var NAVTREE =
 [
   [ "libasynql", "index.html", [
+    [ "libasynql v3.0.0 <img src=\"https://poggit.pmmp.io/ci.badge/poggit/libasynql/libasynql\" align=\"right\"/>", "index.html", null ],
     [ "Namespaces", null, [
       [ "Namespace List", "namespaces.html", "namespaces" ]
     ] ],
@@ -22,8 +23,8 @@ var NAVTREE =
 
 var NAVTREEINDEX =
 [
-"_base_sql_thread_8php.html",
-"interfacepoggit_1_1libasynql_1_1mysql_1_1_mysql_types.html#a21a03e42b9a6cc8851d3c7459831f554"
+"_config_exception_8php.html",
+"interfacepoggit_1_1libasynql_1_1mysqli_1_1_mysql_flags.html#a48c6d676973f6ccd8c4292a78e58ec91"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

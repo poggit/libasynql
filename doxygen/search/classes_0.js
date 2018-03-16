@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['basesqlthread',['BaseSqlThread',['../classpoggit_1_1libasynql_1_1base_1_1_base_sql_thread.html',1,'poggit::libasynql::base']]]
+  ['configexception',['ConfigException',['../classpoggit_1_1libasynql_1_1_config_exception.html',1,'poggit::libasynql']]]
 ];

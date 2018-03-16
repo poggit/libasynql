@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="robots" content="index, follow, all" />
+    <title>poggit\libasynql\base\DataConnectorImpl | libasynql 3.0.0</title>
+
+            <link rel="stylesheet" type="text/css" href="../../../css/bootstrap.min.css">
+        <link rel="stylesheet" type="text/css" href="../../../css/bootstrap-theme.min.css">
+        <link rel="stylesheet" type="text/css" href="../../../css/sami.css">
+        <script src="../../../js/jquery-1.11.1.min.js"></script>
+        <script src="../../../js/bootstrap.min.js"></script>
+        <script src="../../../js/typeahead.min.js"></script>
+        <script src="../../../sami.js"></script>
+        <meta name="MobileOptimized" content="width">
+        <meta name="HandheldFriendly" content="true">
+        <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+    
+    
+    </head>
+
+    <body id="class" data-name="class:poggit_libasynql_base_DataConnectorImpl" data-root-path="../../../">
+            <div id="content">
+        <div id="left-column">
+                <div id="control-panel">
+                <script>
+            $('option[data-version="'+window.projectVersion+'"]').prop('selected', true);
+        </script>
+        <form id="search-form" action="../../../search.html" method="GET">
+            <span class="glyphicon glyphicon-search"></span>
+            <input name="search"
+                   class="typeahead form-control"
+                   type="search"
+                   placeholder="Search">
+        </form>
+    </div>
+
+                <div id="api-tree"></div>
+
+        </div>
+        <div id="right-column">
+                <nav id="site-nav" class="navbar navbar-default" role="navigation">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-elements">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="../../../index.html">libasynql 3.0.0</a>
+            </div>
+            <div class="collapse navbar-collapse" id="navbar-elements">
+                <ul class="nav navbar-nav">
+                    <li><a href="../../../classes.html">Classes</a></li>
+                                            <li><a href="../../../namespaces.html">Namespaces</a></li>
+                                        <li><a href="../../../interfaces.html">Interfaces</a></li>
+                    <li><a href="../../../traits.html">Traits</a></li>
+                    <li><a href="../../../doc-index.html">Index</a></li>
+                    <li><a href="../../../search.html">Search</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+                        <div class="namespace-breadcrumbs">
+            <ol class="breadcrumb">
+                <li><span class="label label-default">class</span></li>
+                        <li><a href="../../../poggit.html">poggit</a></li><li class="backslash">\</li><li><a href="../../../poggit/libasynql.html">libasynql</a></li><li class="backslash">\</li><li><a href="../../../poggit/libasynql/base.html">base</a></li><li class="backslash">\</li><li>DataConnectorImpl</li>
+            </ol>
+        </div>
+                <div id="page-content">
+                
+    <div class="page-header">
+        <h1>
+            DataConnectorImpl
+                
+        </h1>
+    </div>
+
+    <p>    class
+    <strong>DataConnectorImpl</strong>        implements
+        <a href="../../../poggit/libasynql/DataConnector.html"><abbr title="poggit\libasynql\DataConnector">DataConnector</abbr></a>        (<a href="https://github.com/poggit/libasynql/blob/master/libasynql/src/poggit/libasynql/base/DataConnectorImpl.php">View source</a>)
+</p>
+
+        
+    
+
+    
+    
+    
+    
+            <h2>Methods</h2>
+
+            <div class="container-fluid underlined">
+                    <div class="row">
+                <div class="col-md-2 type">
+                    
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method___construct">__construct</a>(<a href="../../../poggit/libasynql/SqlThread.html"><abbr title="poggit\libasynql\SqlThread">SqlThread</abbr></a> $thread, string|null $placeHolder)
+        
+                                            <p class="no-description">No description</p>
+                                    </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_loadQueryFile">loadQueryFile</a>(resource $fh)
+        
+                                            <p>Loads pre-formatted queries from a readable stream resource.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_loadQuery">loadQuery</a>(<a href="../../../poggit/libasynql/GenericStatement.html"><abbr title="poggit\libasynql\GenericStatement">GenericStatement</abbr></a> $stmt)
+        
+                                            <p>Loads a pre-formatted query.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_executeGeneric">executeGeneric</a>(string $queryName, array $args, callable|null $onSuccess = null, callable|null $onError = null)
+        
+                                            <p>Executes a generic query that either succeeds or fails.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_executeChange">executeChange</a>(string $queryName, array $args, callable|null $onSuccess = null, callable|null $onError = null)
+        
+                                            <p>Executes a query that changes data.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_executeInsert">executeInsert</a>(string $queryName, array $args, callable|null $onInserted = null, callable|null $onError = null)
+        
+                                            <p>Executes an insert query that results in an insert ID.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_executeSelect">executeSelect</a>(string $queryName, array $args, callable|null $onSelect = null, callable|null $onError = null)
+        
+                                            <p>Executes a select query that returns an SQL result set. This does not strictly need to be SELECT queries -- reflection queries like MySQL's <code>SHOW TABLES</code> query are also allowed.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_close">close</a>()
+        
+                                            <p>Closes the connection and/or all child connections. Remember to call this method when the plugin is disabled or the data provider is switched.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+            </div>
+
+
+        <h2>Details</h2>
+
+            <div id="method-details">
+                    <div class="method-item">
+                    <h3 id="method___construct">
+        <div class="location">at         <a href="https://github.com/poggit/libasynql/blob/master/libasynql/src/poggit/libasynql/base/DataConnectorImpl.php#L50">line 50</a></div>
+        <code>                    
+    <strong>__construct</strong>(<a href="../../../poggit/libasynql/SqlThread.html"><abbr title="poggit\libasynql\SqlThread">SqlThread</abbr></a> $thread, string|null $placeHolder)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td><a href="../../../poggit/libasynql/SqlThread.html"><abbr title="poggit\libasynql\SqlThread">SqlThread</abbr></a></td>
+                <td>$thread</td>
+                <td>the backend SqlThread to connect with</td>
+            </tr>
+                    <tr>
+                <td>string|null</td>
+                <td>$placeHolder</td>
+                <td>the backend-implementation-dependent placeholder. <code>"?"</code> for mysqli-based backends, <code>null</code> for PDO-based and SQLite3-based backends.</td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_loadQueryFile">
+        <div class="location">at         <a href="https://github.com/poggit/libasynql/blob/master/libasynql/src/poggit/libasynql/base/DataConnectorImpl.php#L55">line 55</a></div>
+        <code>                    
+    <strong>loadQueryFile</strong>(resource $fh)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Loads pre-formatted queries from a readable stream resource.</p>                    <p>The implementation will close the stream after reading.</p>                            </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>resource</td>
+                <td>$fh</td>
+                <td>a stream that supports <code>feof()</code>, <code>fgets()</code> and <code>fclose()</code>.</td>
+            </tr>
+            </table>
+
+            
+            
+                            <h4>Exceptions</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td><a href="../../../poggit/libasynql/generic/GenericStatementFileParseException.html"><abbr title="poggit\libasynql\generic\GenericStatementFileParseException">GenericStatementFileParseException</abbr></a></td>
+                <td>if the file contains a syntax error or compile error</td>
+            </tr>
+                    <tr>
+                <td><a target="_blank" href="http://php.net/InvalidArgumentException">InvalidArgumentException</a></td>
+                <td>if the file introduces statements that duplicate the names of those previously loaded</td>
+            </tr>
+            </table>
+
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_loadQuery">
+        <div class="location">at         <a href="https://github.com/poggit/libasynql/blob/master/libasynql/src/poggit/libasynql/base/DataConnectorImpl.php#L63">line 63</a></div>
+        <code>                    
+    <strong>loadQuery</strong>(<a href="../../../poggit/libasynql/GenericStatement.html"><abbr title="poggit\libasynql\GenericStatement">GenericStatement</abbr></a> $stmt)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Loads a pre-formatted query.</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td><a href="../../../poggit/libasynql/GenericStatement.html"><abbr title="poggit\libasynql\GenericStatement">GenericStatement</abbr></a></td>
+                <td>$stmt</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+            
+                            <h4>Exceptions</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td><a target="_blank" href="http://php.net/InvalidArgumentException">InvalidArgumentException</a></td>
+                <td>if the statement duplicates the name of one previously loaded</td>
+            </tr>
+            </table>
+
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_executeGeneric">
+        <div class="location">at         <a href="https://github.com/poggit/libasynql/blob/master/libasynql/src/poggit/libasynql/base/DataConnectorImpl.php#L70">line 70</a></div>
+        <code>                    
+    <strong>executeGeneric</strong>(string $queryName, array $args, callable|null $onSuccess = null, callable|null $onError = null)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Executes a generic query that either succeeds or fails.</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>string</td>
+                <td>$queryName</td>
+                <td>the {@link GenericPreparedStatement} query name</td>
+            </tr>
+                    <tr>
+                <td>array</td>
+                <td>$args</td>
+                <td>the variables as defined in the {@link GenericPreparedStatement}</td>
+            </tr>
+                    <tr>
+                <td>callable|null</td>
+                <td>$onSuccess</td>
+                <td>an optional callback when the query has succeeded: <code>function() : void{}</code></td>
+            </tr>
+                    <tr>
+                <td>callable|null</td>
+                <td>$onError</td>
+                <td>an optional callback when the query has failed: <code>function({@link SqlError} $error) : void{}</code></td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_executeChange">
+        <div class="location">at         <a href="https://github.com/poggit/libasynql/blob/master/libasynql/src/poggit/libasynql/base/DataConnectorImpl.php#L84">line 84</a></div>
+        <code>                    
+    <strong>executeChange</strong>(string $queryName, array $args, callable|null $onSuccess = null, callable|null $onError = null)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Executes a query that changes data.</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>string</td>
+                <td>$queryName</td>
+                <td>the {@link GenericPreparedStatement} query name</td>
+            </tr>
+                    <tr>
+                <td>array</td>
+                <td>$args</td>
+                <td>the variables as defined in the {@link GenericPreparedStatement}</td>
+            </tr>
+                    <tr>
+                <td>callable|null</td>
+                <td>$onSuccess</td>
+                <td>an optional callback when the query has succeeded: <code>function(int $affectedRows) : void{}</code></td>
+            </tr>
+                    <tr>
+                <td>callable|null</td>
+                <td>$onError</td>
+                <td>an optional callback when the query has failed: <code>function({@link SqlError} $error) : void{}</code></td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_executeInsert">
+        <div class="location">at         <a href="https://github.com/poggit/libasynql/blob/master/libasynql/src/poggit/libasynql/base/DataConnectorImpl.php#L99">line 99</a></div>
+        <code>                    
+    <strong>executeInsert</strong>(string $queryName, array $args, callable|null $onInserted = null, callable|null $onError = null)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Executes an insert query that results in an insert ID.</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>string</td>
+                <td>$queryName</td>
+                <td>the {@link GenericPreparedStatement} query name</td>
+            </tr>
+                    <tr>
+                <td>array</td>
+                <td>$args</td>
+                <td>the variables as defined in the {@link GenericPreparedStatement}</td>
+            </tr>
+                    <tr>
+                <td>callable|null</td>
+                <td>$onInserted</td>
+                <td>an optional callback when the query has succeeded: <code>function(int $insertId, callable $affectedRows) : void{}</code></td>
+            </tr>
+                    <tr>
+                <td>callable|null</td>
+                <td>$onError</td>
+                <td>an optional callback when the query has failed: <code>function({@link SqlError} $error) : void{}</code></td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_executeSelect">
+        <div class="location">at         <a href="https://github.com/poggit/libasynql/blob/master/libasynql/src/poggit/libasynql/base/DataConnectorImpl.php#L114">line 114</a></div>
+        <code>                    
+    <strong>executeSelect</strong>(string $queryName, array $args, callable|null $onSelect = null, callable|null $onError = null)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Executes a select query that returns an SQL result set. This does not strictly need to be SELECT queries -- reflection queries like MySQL's <code>SHOW TABLES</code> query are also allowed.</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>string</td>
+                <td>$queryName</td>
+                <td>the {@link GenericPreparedStatement} query name</td>
+            </tr>
+                    <tr>
+                <td>array</td>
+                <td>$args</td>
+                <td>the variables as defined in the {@link GenericPreparedStatement}</td>
+            </tr>
+                    <tr>
+                <td>callable|null</td>
+                <td>$onSelect</td>
+                <td>an optional callback when the query has succeeded: <code>function({@link \poggit\libasynql\result\SqlSelectResult SqlSelectResult} $result) : void{}</code></td>
+            </tr>
+                    <tr>
+                <td>callable|null</td>
+                <td>$onError</td>
+                <td>an optional callback when the query has failed: <code>function({@link SqlError} $error) : void{}</code></td>
+            </tr>
+            </table>
+
+            
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_close">
+        <div class="location">at         <a href="https://github.com/poggit/libasynql/blob/master/libasynql/src/poggit/libasynql/base/DataConnectorImpl.php#L140">line 140</a></div>
+        <code>                    
+    <strong>close</strong>()
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Closes the connection and/or all child connections. Remember to call this method when the plugin is disabled or the data provider is switched.</p>                                                </div>
+                <div class="tags">
+            
+            
+            
+                    </div>
+    </div>
+
+            </div>
+            </div>
+
+    
+            </div>
+                <div id="footer">
+        Generated by <a href="http://sami.sensiolabs.org/">Sami, the API Documentation Generator</a>.
+    </div>
+
+        </div>
+    </div>
+    </body>
+
+</html>

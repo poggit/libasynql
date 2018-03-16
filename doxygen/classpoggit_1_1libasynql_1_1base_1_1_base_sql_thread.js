@@ -2,10 +2,10 @@ var classpoggit_1_1libasynql_1_1base_1_1_base_sql_thread =
 [
     [ "__construct", "classpoggit_1_1libasynql_1_1base_1_1_base_sql_thread.html#ae0cd224ef232e017ae3cf039e37083ea", null ],
     [ "addQuery", "classpoggit_1_1libasynql_1_1base_1_1_base_sql_thread.html#a3e667144da13484c61020f75d2e76cd8", null ],
-    [ "close", "classpoggit_1_1libasynql_1_1base_1_1_base_sql_thread.html#aa69c8bf1f1dcf4e72552efff1fe3e87e", null ],
+    [ "close", "classpoggit_1_1libasynql_1_1base_1_1_base_sql_thread.html#a12115cf61756d807d28de0fe09c3d89d", null ],
     [ "connCreated", "classpoggit_1_1libasynql_1_1base_1_1_base_sql_thread.html#ae47681b8648610e27fedf7cdf0cb87dd", null ],
-    [ "createConn", "classpoggit_1_1libasynql_1_1base_1_1_base_sql_thread.html#af3f362f5ef8b8c02599ce362914a19a7", null ],
-    [ "executeQuery", "classpoggit_1_1libasynql_1_1base_1_1_base_sql_thread.html#ac0fe5c319856a0cc26f801858b67962b", null ],
+    [ "createConn", "classpoggit_1_1libasynql_1_1base_1_1_base_sql_thread.html#a8fc78ae034fe104d676d7d85d97cd79c", null ],
+    [ "executeQuery", "classpoggit_1_1libasynql_1_1base_1_1_base_sql_thread.html#af89e2df350835bfa2528eceab366ccf0", null ],
     [ "getConnError", "classpoggit_1_1libasynql_1_1base_1_1_base_sql_thread.html#a8f8b3166d1a961b00ef91439b6d0e505", null ],
     [ "hasConnError", "classpoggit_1_1libasynql_1_1base_1_1_base_sql_thread.html#a155f9e9704a43590a1b56601d298ba86", null ],
     [ "isWorking", "classpoggit_1_1libasynql_1_1base_1_1_base_sql_thread.html#a32d46a484505d7311bd5b5d55fa2fe57", null ],

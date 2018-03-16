@@ -99,30 +99,29 @@
                 <div class="col-md-8 type">
                     <a href="#method___construct">__construct</a>(array $columnInfo, array $rows)
         
-                                            <p class="no-description">No description</p>
-                                    </div>
+                                            <p>SqlSelectResult constructor.</p>                </div>
                 <div class="col-md-2"></div>
             </div>
                     <div class="row">
                 <div class="col-md-2 type">
-                    
+                    <a href="../../../poggit/libasynql/result/SqlColumnInfo.html"><abbr title="poggit\libasynql\result\SqlColumnInfo">SqlColumnInfo</abbr></a>[]
                 </div>
                 <div class="col-md-8 type">
                     <a href="#method_getColumnInfo">getColumnInfo</a>()
         
-                                            <p class="no-description">No description</p>
-                                    </div>
+                                            <p>Returns the columns from the query</p>                </div>
                 <div class="col-md-2"></div>
             </div>
                     <div class="row">
                 <div class="col-md-2 type">
-                    
+                    array[]
                 </div>
                 <div class="col-md-8 type">
                     <a href="#method_getRows">getRows</a>()
         
-                                            <p class="no-description">No description</p>
-                                    </div>
+                                            <p>Returns an array of rows. Each row is an array with keys as the virtual column name and values as the cell value. The type of cells are juggled with the following special points:
+- <code>TINYINT(1)</code> and <code>BIT(1) in MySQL are expressed in <code>bool</code>
+- Signed <code>long long</code>, a.k.a. <code>BIGINT [SIGNED]</code>, i.e. 64-bit unsigned integers, are expressed in <code>int</code>, because PocketMine only supports 64-bit machines.</p>                </div>
                 <div class="col-md-2"></div>
             </div>
             </div>
@@ -133,7 +132,7 @@
             <div id="method-details">
                     <div class="method-item">
                     <h3 id="method___construct">
-        <div class="location">at         <a href="https://github.com/poggit/libasynql/blob/master/libasynql/src/poggit/libasynql/result/SqlSelectResult.php#L31">line 31</a></div>
+        <div class="location">at         <a href="https://github.com/poggit/libasynql/blob/master/libasynql/src/poggit/libasynql/result/SqlSelectResult.php#L37">line 37</a></div>
         <code>                    
     <strong>__construct</strong>(array $columnInfo, array $rows)
         </code>
@@ -142,6 +141,8 @@
             
     
 
+                    <div class="method-description">
+                                    <p>SqlSelectResult constructor.</p>                                                </div>
                 <div class="tags">
                             <h4>Parameters</h4>
 
@@ -167,8 +168,8 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_getColumnInfo">
-        <div class="location">at         <a href="https://github.com/poggit/libasynql/blob/master/libasynql/src/poggit/libasynql/result/SqlSelectResult.php#L36">line 36</a></div>
-        <code>                    
+        <div class="location">at         <a href="https://github.com/poggit/libasynql/blob/master/libasynql/src/poggit/libasynql/result/SqlSelectResult.php#L47">line 47</a></div>
+        <code>                    <a href="../../../poggit/libasynql/result/SqlColumnInfo.html"><abbr title="poggit\libasynql\result\SqlColumnInfo">SqlColumnInfo</abbr></a>[]
     <strong>getColumnInfo</strong>()
         </code>
     </h3>
@@ -176,8 +177,19 @@
             
     
 
+                    <div class="method-description">
+                                    <p>Returns the columns from the query</p>                                                </div>
                 <div class="tags">
             
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td><a href="../../../poggit/libasynql/result/SqlColumnInfo.html"><abbr title="poggit\libasynql\result\SqlColumnInfo">SqlColumnInfo</abbr></a>[]</td>
+            <td></td>
+        </tr>
+    </table>
+
             
             
                     </div>
@@ -186,8 +198,8 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_getRows">
-        <div class="location">at         <a href="https://github.com/poggit/libasynql/blob/master/libasynql/src/poggit/libasynql/result/SqlSelectResult.php#L40">line 40</a></div>
-        <code>                    
+        <div class="location">at         <a href="https://github.com/poggit/libasynql/blob/master/libasynql/src/poggit/libasynql/result/SqlSelectResult.php#L60">line 60</a></div>
+        <code>                    array[]
     <strong>getRows</strong>()
         </code>
     </h3>
@@ -195,8 +207,25 @@
             
     
 
+                    <div class="method-description">
+                                    <p>Returns an array of rows. Each row is an array with keys as the virtual column name and values as the cell value. The type of cells are juggled with the following special points:
+- <code>TINYINT(1)</code> and <code>BIT(1) in MySQL are expressed in <code>bool</code>
+- Signed <code>long long</code>, a.k.a. <code>BIGINT [SIGNED]</code>, i.e. 64-bit unsigned integers, are expressed in <code>int</code>, because PocketMine only supports 64-bit machines.</p>                    <p><ul>
+<li>Unsigned <code>long long</code>, a.k.a. <code>BIGINT [SIGNED]</code>, i.e. 64-bit unsigned integers, are also expressed in <code>int</code>. If it exceeds <code>PHP_INT_MAX</code>, it overflows natively, i.e. <b>PHP_INT_MAX + 1 becomes PHP_INT_MIN</b>, which is different from both mysqli's implementation and PHP's behaviour.</li>
+<li>Timestamps will be converted to a {@link https://php.net/date date()}-compatible UNIX timestamp in seconds. This is different from the normal mysqli behaviour, where string timestamps are returned.</li>
+</ul>
+</p>                            </div>
                 <div class="tags">
             
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>array[]</td>
+            <td></td>
+        </tr>
+    </table>
+
             
             
                     </div>

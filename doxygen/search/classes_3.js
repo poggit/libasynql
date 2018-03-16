@@ -1,9 +1,8 @@
 var searchData=
 [
-  ['mysqlcolumninfo',['MysqlColumnInfo',['../classpoggit_1_1libasynql_1_1mysql_1_1_mysql_column_info.html',1,'poggit::libasynql::mysql']]],
-  ['mysqlcredentials',['MysqlCredentials',['../classpoggit_1_1libasynql_1_1mysql_1_1_mysql_credentials.html',1,'poggit::libasynql::mysql']]],
-  ['mysqlflags',['MysqlFlags',['../interfacepoggit_1_1libasynql_1_1mysql_1_1_mysql_flags.html',1,'poggit::libasynql::mysql']]],
-  ['mysqlstatementimpl',['MysqlStatementImpl',['../classpoggit_1_1libasynql_1_1generic_1_1_mysql_statement_impl.html',1,'poggit::libasynql::generic']]],
-  ['mysqlthread',['MysqlThread',['../classpoggit_1_1libasynql_1_1mysql_1_1_mysql_thread.html',1,'poggit::libasynql::mysql']]],
-  ['mysqltypes',['MysqlTypes',['../interfacepoggit_1_1libasynql_1_1mysql_1_1_mysql_types.html',1,'poggit::libasynql::mysql']]]
+  ['genericstatement',['GenericStatement',['../interfacepoggit_1_1libasynql_1_1_generic_statement.html',1,'poggit::libasynql']]],
+  ['genericstatementfileparseexception',['GenericStatementFileParseException',['../classpoggit_1_1libasynql_1_1generic_1_1_generic_statement_file_parse_exception.html',1,'poggit::libasynql::generic']]],
+  ['genericstatementfileparser',['GenericStatementFileParser',['../classpoggit_1_1libasynql_1_1generic_1_1_generic_statement_file_parser.html',1,'poggit::libasynql::generic']]],
+  ['genericstatementimpl',['GenericStatementImpl',['../classpoggit_1_1libasynql_1_1generic_1_1_generic_statement_impl.html',1,'poggit::libasynql::generic']]],
+  ['genericvariable',['GenericVariable',['../classpoggit_1_1libasynql_1_1generic_1_1_generic_variable.html',1,'poggit::libasynql::generic']]]
 ];
