@@ -40,5 +40,9 @@ var hierarchy =
     ] ],
     [ "Thread", null, [
       [ "BaseSqlThread", "classpoggit_1_1libasynql_1_1base_1_1_base_sql_thread.html", null ]
+    ] ],
+    [ "Threaded", null, [
+      [ "QueryRecvQueue", "classpoggit_1_1libasynql_1_1base_1_1_query_recv_queue.html", null ],
+      [ "QuerySendQueue", "classpoggit_1_1libasynql_1_1base_1_1_query_send_queue.html", null ]
     ] ]
 ];

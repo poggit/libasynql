@@ -1,5 +1,7 @@
 var searchData=
 [
+  ['fetchquery',['fetchQuery',['../classpoggit_1_1libasynql_1_1base_1_1_query_send_queue.html#a8a74769e16c986db3ff4f3071b070556',1,'poggit::libasynql::base::QuerySendQueue']]],
+  ['fetchresult',['fetchResult',['../classpoggit_1_1libasynql_1_1base_1_1_query_recv_queue.html#a5c13ff393a3e699ac83c0751c0cbab35',1,'poggit::libasynql::base::QueryRecvQueue']]],
   ['field_5fin_5fpart_5ffunc_5fflag',['FIELD_IN_PART_FUNC_FLAG',['../interfacepoggit_1_1libasynql_1_1mysql_1_1_mysql_flags.html#a7d36ab66dbff57656efce1c25961231b',1,'poggit::libasynql::mysql::MysqlFlags']]],
   ['float',['FLOAT',['../interfacepoggit_1_1libasynql_1_1mysql_1_1_mysql_types.html#a21a03e42b9a6cc8851d3c7459831f554',1,'poggit::libasynql::mysql::MysqlTypes']]],
   ['fordialect',['forDialect',['../classpoggit_1_1libasynql_1_1generic_1_1_generic_statement_impl.html#af0a0b54f852550458f624242ed944254',1,'poggit::libasynql::generic::GenericStatementImpl']]],

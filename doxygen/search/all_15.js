@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['var_5fstring',['VAR_STRING',['../interfacepoggit_1_1libasynql_1_1mysql_1_1_mysql_types.html#a8b9d614006fa92a01df4fc33b9a132cc',1,'poggit::libasynql::mysql::MysqlTypes']]],
-  ['varchar',['VARCHAR',['../interfacepoggit_1_1libasynql_1_1mysql_1_1_mysql_types.html#a076027c871430c0764181c7f49d0147b',1,'poggit::libasynql::mysql::MysqlTypes']]]
+  ['unique_5fkey_5fflag',['UNIQUE_KEY_FLAG',['../interfacepoggit_1_1libasynql_1_1mysql_1_1_mysql_flags.html#a0814dd3c540385f6dd95a2b7282dbdff',1,'poggit::libasynql::mysql::MysqlFlags']]],
+  ['unsigned_5fflag',['UNSIGNED_FLAG',['../interfacepoggit_1_1libasynql_1_1mysql_1_1_mysql_flags.html#af0d0684c32ee666909cda30bf861d9d6',1,'poggit::libasynql::mysql::MysqlFlags']]]
 ];
