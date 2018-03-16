@@ -78,12 +78,6 @@ A Prepared Statement File (PSF) contains the queries that a plugin uses. The con
 
 The PSF is annotated by "command lines", which start with `-- #`, followed by the command symbol, then the arguments. Between the `#` and the command symbol, there can be zero to infinite spaces or tabs; between the command symbol and the arguments, there can also be zero to infinite spaces or tabs. Between every two arguments, one to infinite spaces or tabs are required.
 
-In other words, this is the regular expression for a command line:
-
-```RegExp
--- #[ \t]*([!\{\}:])[ \t]*([^ \t]+)([ \t]+([^ \t]+))*
-```
-
 ### Dialect declaration
 A PSF always starts with a dialect declaration.
 
