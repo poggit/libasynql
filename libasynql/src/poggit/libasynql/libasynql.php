@@ -123,7 +123,7 @@ final class libasynql{
 			throw new SqlError(SqlError::STAGE_CONNECT, $pool->getConnError());
 		}
 
-		$connector = new DataConnectorImpl($pool, $placeHolder);
+		$connector = new DataConnectorImpl($plugin, $pool, $placeHolder);
 		foreach(is_string($sqlMap[$dialect]) ? [$sqlMap[$dialect]] : $sqlMap[$dialect] as $file){
 			$connector->loadQueryFile($plugin->getResource($file));
 		}

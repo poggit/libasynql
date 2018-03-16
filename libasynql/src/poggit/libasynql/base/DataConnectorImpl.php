@@ -23,6 +23,7 @@ declare(strict_types=1);
 namespace poggit\libasynql\base;
 
 use InvalidArgumentException;
+use pocketmine\plugin\Plugin;
 use poggit\libasynql\DataConnector;
 use poggit\libasynql\generic\GenericStatementFileParser;
 use poggit\libasynql\GenericStatement;
@@ -32,8 +33,11 @@ use poggit\libasynql\result\SqlSelectResult;
 use poggit\libasynql\SqlError;
 use poggit\libasynql\SqlThread;
 use function assert;
+use function json_encode;
 
 class DataConnectorImpl implements DataConnector{
+	/** @var Plugin */
+	private $plugin;
 	/** @var SqlThread */
 	private $thread;
 	/** @var GenericStatement[] */
@@ -44,10 +48,12 @@ class DataConnectorImpl implements DataConnector{
 	private $placeHolder;
 
 	/**
+	 * @param Plugin      $plugin
 	 * @param SqlThread   $thread      the backend SqlThread to connect with
 	 * @param null|string $placeHolder the backend-implementation-dependent placeholder. <code>"?"</code> for mysqli-based backends, <code>null</code> for PDO-based and SQLite3-based backends.
 	 */
-	public function __construct(SqlThread $thread, ?string $placeHolder){
+	public function __construct(Plugin $plugin, SqlThread $thread, ?string $placeHolder){
+		$this->plugin = $plugin;
 		$this->thread = $thread;
 		$this->placeHolder = $placeHolder;
 	}
@@ -67,12 +73,10 @@ class DataConnectorImpl implements DataConnector{
 		$this->queries[$stmt->getName()] = $stmt;
 	}
 
-	public function executeGeneric(string $queryName, array $args, ?callable $onSuccess = null, ?callable $onError = null) : void{
+	public function executeGeneric(string $queryName, array $args = [], ?callable $onSuccess = null, ?callable $onError = null) : void{
 		$this->executeImpl($queryName, $args, SqlThread::MODE_GENERIC, function($result) use ($onSuccess, $onError){
 			if($result instanceof SqlError){
-				if($onError !== null){
-					$onError($result);
-				}
+				$this->reportError($onError, $result);
 			}else{
 				if($onSuccess !== null){
 					$onSuccess();
@@ -81,12 +85,10 @@ class DataConnectorImpl implements DataConnector{
 		});
 	}
 
-	public function executeChange(string $queryName, array $args, ?callable $onSuccess = null, ?callable $onError = null) : void{
+	public function executeChange(string $queryName, array $args = [], ?callable $onSuccess = null, ?callable $onError = null) : void{
 		$this->executeImpl($queryName, $args, SqlThread::MODE_CHANGE, function($result) use ($onSuccess, $onError){
 			if($result instanceof SqlError){
-				if($onError !== null){
-					$onError($result);
-				}
+				$this->reportError($onError, $result);
 			}else{
 				assert($result instanceof SqlChangeResult);
 				if($onSuccess !== null){
@@ -96,12 +98,10 @@ class DataConnectorImpl implements DataConnector{
 		});
 	}
 
-	public function executeInsert(string $queryName, array $args, ?callable $onInserted = null, ?callable $onError = null) : void{
+	public function executeInsert(string $queryName, array $args = [], ?callable $onInserted = null, ?callable $onError = null) : void{
 		$this->executeImpl($queryName, $args, SqlThread::MODE_INSERT, function($result) use ($onInserted, $onError){
 			if($result instanceof SqlError){
-				if($onError !== null){
-					$onError($result);
-				}
+				$this->reportError($onError, $result);
 			}else{
 				assert($result instanceof SqlInsertResult);
 				if($onInserted !== null){
@@ -111,12 +111,10 @@ class DataConnectorImpl implements DataConnector{
 		});
 	}
 
-	public function executeSelect(string $queryName, array $args, ?callable $onSelect = null, ?callable $onError = null) : void{
+	public function executeSelect(string $queryName, array $args = [], ?callable $onSelect = null, ?callable $onError = null) : void{
 		$this->executeImpl($queryName, $args, SqlThread::MODE_INSERT, function($result) use ($onSelect, $onError){
 			if($result instanceof SqlError){
-				if($onError !== null){
-					$onError($result);
-				}
+				$this->reportError($onError, $result);
 			}else{
 				assert($result instanceof SqlSelectResult);
 				if($onSelect !== null){
@@ -135,6 +133,24 @@ class DataConnectorImpl implements DataConnector{
 		}
 		$query = $this->queries[$queryName]->format($args, $this->placeHolder, $outArgs);
 		$this->thread->addQuery($queryId, $mode, $query, $outArgs);
+	}
+
+	private function reportError(callable $default, SqlError $error){
+		if($default !== null){
+			$default($error);
+		}else{
+			$this->plugin->getLogger()->error($error->getMessage());
+			if($error->getQuery() !== null){
+				$this->plugin->getLogger()->debug("Query: " . $error->getQuery());
+			}
+			if($error->getArgs() !== null){
+				$this->plugin->getLogger()->debug("Args: " . json_encode($error->getArgs()));
+			}
+		}
+	}
+
+	public function checkResults() : void{
+		$this->thread->readResults($this->handlers);
 	}
 
 	public function close() : void{
