@@ -1,5 +1,77 @@
-# libasynql [![Poggit-CI](https://poggit.pmmp.io/ci.badge/poggit/libasynql/libasynql)](https://poggit.pmmp.io/ci/poggit/libasynql/libasynql)
+# libasynql v3.0.0 <img src="https://poggit.pmmp.io/ci.badge/poggit/libasynql/libasynql" align="right"/>
 Asynchronous SQL access library for PocketMine plugins.
+
+## Usage
+The basic use of libasynql has 5 steps:
+1. Add default database settings in your `config.yml`.
+2. Write down all the SQL queries you will use in a resource file
+3. Initialize the database in `onEnable()`.
+4. Finalize the database in `onDisable()`.
+5. Obviously, and most importantly, use libasynql in your code.
+
+### Configuration
+To let the user choose what database to use, copy the following into your default `config.yml`. Remember to change the default schema name under `mysql`.
+
+```yaml
+database:
+  # The database type. "sqlite" and "mysql" are supported.
+  type: sqlite
+
+  # Edit these settings only if you choose "sqlite".
+  sqlite:
+    # The file name of the database in the plugin data folder.
+    # You can also put an absolute path here.
+    file: data.sqlite
+  # Edit these settings only if you choose "mysql".
+  mysql:
+    host: 127.0.0.1
+    # Avoid using the "root" user for security reasons.
+    username: root
+    password: ""
+    schema: your_schema
+```
+
+### Initialization and Finalization
+libasynql simplifies the process of initializing a database into a single function call.
+
+```php
+use pocketmine\plugin\PluginBase;
+use poggit\libasynql\libasynql;
+
+class Main extends PluginBase{
+    private $database;
+
+    public function onEnable(){
+        $this->saveDefaultConfig();
+        $this->database = libasynql::create($this, $this->getConfig()->get("database"), [
+            "sqlite" => "sqlite.sql",
+            "mysql" => "mysql.sql"
+        ]);
+    }
+
+    public function onDisable(){
+        if($this->database) $this->database->close();
+    }
+}
+```
+
+`sqlite.sql` and `mysql.sql` are the files we are going to create in the next step.
+
+### Creating SQL files
+In the resources file, create one file for each SQL dialect you are supporting, e.g. `resources/sqlite.sql` and `resources/mysql.sql`.
+
+Write down all the queries you are going to use in each file, using the [Prepared Statement File format](#prepared-statement-file-format).
+
+### Calling libasynql functions
+Finally, we are prepared to use libasynql in code!
+
+There are 4 query modes you can ues: GENERIC, CHANGE, INSERT and SELECT.
+- GENERIC: You don't want to know anything about the query except whether it is successful. You may want to use this in `CREATE TABLE` statements.
+- CHANGE: Your query modifies the database, and you want to know how many rows are changed. Useful in `UPDATE`/`DELETE` statements.
+- INSERT: Your query is an `INSERT INTO` query for a table with an `AUTO_INCREMENT` key. You will receive the auto-incremented row ID.
+- SELECT: Your query expects a result set, e.g. a `SELECT` statement, or reflection queries like `EXPLAIN` and `SHOW TABLES`. You will receive a `SqlSelectResult` object that represents the columns and rows returned.
+
+
 
 ## Prepared Statement File Format
 A Prepared Statement File (PSF) contains the queries that a plugin uses. The content is valid SQL, so it is OK to edit with a normal SQL editor.

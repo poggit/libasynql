@@ -20,13 +20,12 @@
 
 declare(strict_types=1);
 
-namespace poggit\libasynql\mysql;
+namespace poggit\libasynql\mysqli;
 
-use InvalidArgumentException;
 use JsonSerializable;
 use mysqli;
+use poggit\libasynql\ConfigException;
 use poggit\libasynql\SqlError;
-use RuntimeException;
 use function strlen;
 
 class MysqlCredentials implements JsonSerializable{
@@ -49,21 +48,22 @@ class MysqlCredentials implements JsonSerializable{
 	 * host: 127.0.0.1
 	 * username: root
 	 * password: ""
-	 * schema: (required)
+	 * schema: {$defaultSchema}
 	 * port: 3306
 	 * socket: ""
 	 * </pre>
 	 *
-	 * @param array $array
-	 *
+	 * @param array       $array
+	 * @param string|null $defaultSchema default null
 	 * @return MysqlCredentials
+	 * @throws ConfigException If <code>schema</code> is missing and <code>$defaultSchema</code> is null/not passed
 	 */
-	public static function fromArray(array $array) : MysqlCredentials{
-		if(!isset($array["schema"])){
-			throw new InvalidArgumentException("The attribute \"schema\" is missing in the MySQL settings");
+	public static function fromArray(array $array, ?string $defaultSchema = null) : MysqlCredentials{
+		if(!isset($defaultSchema, $array["schema"])){
+			throw new ConfigException("The attribute \"schema\" is missing in the MySQL settings");
 		}
 		return new MysqlCredentials($array["host"] ?? "127.0.0.1", $array["username"] ?? "root",
-			$array["password"] ?? "", $array["schema"], $array["port"] ?? 3306, $array["socket"] ?? "");
+			$array["password"] ?? "", $array["schema"] ?? $defaultSchema, $array["port"] ?? 3306, $array["socket"] ?? "");
 	}
 
 	/**
@@ -95,7 +95,7 @@ class MysqlCredentials implements JsonSerializable{
 	public function newMysqli() : mysqli{
 		$mysqli = @new mysqli($this->host, $this->username, $this->password, $this->schema, $this->port, $this->socket);
 		if($mysqli->connect_error){
-			throw new SqlError(SqlError::STAGE_CONNECT, "Failure to connect to MySQL: $mysqli->connect_error");
+			throw new SqlError(SqlError::STAGE_CONNECT, $mysqli->connect_error);
 		}
 		return $mysqli;
 	}

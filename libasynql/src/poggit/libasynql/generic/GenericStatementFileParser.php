@@ -23,8 +23,6 @@ declare(strict_types=1);
 namespace poggit\libasynql\generic;
 
 use poggit\libasynql\GenericStatement;
-use const PREG_SPLIT_NO_EMPTY;
-use const PREG_SPLIT_OFFSET_CAPTURE;
 use function array_pop;
 use function assert;
 use function count;
@@ -37,6 +35,8 @@ use function preg_split;
 use function strpos;
 use function substr;
 use function trim;
+use const PREG_SPLIT_NO_EMPTY;
+use const PREG_SPLIT_OFFSET_CAPTURE;
 
 class GenericStatementFileParser{
 	/** @var resource */
@@ -65,13 +65,21 @@ class GenericStatementFileParser{
 		$this->fh = $fh;
 	}
 
+	/**
+	 * Parses the file, and closes the stream.
+	 *
+	 * @throws GenericStatementFileParseException if the file contains a syntax error or compile error
+	 */
 	public function parse() : void{
-		while(!feof($this->fh)){
-			$this->readLine();
-		}
-		fclose($this->fh);
-		if(!empty($this->identifierStack)){
-			$this->error("Unexpected end of file, " . count($this->identifierStack) . " groups not closed");
+		try{
+			while(!feof($this->fh)){
+				$this->readLine();
+			}
+			if(!empty($this->identifierStack)){
+				$this->error("Unexpected end of file, " . count($this->identifierStack) . " groups not closed");
+			}
+		}finally{
+			fclose($this->fh);
 		}
 	}
 
@@ -196,6 +204,10 @@ class GenericStatementFileParser{
 		return false;
 	}
 
+	/**
+	 * @param string $problem
+	 * @throw GenericStatementFileParseException
+	 */
 	private function error(string $problem) : void{
 		throw new GenericStatementFileParseException($problem, $this->lineNo);
 	}

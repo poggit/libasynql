@@ -28,7 +28,7 @@ use function count;
 
 class SqlThreadPool implements SqlThread{
 	private $workerCreator;
-	/** @var BaseSqlThread[] */
+	/** @var SqlSlaveThread[] */
 	private $workers = [];
 	/** @var int */
 	private $workerLimit;
@@ -49,9 +49,7 @@ class SqlThreadPool implements SqlThread{
 		$this->workerLimit = $workerLimit;
 		$this->bufferSend = new QuerySendQueue();
 		$this->bufferRecv = new QueryRecvQueue();
-		if(empty($this->workers)){
-			$this->addWorker();
-		}
+		$this->addWorker();
 	}
 
 	private function addWorker() : void{

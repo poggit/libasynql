@@ -20,13 +20,15 @@
 
 declare(strict_types=1);
 
-namespace poggit\libasynql\mysql;
+namespace poggit\libasynql\mysqli;
 
+use function bccomp;
+use function bcsub;
 use InvalidArgumentException;
 use mysqli;
 use mysqli_result;
 use mysqli_stmt;
-use poggit\libasynql\base\BaseSqlThread;
+use poggit\libasynql\base\SqlSlaveThread;
 use poggit\libasynql\base\QueryRecvQueue;
 use poggit\libasynql\base\QuerySendQueue;
 use poggit\libasynql\result\SqlChangeResult;
@@ -37,6 +39,7 @@ use poggit\libasynql\SqlError;
 use poggit\libasynql\SqlResult;
 use poggit\libasynql\SqlThread;
 use function array_map;
+use function assert;
 use function gettype;
 use function implode;
 use function in_array;
@@ -46,27 +49,32 @@ use function is_string;
 use function json_decode;
 use function strtotime;
 
-class MysqlThread extends BaseSqlThread{
+class MysqliThread extends SqlSlaveThread{
 	/** @var string */
 	private $credentials;
-	/** @var mysqli */
-	private $mysqli;
 
 	public function __construct(MysqlCredentials $credentials, QuerySendQueue $bufferSend = null, QueryRecvQueue $bufferRecv = null){
 		parent::__construct($bufferSend, $bufferRecv);
 		$this->credentials = json_encode($credentials);
 	}
 
-	protected function createConn() : ?string{
-		$this->mysqli = json_decode($this->credentials);
-		return $this->mysqli->connect_error;
+	protected function createConn(&$mysqli) : ?string{
+		/** @var MysqlCredentials $cred */
+		$cred = json_decode($this->credentials);
+		try{
+			$mysqli = $cred->newMysqli();
+			return null;
+		}catch(SqlError $e){
+			return $e->getErrorMessage();
+		}
 	}
 
-	protected function executeQuery(int $mode, string $query, array $params) : SqlResult{
+	protected function executeQuery(&$mysqli, int $mode, string $query, array $params) : SqlResult{
+		assert($mysqli instanceof mysqli);
 		if(empty($params)){
-			$result = $this->mysqli->query($query);
+			$result = $mysqli->query($query);
 			if($result === false){
-				throw new SqlError(SqlError::STAGE_EXECUTE, $this->mysqli->error, $query, []);
+				throw new SqlError(SqlError::STAGE_EXECUTE, $mysqli->error, $query, []);
 			}
 			switch($mode){
 				case SqlThread::MODE_GENERIC:
@@ -76,10 +84,10 @@ class MysqlThread extends BaseSqlThread{
 						$result->close();
 					}
 					if($mode === SqlThread::MODE_INSERT){
-						return new SqlInsertResult($this->mysqli->affected_rows, $this->mysqli->insert_id);
+						return new SqlInsertResult($mysqli->affected_rows, $mysqli->insert_id);
 					}
 					if($mode === SqlThread::MODE_CHANGE){
-						return new SqlChangeResult($this->mysqli->affected_rows);
+						return new SqlChangeResult($mysqli->affected_rows);
 					}
 					return new SqlResult();
 
@@ -89,9 +97,9 @@ class MysqlThread extends BaseSqlThread{
 					return $ret;
 			}
 		}else{
-			$stmt = $this->mysqli->prepare($query);
+			$stmt = $mysqli->prepare($query);
 			if(!($stmt instanceof mysqli_stmt)){
-				throw new SqlError(SqlError::STAGE_PREPARE, $this->mysqli->error, $query, $params);
+				throw new SqlError(SqlError::STAGE_PREPARE, $mysqli->error, $query, $params);
 			}
 			$types = implode(array_map(function($param) use ($query, $params){
 				if(is_string($param)){
@@ -111,25 +119,25 @@ class MysqlThread extends BaseSqlThread{
 			}
 			switch($mode){
 				case SqlThread::MODE_GENERIC:
-					$result = new SqlResult();
+					$ret = new SqlResult();
 					$stmt->close();
-					return $result;
+					return $ret;
 
 				case SqlThread::MODE_CHANGE:
-					$result = new SqlChangeResult($stmt->affected_rows);
+					$ret = new SqlChangeResult($stmt->affected_rows);
 					$stmt->close();
-					return $result;
+					return $ret;
 
 				case SqlThread::MODE_INSERT:
-					$result = new SqlInsertResult($stmt->affected_rows, $stmt->insert_id);
+					$ret = new SqlInsertResult($stmt->affected_rows, $stmt->insert_id);
 					$stmt->close();
-					return $result;
+					return $ret;
 
 				case SqlThread::MODE_SELECT:
 					$set = $stmt->get_result();
-					$result = $this->toSelectResult($set);
+					$ret = $this->toSelectResult($set);
 					$set->close();
-					return $result;
+					return $ret;
 			}
 		}
 
@@ -157,7 +165,14 @@ class MysqlThread extends BaseSqlThread{
 			if($field->type === MysqlTypes::LONGLONG){
 				$type = SqlColumnInfo::TYPE_INT;
 				$columnFunc[$field->name] = function($longLong) use ($field){
-					return ($field->flags & MysqlFlags::UNSIGNED_FLAG) ? (float) $longLong : (int) $longLong;
+					if($field->flags & MysqlFlags::UNSIGNED_FLAG){
+						if(bccomp($longLong, "9223372036854775807") === 1){
+							$longLong = bcsub($longLong, "18446744073709551616");
+						}
+						return (int) $longLong;
+					}
+
+					return (int) $longLong;
 				};
 			}elseif($field->flags & MysqlFlags::TIMESTAMP_FLAG){
 				$type = SqlColumnInfo::TYPE_TIMESTAMP;
@@ -197,7 +212,8 @@ class MysqlThread extends BaseSqlThread{
 		return new SqlSelectResult($columns, $rows);
 	}
 
-	protected function close() : void{
-		$this->mysqli->close();
+	protected function close(&$mysqli) : void{
+		assert($mysqli instanceof mysqli);
+		$mysqli->close();
 	}
 }

@@ -20,7 +20,7 @@
 
 declare(strict_types=1);
 
-namespace poggit\libasynql\mysql;
+namespace poggit\libasynql\mysqli;
 
 /**
  * Result field types returned by MySQL

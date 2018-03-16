@@ -28,7 +28,7 @@ use poggit\libasynql\SqlError;
 use poggit\libasynql\SqlResult;
 use poggit\libasynql\SqlThread;
 
-abstract class BaseSqlThread extends Thread implements SqlThread{
+abstract class SqlSlaveThread extends Thread implements SqlThread{
 	private $running = true;
 	protected $bufferSend;
 	protected $bufferRecv;
@@ -44,25 +44,27 @@ abstract class BaseSqlThread extends Thread implements SqlThread{
 	}
 
 	public function run(){
-		$error = $this->createConn();
+		$error = $this->createConn($resource);
 		$this->connCreated = true;
 		$this->connError = $error;
 
-		if($error !== null){
-			while($this->running){
-				while($this->bufferSend->fetchQuery($queryId, $mode, $query, $params)){
-					$this->working = true;
-					try{
-						$result = $this->executeQuery($mode, $query, $params);
-						$this->bufferRecv->publishResult($queryId, $result);
-					}catch(SqlError $error){
-						$this->bufferRecv->publishError($queryId, $error);
-					}
-				}
-				$this->working = false;
-			}
-			$this->close();
+		if($error === null){
+			return;
 		}
+
+		while($this->running){
+			while($this->bufferSend->fetchQuery($queryId, $mode, $query, $params)){
+				$this->working = true;
+				try{
+					$result = $this->executeQuery($resource, $mode, $query, $params);
+					$this->bufferRecv->publishResult($queryId, $result);
+				}catch(SqlError $error){
+					$this->bufferRecv->publishError($queryId, $error);
+				}
+			}
+			$this->working = false;
+		}
+		$this->close($resource);
 	}
 
 	/**
@@ -105,16 +107,17 @@ abstract class BaseSqlThread extends Thread implements SqlThread{
 		return $this->connError;
 	}
 
-	protected abstract function createConn() : ?string;
+	protected abstract function createConn(&$resource) : ?string;
 
 	/**
+	 * @param mixed   &$resource
 	 * @param int     $mode
 	 * @param string  $query
 	 * @param mixed[] $params
 	 * @return SqlResult
 	 * @throws SqlError
 	 */
-	protected abstract function executeQuery(int $mode, string $query, array $params) : SqlResult;
+	protected abstract function executeQuery(&$resource, int $mode, string $query, array $params) : SqlResult;
 
-	protected abstract function close() : void;
+	protected abstract function close(&$resource) : void;
 }

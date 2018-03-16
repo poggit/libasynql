@@ -1,0 +1,9 @@
+database:
+  type: sqlite
+  sqlite:
+    file: data.sqlite
+  mysql:
+    host: 127.0.0.1
+    username: root
+    password: ""
+    schema: libasynql_example # remember to change this!
