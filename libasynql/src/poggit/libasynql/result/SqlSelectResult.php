@@ -49,11 +49,18 @@ class SqlSelectResult extends SqlResult{
 	}
 
 	/**
-	 * Returns an array of rows. Each row is an array with keys as the virtual column name and values as the cell value. The type of cells are juggled with the following special points:
-	 * - <code>TINYINT(1)</code> and <code>BIT(1) in MySQL are expressed in <code>bool</code>
+	 * Returns an array of rows. Each row is an array with keys as the (virtual) column name and values as the cell value. The type of cell values are juggled with the following special rules:
+	 * - <code>TINYINT(1)</code> and <code>BIT(1)</code> in MySQL are expressed in <code>bool</code>
 	 * - Signed <code>long long</code>, a.k.a. <code>BIGINT [SIGNED]</code>, i.e. 64-bit unsigned integers, are expressed in <code>int</code>, because PocketMine only supports 64-bit machines.
 	 * - Unsigned <code>long long</code>, a.k.a. <code>BIGINT [SIGNED]</code>, i.e. 64-bit unsigned integers, are also expressed in <code>int</code>. If it exceeds <code>PHP_INT_MAX</code>, it overflows natively, i.e. <b>PHP_INT_MAX + 1 becomes PHP_INT_MIN</b>, which is different from both mysqli's implementation and PHP's behaviour.
-	 * - Timestamps will be converted to a {@link https://php.net/date date()}-compatible UNIX timestamp in seconds. This is different from the normal mysqli behaviour, where string timestamps are returned.
+	 * - Timestamps will be converted to a {@link https://php.net/date date()}-compatible UNIX timestamp in seconds.
+	 * - Other types are juggled according to rules provided by the backend.
+	 *
+	 * If the query has multiple columns with the same name, the latter one overwrites the former ones. For example, the query <code>SELECT 1 a, 2 a</code> returns the result set <code>[ ["a" => 2] ]</code>.
+	 *
+	 * Also note that qualifying the column reference with the table name will not add the table name into the column name in the result set. For example, the query <code>SELECT foo.qux, bar.qux</code> will return the result set <code>[ ["qux" => "the value in bar.qux"] ]</code>.
+	 *
+	 * Therefore, use column aliases when the column names may duplicate.
 	 *
 	 * @return array[]
 	 */
