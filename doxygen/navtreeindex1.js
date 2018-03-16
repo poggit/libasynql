@@ -1,5 +1,6 @@
 var NAVTREEINDEX1 =
 {
+"interfacepoggit_1_1libasynql_1_1mysqli_1_1_mysql_flags.html#a4504841dabe03460f9c25980dbbd83b0":[2,0,0,0,2,2,5],
 "interfacepoggit_1_1libasynql_1_1mysqli_1_1_mysql_flags.html#a48c6d676973f6ccd8c4292a78e58ec91":[2,0,0,0,2,2,12],
 "interfacepoggit_1_1libasynql_1_1mysqli_1_1_mysql_flags.html#a5104d264c64006c8f6276ae7edfd347c":[2,0,0,0,2,2,13],
 "interfacepoggit_1_1libasynql_1_1mysqli_1_1_mysql_flags.html#a6224295aed3b92a03f6d9e68579635ed":[2,0,0,0,2,2,1],
@@ -47,20 +48,20 @@ var NAVTREEINDEX1 =
 "interfacepoggit_1_1libasynql_1_1mysqli_1_1_mysql_types.html#aff4c5748bdcf601d41a97d81fb36b32e":[2,0,0,0,2,4,25],
 "libasynql_8php.html":[3,0,0,0,0,0,9],
 "libasynql_8php_source.html":[3,0,0,0,0,0,9],
-"namespacepoggit.html":[2,0,0],
 "namespacepoggit.html":[1,0,0],
+"namespacepoggit.html":[2,0,0],
 "namespacepoggit_1_1libasynql.html":[2,0,0,0],
 "namespacepoggit_1_1libasynql.html":[1,0,0,0],
 "namespacepoggit_1_1libasynql_1_1base.html":[2,0,0,0,0],
 "namespacepoggit_1_1libasynql_1_1base.html":[1,0,0,0,0],
-"namespacepoggit_1_1libasynql_1_1generic.html":[2,0,0,0,1],
 "namespacepoggit_1_1libasynql_1_1generic.html":[1,0,0,0,1],
+"namespacepoggit_1_1libasynql_1_1generic.html":[2,0,0,0,1],
 "namespacepoggit_1_1libasynql_1_1mysqli.html":[2,0,0,0,2],
 "namespacepoggit_1_1libasynql_1_1mysqli.html":[1,0,0,0,2],
-"namespacepoggit_1_1libasynql_1_1result.html":[1,0,0,0,3],
 "namespacepoggit_1_1libasynql_1_1result.html":[2,0,0,0,3],
-"namespacepoggit_1_1libasynql_1_1sqlite3.html":[1,0,0,0,4],
+"namespacepoggit_1_1libasynql_1_1result.html":[1,0,0,0,3],
 "namespacepoggit_1_1libasynql_1_1sqlite3.html":[2,0,0,0,4],
+"namespacepoggit_1_1libasynql_1_1sqlite3.html":[1,0,0,0,4],
 "namespaces.html":[1,0],
 "pages.html":[]
 };

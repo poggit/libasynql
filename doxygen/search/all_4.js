@@ -1,5 +1,6 @@
 var searchData=
 [
+  ['checkresults',['checkResults',['../classpoggit_1_1libasynql_1_1base_1_1_data_connector_impl.html#a5b2ae7195ecd04084179f9dd9e3e8a11',1,'poggit::libasynql::base::DataConnectorImpl']]],
   ['close',['close',['../classpoggit_1_1libasynql_1_1base_1_1_data_connector_impl.html#aa69c8bf1f1dcf4e72552efff1fe3e87e',1,'poggit\libasynql\base\DataConnectorImpl\close()'],['../classpoggit_1_1libasynql_1_1base_1_1_sql_slave_thread.html#a12115cf61756d807d28de0fe09c3d89d',1,'poggit\libasynql\base\SqlSlaveThread\close()'],['../interfacepoggit_1_1libasynql_1_1_data_connector.html#aa69c8bf1f1dcf4e72552efff1fe3e87e',1,'poggit\libasynql\DataConnector\close()'],['../classpoggit_1_1libasynql_1_1mysqli_1_1_mysqli_thread.html#a818a23e66a951f1c30e1194ed8534878',1,'poggit\libasynql\mysqli\MysqliThread\close()'],['../classpoggit_1_1libasynql_1_1sqlite3_1_1_sqlite3_thread.html#a12115cf61756d807d28de0fe09c3d89d',1,'poggit\libasynql\sqlite3\Sqlite3Thread\close()']]],
   ['compilepositions',['compilePositions',['../classpoggit_1_1libasynql_1_1generic_1_1_generic_statement_impl.html#a9b51b4496e50c5b1ba7738f837765364',1,'poggit::libasynql::generic::GenericStatementImpl']]],
   ['configexception',['ConfigException',['../classpoggit_1_1libasynql_1_1_config_exception.html',1,'poggit::libasynql']]],

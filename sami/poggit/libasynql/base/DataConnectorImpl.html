@@ -98,7 +98,7 @@
                     
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method___construct">__construct</a>(<a href="../../../poggit/libasynql/SqlThread.html"><abbr title="poggit\libasynql\SqlThread">SqlThread</abbr></a> $thread, string|null $placeHolder)
+                    <a href="#method___construct">__construct</a>(<abbr title="pocketmine\plugin\Plugin">Plugin</abbr> $plugin, <a href="../../../poggit/libasynql/SqlThread.html"><abbr title="poggit\libasynql\SqlThread">SqlThread</abbr></a> $thread, string|null $placeHolder)
         
                                             <p class="no-description">No description</p>
                                     </div>
@@ -129,7 +129,7 @@
                     
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_executeGeneric">executeGeneric</a>(string $queryName, array $args, callable|null $onSuccess = null, callable|null $onError = null)
+                    <a href="#method_executeGeneric">executeGeneric</a>(string $queryName, array $args = [], callable|null $onSuccess = null, callable|null $onError = null)
         
                                             <p>Executes a generic query that either succeeds or fails.</p>                </div>
                 <div class="col-md-2"></div>
@@ -139,7 +139,7 @@
                     
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_executeChange">executeChange</a>(string $queryName, array $args, callable|null $onSuccess = null, callable|null $onError = null)
+                    <a href="#method_executeChange">executeChange</a>(string $queryName, array $args = [], callable|null $onSuccess = null, callable|null $onError = null)
         
                                             <p>Executes a query that changes data.</p>                </div>
                 <div class="col-md-2"></div>
@@ -149,7 +149,7 @@
                     
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_executeInsert">executeInsert</a>(string $queryName, array $args, callable|null $onInserted = null, callable|null $onError = null)
+                    <a href="#method_executeInsert">executeInsert</a>(string $queryName, array $args = [], callable|null $onInserted = null, callable|null $onError = null)
         
                                             <p>Executes an insert query that results in an insert ID.</p>                </div>
                 <div class="col-md-2"></div>
@@ -159,9 +159,20 @@
                     
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_executeSelect">executeSelect</a>(string $queryName, array $args, callable|null $onSelect = null, callable|null $onError = null)
+                    <a href="#method_executeSelect">executeSelect</a>(string $queryName, array $args = [], callable|null $onSelect = null, callable|null $onError = null)
         
                                             <p>Executes a select query that returns an SQL result set. This does not strictly need to be SELECT queries -- reflection queries like MySQL's <code>SHOW TABLES</code> query are also allowed.</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_checkResults">checkResults</a>()
+        
+                                            <p class="no-description">No description</p>
+                                    </div>
                 <div class="col-md-2"></div>
             </div>
                     <div class="row">
@@ -182,9 +193,9 @@
             <div id="method-details">
                     <div class="method-item">
                     <h3 id="method___construct">
-        <div class="location">at         <a href="https://github.com/poggit/libasynql/blob/master/libasynql/src/poggit/libasynql/base/DataConnectorImpl.php#L50">line 50</a></div>
+        <div class="location">at         <a href="https://github.com/poggit/libasynql/blob/master/libasynql/src/poggit/libasynql/base/DataConnectorImpl.php#L55">line 55</a></div>
         <code>                    
-    <strong>__construct</strong>(<a href="../../../poggit/libasynql/SqlThread.html"><abbr title="poggit\libasynql\SqlThread">SqlThread</abbr></a> $thread, string|null $placeHolder)
+    <strong>__construct</strong>(<abbr title="pocketmine\plugin\Plugin">Plugin</abbr> $plugin, <a href="../../../poggit/libasynql/SqlThread.html"><abbr title="poggit\libasynql\SqlThread">SqlThread</abbr></a> $thread, string|null $placeHolder)
         </code>
     </h3>
     <div class="details">
@@ -195,6 +206,11 @@
                             <h4>Parameters</h4>
 
                     <table class="table table-condensed">
+                    <tr>
+                <td><abbr title="pocketmine\plugin\Plugin">Plugin</abbr></td>
+                <td>$plugin</td>
+                <td></td>
+            </tr>
                     <tr>
                 <td><a href="../../../poggit/libasynql/SqlThread.html"><abbr title="poggit\libasynql\SqlThread">SqlThread</abbr></a></td>
                 <td>$thread</td>
@@ -216,7 +232,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_loadQueryFile">
-        <div class="location">at         <a href="https://github.com/poggit/libasynql/blob/master/libasynql/src/poggit/libasynql/base/DataConnectorImpl.php#L55">line 55</a></div>
+        <div class="location">at         <a href="https://github.com/poggit/libasynql/blob/master/libasynql/src/poggit/libasynql/base/DataConnectorImpl.php#L61">line 61</a></div>
         <code>                    
     <strong>loadQueryFile</strong>(resource $fh)
         </code>
@@ -260,7 +276,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_loadQuery">
-        <div class="location">at         <a href="https://github.com/poggit/libasynql/blob/master/libasynql/src/poggit/libasynql/base/DataConnectorImpl.php#L63">line 63</a></div>
+        <div class="location">at         <a href="https://github.com/poggit/libasynql/blob/master/libasynql/src/poggit/libasynql/base/DataConnectorImpl.php#L69">line 69</a></div>
         <code>                    
     <strong>loadQuery</strong>(<a href="../../../poggit/libasynql/GenericStatement.html"><abbr title="poggit\libasynql\GenericStatement">GenericStatement</abbr></a> $stmt)
         </code>
@@ -300,9 +316,9 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_executeGeneric">
-        <div class="location">at         <a href="https://github.com/poggit/libasynql/blob/master/libasynql/src/poggit/libasynql/base/DataConnectorImpl.php#L70">line 70</a></div>
+        <div class="location">at         <a href="https://github.com/poggit/libasynql/blob/master/libasynql/src/poggit/libasynql/base/DataConnectorImpl.php#L76">line 76</a></div>
         <code>                    
-    <strong>executeGeneric</strong>(string $queryName, array $args, callable|null $onSuccess = null, callable|null $onError = null)
+    <strong>executeGeneric</strong>(string $queryName, array $args = [], callable|null $onSuccess = null, callable|null $onError = null)
         </code>
     </h3>
     <div class="details">
@@ -346,9 +362,9 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_executeChange">
-        <div class="location">at         <a href="https://github.com/poggit/libasynql/blob/master/libasynql/src/poggit/libasynql/base/DataConnectorImpl.php#L84">line 84</a></div>
+        <div class="location">at         <a href="https://github.com/poggit/libasynql/blob/master/libasynql/src/poggit/libasynql/base/DataConnectorImpl.php#L88">line 88</a></div>
         <code>                    
-    <strong>executeChange</strong>(string $queryName, array $args, callable|null $onSuccess = null, callable|null $onError = null)
+    <strong>executeChange</strong>(string $queryName, array $args = [], callable|null $onSuccess = null, callable|null $onError = null)
         </code>
     </h3>
     <div class="details">
@@ -392,9 +408,9 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_executeInsert">
-        <div class="location">at         <a href="https://github.com/poggit/libasynql/blob/master/libasynql/src/poggit/libasynql/base/DataConnectorImpl.php#L99">line 99</a></div>
+        <div class="location">at         <a href="https://github.com/poggit/libasynql/blob/master/libasynql/src/poggit/libasynql/base/DataConnectorImpl.php#L101">line 101</a></div>
         <code>                    
-    <strong>executeInsert</strong>(string $queryName, array $args, callable|null $onInserted = null, callable|null $onError = null)
+    <strong>executeInsert</strong>(string $queryName, array $args = [], callable|null $onInserted = null, callable|null $onError = null)
         </code>
     </h3>
     <div class="details">
@@ -440,7 +456,7 @@
                     <h3 id="method_executeSelect">
         <div class="location">at         <a href="https://github.com/poggit/libasynql/blob/master/libasynql/src/poggit/libasynql/base/DataConnectorImpl.php#L114">line 114</a></div>
         <code>                    
-    <strong>executeSelect</strong>(string $queryName, array $args, callable|null $onSelect = null, callable|null $onError = null)
+    <strong>executeSelect</strong>(string $queryName, array $args = [], callable|null $onSelect = null, callable|null $onError = null)
         </code>
     </h3>
     <div class="details">
@@ -483,8 +499,27 @@
 
             </div>
                     <div class="method-item">
+                    <h3 id="method_checkResults">
+        <div class="location">at         <a href="https://github.com/poggit/libasynql/blob/master/libasynql/src/poggit/libasynql/base/DataConnectorImpl.php#L152">line 152</a></div>
+        <code>                    
+    <strong>checkResults</strong>()
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                <div class="tags">
+            
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
                     <h3 id="method_close">
-        <div class="location">at         <a href="https://github.com/poggit/libasynql/blob/master/libasynql/src/poggit/libasynql/base/DataConnectorImpl.php#L140">line 140</a></div>
+        <div class="location">at         <a href="https://github.com/poggit/libasynql/blob/master/libasynql/src/poggit/libasynql/base/DataConnectorImpl.php#L156">line 156</a></div>
         <code>                    
     <strong>close</strong>()
         </code>
