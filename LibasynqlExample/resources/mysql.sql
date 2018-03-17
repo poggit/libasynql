@@ -14,7 +14,14 @@ CREATE TABLE $tbl$players (
 -- #            :registerTime timestamp
 -- #            :loginTime timestamp
 -- #            :lastIp string
-INSERT INTO $tbl$players (name, registerTime, loginTime, lastIp) VALUES (:name, :registerTime, :loginTime, :lastIp)
+INSERT INTO $tbl$players (name, registerTime, loginTime, lastIp)
+VALUES (:name, :registerTime, :loginTime, :lastIp);
+-- #        }
+-- #        { findNameByIp
+-- #            :ips list?string
+SELECT name
+FROM $tbl$players
+WHERE lastIp IN :ips
 -- #        }
 -- #    }
 -- #}

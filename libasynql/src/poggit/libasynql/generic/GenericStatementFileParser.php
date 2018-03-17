@@ -22,6 +22,7 @@ declare(strict_types=1);
 
 namespace poggit\libasynql\generic;
 
+use InvalidArgumentException;
 use poggit\libasynql\GenericStatement;
 use function array_pop;
 use function assert;
@@ -127,88 +128,103 @@ class GenericStatementFileParser{
 
 		switch($cmd){
 			case "!":
-				// dialect command
-				if($this->knownDialect !== null){
-					$this->error("Dialect declared more than once");
-				}
-
-				if(!isset($args[0])){
-					$this->error("Missing operand: DIALECT");
-				}
-
-				$this->knownDialect = $args[0];
+				$this->dialectCommand($args);
 				return true;
-
 			case "{":
-				// start group/query command
-				if($this->knownDialect === null){
-					$this->error("Dialect declaration must be the very first line");
-				}
-
-				if($this->parsingQuery){
-					$this->error("Unexpected {, close previous query first");
-				}
-
-				if(!isset($args[0])){
-					$this->error("Missing operand: IDENTIFIER_NAME");
-				}
-
-				$this->identifierStack[] = $args[0];
+				$this->startCommand($args);
 				return true;
-
 			case "}":
-				// end group/query command
-
-				if(count($this->identifierStack) === 0){
-					$this->error("No matching { for }");
-				}
-
-				if($this->parsingQuery){
-					if(count($this->buffer) === 0){
-						$this->error("Variables are declared but no query is provided");
-					}
-
-					$query = implode("\n", $this->buffer);
-					assert($this->knownDialect !== null);
-					$stmt = GenericStatementImpl::forDialect($this->knownDialect, implode(".", $this->identifierStack), $query, $this->variables);
-					$this->variables = [];
-					$this->buffer = [];
-
-					if(isset($this->results[$stmt->getName()])){
-						$this->error("Duplicate query name ({$stmt->getName()})");
-					}
-					$this->results[$stmt->getName()] = $stmt;
-				} // end query
-
-				array_pop($this->identifierStack);
+				$this->endCommand();
 				return true;
-
 			case ":":
-				if(empty($this->identifierStack)){
-					$this->error("Unexpected variable declaration; start a query with { first");
-				}
-
-				if(!isset($args[1])){
-					$this->error("Missing operand: VAR_TYPE");
-				}
-
-				$var = new GenericVariable($args[0], $args[1], isset($args[2]) ? substr($line, $argOffsets[2] + 1) : null);
-				if(isset($this->variables[$var->getName()])){
-					$this->error("Duplicate variable definition of :{$var->getName()}");
-				}
-				$this->variables[$var->getName()] = $var;
-				$this->parsingQuery = true;
+				$this->varCommand($args, $line, $argOffsets);
 				return true;
 		}
 
 		return false;
 	}
 
+	private function dialectCommand(array $args) : void{
+		// dialect command
+		if($this->knownDialect !== null){
+			$this->error("Dialect declared more than once");
+		}
+
+		if(!isset($args[0])){
+			$this->error("Missing operand: DIALECT");
+		}
+
+		$this->knownDialect = $args[0];
+	}
+
+	private function startCommand(array $args) : void{
+		if($this->knownDialect === null){
+			$this->error("Dialect declaration must be the very first line");
+		}
+
+		if($this->parsingQuery){
+			$this->error("Unexpected {, close previous query first");
+		}
+
+		if(!isset($args[0])){
+			$this->error("Missing operand: IDENTIFIER_NAME");
+		}
+
+		$this->identifierStack[] = $args[0];
+	}
+
+	private function endCommand() : void{
+		if(count($this->identifierStack) === 0){
+			$this->error("No matching { for }");
+		}
+
+		if($this->parsingQuery){
+			if(count($this->buffer) === 0){
+				$this->error("Variables are declared but no query is provided");
+			}
+
+			$query = implode("\n", $this->buffer);
+			assert($this->knownDialect !== null);
+			$stmt = GenericStatementImpl::forDialect($this->knownDialect, implode(".", $this->identifierStack), $query, $this->variables);
+			$this->variables = [];
+			$this->buffer = [];
+
+			if(isset($this->results[$stmt->getName()])){
+				$this->error("Duplicate query name ({$stmt->getName()})");
+			}
+			$this->results[$stmt->getName()] = $stmt;
+		} // end query
+
+		array_pop($this->identifierStack);
+	}
+
+	private function varCommand(array $args, string $line, array $argOffsets) : void{
+		if(empty($this->identifierStack)){
+			$this->error("Unexpected variable declaration; start a query with { first");
+		}
+
+		if(!isset($args[1])){
+			$this->error("Missing operand: VAR_TYPE");
+		}
+
+		try{
+			$var = new GenericVariable($args[0], $args[1], isset($args[2]) ? substr($line, $argOffsets[2] + 1) : null);
+		}catch(InvalidArgumentException $e){
+			throw $this->error($e->getMessage());
+		}
+		if(isset($this->variables[$var->getName()])){
+			$this->error("Duplicate variable definition of :{$var->getName()}");
+		}
+		$this->variables[$var->getName()] = $var;
+		$this->parsingQuery = true;
+	}
+
 	/**
 	 * @param string $problem
+	 * @return GenericStatementFileParseException
 	 * @throw GenericStatementFileParseException
 	 */
-	private function error(string $problem) : void{
+	private function error(string $problem) : GenericStatementFileParseException{
 		throw new GenericStatementFileParseException($problem, $this->lineNo);
 	}
 }

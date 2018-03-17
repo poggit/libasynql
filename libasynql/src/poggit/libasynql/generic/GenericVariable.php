@@ -23,11 +23,16 @@ declare(strict_types=1);
 namespace poggit\libasynql\generic;
 
 use InvalidArgumentException;
+use InvalidStateException;
 use function assert;
 use function in_array;
 use function is_string;
 use function json_decode;
+use function stripos;
 use function strlen;
+use function strpos;
+use function strtoupper;
+use function substr;
 
 /**
  * Represents a variable that can be passed into {@link GenericStatement::format()}
@@ -43,6 +48,8 @@ class GenericVariable{
 	public const TIME_NOW = "NOW";
 
 	protected $name;
+	protected $list = false;
+	protected $canEmpty = false;
 	protected $type;
 	/** @var string|int|float|bool|null */
 	protected $default = null;
@@ -52,8 +59,21 @@ class GenericVariable{
 			throw new InvalidArgumentException("Colon is disallowed in a variable name");
 		}
 		$this->name = $name;
+		if(stripos($type, "list:") === 0){
+			$this->list = true;
+			/** @noinspection CallableParameterUseCaseInTypeContextInspection */
+			$type = substr($type, strlen("list:"));
+		}elseif(stripos($type, "list?") === 0){
+			$this->list = true;
+			$this->canEmpty = true;
+			/** @noinspection CallableParameterUseCaseInTypeContextInspection */
+			$type = substr($type, strlen("list?"));
+		}
 		$this->type = $type;
 		if($default !== null){
+			if($this->list){
+				throw new InvalidArgumentException("Lists cannot have default value");
+			}
 			switch($type){
 				case self::TYPE_STRING:
 					if($default{0} === "\"" && $default{strlen($default) - 1} === "\""){
@@ -76,7 +96,7 @@ class GenericVariable{
 					break;
 
 				case self::TYPE_TIMESTAMP:
-					if(!in_array($default, [
+					if(!in_array(strtoupper($default), [
 						self::TIME_NOW,
 						self::TIME_0,
 					], true)){
@@ -90,8 +110,38 @@ class GenericVariable{
 		}
 	}
 
+	public function unlist() : GenericVariable{
+		if(!$this->list){
+			throw new InvalidStateException("Cannot unlist a non-list variable");
+		}
+		$clone = clone $this;
+		$clone->list = false;
+		return $clone;
+	}
+
 	public function getName() : string{
 		return $this->name;
+	}
+
+	public function isList() : bool{
+		return $this->list;
+	}
+
+	/**
+	 * Returns whether the list variable is declared with <code>list?</code> rather than <code>list:</code>.
+	 *
+	 * If the SQL dialect does not support empty list declarations <code>()</code>, and <code>list:</code> is used, an exception will be thrown when an empty array is passed as the value. If <code>list?</code> is used, a randomly-generated string will be filled into the array to satisfy the language's requirements. This might cause undesired behaviour unless you are only using this variable for a simple <code>IN :list</code> condition.
+	 *
+	 * As this may expose a security breach or a performance degrade, plugins are not encouraged to use this method. Instead it is more desirable to check if the array is empty before passing the value into libasynql.
+	 *
+	 * @return bool
+	 */
+	public function canBeEmpty() : bool{
+		if(!$this->list){
+			throw new InvalidStateException("canBeEmpty() is only available for list variables");
+		}
+
+		return $this->canEmpty;
 	}
 
 	public function getType() : string{
@@ -107,14 +157,5 @@ class GenericVariable{
 
 	public function isOptional() : bool{
 		return $this->default !== null;
-	}
-
-	public function format($value, ?string $placeHolder, array &$outArgs) : string{
-		if($placeHolder !== null){
-			$outArgs[] = $value ?? $this->default;
-			return $placeHolder;
-		}
-
-		// TODO wtf was I doing
 	}
 }

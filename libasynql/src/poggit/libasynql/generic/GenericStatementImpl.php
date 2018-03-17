@@ -22,6 +22,7 @@ declare(strict_types=1);
 
 namespace poggit\libasynql\generic;
 
+use AssertionError;
 use InvalidArgumentException;
 use poggit\libasynql\GenericStatement;
 use poggit\libasynql\SqlDialect;
@@ -155,7 +156,11 @@ abstract class GenericStatementImpl implements GenericStatement{
 		foreach($this->varPositions as $pos => $name){
 			$query .= mb_substr($this->query, $lastPos, $pos - $lastPos);
 			$value = $vars[$name] ?? $this->variables[$name]->getDefault();
-			$append = $this->formatVariable($this->variables[$value], $value);
+			try{
+				$append = $this->formatVariable($this->variables[$name], $value);
+			}catch(AssertionError $e){
+				throw new InvalidArgumentException("Invalid value for :$name - " . $e->getMessage(), 0, $e);
+			}
 			if($append !== null){
 				$query .= $append;
 			}else{

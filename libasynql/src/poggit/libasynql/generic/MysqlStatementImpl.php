@@ -22,12 +22,18 @@ declare(strict_types=1);
 
 namespace poggit\libasynql\generic;
 
+use InvalidArgumentException;
 use RuntimeException;
+use function array_map;
 use function assert;
+use function bin2hex;
+use function implode;
+use function is_array;
 use function is_bool;
 use function is_float;
 use function is_int;
 use function is_string;
+use function random_bytes;
 
 class MysqlStatementImpl extends GenericStatementImpl{
 	public function getDialect() : string{
@@ -35,6 +41,22 @@ class MysqlStatementImpl extends GenericStatementImpl{
 	}
 
 	protected function formatVariable(GenericVariable $variable, $value) : ?string{
+		if($variable->isList()){
+			assert(is_array($value));
+			if(empty($value)){
+				if(!$variable->canBeEmpty()){
+					throw new InvalidArgumentException("Cannot pass an empty array for :{$variable->getName()}");
+				}
+
+				return "('" . bin2hex(random_bytes(20)) . ")";
+			}
+
+			$unlist = $variable->unlist();
+			return "(" . implode(",", array_map(function($value) use ($unlist){
+					return $this->formatVariable($unlist, $value);
+				}, $value));
+		}
+
 		switch($variable->getType()){
 			case GenericVariable::TYPE_BOOL:
 				assert(is_bool($value));
@@ -45,7 +67,7 @@ class MysqlStatementImpl extends GenericStatementImpl{
 				return (string) $value;
 
 			case GenericVariable::TYPE_FLOAT:
-				assert(is_float($value));
+				assert(is_int($value) || is_float($value));
 				return (string) $value;
 
 			case GenericVariable::TYPE_STRING:
