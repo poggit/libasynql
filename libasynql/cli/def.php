@@ -23,8 +23,7 @@ declare(strict_types=1);
 use poggit\libasynql\generic\GenericStatementFileParser;
 use poggit\libasynql\GenericStatement;
 
-//require Phar::running() . "/cli-autoload.php";
-require __DIR__ . "/../cli-autoload.php";
+require_once Phar::running() . "/cli-autoload.php";
 
 if(!isset($argv[4])){
 	echo "[!] Usage: php " . escapeshellarg($argv[0]) . " def <src> <fqn> <SQL file>\n";
