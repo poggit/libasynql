@@ -43,6 +43,7 @@ use const SQLITE3_FLOAT;
 use const SQLITE3_INTEGER;
 use const SQLITE3_NULL;
 use const SQLITE3_TEXT;
+use function var_dump;
 
 class Sqlite3Thread extends SqlSlaveThread{
 	/** @var string */
@@ -64,6 +65,7 @@ class Sqlite3Thread extends SqlSlaveThread{
 
 	protected function executeQuery(&$sqlite, int $mode, string $query, array $params) : SqlResult{
 		assert($sqlite instanceof SQLite3);
+		echo "Executing query: $query\n";
 		$stmt = $sqlite->prepare($query);
 		if($stmt === false){
 			throw new SqlError(SqlError::STAGE_PREPARE, $sqlite->lastErrorMsg(), $query, $params);
@@ -78,7 +80,6 @@ class Sqlite3Thread extends SqlSlaveThread{
 		if($result === false){
 			throw new SqlError(SqlError::STAGE_EXECUTE, $sqlite->lastErrorMsg(), $query, $params);
 		}
-		echo "Executed $query\n";
 		switch($mode){
 			case SqlThread::MODE_GENERIC:
 				$ret = new SqlResult();

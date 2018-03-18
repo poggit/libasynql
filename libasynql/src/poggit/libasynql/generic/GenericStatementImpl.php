@@ -156,7 +156,6 @@ abstract class GenericStatementImpl implements GenericStatement{
 		$lastPos = 0;
 		foreach($this->varPositions as $pos => $name){
 			$query .= mb_substr($this->query, $lastPos, $pos - $lastPos);
-			$pos = $lastPos;
 			$value = $vars[$name] ?? $this->variables[$name]->getDefault();
 			try{
 				$append = $this->formatVariable($this->variables[$name], $value);
@@ -174,6 +173,7 @@ abstract class GenericStatementImpl implements GenericStatement{
 					$outArgs[$varName] = $value;
 				}
 			}
+			$lastPos = $pos;
 		}
 		$query .= mb_substr($this->query, $lastPos);
 

@@ -158,4 +158,28 @@ class GenericVariable{
 	public function isOptional() : bool{
 		return $this->default !== null;
 	}
+
+	public function equals(GenericVariable $that, &$diff = null) : bool{
+		if($this->name !== $that->name){
+			$diff = "name";
+			return false;
+		}
+		if($this->list !== $that->list){
+			$diff = "isList";
+			return false;
+		}
+		if($this->canEmpty !== $that->canEmpty){
+			$diff = "canBeEmpty";
+			return false;
+		}
+		if($this->type !== $that->type){
+			$diff = "type";
+			return false;
+		}
+		if($this->default !== $that->default){
+			$diff = "defaultValue";
+			return false;
+		}
+		return true;
+	}
 }

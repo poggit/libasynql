@@ -35,6 +35,7 @@ use poggit\libasynql\SqlError;
 use poggit\libasynql\SqlThread;
 use function assert;
 use function json_encode;
+use function var_dump;
 
 class DataConnectorImpl implements DataConnector{
 	/** @var Plugin */
@@ -131,7 +132,7 @@ class DataConnectorImpl implements DataConnector{
 	}
 
 	public function executeSelect(string $queryName, array $args = [], ?callable $onSelect = null, ?callable $onError = null) : void{
-		$this->executeImpl($queryName, $args, SqlThread::MODE_INSERT, function($result) use ($onSelect, $onError){
+		$this->executeImpl($queryName, $args, SqlThread::MODE_SELECT, function($result) use ($onSelect, $onError){
 			if($result instanceof SqlError){
 				$this->reportError($onError, $result);
 			}else{

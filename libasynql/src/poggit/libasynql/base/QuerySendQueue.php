@@ -26,7 +26,6 @@ use Threaded;
 use function is_string;
 use function serialize;
 use function unserialize;
-use function var_dump;
 
 class QuerySendQueue extends Threaded{
 	public function scheduleQuery(int $queryId, int $mode, string $query, array $params){

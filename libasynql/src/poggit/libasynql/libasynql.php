@@ -131,7 +131,7 @@ final class libasynql{
 			throw new ConfigException("Unsupported database type \"$type\". Try \"sqlite\" or \"mysql\".");
 		}
 
-		$pool = new SqlThreadPool($factory, $configData["worker-limit"] ?? 2);
+		$pool = new SqlThreadPool($factory, $configData["worker-limit"] ?? 1);
 		while(!$pool->connCreated()){
 			usleep(1000);
 		}

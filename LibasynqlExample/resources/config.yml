@@ -7,3 +7,4 @@ database:
     username: root
     password: ""
     schema: libasynql_example # remember to change this!
+  worker-limit: 1
