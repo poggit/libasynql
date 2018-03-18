@@ -1,6 +1,5 @@
 var classpoggit_1_1libasynql_1_1base_1_1_sql_slave_thread =
 [
-    [ "__construct", "classpoggit_1_1libasynql_1_1base_1_1_sql_slave_thread.html#ae0cd224ef232e017ae3cf039e37083ea", null ],
     [ "addQuery", "classpoggit_1_1libasynql_1_1base_1_1_sql_slave_thread.html#a3e667144da13484c61020f75d2e76cd8", null ],
     [ "close", "classpoggit_1_1libasynql_1_1base_1_1_sql_slave_thread.html#a12115cf61756d807d28de0fe09c3d89d", null ],
     [ "connCreated", "classpoggit_1_1libasynql_1_1base_1_1_sql_slave_thread.html#ae47681b8648610e27fedf7cdf0cb87dd", null ],

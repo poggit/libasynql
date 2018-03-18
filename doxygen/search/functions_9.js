@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['loadquery',['loadQuery',['../classpoggit_1_1libasynql_1_1base_1_1_data_connector_impl.html#a3e4b737eba0ddd5cf7ac545298094365',1,'poggit\libasynql\base\DataConnectorImpl\loadQuery()'],['../interfacepoggit_1_1libasynql_1_1_data_connector.html#a3e4b737eba0ddd5cf7ac545298094365',1,'poggit\libasynql\DataConnector\loadQuery()']]],
-  ['loadqueryfile',['loadQueryFile',['../classpoggit_1_1libasynql_1_1base_1_1_data_connector_impl.html#aaa4b348460b4d10823dc8bd6bbc21a25',1,'poggit\libasynql\base\DataConnectorImpl\loadQueryFile()'],['../interfacepoggit_1_1libasynql_1_1_data_connector.html#aaa4b348460b4d10823dc8bd6bbc21a25',1,'poggit\libasynql\DataConnector\loadQueryFile()']]]
+  ['join',['join',['../classpoggit_1_1libasynql_1_1base_1_1_sql_thread_pool.html#aa99149be8621fb1b53890ac267e504ef',1,'poggit\libasynql\base\SqlThreadPool\join()'],['../interfacepoggit_1_1libasynql_1_1_sql_thread.html#aa99149be8621fb1b53890ac267e504ef',1,'poggit\libasynql\SqlThread\join()']]],
+  ['jsonserialize',['jsonSerialize',['../classpoggit_1_1libasynql_1_1mysqli_1_1_mysql_credentials.html#ad402d8679325bc514874370f02b5c2ac',1,'poggit::libasynql::mysqli::MysqlCredentials']]]
 ];

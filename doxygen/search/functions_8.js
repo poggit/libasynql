@@ -1,5 +1,7 @@
 var searchData=
 [
-  ['join',['join',['../classpoggit_1_1libasynql_1_1base_1_1_sql_thread_pool.html#aa99149be8621fb1b53890ac267e504ef',1,'poggit\libasynql\base\SqlThreadPool\join()'],['../interfacepoggit_1_1libasynql_1_1_sql_thread.html#aa99149be8621fb1b53890ac267e504ef',1,'poggit\libasynql\SqlThread\join()']]],
-  ['jsonserialize',['jsonSerialize',['../classpoggit_1_1libasynql_1_1mysqli_1_1_mysql_credentials.html#ad402d8679325bc514874370f02b5c2ac',1,'poggit::libasynql::mysqli::MysqlCredentials']]]
+  ['islist',['isList',['../classpoggit_1_1libasynql_1_1generic_1_1_generic_variable.html#af6473829a5b46988846578f91aa5d7c6',1,'poggit::libasynql::generic::GenericVariable']]],
+  ['isoptional',['isOptional',['../classpoggit_1_1libasynql_1_1generic_1_1_generic_variable.html#aa771d9e74542caa5d10f197d706fdecc',1,'poggit::libasynql::generic::GenericVariable']]],
+  ['ispackaged',['isPackaged',['../classpoggit_1_1libasynql_1_1libasynql.html#a2791121af3340a41f30ae452bf4f01ea',1,'poggit::libasynql::libasynql']]],
+  ['isworking',['isWorking',['../classpoggit_1_1libasynql_1_1base_1_1_sql_slave_thread.html#a32d46a484505d7311bd5b5d55fa2fe57',1,'poggit::libasynql::base::SqlSlaveThread']]]
 ];

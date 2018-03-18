@@ -199,7 +199,7 @@
                     string
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_format">format</a>(array $vars, string|null $placeHolder, array $outArgs)
+                    <a href="#method_format">format</a>(array $vars, string|null $placeHolder, array|null $outArgs)
         
                                             <p>Creates a query based on the args and the backend</p>                </div>
                 <div class="col-md-2"></div>
@@ -356,7 +356,7 @@
                     <div class="method-item">
                     <h3 id="method___construct">
         <div class="location">at         <a href="https://github.com/poggit/libasynql/blob/master/libasynql/src/poggit/libasynql/generic/GenericStatementImpl.php#L74">line 74</a></div>
-        <code>            protected        
+        <code>                    
     <strong>__construct</strong>(string $name, string $query, array $variables)
         </code>
     </h3>
@@ -413,9 +413,9 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_format">
-        <div class="location">at         <a href="https://github.com/poggit/libasynql/blob/master/libasynql/src/poggit/libasynql/generic/GenericStatementImpl.php#L145">line 145</a></div>
+        <div class="location">at         <a href="https://github.com/poggit/libasynql/blob/master/libasynql/src/poggit/libasynql/generic/GenericStatementImpl.php#L146">line 146</a></div>
         <code>                    string
-    <strong>format</strong>(array $vars, string|null $placeHolder, array $outArgs)
+    <strong>format</strong>(array $vars, string|null $placeHolder, array|null $outArgs)
         </code>
     </h3>
     <div class="details">
@@ -439,9 +439,9 @@
                 <td>the backend-dependent variable placeholder constant, if any</td>
             </tr>
                     <tr>
-                <td>array</td>
+                <td>array|null</td>
                 <td>$outArgs</td>
-                <td>will be filled with the variables to be passed to the backend</td>
+                <td>&amp;$outArgs    will be filled with the variables to be passed to the backend</td>
             </tr>
             </table>
 
@@ -463,7 +463,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_formatVariable">
-        <div class="location">at         <a href="https://github.com/poggit/libasynql/blob/master/libasynql/src/poggit/libasynql/generic/GenericStatementImpl.php#L180">line 180</a></div>
+        <div class="location">at         <a href="https://github.com/poggit/libasynql/blob/master/libasynql/src/poggit/libasynql/generic/GenericStatementImpl.php#L183">line 183</a></div>
         <code>    abstract        protected        
     <strong>formatVariable</strong>(<a href="../../../poggit/libasynql/generic/GenericVariable.html"><abbr title="poggit\libasynql\generic\GenericVariable">GenericVariable</abbr></a> $variable, $value)
         </code>
