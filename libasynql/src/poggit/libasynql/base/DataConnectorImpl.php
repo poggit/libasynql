@@ -24,6 +24,7 @@ namespace poggit\libasynql\base;
 
 use InvalidArgumentException;
 use pocketmine\plugin\Plugin;
+use pocketmine\scheduler\PluginTask;
 use poggit\libasynql\DataConnector;
 use poggit\libasynql\generic\GenericStatementFileParser;
 use poggit\libasynql\GenericStatement;
@@ -46,6 +47,7 @@ class DataConnectorImpl implements DataConnector{
 	private $queryId = 0;
 	/** @var string|null */
 	private $placeHolder;
+	private $task;
 
 	/**
 	 * @param Plugin      $plugin
@@ -56,6 +58,23 @@ class DataConnectorImpl implements DataConnector{
 		$this->plugin = $plugin;
 		$this->thread = $thread;
 		$this->placeHolder = $placeHolder;
+
+		$this->task = new class($plugin, $this) extends PluginTask{
+			/** @var Plugin */
+			private $plugin;
+			/** @var DataConnectorImpl */
+			private $connector;
+
+			public function __construct(Plugin $plugin, DataConnectorImpl $connector){
+				parent::__construct($plugin);
+				$this->connector = $connector;
+			}
+
+			public function onRun(int $currentTick) : void{
+				$this->connector->checkResults();
+			}
+		};
+		$this->plugin->getServer()->getScheduler()->scheduleRepeatingTask($this->task, 1);
 	}
 
 	public function loadQueryFile($fh) : void{
@@ -67,7 +86,7 @@ class DataConnectorImpl implements DataConnector{
 	}
 
 	public function loadQuery(GenericStatement $stmt) : void{
-		if(!isset($this->queries[$stmt->getName()])){
+		if(isset($this->queries[$stmt->getName()])){
 			throw new InvalidArgumentException("Duplicate GenericStatement: {$stmt->getName()}");
 		}
 		$this->queries[$stmt->getName()] = $stmt;
@@ -128,14 +147,14 @@ class DataConnectorImpl implements DataConnector{
 		$queryId = $this->queryId++;
 		$this->handlers[$queryId] = $handler;
 
-		if(!isset($this->queryId[$queryName])){
+		if(!isset($this->queries[$queryName])){
 			throw new InvalidArgumentException("The query $queryName has not been loaded");
 		}
 		$query = $this->queries[$queryName]->format($args, $this->placeHolder, $outArgs);
 		$this->thread->addQuery($queryId, $mode, $query, $outArgs);
 	}
 
-	private function reportError(callable $default, SqlError $error){
+	private function reportError(?callable $default, SqlError $error){
 		if($default !== null){
 			$default($error);
 		}else{
@@ -155,5 +174,6 @@ class DataConnectorImpl implements DataConnector{
 
 	public function close() : void{
 		$this->thread->stopRunning();
+		$this->plugin->getServer()->getScheduler()->cancelTask($this->task->getTaskId());
 	}
 }

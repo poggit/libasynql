@@ -28,7 +28,6 @@ use function array_pop;
 use function assert;
 use function count;
 use function fclose;
-use function feof;
 use function fgets;
 use function implode;
 use function ltrim;
@@ -73,8 +72,8 @@ class GenericStatementFileParser{
 	 */
 	public function parse() : void{
 		try{
-			while(!feof($this->fh)){
-				$this->readLine();
+			while(($line = fgets($this->fh)) !== false){
+				$this->readLine($this->lineNo + 1, $line);
 			}
 			if(!empty($this->identifierStack)){
 				$this->error("Unexpected end of file, " . count($this->identifierStack) . " groups not closed");
@@ -91,9 +90,9 @@ class GenericStatementFileParser{
 		return $this->results;
 	}
 
-	private function readLine() : void{
-		++$this->lineNo;
-		$line = trim(fgets($this->fh));
+	private function readLine(int $lineNo, string $line) : void{
+		$this->lineNo = $lineNo; // In fact I don't need this parameter. I just want to get the line number onto the stack trace.
+		$line = trim($line);
 
 		if($line === ""){
 			return;
@@ -188,6 +187,7 @@ class GenericStatementFileParser{
 			$stmt = GenericStatementImpl::forDialect($this->knownDialect, implode(".", $this->identifierStack), $query, $this->variables);
 			$this->variables = [];
 			$this->buffer = [];
+			$this->parsingQuery = false;
 
 			if(isset($this->results[$stmt->getName()])){
 				$this->error("Duplicate query name ({$stmt->getName()})");

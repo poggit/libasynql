@@ -23,17 +23,20 @@ declare(strict_types=1);
 namespace poggit\libasynql\base;
 
 use Threaded;
-use function is_array;
+use function is_string;
+use function serialize;
+use function unserialize;
+use function var_dump;
 
 class QuerySendQueue extends Threaded{
 	public function scheduleQuery(int $queryId, int $mode, string $query, array $params){
-		$this[] = [$queryId, $mode, $query, $params];
+		$this[] = serialize([$queryId, $mode, $query, $params]);
 	}
 
 	public function fetchQuery(&$queryId, &$mode, &$query, &$params) : bool{
 		$row = $this->shift();
-		if(is_array($row)){
-			[$queryId, $mode, $query, $params] = $row;
+		if(is_string($row)){
+			[$queryId, $mode, $query, $params] = unserialize($row, []);
 			return true;
 		}
 		return false;

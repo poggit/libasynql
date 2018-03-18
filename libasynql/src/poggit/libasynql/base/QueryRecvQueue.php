@@ -25,21 +25,23 @@ namespace poggit\libasynql\base;
 use poggit\libasynql\SqlError;
 use poggit\libasynql\SqlResult;
 use Threaded;
-use function is_array;
+use function is_string;
+use function serialize;
+use function unserialize;
 
 class QueryRecvQueue extends Threaded{
 	public function publishResult(int $queryId, SqlResult $result){
-		$this[] = [$queryId, $result];
+		$this[] = serialize([$queryId, $result]);
 	}
 
 	public function publishError(int $queryId, SqlError $error){
-		$this[] = [$queryId, $error];
+		$this[] = serialize([$queryId, $error]);
 	}
 
 	public function fetchResult(&$queryId, &$result) : bool{
 		$row = $this->shift();
-		if(is_array($row)){
-			[$queryId, $result] = $row;
+		if(is_string($row)){
+			[$queryId, $result] = unserialize($row, []);
 			return true;
 		}
 		return false;

@@ -22,8 +22,11 @@ declare(strict_types=1);
 
 namespace poggit\libasynql\base;
 
+use ClassLoader;
 use InvalidArgumentException;
+use pocketmine\Server;
 use pocketmine\Thread;
+use poggit\libasynql\libasynql;
 use poggit\libasynql\SqlError;
 use poggit\libasynql\SqlResult;
 use poggit\libasynql\SqlThread;
@@ -40,15 +43,23 @@ abstract class SqlSlaveThread extends Thread implements SqlThread{
 		$this->bufferSend = $bufferSend ?? new QuerySendQueue();
 		$this->bufferRecv = $bufferRecv ?? new QueryRecvQueue();
 
+		if(!libasynql::isPackaged()){
+			/** @noinspection PhpUndefinedMethodInspection */
+			/** @noinspection NullPointerExceptionInspection */
+			/** @var ClassLoader $cl */
+			$cl = Server::getInstance()->getPluginManager()->getPlugin("DEVirion")->getVirionClassLoader();
+			$this->setClassLoader($cl);
+		}
 		$this->start();
 	}
 
 	public function run(){
+		$this->registerClassLoader();
 		$error = $this->createConn($resource);
 		$this->connCreated = true;
 		$this->connError = $error;
 
-		if($error === null){
+		if($error !== null){
 			return;
 		}
 

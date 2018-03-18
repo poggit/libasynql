@@ -23,6 +23,7 @@ declare(strict_types=1);
 namespace poggit\libasynql;
 
 use pocketmine\plugin\Plugin;
+use pocketmine\utils\Terminal;
 use pocketmine\utils\Utils;
 use poggit\libasynql\base\DataConnectorImpl;
 use poggit\libasynql\base\QueryRecvQueue;
@@ -41,6 +42,21 @@ use function usleep;
  * An utility class providing convenient access to the API
  */
 final class libasynql{
+	/** @var bool */
+	private static $packaged;
+
+	public static function isPackaged() : bool{
+		return self::$packaged;
+	}
+
+	public static function detectPackaged() : void{
+		self::$packaged = __CLASS__ !== 'poggit\libasynql\libasynql';
+
+		if(!self::$packaged){
+			echo Terminal::$COLOR_YELLOW . "Warning: Use of unshaded libasynql detected. This may lead to performance drop. Do not do so in production.\n";
+		}
+	}
+
 	private function __construct(){
 	}
 
@@ -142,3 +158,5 @@ final class libasynql{
 		return $folder . $path;
 	}
 }
+
+libasynql::detectPackaged();

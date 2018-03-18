@@ -71,7 +71,7 @@ abstract class GenericStatementImpl implements GenericStatement{
 		return new $className($name, $query, $variables);
 	}
 
-	protected function __construct(string $name, string $query, array $variables){
+	public function __construct(string $name, string $query, array $variables){
 		$this->name = $name;
 		$this->query = $query;
 		$this->variables = $variables;
@@ -132,6 +132,7 @@ abstract class GenericStatementImpl implements GenericStatement{
 			$this->varPositions[mb_strlen($newQuery)] = $name; // we aren't using $pos here, because we want the position in the cleaned string, not the position in the original query string
 			$lastPos = $pos + mb_strlen($name) + 1;
 		}
+		$newQuery .= mb_substr($this->query, $lastPos);
 
 		$this->query = $newQuery;
 
@@ -142,7 +143,7 @@ abstract class GenericStatementImpl implements GenericStatement{
 		}
 	}
 
-	public function format(array $vars, ?string $placeHolder, array &$outArgs) : string{
+	public function format(array $vars, ?string $placeHolder, ?array &$outArgs) : string{
 		$outArgs = [];
 		foreach($this->variables as $variable){
 			if(!$variable->isOptional() && !isset($vars[$variable->getName()])){
@@ -155,6 +156,7 @@ abstract class GenericStatementImpl implements GenericStatement{
 		$lastPos = 0;
 		foreach($this->varPositions as $pos => $name){
 			$query .= mb_substr($this->query, $lastPos, $pos - $lastPos);
+			$pos = $lastPos;
 			$value = $vars[$name] ?? $this->variables[$name]->getDefault();
 			try{
 				$append = $this->formatVariable($this->variables[$name], $value);
@@ -173,6 +175,7 @@ abstract class GenericStatementImpl implements GenericStatement{
 				}
 			}
 		}
+		$query .= mb_substr($this->query, $lastPos);
 
 		return $query;
 	}
