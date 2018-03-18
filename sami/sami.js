@@ -19,8 +19,6 @@ window.projectVersion = 'master';
     var searchIndex = [
                     
             {"type": "Namespace", "link": "foo.html", "name": "foo", "doc": "Namespace foo"},{"type": "Namespace", "link": "foo/bar.html", "name": "foo\\bar", "doc": "Namespace foo\\bar"},{"type": "Namespace", "link": "poggit.html", "name": "poggit", "doc": "Namespace poggit"},{"type": "Namespace", "link": "poggit/libasynql.html", "name": "poggit\\libasynql", "doc": "Namespace poggit\\libasynql"},{"type": "Namespace", "link": "poggit/libasynql/base.html", "name": "poggit\\libasynql\\base", "doc": "Namespace poggit\\libasynql\\base"},{"type": "Namespace", "link": "poggit/libasynql/generic.html", "name": "poggit\\libasynql\\generic", "doc": "Namespace poggit\\libasynql\\generic"},{"type": "Namespace", "link": "poggit/libasynql/mysqli.html", "name": "poggit\\libasynql\\mysqli", "doc": "Namespace poggit\\libasynql\\mysqli"},{"type": "Namespace", "link": "poggit/libasynql/result.html", "name": "poggit\\libasynql\\result", "doc": "Namespace poggit\\libasynql\\result"},{"type": "Namespace", "link": "poggit/libasynql/sqlite3.html", "name": "poggit\\libasynql\\sqlite3", "doc": "Namespace poggit\\libasynql\\sqlite3"},
-            {"type": "Interface", "fromName": "foo\\bar", "fromLink": "foo/bar.html", "link": "foo/bar/Constants.html", "name": "foo\\bar\\Constants", "doc": "&quot;&quot;"},
-                    
             {"type": "Interface", "fromName": "poggit\\libasynql", "fromLink": "poggit/libasynql.html", "link": "poggit/libasynql/DataConnector.html", "name": "poggit\\libasynql\\DataConnector", "doc": "&quot;Represents a database connection or a group of database connections&quot;"},
                                                         {"type": "Method", "fromName": "poggit\\libasynql\\DataConnector", "fromLink": "poggit/libasynql/DataConnector.html", "link": "poggit/libasynql/DataConnector.html#method_loadQueryFile", "name": "poggit\\libasynql\\DataConnector::loadQueryFile", "doc": "&quot;Loads pre-formatted queries from a readable stream resource.&quot;"},
                     {"type": "Method", "fromName": "poggit\\libasynql\\DataConnector", "fromLink": "poggit/libasynql/DataConnector.html", "link": "poggit/libasynql/DataConnector.html#method_loadQuery", "name": "poggit\\libasynql\\DataConnector::loadQuery", "doc": "&quot;Loads a pre-formatted query.&quot;"},
@@ -52,8 +50,6 @@ window.projectVersion = 'master';
             {"type": "Interface", "fromName": "poggit\\libasynql\\mysqli", "fromLink": "poggit/libasynql/mysqli.html", "link": "poggit/libasynql/mysqli/MysqlTypes.html", "name": "poggit\\libasynql\\mysqli\\MysqlTypes", "doc": "&quot;Result field types returned by MySQL&quot;"},
                     
             
-            {"type": "Class", "fromName": "foo\\bar", "fromLink": "foo/bar.html", "link": "foo/bar/Constants.html", "name": "foo\\bar\\Constants", "doc": "&quot;&quot;"},
-                    
             {"type": "Class", "fromName": "poggit\\libasynql", "fromLink": "poggit/libasynql.html", "link": "poggit/libasynql/ConfigException.html", "name": "poggit\\libasynql\\ConfigException", "doc": "&quot;&quot;"},
                                                         {"type": "Method", "fromName": "poggit\\libasynql\\ConfigException", "fromLink": "poggit/libasynql/ConfigException.html", "link": "poggit/libasynql/ConfigException.html#method___construct", "name": "poggit\\libasynql\\ConfigException::__construct", "doc": "&quot;&quot;"},
             
