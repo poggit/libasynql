@@ -2,6 +2,7 @@ var classpoggit_1_1libasynql_1_1generic_1_1_generic_variable =
 [
     [ "__construct", "classpoggit_1_1libasynql_1_1generic_1_1_generic_variable.html#ae0403437df45130887d341fb2ad4bfbd", null ],
     [ "canBeEmpty", "classpoggit_1_1libasynql_1_1generic_1_1_generic_variable.html#a77129e8d18f64bc785bd4a1f5b0217fe", null ],
+    [ "equals", "classpoggit_1_1libasynql_1_1generic_1_1_generic_variable.html#a9a85b0770ea33fba90ab893768d45a57", null ],
     [ "getDefault", "classpoggit_1_1libasynql_1_1generic_1_1_generic_variable.html#adc30a2a4d3e48cb6aee21562afbc4022", null ],
     [ "getName", "classpoggit_1_1libasynql_1_1generic_1_1_generic_variable.html#a3d0963e68bb313b163a73f2803c64600", null ],
     [ "getType", "classpoggit_1_1libasynql_1_1generic_1_1_generic_variable.html#a830b5c75df72b32396701bc563fbe3c7", null ],

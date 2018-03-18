@@ -1,5 +1,6 @@
 var hierarchy =
 [
+    [ "Constants", "interfacefoo_1_1bar_1_1_constants.html", null ],
     [ "DataConnector", "interfacepoggit_1_1libasynql_1_1_data_connector.html", [
       [ "DataConnectorImpl", "classpoggit_1_1libasynql_1_1base_1_1_data_connector_impl.html", null ]
     ] ],
