@@ -57,7 +57,7 @@ interface DataConnector{
 	 * @param callable|null $onSuccess an optional callback when the query has succeeded: <code>function() : void{}</code>
 	 * @param callable|null $onError   an optional callback when the query has failed: <code>function({@link SqlError} $error) : void{}</code>
 	 */
-	public function executeGeneric(string $queryName, array $args, ?callable $onSuccess = null, ?callable $onError = null) : void;
+	public function executeGeneric(string $queryName, array $args = [], ?callable $onSuccess = null, ?callable $onError = null) : void;
 
 	/**
 	 * Executes a query that changes data.
@@ -67,7 +67,7 @@ interface DataConnector{
 	 * @param callable|null $onSuccess an optional callback when the query has succeeded: <code>function(int $affectedRows) : void{}</code>
 	 * @param callable|null $onError   an optional callback when the query has failed: <code>function({@link SqlError} $error) : void{}</code>
 	 */
-	public function executeChange(string $queryName, array $args, ?callable $onSuccess = null, ?callable $onError = null) : void;
+	public function executeChange(string $queryName, array $args = [], ?callable $onSuccess = null, ?callable $onError = null) : void;
 
 	/**
 	 * Executes an insert query that results in an insert ID.
@@ -77,7 +77,7 @@ interface DataConnector{
 	 * @param callable|null $onInserted an optional callback when the query has succeeded: <code>function(int $insertId, callable $affectedRows) : void{}</code>
 	 * @param callable|null $onError    an optional callback when the query has failed: <code>function({@link SqlError} $error) : void{}</code>
 	 */
-	public function executeInsert(string $queryName, array $args, ?callable $onInserted = null, ?callable $onError = null) : void;
+	public function executeInsert(string $queryName, array $args = [], ?callable $onInserted = null, ?callable $onError = null) : void;
 
 	/**
 	 * Executes a select query that returns an SQL result set. This does not strictly need to be SELECT queries -- reflection queries like MySQL's <code>SHOW TABLES</code> query are also allowed.
@@ -87,7 +87,7 @@ interface DataConnector{
 	 * @param callable|null $onSelect  an optional callback when the query has succeeded: <code>function({@link \poggit\libasynql\result\SqlSelectResult SqlSelectResult} $result) : void{}</code>
 	 * @param callable|null $onError   an optional callback when the query has failed: <code>function({@link SqlError} $error) : void{}</code>
 	 */
-	public function executeSelect(string $queryName, array $args, ?callable $onSelect = null, ?callable $onError = null) : void;
+	public function executeSelect(string $queryName, array $args = [], ?callable $onSelect = null, ?callable $onError = null) : void;
 
 	/**
 	 * Closes the connection and/or all child connections. Remember to call this method when the plugin is disabled or the data provider is switched.

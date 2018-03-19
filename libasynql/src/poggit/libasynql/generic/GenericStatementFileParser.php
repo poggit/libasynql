@@ -32,6 +32,7 @@ use function fgets;
 use function implode;
 use function ltrim;
 use function preg_split;
+use function strlen;
 use function strpos;
 use function substr;
 use function trim;
@@ -115,6 +116,9 @@ class GenericStatementFileParser{
 		}
 
 		$line = ltrim(substr($line, 4));
+		if($line === ''){
+			return true;
+		}
 		$cmd = $line{0};
 		$args = [];
 		$argOffsets = [];
@@ -140,7 +144,7 @@ class GenericStatementFileParser{
 				return true;
 		}
 
-		return false;
+		return true;
 	}
 
 	private function dialectCommand(array $args) : void{
