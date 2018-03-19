@@ -119,7 +119,7 @@
                     
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_executeGeneric">executeGeneric</a>(string $queryName, array $args, callable|null $onSuccess = null, callable|null $onError = null)
+                    <a href="#method_executeGeneric">executeGeneric</a>(string $queryName, array $args = [], callable|null $onSuccess = null, callable|null $onError = null)
         
                                             <p>Executes a generic query that either succeeds or fails.</p>                </div>
                 <div class="col-md-2"></div>
@@ -129,7 +129,7 @@
                     
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_executeChange">executeChange</a>(string $queryName, array $args, callable|null $onSuccess = null, callable|null $onError = null)
+                    <a href="#method_executeChange">executeChange</a>(string $queryName, array $args = [], callable|null $onSuccess = null, callable|null $onError = null)
         
                                             <p>Executes a query that changes data.</p>                </div>
                 <div class="col-md-2"></div>
@@ -139,7 +139,7 @@
                     
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_executeInsert">executeInsert</a>(string $queryName, array $args, callable|null $onInserted = null, callable|null $onError = null)
+                    <a href="#method_executeInsert">executeInsert</a>(string $queryName, array $args = [], callable|null $onInserted = null, callable|null $onError = null)
         
                                             <p>Executes an insert query that results in an insert ID.</p>                </div>
                 <div class="col-md-2"></div>
@@ -149,7 +149,7 @@
                     
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_executeSelect">executeSelect</a>(string $queryName, array $args, callable|null $onSelect = null, callable|null $onError = null)
+                    <a href="#method_executeSelect">executeSelect</a>(string $queryName, array $args = [], callable|null $onSelect = null, callable|null $onError = null)
         
                                             <p>Executes a select query that returns an SQL result set. This does not strictly need to be SELECT queries -- reflection queries like MySQL's <code>SHOW TABLES</code> query are also allowed.</p>                </div>
                 <div class="col-md-2"></div>
@@ -258,7 +258,7 @@
                     <h3 id="method_executeGeneric">
         <div class="location">at         <a href="https://github.com/poggit/libasynql/blob/master/libasynql/src/poggit/libasynql/DataConnector.php#L60">line 60</a></div>
         <code>                    
-    <strong>executeGeneric</strong>(string $queryName, array $args, callable|null $onSuccess = null, callable|null $onError = null)
+    <strong>executeGeneric</strong>(string $queryName, array $args = [], callable|null $onSuccess = null, callable|null $onError = null)
         </code>
     </h3>
     <div class="details">
@@ -304,7 +304,7 @@
                     <h3 id="method_executeChange">
         <div class="location">at         <a href="https://github.com/poggit/libasynql/blob/master/libasynql/src/poggit/libasynql/DataConnector.php#L70">line 70</a></div>
         <code>                    
-    <strong>executeChange</strong>(string $queryName, array $args, callable|null $onSuccess = null, callable|null $onError = null)
+    <strong>executeChange</strong>(string $queryName, array $args = [], callable|null $onSuccess = null, callable|null $onError = null)
         </code>
     </h3>
     <div class="details">
@@ -350,7 +350,7 @@
                     <h3 id="method_executeInsert">
         <div class="location">at         <a href="https://github.com/poggit/libasynql/blob/master/libasynql/src/poggit/libasynql/DataConnector.php#L80">line 80</a></div>
         <code>                    
-    <strong>executeInsert</strong>(string $queryName, array $args, callable|null $onInserted = null, callable|null $onError = null)
+    <strong>executeInsert</strong>(string $queryName, array $args = [], callable|null $onInserted = null, callable|null $onError = null)
         </code>
     </h3>
     <div class="details">
@@ -396,7 +396,7 @@
                     <h3 id="method_executeSelect">
         <div class="location">at         <a href="https://github.com/poggit/libasynql/blob/master/libasynql/src/poggit/libasynql/DataConnector.php#L90">line 90</a></div>
         <code>                    
-    <strong>executeSelect</strong>(string $queryName, array $args, callable|null $onSelect = null, callable|null $onError = null)
+    <strong>executeSelect</strong>(string $queryName, array $args = [], callable|null $onSelect = null, callable|null $onError = null)
         </code>
     </h3>
     <div class="details">

@@ -7,8 +7,6 @@ var searchData=
   ['configexception',['ConfigException',['../classpoggit_1_1libasynql_1_1_config_exception.html',1,'poggit::libasynql']]],
   ['configexception_2ephp',['ConfigException.php',['../_config_exception_8php.html',1,'']]],
   ['conncreated',['connCreated',['../classpoggit_1_1libasynql_1_1base_1_1_sql_slave_thread.html#ae47681b8648610e27fedf7cdf0cb87dd',1,'poggit\libasynql\base\SqlSlaveThread\connCreated()'],['../classpoggit_1_1libasynql_1_1base_1_1_sql_thread_pool.html#ae47681b8648610e27fedf7cdf0cb87dd',1,'poggit\libasynql\base\SqlThreadPool\connCreated()'],['../interfacepoggit_1_1libasynql_1_1_sql_thread.html#ae47681b8648610e27fedf7cdf0cb87dd',1,'poggit\libasynql\SqlThread\connCreated()']]],
-  ['constants',['Constants',['../interfacefoo_1_1bar_1_1_constants.html',1,'foo::bar']]],
-  ['constants_2ephp',['Constants.php',['../_constants_8php.html',1,'']]],
   ['create',['create',['../classpoggit_1_1libasynql_1_1libasynql.html#add1449f8fef87cc275a3d99f2440c642',1,'poggit::libasynql::libasynql']]],
   ['createconn',['createConn',['../classpoggit_1_1libasynql_1_1base_1_1_sql_slave_thread.html#a8fc78ae034fe104d676d7d85d97cd79c',1,'poggit\libasynql\base\SqlSlaveThread\createConn()'],['../classpoggit_1_1libasynql_1_1sqlite3_1_1_sqlite3_thread.html#a8703b67f742aad39c686375e5625f324',1,'poggit\libasynql\sqlite3\Sqlite3Thread\createConn()']]]
 ];
