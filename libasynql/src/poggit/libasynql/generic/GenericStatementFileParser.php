@@ -40,6 +40,8 @@ use const PREG_SPLIT_NO_EMPTY;
 use const PREG_SPLIT_OFFSET_CAPTURE;
 
 class GenericStatementFileParser{
+	/** @var string */
+	private $fileName;
 	/** @var resource */
 	private $fh;
 	/** @var int */
@@ -60,9 +62,11 @@ class GenericStatementFileParser{
 	private $results = [];
 
 	/**
+	 * @param string   $fileName
 	 * @param resource $fh
 	 */
-	public function __construct($fh){
+	public function __construct(string $fileName, $fh){
+		$this->fileName = $fileName;
 		$this->fh = $fh;
 	}
 
@@ -188,7 +192,7 @@ class GenericStatementFileParser{
 
 			$query = implode("\n", $this->buffer);
 			assert($this->knownDialect !== null);
-			$stmt = GenericStatementImpl::forDialect($this->knownDialect, implode(".", $this->identifierStack), $query, $this->variables);
+			$stmt = GenericStatementImpl::forDialect($this->knownDialect, implode(".", $this->identifierStack), $query, $this->variables, $this->fileName, $this->lineNo);
 			$this->variables = [];
 			$this->buffer = [];
 			$this->parsingQuery = false;

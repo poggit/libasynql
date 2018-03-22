@@ -32,7 +32,10 @@ use poggit\libasynql\SqlResult;
 use poggit\libasynql\SqlThread;
 
 abstract class SqlSlaveThread extends Thread implements SqlThread{
+	private static $nextSlaveNumber = 0;
+
 	private $running = true;
+	protected $slaveNumber;
 	protected $bufferSend;
 	protected $bufferRecv;
 	protected $connCreated = false;
@@ -40,6 +43,7 @@ abstract class SqlSlaveThread extends Thread implements SqlThread{
 	protected $working = false;
 
 	protected function __construct(QuerySendQueue $bufferSend = null, QueryRecvQueue $bufferRecv = null){
+		$this->slaveNumber = self::$nextSlaveNumber++;
 		$this->bufferSend = $bufferSend ?? new QuerySendQueue();
 		$this->bufferRecv = $bufferRecv ?? new QueryRecvQueue();
 
@@ -89,6 +93,10 @@ abstract class SqlSlaveThread extends Thread implements SqlThread{
 
 	public function stopRunning() : void{
 		$this->running = false;
+	}
+
+	public function quit(){
+		$this->stopRunning();
 	}
 
 	public function addQuery(int $queryId, int $mode, string $query, array $params) : void{

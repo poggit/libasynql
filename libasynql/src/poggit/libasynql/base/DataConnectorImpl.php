@@ -78,8 +78,8 @@ class DataConnectorImpl implements DataConnector{
 		$this->plugin->getServer()->getScheduler()->scheduleRepeatingTask($this->task, 1);
 	}
 
-	public function loadQueryFile($fh) : void{
-		$parser = new GenericStatementFileParser($fh);
+	public function loadQueryFile($fh, string $fileName = null) : void{
+		$parser = new GenericStatementFileParser($fileName, $fh);
 		$parser->parse();
 		foreach($parser->getResults() as $result){
 			$this->loadQuery($result);

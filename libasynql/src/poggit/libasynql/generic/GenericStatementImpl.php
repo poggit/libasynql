@@ -39,6 +39,10 @@ abstract class GenericStatementImpl implements GenericStatement{
 	protected $query;
 	/** @var GenericVariable[] */
 	protected $variables;
+	/** @var string */
+	protected $file;
+	/** @var int */
+	protected $lineNo;
 
 	/** @var string[] */
 	protected $varPositions = [];
@@ -55,26 +59,38 @@ abstract class GenericStatementImpl implements GenericStatement{
 		return $this->variables;
 	}
 
+	public function getFile() : string{
+		return $this->file;
+	}
+
+	public function getLineNumber() : int{
+		return $this->lineNo;
+	}
+
 	/**
 	 * @param string            $dialect
 	 * @param string            $name
 	 * @param string            $query
 	 * @param GenericVariable[] $variables
+	 * @param string            $file
+	 * @param int               $lineNo
 	 * @return GenericStatementImpl
 	 */
-	public static function forDialect(string $dialect, string $name, string $query, array $variables) : GenericStatementImpl{
+	public static function forDialect(string $dialect, string $name, string $query, array $variables, string $file, int $lineNo) : GenericStatementImpl{
 		static $classMap = [
 			SqlDialect::MYSQL => MysqlStatementImpl::class,
 			SqlDialect::SQLITE => SqliteStatementImpl::class,
 		];
 		$className = $classMap[$dialect];
-		return new $className($name, $query, $variables);
+		return new $className($name, $query, $variables, $file, $lineNo);
 	}
 
-	public function __construct(string $name, string $query, array $variables){
+	public function __construct(string $name, string $query, array $variables, string $file, int $lineNo){
 		$this->name = $name;
 		$this->query = $query;
 		$this->variables = $variables;
+		$this->file = $file;
+		$this->lineNo = $lineNo;
 
 		$this->compilePositions();
 	}

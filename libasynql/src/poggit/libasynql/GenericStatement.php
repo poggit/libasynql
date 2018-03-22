@@ -39,12 +39,18 @@ interface GenericStatement{
 	 */
 	public function getName() : string;
 
+	public function getQuery() : string;
+
 	/**
 	 * Returns the variables required by this statement
 	 *
 	 * @return GenericVariable[]
 	 */
 	public function getVariables() : array;
+
+	public function getFile() : string;
+
+	public function getLineNumber() : int;
 
 	/**
 	 * Creates a query based on the args and the backend

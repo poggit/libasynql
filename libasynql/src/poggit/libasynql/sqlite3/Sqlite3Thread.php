@@ -43,7 +43,6 @@ use const SQLITE3_FLOAT;
 use const SQLITE3_INTEGER;
 use const SQLITE3_NULL;
 use const SQLITE3_TEXT;
-use function var_dump;
 
 class Sqlite3Thread extends SqlSlaveThread{
 	/** @var string */
@@ -57,6 +56,7 @@ class Sqlite3Thread extends SqlSlaveThread{
 	protected function createConn(&$sqlite) : ?string{
 		try{
 			$sqlite = new SQLite3($this->path);
+			$sqlite->busyTimeout(60000); // default value in SQLite2
 			return null;
 		}catch(Exception $e){
 			return $e->getMessage();
@@ -65,7 +65,6 @@ class Sqlite3Thread extends SqlSlaveThread{
 
 	protected function executeQuery(&$sqlite, int $mode, string $query, array $params) : SqlResult{
 		assert($sqlite instanceof SQLite3);
-		echo "Executing query: $query\n";
 		$stmt = $sqlite->prepare($query);
 		if($stmt === false){
 			throw new SqlError(SqlError::STAGE_PREPARE, $sqlite->lastErrorMsg(), $query, $params);
@@ -124,5 +123,9 @@ class Sqlite3Thread extends SqlSlaveThread{
 	protected function close(&$resource) : void{
 		assert($resource instanceof SQLite3);
 		$resource->close();
+	}
+
+	public function getThreadName() : string{
+		return __NAMESPACE__ . " connector #$this->slaveNumber";
 	}
 }

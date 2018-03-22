@@ -216,4 +216,8 @@ class MysqliThread extends SqlSlaveThread{
 		assert($mysqli instanceof mysqli);
 		$mysqli->close();
 	}
+
+	public function getThreadName() : string{
+		return __NAMESPACE__ . " connector #$this->slaveNumber";
+	}
 }
