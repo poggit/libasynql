@@ -1,7 +1,7 @@
 <?php
 
 /*
- * libasynql_v3
+ * libasynql
  *
  * Copyright (C) 2018 SOFe
  *
