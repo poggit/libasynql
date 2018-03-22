@@ -48,7 +48,7 @@ interface GenericStatement{
 	 */
 	public function getVariables() : array;
 
-	public function getFile() : string;
+	public function getFile() : ?string;
 
 	public function getLineNumber() : int;
 

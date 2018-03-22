@@ -32,7 +32,6 @@ use function fgets;
 use function implode;
 use function ltrim;
 use function preg_split;
-use function strlen;
 use function strpos;
 use function substr;
 use function trim;
@@ -40,7 +39,7 @@ use const PREG_SPLIT_NO_EMPTY;
 use const PREG_SPLIT_OFFSET_CAPTURE;
 
 class GenericStatementFileParser{
-	/** @var string */
+	/** @var string|null */
 	private $fileName;
 	/** @var resource */
 	private $fh;
@@ -62,10 +61,10 @@ class GenericStatementFileParser{
 	private $results = [];
 
 	/**
-	 * @param string   $fileName
-	 * @param resource $fh
+	 * @param string|null $fileName
+	 * @param resource    $fh
 	 */
-	public function __construct(string $fileName, $fh){
+	public function __construct(?string $fileName, $fh){
 		$this->fileName = $fileName;
 		$this->fh = $fh;
 	}
