@@ -99,8 +99,8 @@ Inheritance diagram for DataConnector:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:aaa4b348460b4d10823dc8bd6bbc21a25"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interfacepoggit_1_1libasynql_1_1_data_connector.html#aaa4b348460b4d10823dc8bd6bbc21a25">loadQueryFile</a> ($fh)</td></tr>
-<tr class="separator:aaa4b348460b4d10823dc8bd6bbc21a25"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aca641c7d886ca64336090231bef692dd"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interfacepoggit_1_1libasynql_1_1_data_connector.html#aca641c7d886ca64336090231bef692dd">loadQueryFile</a> ($fh, string $fileName=null)</td></tr>
+<tr class="separator:aca641c7d886ca64336090231bef692dd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3e4b737eba0ddd5cf7ac545298094365"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interfacepoggit_1_1libasynql_1_1_data_connector.html#a3e4b737eba0ddd5cf7ac545298094365">loadQuery</a> (<a class="el" href="interfacepoggit_1_1libasynql_1_1_generic_statement.html">GenericStatement</a> $stmt)</td></tr>
 <tr class="separator:a3e4b737eba0ddd5cf7ac545298094365"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a35f5b3eb724d8aee21eb41765ef86cb1"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="interfacepoggit_1_1libasynql_1_1_data_connector.html#a35f5b3eb724d8aee21eb41765ef86cb1">executeGeneric</a> (string $queryName, array $args=[], ?callable $onSuccess=null, ?callable $onError=null)</td></tr>
@@ -379,8 +379,8 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="aaa4b348460b4d10823dc8bd6bbc21a25"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aaa4b348460b4d10823dc8bd6bbc21a25">&#9670;&nbsp;</a></span>loadQueryFile()</h2>
+<a id="aca641c7d886ca64336090231bef692dd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aca641c7d886ca64336090231bef692dd">&#9670;&nbsp;</a></span>loadQueryFile()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -389,8 +389,18 @@ Public Member Functions</h2></td></tr>
           <td class="memname">loadQueryFile </td>
           <td>(</td>
           <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>$fh</em></td><td>)</td>
+          <td class="paramname"><em>$fh</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>$fileName</em> = <code>null</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -398,7 +408,8 @@ Public Member Functions</h2></td></tr>
 <p>The implementation will close the stream after reading.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramtype">resource</td><td class="paramname">$fh</td><td>a stream that supports <code>feof()</code>, <code>fgets()</code> and <code>fclose()</code>.</td></tr>
+    <tr><td class="paramtype">resource</td><td class="paramname">$fh</td><td>a stream that supports <code>feof()</code>, <code>fgets()</code> and <code>fclose()</code>. </td></tr>
+    <tr><td class="paramtype">string</td><td class="paramname">$fileName</td><td>the filename providing the stream, only used for debugging and documentation purposes</td></tr>
   </table>
   </dd>
 </dl>
@@ -410,7 +421,7 @@ Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 
-<p>Implemented in <a class="el" href="classpoggit_1_1libasynql_1_1base_1_1_data_connector_impl.html#aaa4b348460b4d10823dc8bd6bbc21a25">DataConnectorImpl</a>.</p>
+<p>Implemented in <a class="el" href="classpoggit_1_1libasynql_1_1base_1_1_data_connector_impl.html#aca641c7d886ca64336090231bef692dd">DataConnectorImpl</a>.</p>
 
 </div>
 </div>

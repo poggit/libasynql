@@ -8,6 +8,7 @@ var classpoggit_1_1libasynql_1_1base_1_1_sql_slave_thread =
     [ "getConnError", "classpoggit_1_1libasynql_1_1base_1_1_sql_slave_thread.html#a8f8b3166d1a961b00ef91439b6d0e505", null ],
     [ "hasConnError", "classpoggit_1_1libasynql_1_1base_1_1_sql_slave_thread.html#a155f9e9704a43590a1b56601d298ba86", null ],
     [ "isWorking", "classpoggit_1_1libasynql_1_1base_1_1_sql_slave_thread.html#a32d46a484505d7311bd5b5d55fa2fe57", null ],
+    [ "quit", "classpoggit_1_1libasynql_1_1base_1_1_sql_slave_thread.html#a24c9a28cada7b725be33705a57dff8e7", null ],
     [ "readResults", "classpoggit_1_1libasynql_1_1base_1_1_sql_slave_thread.html#a4fe369adfe9be8234c5bf9f5141e1474", null ],
     [ "run", "classpoggit_1_1libasynql_1_1base_1_1_sql_slave_thread.html#afb0fafe7e02a3ae1993c01c19fad2bae", null ],
     [ "stopRunning", "classpoggit_1_1libasynql_1_1base_1_1_sql_slave_thread.html#a3d7e93ce9b22e38634f39dd15774bd5a", null ],
@@ -15,5 +16,6 @@ var classpoggit_1_1libasynql_1_1base_1_1_sql_slave_thread =
     [ "$bufferSend", "classpoggit_1_1libasynql_1_1base_1_1_sql_slave_thread.html#a63f611565da48ffcea294eef05bf9e85", null ],
     [ "$connCreated", "classpoggit_1_1libasynql_1_1base_1_1_sql_slave_thread.html#a97319254575e4802aa769b447e5e9d34", null ],
     [ "$connError", "classpoggit_1_1libasynql_1_1base_1_1_sql_slave_thread.html#a9ef909eaf226de3067ea2000071ac83b", null ],
+    [ "$slaveNumber", "classpoggit_1_1libasynql_1_1base_1_1_sql_slave_thread.html#a2e631353dc91ff2cb3da619da30cd20c", null ],
     [ "$working", "classpoggit_1_1libasynql_1_1base_1_1_sql_slave_thread.html#abacc29712d576ad72bff1b5f02438472", null ]
 ];

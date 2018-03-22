@@ -92,6 +92,14 @@
 
             <table class="table table-condensed">
                     <tr>
+                <td class="type" id="property_slaveNumber">
+                                        protected                                        
+                </td>
+                <td>$slaveNumber</td>
+                <td class="last"></td>
+                <td><small>from&nbsp;<a href="../../../poggit/libasynql/base/SqlSlaveThread.html#property_slaveNumber"><abbr title="poggit\libasynql\base\SqlSlaveThread">SqlSlaveThread</abbr></a></small></td>
+            </tr>
+                    <tr>
                 <td class="type" id="property_bufferSend">
                                         protected                                        
                 </td>
@@ -184,6 +192,17 @@
                     
                 </div>
                 <div class="col-md-8 type">
+                    <a href="#method_quit">quit</a>()
+        
+                                            <p class="no-description">No description</p>
+                                    </div>
+                <div class="col-md-2"><small>from&nbsp;<a href="../../../poggit/libasynql/base/SqlSlaveThread.html#method_quit"><abbr title="poggit\libasynql\base\SqlSlaveThread">SqlSlaveThread</abbr></a></small></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    
+                </div>
+                <div class="col-md-8 type">
                     <a href="#method_addQuery">addQuery</a>(int $queryId, int $mode, string $query, array $params)
         
                                             <p>Adds a query to the queue.</p>                </div>
@@ -262,6 +281,17 @@
                                     </div>
                 <div class="col-md-2"></div>
             </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_getThreadName">getThreadName</a>()
+        
+                                            <p class="no-description">No description</p>
+                                    </div>
+                <div class="col-md-2"></div>
+            </div>
             </div>
 
 
@@ -270,7 +300,7 @@
             <div id="method-details">
                     <div class="method-item">
                     <h3 id="method___construct">
-        <div class="location">at         <a href="https://github.com/poggit/libasynql/blob/master/libasynql/src/poggit/libasynql/sqlite3/Sqlite3Thread.php#L52">line 52</a></div>
+        <div class="location">at         <a href="https://github.com/poggit/libasynql/blob/master/libasynql/src/poggit/libasynql/sqlite3/Sqlite3Thread.php#L51">line 51</a></div>
         <code>                    
     <strong>__construct</strong>(string $path, <a href="../../../poggit/libasynql/base/QuerySendQueue.html"><abbr title="poggit\libasynql\base\QuerySendQueue">QuerySendQueue</abbr></a> $send = null, <a href="../../../poggit/libasynql/base/QueryRecvQueue.html"><abbr title="poggit\libasynql\base\QueryRecvQueue">QueryRecvQueue</abbr></a> $recv = null)
         </code>
@@ -309,7 +339,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_run">
-        <div class="location">in <a href="../../../poggit/libasynql/base/SqlSlaveThread.html#method_run"><abbr title="poggit\libasynql\base\SqlSlaveThread">SqlSlaveThread</abbr></a> at         <a href="https://github.com/poggit/libasynql/blob/master/libasynql/src/poggit/libasynql/base/SqlSlaveThread.php#L56">line 56</a></div>
+        <div class="location">in <a href="../../../poggit/libasynql/base/SqlSlaveThread.html#method_run"><abbr title="poggit\libasynql\base\SqlSlaveThread">SqlSlaveThread</abbr></a> at         <a href="https://github.com/poggit/libasynql/blob/master/libasynql/src/poggit/libasynql/base/SqlSlaveThread.php#L60">line 60</a></div>
         <code>                    
     <strong>run</strong>()
         </code>
@@ -328,7 +358,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_isWorking">
-        <div class="location">in <a href="../../../poggit/libasynql/base/SqlSlaveThread.html#method_isWorking"><abbr title="poggit\libasynql\base\SqlSlaveThread">SqlSlaveThread</abbr></a> at         <a href="https://github.com/poggit/libasynql/blob/master/libasynql/src/poggit/libasynql/base/SqlSlaveThread.php#L86">line 86</a></div>
+        <div class="location">in <a href="../../../poggit/libasynql/base/SqlSlaveThread.html#method_isWorking"><abbr title="poggit\libasynql\base\SqlSlaveThread">SqlSlaveThread</abbr></a> at         <a href="https://github.com/poggit/libasynql/blob/master/libasynql/src/poggit/libasynql/base/SqlSlaveThread.php#L90">line 90</a></div>
         <code>                    bool
     <strong>isWorking</strong>()
         </code>
@@ -358,7 +388,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_stopRunning">
-        <div class="location">in <a href="../../../poggit/libasynql/base/SqlSlaveThread.html#method_stopRunning"><abbr title="poggit\libasynql\base\SqlSlaveThread">SqlSlaveThread</abbr></a> at         <a href="https://github.com/poggit/libasynql/blob/master/libasynql/src/poggit/libasynql/base/SqlSlaveThread.php#L90">line 90</a></div>
+        <div class="location">in <a href="../../../poggit/libasynql/base/SqlSlaveThread.html#method_stopRunning"><abbr title="poggit\libasynql\base\SqlSlaveThread">SqlSlaveThread</abbr></a> at         <a href="https://github.com/poggit/libasynql/blob/master/libasynql/src/poggit/libasynql/base/SqlSlaveThread.php#L94">line 94</a></div>
         <code>                    
     <strong>stopRunning</strong>()
         </code>
@@ -378,8 +408,27 @@
 
             </div>
                     <div class="method-item">
+                    <h3 id="method_quit">
+        <div class="location">in <a href="../../../poggit/libasynql/base/SqlSlaveThread.html#method_quit"><abbr title="poggit\libasynql\base\SqlSlaveThread">SqlSlaveThread</abbr></a> at         <a href="https://github.com/poggit/libasynql/blob/master/libasynql/src/poggit/libasynql/base/SqlSlaveThread.php#L98">line 98</a></div>
+        <code>                    
+    <strong>quit</strong>()
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                <div class="tags">
+            
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
                     <h3 id="method_addQuery">
-        <div class="location">in <a href="../../../poggit/libasynql/base/SqlSlaveThread.html#method_addQuery"><abbr title="poggit\libasynql\base\SqlSlaveThread">SqlSlaveThread</abbr></a> at         <a href="https://github.com/poggit/libasynql/blob/master/libasynql/src/poggit/libasynql/base/SqlSlaveThread.php#L94">line 94</a></div>
+        <div class="location">in <a href="../../../poggit/libasynql/base/SqlSlaveThread.html#method_addQuery"><abbr title="poggit\libasynql\base\SqlSlaveThread">SqlSlaveThread</abbr></a> at         <a href="https://github.com/poggit/libasynql/blob/master/libasynql/src/poggit/libasynql/base/SqlSlaveThread.php#L102">line 102</a></div>
         <code>                    
     <strong>addQuery</strong>(int $queryId, int $mode, string $query, array $params)
         </code>
@@ -425,7 +474,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_readResults">
-        <div class="location">in <a href="../../../poggit/libasynql/base/SqlSlaveThread.html#method_readResults"><abbr title="poggit\libasynql\base\SqlSlaveThread">SqlSlaveThread</abbr></a> at         <a href="https://github.com/poggit/libasynql/blob/master/libasynql/src/poggit/libasynql/base/SqlSlaveThread.php#L98">line 98</a></div>
+        <div class="location">in <a href="../../../poggit/libasynql/base/SqlSlaveThread.html#method_readResults"><abbr title="poggit\libasynql\base\SqlSlaveThread">SqlSlaveThread</abbr></a> at         <a href="https://github.com/poggit/libasynql/blob/master/libasynql/src/poggit/libasynql/base/SqlSlaveThread.php#L106">line 106</a></div>
         <code>                    
     <strong>readResults</strong>(array $callbacks)
         </code>
@@ -456,7 +505,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_connCreated">
-        <div class="location">in <a href="../../../poggit/libasynql/base/SqlSlaveThread.html#method_connCreated"><abbr title="poggit\libasynql\base\SqlSlaveThread">SqlSlaveThread</abbr></a> at         <a href="https://github.com/poggit/libasynql/blob/master/libasynql/src/poggit/libasynql/base/SqlSlaveThread.php#L109">line 109</a></div>
+        <div class="location">in <a href="../../../poggit/libasynql/base/SqlSlaveThread.html#method_connCreated"><abbr title="poggit\libasynql\base\SqlSlaveThread">SqlSlaveThread</abbr></a> at         <a href="https://github.com/poggit/libasynql/blob/master/libasynql/src/poggit/libasynql/base/SqlSlaveThread.php#L117">line 117</a></div>
         <code>                    bool
     <strong>connCreated</strong>()
         </code>
@@ -486,7 +535,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_hasConnError">
-        <div class="location">in <a href="../../../poggit/libasynql/base/SqlSlaveThread.html#method_hasConnError"><abbr title="poggit\libasynql\base\SqlSlaveThread">SqlSlaveThread</abbr></a> at         <a href="https://github.com/poggit/libasynql/blob/master/libasynql/src/poggit/libasynql/base/SqlSlaveThread.php#L113">line 113</a></div>
+        <div class="location">in <a href="../../../poggit/libasynql/base/SqlSlaveThread.html#method_hasConnError"><abbr title="poggit\libasynql\base\SqlSlaveThread">SqlSlaveThread</abbr></a> at         <a href="https://github.com/poggit/libasynql/blob/master/libasynql/src/poggit/libasynql/base/SqlSlaveThread.php#L121">line 121</a></div>
         <code>                    bool
     <strong>hasConnError</strong>()
         </code>
@@ -516,7 +565,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_getConnError">
-        <div class="location">in <a href="../../../poggit/libasynql/base/SqlSlaveThread.html#method_getConnError"><abbr title="poggit\libasynql\base\SqlSlaveThread">SqlSlaveThread</abbr></a> at         <a href="https://github.com/poggit/libasynql/blob/master/libasynql/src/poggit/libasynql/base/SqlSlaveThread.php#L117">line 117</a></div>
+        <div class="location">in <a href="../../../poggit/libasynql/base/SqlSlaveThread.html#method_getConnError"><abbr title="poggit\libasynql\base\SqlSlaveThread">SqlSlaveThread</abbr></a> at         <a href="https://github.com/poggit/libasynql/blob/master/libasynql/src/poggit/libasynql/base/SqlSlaveThread.php#L125">line 125</a></div>
         <code>                    null|string
     <strong>getConnError</strong>()
         </code>
@@ -546,7 +595,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_createConn">
-        <div class="location">at         <a href="https://github.com/poggit/libasynql/blob/master/libasynql/src/poggit/libasynql/sqlite3/Sqlite3Thread.php#L57">line 57</a></div>
+        <div class="location">at         <a href="https://github.com/poggit/libasynql/blob/master/libasynql/src/poggit/libasynql/sqlite3/Sqlite3Thread.php#L56">line 56</a></div>
         <code>            protected        
     <strong>createConn</strong>($sqlite)
         </code>
@@ -637,7 +686,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_close">
-        <div class="location">at         <a href="https://github.com/poggit/libasynql/blob/master/libasynql/src/poggit/libasynql/sqlite3/Sqlite3Thread.php#L124">line 124</a></div>
+        <div class="location">at         <a href="https://github.com/poggit/libasynql/blob/master/libasynql/src/poggit/libasynql/sqlite3/Sqlite3Thread.php#L123">line 123</a></div>
         <code>            protected        
     <strong>close</strong>($resource)
         </code>
@@ -657,6 +706,25 @@
             </tr>
             </table>
 
+            
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_getThreadName">
+        <div class="location">at         <a href="https://github.com/poggit/libasynql/blob/master/libasynql/src/poggit/libasynql/sqlite3/Sqlite3Thread.php#L128">line 128</a></div>
+        <code>                    
+    <strong>getThreadName</strong>()
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                <div class="tags">
             
             
             

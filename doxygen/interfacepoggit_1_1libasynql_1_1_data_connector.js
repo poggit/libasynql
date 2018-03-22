@@ -6,5 +6,5 @@ var interfacepoggit_1_1libasynql_1_1_data_connector =
     [ "executeInsert", "interfacepoggit_1_1libasynql_1_1_data_connector.html#ad75b5265b20f1b6286e7cf3dc8d8e3a2", null ],
     [ "executeSelect", "interfacepoggit_1_1libasynql_1_1_data_connector.html#ad68599ae4a297a4e3618321eaa263194", null ],
     [ "loadQuery", "interfacepoggit_1_1libasynql_1_1_data_connector.html#a3e4b737eba0ddd5cf7ac545298094365", null ],
-    [ "loadQueryFile", "interfacepoggit_1_1libasynql_1_1_data_connector.html#aaa4b348460b4d10823dc8bd6bbc21a25", null ]
+    [ "loadQueryFile", "interfacepoggit_1_1libasynql_1_1_data_connector.html#aca641c7d886ca64336090231bef692dd", null ]
 ];

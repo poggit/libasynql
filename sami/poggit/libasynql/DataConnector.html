@@ -99,7 +99,7 @@
                     
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_loadQueryFile">loadQueryFile</a>(resource $fh)
+                    <a href="#method_loadQueryFile">loadQueryFile</a>(resource $fh, string $fileName = null)
         
                                             <p>Loads pre-formatted queries from a readable stream resource.</p>                </div>
                 <div class="col-md-2"></div>
@@ -172,9 +172,9 @@
             <div id="method-details">
                     <div class="method-item">
                     <h3 id="method_loadQueryFile">
-        <div class="location">at         <a href="https://github.com/poggit/libasynql/blob/master/libasynql/src/poggit/libasynql/DataConnector.php#L42">line 42</a></div>
+        <div class="location">at         <a href="https://github.com/poggit/libasynql/blob/master/libasynql/src/poggit/libasynql/DataConnector.php#L43">line 43</a></div>
         <code>                    
-    <strong>loadQueryFile</strong>(resource $fh)
+    <strong>loadQueryFile</strong>(resource $fh, string $fileName = null)
         </code>
     </h3>
     <div class="details">
@@ -191,6 +191,11 @@
                 <td>resource</td>
                 <td>$fh</td>
                 <td>a stream that supports <code>feof()</code>, <code>fgets()</code> and <code>fclose()</code>.</td>
+            </tr>
+                    <tr>
+                <td>string</td>
+                <td>$fileName</td>
+                <td>the filename providing the stream, only used for debugging and documentation purposes</td>
             </tr>
             </table>
 
@@ -216,7 +221,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_loadQuery">
-        <div class="location">at         <a href="https://github.com/poggit/libasynql/blob/master/libasynql/src/poggit/libasynql/DataConnector.php#L50">line 50</a></div>
+        <div class="location">at         <a href="https://github.com/poggit/libasynql/blob/master/libasynql/src/poggit/libasynql/DataConnector.php#L51">line 51</a></div>
         <code>                    
     <strong>loadQuery</strong>(<a href="../../poggit/libasynql/GenericStatement.html"><abbr title="poggit\libasynql\GenericStatement">GenericStatement</abbr></a> $stmt)
         </code>
@@ -256,7 +261,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_executeGeneric">
-        <div class="location">at         <a href="https://github.com/poggit/libasynql/blob/master/libasynql/src/poggit/libasynql/DataConnector.php#L60">line 60</a></div>
+        <div class="location">at         <a href="https://github.com/poggit/libasynql/blob/master/libasynql/src/poggit/libasynql/DataConnector.php#L61">line 61</a></div>
         <code>                    
     <strong>executeGeneric</strong>(string $queryName, array $args = [], callable|null $onSuccess = null, callable|null $onError = null)
         </code>
@@ -302,7 +307,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_executeChange">
-        <div class="location">at         <a href="https://github.com/poggit/libasynql/blob/master/libasynql/src/poggit/libasynql/DataConnector.php#L70">line 70</a></div>
+        <div class="location">at         <a href="https://github.com/poggit/libasynql/blob/master/libasynql/src/poggit/libasynql/DataConnector.php#L71">line 71</a></div>
         <code>                    
     <strong>executeChange</strong>(string $queryName, array $args = [], callable|null $onSuccess = null, callable|null $onError = null)
         </code>
@@ -348,7 +353,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_executeInsert">
-        <div class="location">at         <a href="https://github.com/poggit/libasynql/blob/master/libasynql/src/poggit/libasynql/DataConnector.php#L80">line 80</a></div>
+        <div class="location">at         <a href="https://github.com/poggit/libasynql/blob/master/libasynql/src/poggit/libasynql/DataConnector.php#L81">line 81</a></div>
         <code>                    
     <strong>executeInsert</strong>(string $queryName, array $args = [], callable|null $onInserted = null, callable|null $onError = null)
         </code>
@@ -394,7 +399,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_executeSelect">
-        <div class="location">at         <a href="https://github.com/poggit/libasynql/blob/master/libasynql/src/poggit/libasynql/DataConnector.php#L90">line 90</a></div>
+        <div class="location">at         <a href="https://github.com/poggit/libasynql/blob/master/libasynql/src/poggit/libasynql/DataConnector.php#L91">line 91</a></div>
         <code>                    
     <strong>executeSelect</strong>(string $queryName, array $args = [], callable|null $onSelect = null, callable|null $onError = null)
         </code>
@@ -440,7 +445,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_close">
-        <div class="location">at         <a href="https://github.com/poggit/libasynql/blob/master/libasynql/src/poggit/libasynql/DataConnector.php#L95">line 95</a></div>
+        <div class="location">at         <a href="https://github.com/poggit/libasynql/blob/master/libasynql/src/poggit/libasynql/DataConnector.php#L96">line 96</a></div>
         <code>                    
     <strong>close</strong>()
         </code>

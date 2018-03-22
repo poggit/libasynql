@@ -10,7 +10,7 @@ var NAVTREE =
       [ "Data Structure Index", "classes.html", null ],
       [ "Class Hierarchy", "hierarchy.html", "hierarchy" ],
       [ "Data Fields", "functions.html", [
-        [ "All", "functions.html", null ],
+        [ "All", "functions.html", "functions_dup" ],
         [ "Functions", "functions_func.html", null ],
         [ "Variables", "functions_vars.html", null ]
       ] ]
@@ -24,7 +24,7 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "_config_exception_8php.html",
-"interfacepoggit_1_1libasynql_1_1mysqli_1_1_mysql_flags.html"
+"functions_y.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';
