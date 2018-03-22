@@ -54,7 +54,7 @@ class MysqlStatementImpl extends GenericStatementImpl{
 			$unlist = $variable->unlist();
 			return "(" . implode(",", array_map(function($value) use ($unlist){
 					return $this->formatVariable($unlist, $value);
-				}, $value));
+				}, $value)) . ")";
 		}
 
 		switch($variable->getType()){

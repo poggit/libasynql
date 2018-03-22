@@ -66,11 +66,11 @@ final class libasynql{
 	 * @param Plugin              $plugin     the plugin using libasynql
 	 * @param mixed               $configData the config entry for database settings
 	 * @param string[]|string[][] $sqlMap     an associative array with key as the SQL dialect ("mysql", "sqlite") and value as a string or string array indicating the relevant SQL files in the plugin's resources directory
+	 * @param bool                $logQueries whether libasynql should log the queries with the plugin logger at the DEBUG level
 	 * @return DataConnector
-	 * @throws ConfigException if the config is invalid such that it is impossible to create a proper database connection
 	 * @throws SqlError if the connection could not be created
 	 */
-	public static function create(Plugin $plugin, $configData, array $sqlMap) : DataConnector{
+	public static function create(Plugin $plugin, $configData, array $sqlMap, bool $logQueries = false) : DataConnector{
 		if(!is_array($configData)){
 			throw new ConfigException("Database settings are missing or incorrect");
 		}
@@ -139,7 +139,7 @@ final class libasynql{
 			throw new SqlError(SqlError::STAGE_CONNECT, $pool->getConnError());
 		}
 
-		$connector = new DataConnectorImpl($plugin, $pool, $placeHolder);
+		$connector = new DataConnectorImpl($plugin, $pool, $placeHolder, $logQueries);
 		foreach(is_string($sqlMap[$dialect]) ? [$sqlMap[$dialect]] : $sqlMap[$dialect] as $file){
 			$connector->loadQueryFile($plugin->getResource($file));
 		}

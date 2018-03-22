@@ -35,13 +35,14 @@ use poggit\libasynql\SqlError;
 use poggit\libasynql\SqlThread;
 use function assert;
 use function json_encode;
-use function var_dump;
 
 class DataConnectorImpl implements DataConnector{
 	/** @var Plugin */
 	private $plugin;
 	/** @var SqlThread */
 	private $thread;
+	/** @var bool */
+	private $logQueries ;
 	/** @var GenericStatement[] */
 	private $queries = [];
 	private $handlers = [];
@@ -54,10 +55,12 @@ class DataConnectorImpl implements DataConnector{
 	 * @param Plugin      $plugin
 	 * @param SqlThread   $thread      the backend SqlThread to connect with
 	 * @param null|string $placeHolder the backend-implementation-dependent placeholder. <code>"?"</code> for mysqli-based backends, <code>null</code> for PDO-based and SQLite3-based backends.
+	 * @param bool        $logQueries
 	 */
-	public function __construct(Plugin $plugin, SqlThread $thread, ?string $placeHolder){
+	public function __construct(Plugin $plugin, SqlThread $thread, ?string $placeHolder, bool $logQueries = false){
 		$this->plugin = $plugin;
 		$this->thread = $thread;
+		$this->logQueries = $logQueries;
 		$this->placeHolder = $placeHolder;
 
 		$this->task = new class($plugin, $this) extends PluginTask{
@@ -152,6 +155,9 @@ class DataConnectorImpl implements DataConnector{
 			throw new InvalidArgumentException("The query $queryName has not been loaded");
 		}
 		$query = $this->queries[$queryName]->format($args, $this->placeHolder, $outArgs);
+		if($this->logQueries){
+			$this->plugin->getLogger()->debug("Executing mode-$mode query: $query | Args: " . json_encode($outArgs));
+		}
 		$this->thread->addQuery($queryId, $mode, $query, $outArgs);
 	}
 
