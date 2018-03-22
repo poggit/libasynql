@@ -121,7 +121,7 @@
                     static&nbsp;<a href="../../poggit/libasynql/DataConnector.html"><abbr title="poggit\libasynql\DataConnector">DataConnector</abbr></a>
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_create">create</a>(<abbr title="pocketmine\plugin\Plugin">Plugin</abbr> $plugin, mixed $configData, array $sqlMap)
+                    <a href="#method_create">create</a>(<abbr title="pocketmine\plugin\Plugin">Plugin</abbr> $plugin, mixed $configData, array $sqlMap, bool $logQueries = false)
         
                                             <p>Create a {@link DatabaseConnector} from a plugin and a config entry, and initializes it with the relevant SQL files according to the selected dialect</p>                </div>
                 <div class="col-md-2"></div>
@@ -174,7 +174,7 @@
                     <h3 id="method_create">
         <div class="location">at         <a href="https://github.com/poggit/libasynql/blob/master/libasynql/src/poggit/libasynql/libasynql.php#L73">line 73</a></div>
         <code>        static            <a href="../../poggit/libasynql/DataConnector.html"><abbr title="poggit\libasynql\DataConnector">DataConnector</abbr></a>
-    <strong>create</strong>(<abbr title="pocketmine\plugin\Plugin">Plugin</abbr> $plugin, mixed $configData, array $sqlMap)
+    <strong>create</strong>(<abbr title="pocketmine\plugin\Plugin">Plugin</abbr> $plugin, mixed $configData, array $sqlMap, bool $logQueries = false)
         </code>
     </h3>
     <div class="details">
@@ -202,6 +202,11 @@
                 <td>$sqlMap</td>
                 <td>an associative array with key as the SQL dialect ("mysql", "sqlite") and value as a string or string array indicating the relevant SQL files in the plugin's resources directory</td>
             </tr>
+                    <tr>
+                <td>bool</td>
+                <td>$logQueries</td>
+                <td>whether libasynql should log the queries with the plugin logger at the DEBUG level</td>
+            </tr>
             </table>
 
             
@@ -218,10 +223,6 @@
                             <h4>Exceptions</h4>
 
                     <table class="table table-condensed">
-                    <tr>
-                <td><a href="../../poggit/libasynql/ConfigException.html"><abbr title="poggit\libasynql\ConfigException">ConfigException</abbr></a></td>
-                <td>if the config is invalid such that it is impossible to create a proper database connection</td>
-            </tr>
                     <tr>
                 <td><a href="../../poggit/libasynql/SqlError.html"><abbr title="poggit\libasynql\SqlError">SqlError</abbr></a></td>
                 <td>if the connection could not be created</td>
