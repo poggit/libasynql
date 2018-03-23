@@ -22,6 +22,7 @@ declare(strict_types=1);
 
 namespace poggit\libasynql\sqlite3;
 
+use Closure;
 use Exception;
 use InvalidArgumentException;
 use poggit\libasynql\base\QueryRecvQueue;
@@ -47,6 +48,12 @@ use const SQLITE3_TEXT;
 class Sqlite3Thread extends SqlSlaveThread{
 	/** @var string */
 	private $path;
+
+	public static function createFactory(string $path) : Closure{
+		return function(QuerySendQueue $send, QueryRecvQueue $recv) use ($path){
+			return new Sqlite3Thread($path, $send, $recv);
+		};
+	}
 
 	public function __construct(string $path, QuerySendQueue $send = null, QueryRecvQueue $recv = null){
 		parent::__construct($send, $recv);

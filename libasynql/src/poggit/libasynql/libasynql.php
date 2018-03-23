@@ -96,9 +96,7 @@ final class libasynql{
 				if($pdo){
 					// TODO add PDO support
 				}else{
-					$factory = function(QuerySendQueue $send, QueryRecvQueue $recv) use ($fileName){
-						return new Sqlite3Thread($fileName, $send, $recv);
-					};
+					$factory = Sqlite3Thread::createFactory($fileName);
 				}
 				$dialect = "sqlite";
 				break;
@@ -117,9 +115,7 @@ final class libasynql{
 				if($pdo){
 					// TODO add PDO support
 				}else{
-					$factory = function(QuerySendQueue $send, QueryRecvQueue $recv) use ($cred){
-						return new MysqliThread($cred, $send, $recv);
-					};
+					$factory = MysqliThread::createFactory($cred);
 					$placeHolder = "?";
 				}
 				$dialect = "mysql";

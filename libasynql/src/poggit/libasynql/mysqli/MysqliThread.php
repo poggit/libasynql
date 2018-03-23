@@ -22,15 +22,14 @@ declare(strict_types=1);
 
 namespace poggit\libasynql\mysqli;
 
-use function bccomp;
-use function bcsub;
+use Closure;
 use InvalidArgumentException;
 use mysqli;
 use mysqli_result;
 use mysqli_stmt;
-use poggit\libasynql\base\SqlSlaveThread;
 use poggit\libasynql\base\QueryRecvQueue;
 use poggit\libasynql\base\QuerySendQueue;
+use poggit\libasynql\base\SqlSlaveThread;
 use poggit\libasynql\result\SqlChangeResult;
 use poggit\libasynql\result\SqlColumnInfo;
 use poggit\libasynql\result\SqlInsertResult;
@@ -40,6 +39,8 @@ use poggit\libasynql\SqlResult;
 use poggit\libasynql\SqlThread;
 use function array_map;
 use function assert;
+use function bccomp;
+use function bcsub;
 use function gettype;
 use function implode;
 use function in_array;
@@ -52,6 +53,12 @@ use function strtotime;
 class MysqliThread extends SqlSlaveThread{
 	/** @var string */
 	private $credentials;
+
+	public static function createFactory(MysqlCredentials $credentials) : Closure{
+		return function(QuerySendQueue $bufferSend, QueryRecvQueue $bufferRecv) use ($credentials){
+			return new MysqliThread($credentials, $bufferSend, $bufferRecv);
+		};
+	}
 
 	public function __construct(MysqlCredentials $credentials, QuerySendQueue $bufferSend = null, QueryRecvQueue $bufferRecv = null){
 		parent::__construct($bufferSend, $bufferRecv);

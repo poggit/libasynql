@@ -27,7 +27,7 @@ use poggit\libasynql\SqlThread;
 use function count;
 
 class SqlThreadPool implements SqlThread{
-	private $workerCreator;
+	private $workerFactory;
 	/** @var SqlSlaveThread[] */
 	private $workers = [];
 	/** @var int */
@@ -41,11 +41,11 @@ class SqlThreadPool implements SqlThread{
 	/**
 	 * SqlThreadPool constructor.
 	 *
-	 * @param callable $workerCreator create a child worker: <code>function(?Threaded $bufferSend = null, ?Threaded $bufferRecv = null) : {@link BaseSqlThread}{}</code>
+	 * @param callable $workerFactory create a child worker: <code>function(?Threaded $bufferSend = null, ?Threaded $bufferRecv = null) : {@link BaseSqlThread}{}</code>
 	 * @param int      $workerLimit   the maximum number of workers to create. Workers are created lazily.
 	 */
-	public function __construct(callable $workerCreator, int $workerLimit){
-		$this->workerCreator = $workerCreator;
+	public function __construct(callable $workerFactory, int $workerLimit){
+		$this->workerFactory = $workerFactory;
 		$this->workerLimit = $workerLimit;
 		$this->bufferSend = new QuerySendQueue();
 		$this->bufferRecv = new QueryRecvQueue();
@@ -53,7 +53,7 @@ class SqlThreadPool implements SqlThread{
 	}
 
 	private function addWorker() : void{
-		$this->workers[] = ($this->workerCreator)($this->bufferSend, $this->bufferRecv);
+		$this->workers[] = ($this->workerFactory)($this->bufferSend, $this->bufferRecv);
 	}
 
 	public function join() : void{
