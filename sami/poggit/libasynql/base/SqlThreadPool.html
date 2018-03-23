@@ -98,7 +98,7 @@
                     
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method___construct">__construct</a>(callable $workerCreator, int $workerLimit)
+                    <a href="#method___construct">__construct</a>(callable $workerFactory, int $workerLimit)
         
                                             <p>SqlThreadPool constructor.</p>                </div>
                 <div class="col-md-2"></div>
@@ -194,7 +194,7 @@
                     <h3 id="method___construct">
         <div class="location">at         <a href="https://github.com/poggit/libasynql/blob/master/libasynql/src/poggit/libasynql/base/SqlThreadPool.php#L47">line 47</a></div>
         <code>                    
-    <strong>__construct</strong>(callable $workerCreator, int $workerLimit)
+    <strong>__construct</strong>(callable $workerFactory, int $workerLimit)
         </code>
     </h3>
     <div class="details">
@@ -209,7 +209,7 @@
                     <table class="table table-condensed">
                     <tr>
                 <td>callable</td>
-                <td>$workerCreator</td>
+                <td>$workerFactory</td>
                 <td>create a child worker: <code>function(?Threaded $bufferSend = null, ?Threaded $bufferRecv = null) : {@link BaseSqlThread}{}</code></td>
             </tr>
                     <tr>
