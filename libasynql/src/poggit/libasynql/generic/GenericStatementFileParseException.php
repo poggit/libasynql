@@ -28,10 +28,11 @@ class GenericStatementFileParseException extends InvalidArgumentException{
 	private $problem;
 	private $lineNo;
 
-	public function __construct(string $problem, int $lineNo){
+	public function __construct(string $problem, int $lineNo, string $file = null){
 		$this->problem = $problem;
 		$this->lineNo = $lineNo;
+		$this->file = $file ?? "SQL file";
 
-		parent::__construct("Error parsing prepared statement file: $problem on line $lineNo");
+		parent::__construct("Error parsing prepared statement file: $problem on line $lineNo in $file");
 	}
 }

@@ -51,7 +51,7 @@ $prefix = "";
 $sqlFiles = [];
 
 $i = 4;
-while(strpos($argv[$i], "--") === 0){
+while(isset($argv[$i]) && strpos($argv[$i], "--") === 0){
 	if($argv[$i] === "--prefix"){
 		$prefix = $argv[$i + 1];
 		$i += 2;
@@ -85,7 +85,7 @@ while(strpos($argv[$i], "--") === 0){
 	if($argv[$i] === "--sql"){
 		$sqlFiles = array_map(function(SplFileInfo $file){
 			return $file->getPathname();
-		}, iterator_to_array(new RegexIterator(new RecursiveIteratorIterator(new RecursiveDirectoryIterator(".")), '/\.sql$/')));
+		}, iterator_to_array(new RegexIterator(new RecursiveIteratorIterator(new RecursiveDirectoryIterator($argv[$i + 1])), '/\.sql$/')));
 		$i += 2;
 		continue;
 	}
@@ -93,6 +93,10 @@ while(strpos($argv[$i], "--") === 0){
 	exit(2);
 }
 if(empty($sqlFiles)){
+	if(!isset($argv[$i])){
+		echo "[!] Missing input files\n";
+		exit(2);
+	}
 	for($iMax = count($argv); $i < $iMax; ++$i){
 		$sqlFile = $argv[$i];
 		if(!is_file($sqlFile)){
@@ -106,6 +110,7 @@ if(empty($sqlFiles)){
 /** @var GenericStatement[][] $results */
 $results = [];
 foreach($sqlFiles as $sqlFile){
+	echo "[*] Parsing $sqlFile\n";
 	$fh = fopen($sqlFile, "rb");
 	$parser = new GenericStatementFileParser($sqlFile, $fh);
 	$parser->parse();
