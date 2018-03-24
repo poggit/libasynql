@@ -48,6 +48,8 @@ $EOL = PHP_EOL;
 $INDENT = "\t";
 $prefix = "";
 
+$sqlFiles = [];
+
 $i = 4;
 while(strpos($argv[$i], "--") === 0){
 	if($argv[$i] === "--prefix"){
@@ -80,15 +82,25 @@ while(strpos($argv[$i], "--") === 0){
 		$i += 2;
 		continue;
 	}
-}
-$sqlFiles = [];
-for($iMax = count($argv); $i < $iMax; ++$i){
-	$sqlFile = $argv[$i];
-	if(!is_file($sqlFile)){
-		echo "[!] $sqlFile: No such file\n";
-		exit(2);
+	if($argv[$i] === "--sql"){
+		$sqlFiles = array_map(function(SplFileInfo $file){
+			return $file->getPathname();
+		}, iterator_to_array(new RegexIterator(new RecursiveIteratorIterator(new RecursiveDirectoryIterator(".")), '/\.sql$/')));
+		$i += 2;
+		continue;
 	}
-	$sqlFiles[] = $sqlFile;
+	echo "[!] Unknown option $argv[$i]\n";
+	exit(2);
+}
+if(empty($sqlFiles)){
+	for($iMax = count($argv); $i < $iMax; ++$i){
+		$sqlFile = $argv[$i];
+		if(!is_file($sqlFile)){
+			echo "[!] $sqlFile: No such file\n";
+			exit(2);
+		}
+		$sqlFiles[] = $sqlFile;
+	}
 }
 
 /** @var GenericStatement[][] $results */
