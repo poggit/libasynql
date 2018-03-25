@@ -30,7 +30,6 @@ use poggit\libasynql\libasynql;
 use poggit\libasynql\SqlError;
 use poggit\libasynql\SqlResult;
 use poggit\libasynql\SqlThread;
-use function var_dump;
 
 abstract class SqlSlaveThread extends Thread implements SqlThread{
 	private static $nextSlaveNumber = 0;

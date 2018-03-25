@@ -22,8 +22,6 @@ declare(strict_types=1);
 
 namespace poggit\libasynql;
 
-use Thread;
-
 interface SqlThread{
 	public const MODE_GENERIC = 0;
 	public const MODE_CHANGE = 1;

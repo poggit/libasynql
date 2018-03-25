@@ -14,3 +14,4 @@ This is a total rewrite, with an entirely different infrastructure. AsyncTask is
             - Supports mysqli backend
             - Supports SQLite3 backend
 - A simple `libasynql::create($plugin, $config, $sqlMap)` method that initializes everything in a single call
+- The `libasynql.phar def` tool
