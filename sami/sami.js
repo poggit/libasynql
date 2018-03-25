@@ -85,6 +85,7 @@ window.projectVersion = 'master';
                     {"type": "Method", "fromName": "poggit\\libasynql\\SqlError", "fromLink": "poggit/libasynql/SqlError.html", "link": "poggit/libasynql/SqlError.html#method_getErrorMessage", "name": "poggit\\libasynql\\SqlError::getErrorMessage", "doc": "&quot;Returns the error message&quot;"},
                     {"type": "Method", "fromName": "poggit\\libasynql\\SqlError", "fromLink": "poggit/libasynql/SqlError.html", "link": "poggit/libasynql/SqlError.html#method_getQuery", "name": "poggit\\libasynql\\SqlError::getQuery", "doc": "&quot;Returns the original query&quot;"},
                     {"type": "Method", "fromName": "poggit\\libasynql\\SqlError", "fromLink": "poggit/libasynql/SqlError.html", "link": "poggit/libasynql/SqlError.html#method_getArgs", "name": "poggit\\libasynql\\SqlError::getArgs", "doc": "&quot;Returns the original arguments passed to the query&quot;"},
+                    {"type": "Method", "fromName": "poggit\\libasynql\\SqlError", "fromLink": "poggit/libasynql/SqlError.html", "link": "poggit/libasynql/SqlError.html#method_flattenTrace", "name": "poggit\\libasynql\\SqlError::flattenTrace", "doc": "&quot;Flattens the trace such that the exception can be serialized&quot;"},
             
             {"type": "Class", "fromName": "poggit\\libasynql", "fromLink": "poggit/libasynql.html", "link": "poggit/libasynql/SqlResult.html", "name": "poggit\\libasynql\\SqlResult", "doc": "&quot;&quot;"},
                     
