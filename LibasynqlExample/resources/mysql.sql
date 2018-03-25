@@ -2,7 +2,7 @@
 -- #{ poggit.libasynql.example
 -- #    { players
 -- #        { init
-CREATE TABLE $tbl$players (
+CREATE TABLE players (
 	name         VARCHAR(100),
 	registerTime TIMESTAMP,
 	loginTime    TIMESTAMP,
@@ -14,13 +14,13 @@ CREATE TABLE $tbl$players (
 -- #            :registerTime timestamp
 -- #            :loginTime timestamp
 -- #            :lastIp string
-INSERT INTO $tbl$players (name, registerTime, loginTime, lastIp)
+INSERT INTO players (name, registerTime, loginTime, lastIp)
 VALUES (:name, :registerTime, :loginTime, :lastIp);
 -- #        }
 -- #        { findNameByIp
 -- #            :ips list?string
 SELECT name
-FROM $tbl$players
+FROM players
 WHERE lastIp IN :ips
 -- #        }
 -- #    }

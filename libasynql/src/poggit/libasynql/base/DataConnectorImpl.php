@@ -35,6 +35,7 @@ use poggit\libasynql\SqlError;
 use poggit\libasynql\SqlThread;
 use function assert;
 use function json_encode;
+use function var_dump;
 
 class DataConnectorImpl implements DataConnector{
 	/** @var Plugin */

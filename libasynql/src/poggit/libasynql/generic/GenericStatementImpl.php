@@ -183,7 +183,7 @@ abstract class GenericStatementImpl implements GenericStatement{
 			}else{
 				if($placeHolder !== null){
 					$query .= $placeHolder;
-					$outArgs[] = $outArgs;
+					$outArgs[] = $value;
 				}else{
 					$query .= $varName = ":var{$pos}";
 					$outArgs[$varName] = $value;

@@ -25,10 +25,15 @@ namespace virion_examples\poggit\libasynql\v3\LibasynqlExample;
 use pocketmine\event\Listener;
 use pocketmine\event\player\PlayerJoinEvent;
 use pocketmine\plugin\PluginBase;
+use poggit\libasynql\libasynql;
 
 class LibasynqlExample extends PluginBase implements Listener{
-	public function onEnable():void{
-	$this->getServer()->getPluginManager()->registerEvents($this, $this);
+	public function onEnable() : void{
+		$this->getServer()->getPluginManager()->registerEvents($this, $this);
+		libasynql::create($this, $this->getConfig()->get("database"), [
+			"mysql" => "mysql.sql",
+			"sqlite" => "sqlite3.sql"
+		]);
 	}
 
 	public function e_join(PlayerJoinEvent $event){

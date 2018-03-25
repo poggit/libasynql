@@ -35,7 +35,7 @@ class QuerySendQueue extends Threaded{
 	public function fetchQuery(&$queryId, &$mode, &$query, &$params) : bool{
 		$row = $this->shift();
 		if(is_string($row)){
-			[$queryId, $mode, $query, $params] = unserialize($row, []);
+			[$queryId, $mode, $query, $params] = unserialize($row, ["allowed_classes" => true]);
 			return true;
 		}
 		return false;

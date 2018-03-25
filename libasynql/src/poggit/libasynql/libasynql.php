@@ -26,8 +26,6 @@ use pocketmine\plugin\Plugin;
 use pocketmine\utils\Terminal;
 use pocketmine\utils\Utils;
 use poggit\libasynql\base\DataConnectorImpl;
-use poggit\libasynql\base\QueryRecvQueue;
-use poggit\libasynql\base\QuerySendQueue;
 use poggit\libasynql\base\SqlThreadPool;
 use poggit\libasynql\mysqli\MysqlCredentials;
 use poggit\libasynql\mysqli\MysqliThread;
@@ -153,6 +151,13 @@ final class libasynql{
 		}
 		return $folder . $path;
 	}
+}
+
+/**
+ * An empty function accepting void parameters and returning void. Can be used as a dummy function.
+ */
+function nop() : void{
+
 }
 
 libasynql::detectPackaged();

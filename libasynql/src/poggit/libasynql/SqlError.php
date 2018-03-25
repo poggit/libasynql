@@ -22,12 +22,21 @@ declare(strict_types=1);
 
 namespace poggit\libasynql;
 
+use Closure;
 use Exception;
+use ReflectionClass;
+use ReflectionFunction;
+use RuntimeException;
+use function get_class;
+use function get_resource_type;
+use function is_object;
+use function is_resource;
+use function sprintf;
 
 /**
  * Represents a generic error when executing a SQL statement.
  */
-class SqlError extends Exception{
+class SqlError extends RuntimeException{
 	/**
 	 * Returned by {@link SqlError::getStage() getStage()}, indicating that an error occurred while connecting to the database
 	 */
@@ -57,6 +66,7 @@ class SqlError extends Exception{
 		$this->args = $args;
 
 		parent::__construct("SQL $stage error: $errorMessage");
+		$this->flattenTrace();
 	}
 
 	/**
@@ -93,5 +103,38 @@ class SqlError extends Exception{
 	 */
 	public function getArgs() : ?array{
 		return $this->args;
+	}
+
+	/**
+	 * Flattens the trace such that the exception can be serialized
+	 *
+	 * @see https://gist.github.com/Thinkscape/805ba8b91cdce6bcaf7c Exception flattening solution by Artur Bodera
+	 */
+	protected function flattenTrace() : void{
+		$traceProperty = (new ReflectionClass(Exception::class))->getProperty('trace');
+		$traceProperty->setAccessible(true);
+		$flatten = function(&$value){
+			if($value instanceof Closure){
+				$closureReflection = new ReflectionFunction($value);
+				$value = sprintf(
+					'(Closure at %s:%s)',
+					$closureReflection->getFileName(),
+					$closureReflection->getStartLine()
+				);
+			}elseif(is_object($value)){
+				$value = sprintf('object(%s)', get_class($value));
+			}elseif(is_resource($value)){
+				$value = sprintf('resource(%s)', get_resource_type($value));
+			}
+		};
+		do{
+			$trace = $traceProperty->getValue($this);
+			foreach($trace as &$call){
+				array_walk_recursive($call['args'], $flatten);
+			}
+			unset($call);
+			$traceProperty->setValue($this, $trace);
+		}while($exception = $this->getPrevious());
+		$traceProperty->setAccessible(false);
 	}
 }

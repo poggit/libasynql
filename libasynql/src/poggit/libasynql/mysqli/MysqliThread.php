@@ -47,8 +47,9 @@ use function in_array;
 use function is_float;
 use function is_int;
 use function is_string;
-use function json_decode;
+use function serialize;
 use function strtotime;
+use function unserialize;
 
 class MysqliThread extends SqlSlaveThread{
 	/** @var string */
@@ -62,12 +63,12 @@ class MysqliThread extends SqlSlaveThread{
 
 	public function __construct(MysqlCredentials $credentials, QuerySendQueue $bufferSend = null, QueryRecvQueue $bufferRecv = null){
 		parent::__construct($bufferSend, $bufferRecv);
-		$this->credentials = json_encode($credentials);
+		$this->credentials = serialize($credentials);
 	}
 
 	protected function createConn(&$mysqli) : ?string{
 		/** @var MysqlCredentials $cred */
-		$cred = json_decode($this->credentials);
+		$cred = unserialize($this->credentials, ["allowed_classes" => [MysqlCredentials::class]]);
 		try{
 			$mysqli = $cred->newMysqli();
 			return null;
