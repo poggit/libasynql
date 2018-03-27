@@ -30,6 +30,20 @@ use poggit\libasynql\generic\GenericStatementFileParseException;
  */
 interface DataConnector{
 	/**
+	 * Sets whether the queries are being logged
+	 *
+	 * @param bool $loggingQueries
+	 */
+	public function setLoggingQueries(bool $loggingQueries) : void;
+
+	/**
+	 * Returns whether the queries are being logged
+	 *
+	 * @return bool
+	 */
+	public function isLoggingQueries() : bool;
+
+	/**
 	 * Loads pre-formatted queries from a readable stream resource.
 	 *
 	 * The implementation will close the stream after reading.

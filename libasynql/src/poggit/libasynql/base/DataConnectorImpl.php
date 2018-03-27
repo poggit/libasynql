@@ -42,7 +42,7 @@ class DataConnectorImpl implements DataConnector{
 	/** @var SqlThread */
 	private $thread;
 	/** @var bool */
-	private $logQueries ;
+	private $loggingQueries;
 	/** @var GenericStatement[] */
 	private $queries = [];
 	private $handlers = [];
@@ -60,7 +60,7 @@ class DataConnectorImpl implements DataConnector{
 	public function __construct(Plugin $plugin, SqlThread $thread, ?string $placeHolder, bool $logQueries = false){
 		$this->plugin = $plugin;
 		$this->thread = $thread;
-		$this->logQueries = $logQueries;
+		$this->loggingQueries = $logQueries;
 		$this->placeHolder = $placeHolder;
 
 		$this->task = new class($plugin, $this) extends PluginTask{
@@ -77,6 +77,14 @@ class DataConnectorImpl implements DataConnector{
 			}
 		};
 		$this->plugin->getServer()->getScheduler()->scheduleRepeatingTask($this->task, 1);
+	}
+
+	public function setLoggingQueries(bool $loggingQueries) : void{
+		$this->loggingQueries = $loggingQueries;
+	}
+
+	public function isLoggingQueries() : bool{
+		return $this->loggingQueries;
 	}
 
 	public function loadQueryFile($fh, string $fileName = null) : void{
@@ -153,7 +161,7 @@ class DataConnectorImpl implements DataConnector{
 			throw new InvalidArgumentException("The query $queryName has not been loaded");
 		}
 		$query = $this->queries[$queryName]->format($args, $this->placeHolder, $outArgs);
-		if($this->logQueries){
+		if($this->loggingQueries){
 			$this->plugin->getLogger()->debug("Executing mode-$mode query: $query | Args: " . json_encode($outArgs));
 		}
 		$this->thread->addQuery($queryId, $mode, $query, $outArgs);

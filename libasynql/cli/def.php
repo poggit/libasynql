@@ -47,6 +47,7 @@ $fqnPieces = explode("\\", $fqn);
 $EOL = PHP_EOL;
 $INDENT = "\t";
 $prefix = "";
+$STRUCT = "interface";
 
 $sqlFiles = [];
 
@@ -86,6 +87,11 @@ while(isset($argv[$i]) && strpos($argv[$i], "--") === 0){
 		$sqlFiles = array_map(function(SplFileInfo $file){
 			return $file->getPathname();
 		}, iterator_to_array(new RegexIterator(new RecursiveIteratorIterator(new RecursiveDirectoryIterator($argv[$i + 1])), '/\.sql$/')));
+		$i += 2;
+		continue;
+	}
+	if($argv[$i] === "--struct"){
+		$STRUCT = $argv[$i + 1];
 		$i += 2;
 		continue;
 	}
@@ -136,7 +142,7 @@ fwrite($fh, 'declare(strict_types=1);' . $EOL);
 fwrite($fh, '' . $EOL);
 fwrite($fh, 'namespace ' . implode("\\", array_slice($fqnPieces, 0, -1)) . ';' . $EOL);
 fwrite($fh, '' . $EOL);
-fwrite($fh, 'interface ' . array_slice($fqnPieces, -1)[0] . '{' . $EOL);
+fwrite($fh, $STRUCT . ' ' . array_slice($fqnPieces, -1)[0] . '{' . $EOL);
 $constLog = [];
 foreach($results as $queryName => $stmts){
 	$const = preg_replace('/[^A-Z0-9]+/i', "_", strtoupper($queryName));

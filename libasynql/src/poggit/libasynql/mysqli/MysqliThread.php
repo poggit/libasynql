@@ -198,7 +198,8 @@ class MysqliThread extends SqlSlaveThread{
 			}
 			if(!isset($type)){
 				if($field->flags & MysqlFlags::NUM_FLAG){
-					$type = $field->decimal > 0 || $field->type === MysqlTypes::DECIMAL ? SqlColumnInfo::TYPE_FLOAT : SqlColumnInfo::TYPE_INT;
+					$type =  $field->decimals > 0 || $field->type === MysqlTypes::DECIMAL ? SqlColumnInfo::TYPE_FLOAT : SqlColumnInfo::TYPE_INT;
+					$columnFunc[$field->name] = $field->decimals > 0 || $field->type === MysqlTypes::DECIMAL ? "floatval" : "intval";
 				}else{
 					$type = SqlColumnInfo::TYPE_OTHER;
 				}
