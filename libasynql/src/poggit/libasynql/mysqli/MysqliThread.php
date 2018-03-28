@@ -77,7 +77,7 @@ class MysqliThread extends SqlSlaveThread{
 		}
 	}
 
-	protected function executeQuery(&$mysqli, int $mode, string $query, array $params) : SqlResult{
+	protected function executeQuery($mysqli, int $mode, string $query, array $params) : SqlResult{
 		assert($mysqli instanceof mysqli);
 		if(empty($params)){
 			$result = $mysqli->query($query);

@@ -70,7 +70,7 @@ class Sqlite3Thread extends SqlSlaveThread{
 		}
 	}
 
-	protected function executeQuery(&$sqlite, int $mode, string $query, array $params) : SqlResult{
+	protected function executeQuery($sqlite, int $mode, string $query, array $params) : SqlResult{
 		assert($sqlite instanceof SQLite3);
 		$stmt = $sqlite->prepare($query);
 		if($stmt === false){

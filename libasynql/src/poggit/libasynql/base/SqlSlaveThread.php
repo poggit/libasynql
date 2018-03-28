@@ -30,6 +30,7 @@ use poggit\libasynql\libasynql;
 use poggit\libasynql\SqlError;
 use poggit\libasynql\SqlResult;
 use poggit\libasynql\SqlThread;
+use function var_dump;
 
 abstract class SqlSlaveThread extends Thread implements SqlThread{
 	private static $nextSlaveNumber = 0;
@@ -129,14 +130,14 @@ abstract class SqlSlaveThread extends Thread implements SqlThread{
 	protected abstract function createConn(&$resource) : ?string;
 
 	/**
-	 * @param mixed   &$resource
+	 * @param mixed   $resource
 	 * @param int     $mode
 	 * @param string  $query
 	 * @param mixed[] $params
 	 * @return SqlResult
 	 * @throws SqlError
 	 */
-	protected abstract function executeQuery(&$resource, int $mode, string $query, array $params) : SqlResult;
+	protected abstract function executeQuery($resource, int $mode, string $query, array $params) : SqlResult;
 
 	protected abstract function close(&$resource) : void;
 }
