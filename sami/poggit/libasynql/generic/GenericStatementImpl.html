@@ -247,7 +247,7 @@
                     
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_formatVariable">formatVariable</a>(<a href="../../../poggit/libasynql/generic/GenericVariable.html"><abbr title="poggit\libasynql\generic\GenericVariable">GenericVariable</abbr></a> $variable, $value)
+                    <a href="#method_formatVariable">formatVariable</a>(<a href="../../../poggit/libasynql/generic/GenericVariable.html"><abbr title="poggit\libasynql\generic\GenericVariable">GenericVariable</abbr></a> $variable, $value, string|null $placeHolder, array $outArgs)
         
                                             <p class="no-description">No description</p>
                                     </div>
@@ -559,9 +559,9 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_formatVariable">
-        <div class="location">at         <a href="https://github.com/poggit/libasynql/blob/master/libasynql/src/poggit/libasynql/generic/GenericStatementImpl.php#L206">line 206</a></div>
+        <div class="location">at         <a href="https://github.com/poggit/libasynql/blob/master/libasynql/src/poggit/libasynql/generic/GenericStatementImpl.php#L195">line 195</a></div>
         <code>    abstract        protected        
-    <strong>formatVariable</strong>(<a href="../../../poggit/libasynql/generic/GenericVariable.html"><abbr title="poggit\libasynql\generic\GenericVariable">GenericVariable</abbr></a> $variable, $value)
+    <strong>formatVariable</strong>(<a href="../../../poggit/libasynql/generic/GenericVariable.html"><abbr title="poggit\libasynql\generic\GenericVariable">GenericVariable</abbr></a> $variable, $value, string|null $placeHolder, array $outArgs)
         </code>
     </h3>
     <div class="details">
@@ -580,6 +580,16 @@
                     <tr>
                 <td></td>
                 <td>$value</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td>string|null</td>
+                <td>$placeHolder</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td>array</td>
+                <td>$outArgs</td>
                 <td></td>
             </tr>
             </table>

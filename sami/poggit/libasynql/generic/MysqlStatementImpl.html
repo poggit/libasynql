@@ -246,7 +246,7 @@
                     
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_formatVariable">formatVariable</a>(<a href="../../../poggit/libasynql/generic/GenericVariable.html"><abbr title="poggit\libasynql\generic\GenericVariable">GenericVariable</abbr></a> $variable, $value)
+                    <a href="#method_formatVariable">formatVariable</a>(<a href="../../../poggit/libasynql/generic/GenericVariable.html"><abbr title="poggit\libasynql\generic\GenericVariable">GenericVariable</abbr></a> $variable, $value, string|null $placeHolder, array $outArgs)
         
                                             <p class="no-description">No description</p>
                                     </div>
@@ -270,7 +270,7 @@
             <div id="method-details">
                     <div class="method-item">
                     <h3 id="method_getName">
-        <div class="location">in <a href="../../../poggit/libasynql/generic/GenericStatementImpl.html#method_getName"><abbr title="poggit\libasynql\generic\GenericStatementImpl">GenericStatementImpl</abbr></a> at         <a href="https://github.com/poggit/libasynql/blob/master/libasynql/src/poggit/libasynql/generic/GenericStatementImpl.php#L50">line 50</a></div>
+        <div class="location">in <a href="../../../poggit/libasynql/generic/GenericStatementImpl.html#method_getName"><abbr title="poggit\libasynql\generic\GenericStatementImpl">GenericStatementImpl</abbr></a> at         <a href="https://github.com/poggit/libasynql/blob/master/libasynql/src/poggit/libasynql/generic/GenericStatementImpl.php#L53">line 53</a></div>
         <code>                    string
     <strong>getName</strong>()
         </code>
@@ -300,7 +300,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_getQuery">
-        <div class="location">in <a href="../../../poggit/libasynql/generic/GenericStatementImpl.html#method_getQuery"><abbr title="poggit\libasynql\generic\GenericStatementImpl">GenericStatementImpl</abbr></a> at         <a href="https://github.com/poggit/libasynql/blob/master/libasynql/src/poggit/libasynql/generic/GenericStatementImpl.php#L54">line 54</a></div>
+        <div class="location">in <a href="../../../poggit/libasynql/generic/GenericStatementImpl.html#method_getQuery"><abbr title="poggit\libasynql\generic\GenericStatementImpl">GenericStatementImpl</abbr></a> at         <a href="https://github.com/poggit/libasynql/blob/master/libasynql/src/poggit/libasynql/generic/GenericStatementImpl.php#L57">line 57</a></div>
         <code>                    
     <strong>getQuery</strong>()
         </code>
@@ -319,7 +319,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_getVariables">
-        <div class="location">in <a href="../../../poggit/libasynql/generic/GenericStatementImpl.html#method_getVariables"><abbr title="poggit\libasynql\generic\GenericStatementImpl">GenericStatementImpl</abbr></a> at         <a href="https://github.com/poggit/libasynql/blob/master/libasynql/src/poggit/libasynql/generic/GenericStatementImpl.php#L58">line 58</a></div>
+        <div class="location">in <a href="../../../poggit/libasynql/generic/GenericStatementImpl.html#method_getVariables"><abbr title="poggit\libasynql\generic\GenericStatementImpl">GenericStatementImpl</abbr></a> at         <a href="https://github.com/poggit/libasynql/blob/master/libasynql/src/poggit/libasynql/generic/GenericStatementImpl.php#L61">line 61</a></div>
         <code>                    <a href="../../../poggit/libasynql/generic/GenericVariable.html"><abbr title="poggit\libasynql\generic\GenericVariable">GenericVariable</abbr></a>[]
     <strong>getVariables</strong>()
         </code>
@@ -349,7 +349,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_getFile">
-        <div class="location">in <a href="../../../poggit/libasynql/generic/GenericStatementImpl.html#method_getFile"><abbr title="poggit\libasynql\generic\GenericStatementImpl">GenericStatementImpl</abbr></a> at         <a href="https://github.com/poggit/libasynql/blob/master/libasynql/src/poggit/libasynql/generic/GenericStatementImpl.php#L62">line 62</a></div>
+        <div class="location">in <a href="../../../poggit/libasynql/generic/GenericStatementImpl.html#method_getFile"><abbr title="poggit\libasynql\generic\GenericStatementImpl">GenericStatementImpl</abbr></a> at         <a href="https://github.com/poggit/libasynql/blob/master/libasynql/src/poggit/libasynql/generic/GenericStatementImpl.php#L65">line 65</a></div>
         <code>                    
     <strong>getFile</strong>()
         </code>
@@ -368,7 +368,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_getLineNumber">
-        <div class="location">in <a href="../../../poggit/libasynql/generic/GenericStatementImpl.html#method_getLineNumber"><abbr title="poggit\libasynql\generic\GenericStatementImpl">GenericStatementImpl</abbr></a> at         <a href="https://github.com/poggit/libasynql/blob/master/libasynql/src/poggit/libasynql/generic/GenericStatementImpl.php#L66">line 66</a></div>
+        <div class="location">in <a href="../../../poggit/libasynql/generic/GenericStatementImpl.html#method_getLineNumber"><abbr title="poggit\libasynql\generic\GenericStatementImpl">GenericStatementImpl</abbr></a> at         <a href="https://github.com/poggit/libasynql/blob/master/libasynql/src/poggit/libasynql/generic/GenericStatementImpl.php#L69">line 69</a></div>
         <code>                    
     <strong>getLineNumber</strong>()
         </code>
@@ -387,7 +387,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_forDialect">
-        <div class="location">in <a href="../../../poggit/libasynql/generic/GenericStatementImpl.html#method_forDialect"><abbr title="poggit\libasynql\generic\GenericStatementImpl">GenericStatementImpl</abbr></a> at         <a href="https://github.com/poggit/libasynql/blob/master/libasynql/src/poggit/libasynql/generic/GenericStatementImpl.php#L79">line 79</a></div>
+        <div class="location">in <a href="../../../poggit/libasynql/generic/GenericStatementImpl.html#method_forDialect"><abbr title="poggit\libasynql\generic\GenericStatementImpl">GenericStatementImpl</abbr></a> at         <a href="https://github.com/poggit/libasynql/blob/master/libasynql/src/poggit/libasynql/generic/GenericStatementImpl.php#L82">line 82</a></div>
         <code>        static            <a href="../../../poggit/libasynql/generic/GenericStatementImpl.html"><abbr title="poggit\libasynql\generic\GenericStatementImpl">GenericStatementImpl</abbr></a>
     <strong>forDialect</strong>(string $dialect, string $name, string $query, array $variables, string|null $file, int $lineNo)
         </code>
@@ -450,7 +450,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method___construct">
-        <div class="location">in <a href="../../../poggit/libasynql/generic/GenericStatementImpl.html#method___construct"><abbr title="poggit\libasynql\generic\GenericStatementImpl">GenericStatementImpl</abbr></a> at         <a href="https://github.com/poggit/libasynql/blob/master/libasynql/src/poggit/libasynql/generic/GenericStatementImpl.php#L88">line 88</a></div>
+        <div class="location">in <a href="../../../poggit/libasynql/generic/GenericStatementImpl.html#method___construct"><abbr title="poggit\libasynql\generic\GenericStatementImpl">GenericStatementImpl</abbr></a> at         <a href="https://github.com/poggit/libasynql/blob/master/libasynql/src/poggit/libasynql/generic/GenericStatementImpl.php#L91">line 91</a></div>
         <code>                    
     <strong>__construct</strong>(string $name, string $query, array $variables, string|null $file, int $lineNo)
         </code>
@@ -499,7 +499,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_compilePositions">
-        <div class="location">in <a href="../../../poggit/libasynql/generic/GenericStatementImpl.html#method_compilePositions"><abbr title="poggit\libasynql\generic\GenericStatementImpl">GenericStatementImpl</abbr></a> at         <a href="https://github.com/poggit/libasynql/blob/master/libasynql/src/poggit/libasynql/generic/GenericStatementImpl.php#L98">line 98</a></div>
+        <div class="location">in <a href="../../../poggit/libasynql/generic/GenericStatementImpl.html#method_compilePositions"><abbr title="poggit\libasynql\generic\GenericStatementImpl">GenericStatementImpl</abbr></a> at         <a href="https://github.com/poggit/libasynql/blob/master/libasynql/src/poggit/libasynql/generic/GenericStatementImpl.php#L101">line 101</a></div>
         <code>            protected        
     <strong>compilePositions</strong>()
         </code>
@@ -518,7 +518,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_format">
-        <div class="location">in <a href="../../../poggit/libasynql/generic/GenericStatementImpl.html#method_format"><abbr title="poggit\libasynql\generic\GenericStatementImpl">GenericStatementImpl</abbr></a> at         <a href="https://github.com/poggit/libasynql/blob/master/libasynql/src/poggit/libasynql/generic/GenericStatementImpl.php#L162">line 162</a></div>
+        <div class="location">in <a href="../../../poggit/libasynql/generic/GenericStatementImpl.html#method_format"><abbr title="poggit\libasynql\generic\GenericStatementImpl">GenericStatementImpl</abbr></a> at         <a href="https://github.com/poggit/libasynql/blob/master/libasynql/src/poggit/libasynql/generic/GenericStatementImpl.php#L165">line 165</a></div>
         <code>                    string
     <strong>format</strong>(array $vars, string|null $placeHolder, array|null $outArgs)
         </code>
@@ -568,9 +568,9 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_formatVariable">
-        <div class="location">at         <a href="https://github.com/poggit/libasynql/blob/master/libasynql/src/poggit/libasynql/generic/MysqlStatementImpl.php#L43">line 43</a></div>
+        <div class="location">at         <a href="https://github.com/poggit/libasynql/blob/master/libasynql/src/poggit/libasynql/generic/MysqlStatementImpl.php#L44">line 44</a></div>
         <code>            protected        
-    <strong>formatVariable</strong>(<a href="../../../poggit/libasynql/generic/GenericVariable.html"><abbr title="poggit\libasynql\generic\GenericVariable">GenericVariable</abbr></a> $variable, $value)
+    <strong>formatVariable</strong>(<a href="../../../poggit/libasynql/generic/GenericVariable.html"><abbr title="poggit\libasynql\generic\GenericVariable">GenericVariable</abbr></a> $variable, $value, string|null $placeHolder, array $outArgs)
         </code>
     </h3>
     <div class="details">
@@ -591,6 +591,16 @@
                 <td>$value</td>
                 <td></td>
             </tr>
+                    <tr>
+                <td>string|null</td>
+                <td>$placeHolder</td>
+                <td></td>
+            </tr>
+                    <tr>
+                <td>array</td>
+                <td>$outArgs</td>
+                <td></td>
+            </tr>
             </table>
 
             
@@ -602,7 +612,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_getDialect">
-        <div class="location">at         <a href="https://github.com/poggit/libasynql/blob/master/libasynql/src/poggit/libasynql/generic/MysqlStatementImpl.php#L39">line 39</a></div>
+        <div class="location">at         <a href="https://github.com/poggit/libasynql/blob/master/libasynql/src/poggit/libasynql/generic/MysqlStatementImpl.php#L40">line 40</a></div>
         <code>                    string
     <strong>getDialect</strong>()
         </code>
