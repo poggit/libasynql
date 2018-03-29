@@ -31,6 +31,7 @@ use function get_class;
 use function get_resource_type;
 use function is_object;
 use function is_resource;
+use function json_encode;
 use function sprintf;
 
 /**
@@ -65,7 +66,7 @@ class SqlError extends RuntimeException{
 		$this->query = $query;
 		$this->args = $args;
 
-		parent::__construct("SQL $stage error: $errorMessage");
+		parent::__construct("SQL $stage error: $errorMessage" . ($query === null ? "" : (", for query $query | " . json_encode($args))));
 		$this->flattenTrace();
 	}
 

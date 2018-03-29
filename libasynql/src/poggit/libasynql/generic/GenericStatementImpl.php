@@ -26,7 +26,10 @@ use AssertionError;
 use InvalidArgumentException;
 use poggit\libasynql\GenericStatement;
 use poggit\libasynql\SqlDialect;
+use function get_class;
+use function gettype;
 use function in_array;
+use function is_object;
 use function mb_strlen;
 use function mb_strpos;
 use function mb_substr;
@@ -176,7 +179,7 @@ abstract class GenericStatementImpl implements GenericStatement{
 			try{
 				$append = $this->formatVariable($this->variables[$name], $value);
 			}catch(AssertionError $e){
-				throw new InvalidArgumentException("Invalid value for :$name - " . $e->getMessage(), 0, $e);
+				throw new InvalidArgumentException("Invalid value for :$name - " . $e->getMessage() . ",  " . self::getType($value) . " given", 0, $e);
 			}
 			if($append !== null){
 				$query .= $append;
@@ -194,6 +197,10 @@ abstract class GenericStatementImpl implements GenericStatement{
 		$query .= mb_substr($this->query, $lastPos);
 
 		return $query;
+	}
+
+	private static function getType($value){
+		return is_object($value) ? get_class($value) : gettype($value);
 	}
 
 	protected abstract function formatVariable(GenericVariable $variable, $value) : ?string;
