@@ -38,14 +38,14 @@ class SqliteStatementImpl extends GenericStatementImpl{
 		return "sqlite";
 	}
 
-	protected function formatVariable(GenericVariable $variable, $value) : ?string{
+	protected function formatVariable(GenericVariable $variable, $value, ?string $placeHolder, array &$outArgs) : string{
 		if($variable->isList()){
 			assert(is_array($value));
 
 			// IN () works with SQLite3.
 			$unlist = $variable->unlist();
-			return "(" . implode(",", array_map(function($value) use ($unlist){
-					return $this->formatVariable($unlist, $value);
+			return "(" . implode(",", array_map(function($value) use ($placeHolder, $unlist, &$outArgs){
+					return $this->formatVariable($unlist, $value, $placeHolder, $outArgs);
 				}, $value)) . ")";
 		}
 

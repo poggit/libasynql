@@ -177,20 +177,9 @@ abstract class GenericStatementImpl implements GenericStatement{
 			$query .= mb_substr($this->query, $lastPos, $pos - $lastPos);
 			$value = $vars[$name] ?? $this->variables[$name]->getDefault();
 			try{
-				$append = $this->formatVariable($this->variables[$name], $value);
+				$query .= $this->formatVariable($this->variables[$name], $value, $placeHolder, $outArgs);
 			}catch(AssertionError $e){
 				throw new InvalidArgumentException("Invalid value for :$name - " . $e->getMessage() . ",  " . self::getType($value) . " given", 0, $e);
-			}
-			if($append !== null){
-				$query .= $append;
-			}else{
-				if($placeHolder !== null){
-					$query .= $placeHolder;
-					$outArgs[] = $value;
-				}else{
-					$query .= $varName = ":var{$pos}";
-					$outArgs[$varName] = $value;
-				}
 			}
 			$lastPos = $pos;
 		}
@@ -203,5 +192,5 @@ abstract class GenericStatementImpl implements GenericStatement{
 		return is_object($value) ? get_class($value) : gettype($value);
 	}
 
-	protected abstract function formatVariable(GenericVariable $variable, $value) : ?string;
+	protected abstract function formatVariable(GenericVariable $variable, $value, ?string $placeHolder, array &$outArgs) : string;
 }

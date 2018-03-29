@@ -33,6 +33,7 @@ use function is_bool;
 use function is_float;
 use function is_int;
 use function is_string;
+use function rand;
 use function random_bytes;
 
 class MysqlStatementImpl extends GenericStatementImpl{
@@ -40,7 +41,7 @@ class MysqlStatementImpl extends GenericStatementImpl{
 		return "mysql";
 	}
 
-	protected function formatVariable(GenericVariable $variable, $value) : ?string{
+	protected function formatVariable(GenericVariable $variable, $value, ?string $placeHolder, array &$outArgs) : string{
 		if($variable->isList()){
 			assert(is_array($value));
 			if(empty($value)){
@@ -52,8 +53,8 @@ class MysqlStatementImpl extends GenericStatementImpl{
 			}
 
 			$unlist = $variable->unlist();
-			return "(" . implode(",", array_map(function($value) use ($unlist){
-					return $this->formatVariable($unlist, $value);
+			return "(" . implode(",", array_map(function($value) use ($unlist, $placeHolder, &$outArgs){
+					return $this->formatVariable($unlist, $value, $placeHolder, $outArgs);
 				}, $value)) . ")";
 		}
 
@@ -72,7 +73,16 @@ class MysqlStatementImpl extends GenericStatementImpl{
 
 			case GenericVariable::TYPE_STRING:
 				assert(is_string($value));
-				return null;
+				if($placeHolder !== null){
+					$outArgs[] = $value;
+					return $placeHolder;
+				}
+
+				do{
+					$varName = ":var" . rand(0, 10000000);
+				}while(isset($outArgs[$varName]));
+				$outArgs[$varName] = $value;
+				return " " . $varName . " ";
 
 			case GenericVariable::TYPE_TIMESTAMP:
 				assert(is_int($value) || is_float($value));
