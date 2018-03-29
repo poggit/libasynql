@@ -195,14 +195,15 @@ class MysqliThread extends SqlSlaveThread{
 				MysqlTypes::VAR_STRING,
 			], true)){
 				$type = SqlColumnInfo::TYPE_STRING;
+			}elseif(in_array($field->type, [MysqlTypes::FLOAT, MysqlTypes::DOUBLE, MysqlTypes::DECIMAL, MysqlTypes::NEWDECIMAL], true)){
+				$type = SqlColumnInfo::TYPE_FLOAT;
+				$columnFunc[$field->name] = "floatval";
+			}elseif(in_array($field->type, [MysqlTypes::TINY, MysqlTypes::SHORT, MysqlTypes::INT24, MysqlTypes::LONG], true)){
+				$type = SqlColumnInfo::TYPE_INT;
+				$columnFunc[$field->name] = "intval";
 			}
 			if(!isset($type)){
-				if($field->flags & MysqlFlags::NUM_FLAG){
-					$type =  $field->decimals > 0 || $field->type === MysqlTypes::DECIMAL ? SqlColumnInfo::TYPE_FLOAT : SqlColumnInfo::TYPE_INT;
-					$columnFunc[$field->name] = $field->decimals > 0 || $field->type === MysqlTypes::DECIMAL ? "floatval" : "intval";
-				}else{
-					$type = SqlColumnInfo::TYPE_OTHER;
-				}
+				$type = SqlColumnInfo::TYPE_OTHER;
 			}
 			$columns[$field->name] = new MysqlColumnInfo($field->name, $type, $field->flags, $field->type);
 		}
