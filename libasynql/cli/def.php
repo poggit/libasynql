@@ -20,6 +20,7 @@
 
 declare(strict_types=1);
 
+use poggit\libasynql\generic\GenericStatementFileParseException;
 use poggit\libasynql\generic\GenericStatementFileParser;
 use poggit\libasynql\GenericStatement;
 
@@ -119,7 +120,12 @@ foreach($sqlFiles as $sqlFile){
 	echo "[*] Parsing $sqlFile\n";
 	$fh = fopen($sqlFile, "rb");
 	$parser = new GenericStatementFileParser($sqlFile, $fh);
-	$parser->parse();
+	try{
+		$parser->parse();
+	}catch(GenericStatementFileParseException $e){
+		echo "[!] " . $e->getMessage() . "\n";
+		exit(1);
+	}
 
 	foreach($parser->getResults() as $stmt){
 		$results[$stmt->getName()][$sqlFile] = $stmt;

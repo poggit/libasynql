@@ -35,6 +35,7 @@ use poggit\libasynql\SqlError;
 use poggit\libasynql\SqlThread;
 use function assert;
 use function json_encode;
+use function str_replace;
 
 class DataConnectorImpl implements DataConnector{
 	/** @var Plugin */
@@ -161,9 +162,11 @@ class DataConnectorImpl implements DataConnector{
 			throw new InvalidArgumentException("The query $queryName has not been loaded");
 		}
 		$query = $this->queries[$queryName]->format($args, $this->placeHolder, $outArgs);
+
 		if($this->loggingQueries){
-			$this->plugin->getLogger()->debug("Executing mode-$mode query: $query | Args: " . json_encode($outArgs));
+			$this->plugin->getLogger()->debug("Queuing mode-$mode query: ". str_replace(["\r\n", "\n"], "\\n ", $query) ." | Args: " . json_encode($outArgs));
 		}
+
 		$this->thread->addQuery($queryId, $mode, $query, $outArgs);
 	}
 
