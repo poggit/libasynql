@@ -222,8 +222,7 @@ var NAVTREEINDEX0 =
 "classpoggit_1_1libasynql_1_1sqlite3_1_1_sqlite3_thread.html#a12115cf61756d807d28de0fe09c3d89d":[2,0,0,0,4,0,1],
 "classpoggit_1_1libasynql_1_1sqlite3_1_1_sqlite3_thread.html#a5f7b0f7e0557fb103481652df65ebce6":[2,0,0,0,4,0,0],
 "classpoggit_1_1libasynql_1_1sqlite3_1_1_sqlite3_thread.html#a8703b67f742aad39c686375e5625f324":[2,0,0,0,4,0,2],
-"classpoggit_1_1libasynql_1_1sqlite3_1_1_sqlite3_thread.html#a954072ce561025ceffc40f46f4d4806f":[2,0,0,0,4,0,3],
-"classpoggit_1_1libasynql_1_1sqlite3_1_1_sqlite3_thread.html#ab3002ac342fc75792ead3116b9468a3a":[2,0,0,0,4,0,4],
+"classpoggit_1_1libasynql_1_1sqlite3_1_1_sqlite3_thread.html#ab3002ac342fc75792ead3116b9468a3a":[2,0,0,0,4,0,3],
 "dir_0b3aace0feb512a6957eea85ab18c8d6.html":[3,0,0,0,0,0,2],
 "dir_3ecec708fe5e10527d4042292d3fe427.html":[3,0,0,0,0,0,1],
 "dir_44fe7cd90297ebf91d8571cc633fa93f.html":[3,0,0,0,0,0,0],
@@ -249,5 +248,6 @@ var NAVTREEINDEX0 =
 "functions_i.html":[2,3,0,10],
 "functions_j.html":[2,3,0,11],
 "functions_l.html":[2,3,0,12],
-"functions_m.html":[2,3,0,13]
+"functions_m.html":[2,3,0,13],
+"functions_n.html":[2,3,0,14]
 };

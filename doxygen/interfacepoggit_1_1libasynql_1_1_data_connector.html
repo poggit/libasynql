@@ -364,7 +364,7 @@ Public Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Returns whether the queries are being logged</p>
+<p>Returns whether the queries are being logged. Always returns false when libasynql is packaged.</p>
 <dl class="section return"><dt>Returns</dt><dd>bool </dd></dl>
 
 <p>Implemented in <a class="el" href="classpoggit_1_1libasynql_1_1base_1_1_data_connector_impl.html#a1940fc2bd79fb2a7986f9b4e6feb566e">DataConnectorImpl</a>.</p>
@@ -465,7 +465,7 @@ Public Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>Sets whether the queries are being logged</p>
+<p>Sets whether the queries are being logged. Only effective when libasynql is not packaged; does nothing if libasynql is packaged.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramtype">bool</td><td class="paramname">$loggingQueries</td><td></td></tr>

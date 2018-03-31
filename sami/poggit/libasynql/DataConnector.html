@@ -101,7 +101,7 @@
                 <div class="col-md-8 type">
                     <a href="#method_setLoggingQueries">setLoggingQueries</a>(bool $loggingQueries)
         
-                                            <p>Sets whether the queries are being logged</p>                </div>
+                                            <p>Sets whether the queries are being logged. Only effective when libasynql is not packaged; does nothing if libasynql is packaged.</p>                </div>
                 <div class="col-md-2"></div>
             </div>
                     <div class="row">
@@ -111,7 +111,7 @@
                 <div class="col-md-8 type">
                     <a href="#method_isLoggingQueries">isLoggingQueries</a>()
         
-                                            <p>Returns whether the queries are being logged</p>                </div>
+                                            <p>Returns whether the queries are being logged. Always returns false when libasynql is packaged.</p>                </div>
                 <div class="col-md-2"></div>
             </div>
                     <div class="row">
@@ -202,7 +202,7 @@
     
 
                     <div class="method-description">
-                                    <p>Sets whether the queries are being logged</p>                                                </div>
+                                    <p>Sets whether the queries are being logged. Only effective when libasynql is not packaged; does nothing if libasynql is packaged.</p>                                                </div>
                 <div class="tags">
                             <h4>Parameters</h4>
 
@@ -233,7 +233,7 @@
     
 
                     <div class="method-description">
-                                    <p>Returns whether the queries are being logged</p>                                                </div>
+                                    <p>Returns whether the queries are being logged. Always returns false when libasynql is packaged.</p>                                                </div>
                 <div class="tags">
             
                             <h4>Return Value</h4>

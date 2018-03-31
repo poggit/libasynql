@@ -121,7 +121,7 @@
                     static&nbsp;<a href="../../poggit/libasynql/DataConnector.html"><abbr title="poggit\libasynql\DataConnector">DataConnector</abbr></a>
                 </div>
                 <div class="col-md-8 type">
-                    <a href="#method_create">create</a>(<abbr title="pocketmine\plugin\Plugin">Plugin</abbr> $plugin, mixed $configData, array $sqlMap, bool $logQueries = false)
+                    <a href="#method_create">create</a>(<abbr title="pocketmine\plugin\Plugin">Plugin</abbr> $plugin, mixed $configData, array $sqlMap, bool $logQueries = null)
         
                                             <p>Create a {@link DatabaseConnector} from a plugin and a config entry, and initializes it with the relevant SQL files according to the selected dialect</p>                </div>
                 <div class="col-md-2"></div>
@@ -174,7 +174,7 @@
                     <h3 id="method_create">
         <div class="location">at         <a href="https://github.com/poggit/libasynql/blob/master/libasynql/src/poggit/libasynql/libasynql.php#L71">line 71</a></div>
         <code>        static            <a href="../../poggit/libasynql/DataConnector.html"><abbr title="poggit\libasynql\DataConnector">DataConnector</abbr></a>
-    <strong>create</strong>(<abbr title="pocketmine\plugin\Plugin">Plugin</abbr> $plugin, mixed $configData, array $sqlMap, bool $logQueries = false)
+    <strong>create</strong>(<abbr title="pocketmine\plugin\Plugin">Plugin</abbr> $plugin, mixed $configData, array $sqlMap, bool $logQueries = null)
         </code>
     </h3>
     <div class="details">
@@ -205,7 +205,7 @@
                     <tr>
                 <td>bool</td>
                 <td>$logQueries</td>
-                <td>whether libasynql should log the queries with the plugin logger at the DEBUG level</td>
+                <td>whether libasynql should log the queries with the plugin logger at the DEBUG level. Default <code>!libasynql::isPackaged()</code>.</td>
             </tr>
             </table>
 
