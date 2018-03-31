@@ -83,7 +83,8 @@ $(document).ready(function(){initNavTree('classpoggit_1_1libasynql_1_1_sql_error
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Public Member Functions</a> &#124;
-<a href="#pub-attribs">Data Fields</a>  </div>
+<a href="#pub-attribs">Data Fields</a> &#124;
+<a href="#pro-methods">Protected Member Functions</a>  </div>
   <div class="headertitle">
 <div class="title">SqlError Class Reference</div>  </div>
 </div><!--header-->
@@ -120,11 +121,16 @@ Data Fields</h2></td></tr>
 <tr class="separator:a3ff19607aeafd7e6a3206f5b59d23dcb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2b5eb9d49906dc0d1294554276054718"><td class="memItemLeft" align="right" valign="top">const&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classpoggit_1_1libasynql_1_1_sql_error.html#a2b5eb9d49906dc0d1294554276054718">STAGE_RESPONSE</a> = &quot;RESPONSE&quot;</td></tr>
 <tr class="separator:a2b5eb9d49906dc0d1294554276054718"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
+Protected Member Functions</h2></td></tr>
+<tr class="memitem:accd9250be81041406e403407090ffdeb"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classpoggit_1_1libasynql_1_1_sql_error.html#accd9250be81041406e403407090ffdeb">flattenTrace</a> ()</td></tr>
+<tr class="separator:accd9250be81041406e403407090ffdeb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Represents a generic error when executing a SQL statement. </p>
 
-<p class="definition">Definition at line <a class="el" href="_sql_error_8php_source.html#l00030">30</a> of file <a class="el" href="_sql_error_8php_source.html">SqlError.php</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_sql_error_8php_source.html#l00040">40</a> of file <a class="el" href="_sql_error_8php_source.html">SqlError.php</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a2ddf8dcd792256e18f9a38a5a9b8a9c2"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a2ddf8dcd792256e18f9a38a5a9b8a9c2">&#9670;&nbsp;</a></span>__construct()</h2>
@@ -164,11 +170,40 @@ Data Fields</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_sql_error_8php_source.html#l00053">53</a> of file <a class="el" href="_sql_error_8php_source.html">SqlError.php</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_sql_error_8php_source.html#l00063">63</a> of file <a class="el" href="_sql_error_8php_source.html">SqlError.php</a>.</p>
 
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
+<a id="accd9250be81041406e403407090ffdeb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#accd9250be81041406e403407090ffdeb">&#9670;&nbsp;</a></span>flattenTrace()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">flattenTrace </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Flattens the trace such that the exception can be serialized</p>
+<dl class="section see"><dt>See also</dt><dd><a href="https://gist.github.com/Thinkscape/805ba8b91cdce6bcaf7c">https://gist.github.com/Thinkscape/805ba8b91cdce6bcaf7c</a> Exception flattening solution by Artur Bodera </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="_sql_error_8php_source.html#l00114">114</a> of file <a class="el" href="_sql_error_8php_source.html">SqlError.php</a>.</p>
+
+</div>
+</div>
 <a id="a19dde99d8deb1c2e72d40e191fee96b0"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a19dde99d8deb1c2e72d40e191fee96b0">&#9670;&nbsp;</a></span>getArgs()</h2>
 
@@ -186,7 +221,7 @@ Data Fields</h2></td></tr>
 <p>Returns the original arguments passed to the query</p>
 <dl class="section return"><dt>Returns</dt><dd>mixed[]|null </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_sql_error_8php_source.html#l00094">94</a> of file <a class="el" href="_sql_error_8php_source.html">SqlError.php</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_sql_error_8php_source.html#l00105">105</a> of file <a class="el" href="_sql_error_8php_source.html">SqlError.php</a>.</p>
 
 </div>
 </div>
@@ -207,7 +242,7 @@ Data Fields</h2></td></tr>
 <p>Returns the error message</p>
 <dl class="section return"><dt>Returns</dt><dd>string </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_sql_error_8php_source.html#l00076">76</a> of file <a class="el" href="_sql_error_8php_source.html">SqlError.php</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_sql_error_8php_source.html#l00087">87</a> of file <a class="el" href="_sql_error_8php_source.html">SqlError.php</a>.</p>
 
 </div>
 </div>
@@ -228,7 +263,7 @@ Data Fields</h2></td></tr>
 <p>Returns the original query</p>
 <dl class="section return"><dt>Returns</dt><dd>string|null </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_sql_error_8php_source.html#l00085">85</a> of file <a class="el" href="_sql_error_8php_source.html">SqlError.php</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_sql_error_8php_source.html#l00096">96</a> of file <a class="el" href="_sql_error_8php_source.html">SqlError.php</a>.</p>
 
 </div>
 </div>
@@ -249,7 +284,7 @@ Data Fields</h2></td></tr>
 <p>Returns the stage of query execution at which the error occurred.</p>
 <dl class="section return"><dt>Returns</dt><dd>string </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_sql_error_8php_source.html#l00067">67</a> of file <a class="el" href="_sql_error_8php_source.html">SqlError.php</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_sql_error_8php_source.html#l00078">78</a> of file <a class="el" href="_sql_error_8php_source.html">SqlError.php</a>.</p>
 
 </div>
 </div>
@@ -267,7 +302,7 @@ Data Fields</h2></td></tr>
 </div><div class="memdoc">
 <p>Returned by <a class="el" href="classpoggit_1_1libasynql_1_1_sql_error.html#a0e3e57f37b6c0cbd6e44db5cac28f3af">getStage()</a>, indicating that an error occurred while connecting to the database </p>
 
-<p class="definition">Definition at line <a class="el" href="_sql_error_8php_source.html#l00034">34</a> of file <a class="el" href="_sql_error_8php_source.html">SqlError.php</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_sql_error_8php_source.html#l00044">44</a> of file <a class="el" href="_sql_error_8php_source.html">SqlError.php</a>.</p>
 
 </div>
 </div>
@@ -284,7 +319,7 @@ Data Fields</h2></td></tr>
 </div><div class="memdoc">
 <p>Returned by <a class="el" href="classpoggit_1_1libasynql_1_1_sql_error.html#a0e3e57f37b6c0cbd6e44db5cac28f3af">getStage()</a>, indicating that an error occurred while the SQL backend is executing the query </p>
 
-<p class="definition">Definition at line <a class="el" href="_sql_error_8php_source.html#l00042">42</a> of file <a class="el" href="_sql_error_8php_source.html">SqlError.php</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_sql_error_8php_source.html#l00052">52</a> of file <a class="el" href="_sql_error_8php_source.html">SqlError.php</a>.</p>
 
 </div>
 </div>
@@ -301,7 +336,7 @@ Data Fields</h2></td></tr>
 </div><div class="memdoc">
 <p>Returned by <a class="el" href="classpoggit_1_1libasynql_1_1_sql_error.html#a0e3e57f37b6c0cbd6e44db5cac28f3af">getStage()</a>, indicating that an error occurred while preparing the query </p>
 
-<p class="definition">Definition at line <a class="el" href="_sql_error_8php_source.html#l00038">38</a> of file <a class="el" href="_sql_error_8php_source.html">SqlError.php</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_sql_error_8php_source.html#l00048">48</a> of file <a class="el" href="_sql_error_8php_source.html">SqlError.php</a>.</p>
 
 </div>
 </div>
@@ -318,7 +353,7 @@ Data Fields</h2></td></tr>
 </div><div class="memdoc">
 <p>Returned by <a class="el" href="classpoggit_1_1libasynql_1_1_sql_error.html#a0e3e57f37b6c0cbd6e44db5cac28f3af">getStage()</a>, indicating that an error occurred while handling the response of the query </p>
 
-<p class="definition">Definition at line <a class="el" href="_sql_error_8php_source.html#l00046">46</a> of file <a class="el" href="_sql_error_8php_source.html">SqlError.php</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_sql_error_8php_source.html#l00056">56</a> of file <a class="el" href="_sql_error_8php_source.html">SqlError.php</a>.</p>
 
 </div>
 </div>

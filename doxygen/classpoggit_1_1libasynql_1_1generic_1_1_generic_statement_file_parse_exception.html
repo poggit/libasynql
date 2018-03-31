@@ -98,15 +98,21 @@ Inheritance diagram for GenericStatementFileParseException:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:ade6c357f07025e96504e9a18b3f7b6b6"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classpoggit_1_1libasynql_1_1generic_1_1_generic_statement_file_parse_exception.html#ade6c357f07025e96504e9a18b3f7b6b6">__construct</a> (string $problem, int $lineNo)</td></tr>
-<tr class="separator:ade6c357f07025e96504e9a18b3f7b6b6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a14a7bfd8f4b5fe811fdbf0fd7a1e7c4f"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classpoggit_1_1libasynql_1_1generic_1_1_generic_statement_file_parse_exception.html#a14a7bfd8f4b5fe811fdbf0fd7a1e7c4f">__construct</a> (string $problem, int $lineNo, string $file=null)</td></tr>
+<tr class="separator:a14a7bfd8f4b5fe811fdbf0fd7a1e7c4f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aec2d2e0cba461d5973f4c35b74c79ae2"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classpoggit_1_1libasynql_1_1generic_1_1_generic_statement_file_parse_exception.html#aec2d2e0cba461d5973f4c35b74c79ae2">getProblem</a> ()</td></tr>
+<tr class="separator:aec2d2e0cba461d5973f4c35b74c79ae2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a16d247e18fc050dffcf5ed26439b2905"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classpoggit_1_1libasynql_1_1generic_1_1_generic_statement_file_parse_exception.html#a16d247e18fc050dffcf5ed26439b2905">getLineNo</a> ()</td></tr>
+<tr class="separator:a16d247e18fc050dffcf5ed26439b2905"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9e875516b19f11ad79b3135f4e559346"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classpoggit_1_1libasynql_1_1generic_1_1_generic_statement_file_parse_exception.html#a9e875516b19f11ad79b3135f4e559346">getQueryFile</a> ()</td></tr>
+<tr class="separator:a9e875516b19f11ad79b3135f4e559346"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock">
 <p class="definition">Definition at line <a class="el" href="_generic_statement_file_parse_exception_8php_source.html#l00027">27</a> of file <a class="el" href="_generic_statement_file_parse_exception_8php_source.html">GenericStatementFileParseException.php</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="ade6c357f07025e96504e9a18b3f7b6b6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ade6c357f07025e96504e9a18b3f7b6b6">&#9670;&nbsp;</a></span>__construct()</h2>
+<a id="a14a7bfd8f4b5fe811fdbf0fd7a1e7c4f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a14a7bfd8f4b5fe811fdbf0fd7a1e7c4f">&#9670;&nbsp;</a></span>__construct()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -121,7 +127,13 @@ Public Member Functions</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>$lineNo</em>&#160;</td>
+          <td class="paramname"><em>$lineNo</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">string&#160;</td>
+          <td class="paramname"><em>$file</em> = <code>null</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -131,7 +143,65 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="_generic_statement_file_parse_exception_8php_source.html#l00031">31</a> of file <a class="el" href="_generic_statement_file_parse_exception_8php_source.html">GenericStatementFileParseException.php</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_generic_statement_file_parse_exception_8php_source.html#l00032">32</a> of file <a class="el" href="_generic_statement_file_parse_exception_8php_source.html">GenericStatementFileParseException.php</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a id="a16d247e18fc050dffcf5ed26439b2905"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a16d247e18fc050dffcf5ed26439b2905">&#9670;&nbsp;</a></span>getLineNo()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">getLineNo </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="_generic_statement_file_parse_exception_8php_source.html#l00044">44</a> of file <a class="el" href="_generic_statement_file_parse_exception_8php_source.html">GenericStatementFileParseException.php</a>.</p>
+
+</div>
+</div>
+<a id="aec2d2e0cba461d5973f4c35b74c79ae2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aec2d2e0cba461d5973f4c35b74c79ae2">&#9670;&nbsp;</a></span>getProblem()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">getProblem </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="_generic_statement_file_parse_exception_8php_source.html#l00040">40</a> of file <a class="el" href="_generic_statement_file_parse_exception_8php_source.html">GenericStatementFileParseException.php</a>.</p>
+
+</div>
+</div>
+<a id="a9e875516b19f11ad79b3135f4e559346"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9e875516b19f11ad79b3135f4e559346">&#9670;&nbsp;</a></span>getQueryFile()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">getQueryFile </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p class="definition">Definition at line <a class="el" href="_generic_statement_file_parse_exception_8php_source.html#l00048">48</a> of file <a class="el" href="_generic_statement_file_parse_exception_8php_source.html">GenericStatementFileParseException.php</a>.</p>
 
 </div>
 </div>

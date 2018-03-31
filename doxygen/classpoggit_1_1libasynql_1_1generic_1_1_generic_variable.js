@@ -8,6 +8,7 @@ var classpoggit_1_1libasynql_1_1generic_1_1_generic_variable =
     [ "getType", "classpoggit_1_1libasynql_1_1generic_1_1_generic_variable.html#a830b5c75df72b32396701bc563fbe3c7", null ],
     [ "isList", "classpoggit_1_1libasynql_1_1generic_1_1_generic_variable.html#af6473829a5b46988846578f91aa5d7c6", null ],
     [ "isOptional", "classpoggit_1_1libasynql_1_1generic_1_1_generic_variable.html#aa771d9e74542caa5d10f197d706fdecc", null ],
+    [ "jsonSerialize", "classpoggit_1_1libasynql_1_1generic_1_1_generic_variable.html#ad402d8679325bc514874370f02b5c2ac", null ],
     [ "unlist", "classpoggit_1_1libasynql_1_1generic_1_1_generic_variable.html#a9db3901f944c004a066deec5b716c65e", null ],
     [ "$canEmpty", "classpoggit_1_1libasynql_1_1generic_1_1_generic_variable.html#ac7448c7e8717fb6e6288cb0d3b0fde26", null ],
     [ "$default", "classpoggit_1_1libasynql_1_1generic_1_1_generic_variable.html#a9df479534ecf05fd7575c6275d381687", null ],

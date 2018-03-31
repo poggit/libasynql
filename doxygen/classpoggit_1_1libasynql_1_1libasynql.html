@@ -94,16 +94,16 @@ Static Public Member Functions</h2></td></tr>
 <tr class="separator:a2791121af3340a41f30ae452bf4f01ea"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a93d4cf408deed978982acc874f4959fd"><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classpoggit_1_1libasynql_1_1libasynql.html#a93d4cf408deed978982acc874f4959fd">detectPackaged</a> ()</td></tr>
 <tr class="separator:a93d4cf408deed978982acc874f4959fd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:add1449f8fef87cc275a3d99f2440c642"><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classpoggit_1_1libasynql_1_1libasynql.html#add1449f8fef87cc275a3d99f2440c642">create</a> (Plugin $plugin, $configData, array $sqlMap)</td></tr>
-<tr class="separator:add1449f8fef87cc275a3d99f2440c642"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a27caa164fd73d5ee14950ad544d65f2e"><td class="memItemLeft" align="right" valign="top">static&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classpoggit_1_1libasynql_1_1libasynql.html#a27caa164fd73d5ee14950ad544d65f2e">create</a> (Plugin $plugin, $configData, array $sqlMap, bool $logQueries=false)</td></tr>
+<tr class="separator:a27caa164fd73d5ee14950ad544d65f2e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>An utility class providing convenient access to the API </p>
 
-<p class="definition">Definition at line <a class="el" href="libasynql_8php_source.html#l00044">44</a> of file <a class="el" href="libasynql_8php_source.html">libasynql.php</a>.</p>
+<p class="definition">Definition at line <a class="el" href="libasynql_8php_source.html#l00042">42</a> of file <a class="el" href="libasynql_8php_source.html">libasynql.php</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
-<a id="add1449f8fef87cc275a3d99f2440c642"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#add1449f8fef87cc275a3d99f2440c642">&#9670;&nbsp;</a></span>create()</h2>
+<a id="a27caa164fd73d5ee14950ad544d65f2e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a27caa164fd73d5ee14950ad544d65f2e">&#9670;&nbsp;</a></span>create()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -127,7 +127,13 @@ Static Public Member Functions</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">array&#160;</td>
-          <td class="paramname"><em>$sqlMap</em>&#160;</td>
+          <td class="paramname"><em>$sqlMap</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">bool&#160;</td>
+          <td class="paramname"><em>$logQueries</em> = <code>false</code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -147,19 +153,19 @@ Static Public Member Functions</h2></td></tr>
     <tr><td class="paramtype">Plugin</td><td class="paramname">$plugin</td><td>the plugin using libasynql </td></tr>
     <tr><td class="paramtype">mixed</td><td class="paramname">$configData</td><td>the config entry for database settings </td></tr>
     <tr><td class="paramtype"></td><td class="paramname">string[]|string[][]</td><td>$sqlMap an associative array with key as the SQL dialect ("mysql", "sqlite") and value as a string or string array indicating the relevant SQL files in the plugin's resources directory </td></tr>
+    <tr><td class="paramtype">bool</td><td class="paramname">$logQueries</td><td>whether libasynql should log the queries with the plugin logger at the DEBUG level </td></tr>
   </table>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd><a class="el" href="interfacepoggit_1_1libasynql_1_1_data_connector.html">DataConnector</a> </dd></dl>
 <dl class="exception"><dt>Exceptions</dt><dd>
   <table class="exception">
-    <tr><td class="paramname"><a class="el" href="classpoggit_1_1libasynql_1_1_config_exception.html">ConfigException</a></td><td>if the config is invalid such that it is impossible to create a proper database connection </td></tr>
     <tr><td class="paramname"><a class="el" href="classpoggit_1_1libasynql_1_1_sql_error.html">SqlError</a></td><td>if the connection could not be created </td></tr>
   </table>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="libasynql_8php_source.html#l00073">73</a> of file <a class="el" href="libasynql_8php_source.html">libasynql.php</a>.</p>
+<p class="definition">Definition at line <a class="el" href="libasynql_8php_source.html#l00071">71</a> of file <a class="el" href="libasynql_8php_source.html">libasynql.php</a>.</p>
 
 </div>
 </div>
@@ -186,7 +192,7 @@ Static Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="libasynql_8php_source.html#l00052">52</a> of file <a class="el" href="libasynql_8php_source.html">libasynql.php</a>.</p>
+<p class="definition">Definition at line <a class="el" href="libasynql_8php_source.html#l00050">50</a> of file <a class="el" href="libasynql_8php_source.html">libasynql.php</a>.</p>
 
 </div>
 </div>
@@ -213,7 +219,7 @@ Static Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="libasynql_8php_source.html#l00048">48</a> of file <a class="el" href="libasynql_8php_source.html">libasynql.php</a>.</p>
+<p class="definition">Definition at line <a class="el" href="libasynql_8php_source.html#l00046">46</a> of file <a class="el" href="libasynql_8php_source.html">libasynql.php</a>.</p>
 
 </div>
 </div>

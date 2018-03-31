@@ -79,7 +79,8 @@
     </div>
 
     <p>    class
-    <strong>GenericVariable</strong>        (<a href="https://github.com/poggit/libasynql/blob/master/libasynql/src/poggit/libasynql/generic/GenericVariable.php">View source</a>)
+    <strong>GenericVariable</strong>        implements
+        <a target="_blank" href="http://php.net/JsonSerializable">JsonSerializable</a>        (<a href="https://github.com/poggit/libasynql/blob/master/libasynql/src/poggit/libasynql/generic/GenericVariable.php">View source</a>)
 </p>
 
         
@@ -291,6 +292,17 @@
                                     </div>
                 <div class="col-md-2"></div>
             </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_jsonSerialize">jsonSerialize</a>()
+        
+                                            <p class="no-description">No description</p>
+                                    </div>
+                <div class="col-md-2"></div>
+            </div>
             </div>
 
 
@@ -299,7 +311,7 @@
             <div id="method-details">
                     <div class="method-item">
                     <h3 id="method___construct">
-        <div class="location">at         <a href="https://github.com/poggit/libasynql/blob/master/libasynql/src/poggit/libasynql/generic/GenericVariable.php#L57">line 57</a></div>
+        <div class="location">at         <a href="https://github.com/poggit/libasynql/blob/master/libasynql/src/poggit/libasynql/generic/GenericVariable.php#L58">line 58</a></div>
         <code>                    
     <strong>__construct</strong>(string $name, string $type, string|null $default)
         </code>
@@ -338,7 +350,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_unlist">
-        <div class="location">at         <a href="https://github.com/poggit/libasynql/blob/master/libasynql/src/poggit/libasynql/generic/GenericVariable.php#L113">line 113</a></div>
+        <div class="location">at         <a href="https://github.com/poggit/libasynql/blob/master/libasynql/src/poggit/libasynql/generic/GenericVariable.php#L114">line 114</a></div>
         <code>                    
     <strong>unlist</strong>()
         </code>
@@ -357,7 +369,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_getName">
-        <div class="location">at         <a href="https://github.com/poggit/libasynql/blob/master/libasynql/src/poggit/libasynql/generic/GenericVariable.php#L122">line 122</a></div>
+        <div class="location">at         <a href="https://github.com/poggit/libasynql/blob/master/libasynql/src/poggit/libasynql/generic/GenericVariable.php#L123">line 123</a></div>
         <code>                    
     <strong>getName</strong>()
         </code>
@@ -376,7 +388,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_isList">
-        <div class="location">at         <a href="https://github.com/poggit/libasynql/blob/master/libasynql/src/poggit/libasynql/generic/GenericVariable.php#L126">line 126</a></div>
+        <div class="location">at         <a href="https://github.com/poggit/libasynql/blob/master/libasynql/src/poggit/libasynql/generic/GenericVariable.php#L127">line 127</a></div>
         <code>                    
     <strong>isList</strong>()
         </code>
@@ -395,7 +407,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_canBeEmpty">
-        <div class="location">at         <a href="https://github.com/poggit/libasynql/blob/master/libasynql/src/poggit/libasynql/generic/GenericVariable.php#L139">line 139</a></div>
+        <div class="location">at         <a href="https://github.com/poggit/libasynql/blob/master/libasynql/src/poggit/libasynql/generic/GenericVariable.php#L140">line 140</a></div>
         <code>                    bool
     <strong>canBeEmpty</strong>()
         </code>
@@ -427,7 +439,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_getType">
-        <div class="location">at         <a href="https://github.com/poggit/libasynql/blob/master/libasynql/src/poggit/libasynql/generic/GenericVariable.php#L147">line 147</a></div>
+        <div class="location">at         <a href="https://github.com/poggit/libasynql/blob/master/libasynql/src/poggit/libasynql/generic/GenericVariable.php#L148">line 148</a></div>
         <code>                    
     <strong>getType</strong>()
         </code>
@@ -446,7 +458,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_getDefault">
-        <div class="location">at         <a href="https://github.com/poggit/libasynql/blob/master/libasynql/src/poggit/libasynql/generic/GenericVariable.php#L154">line 154</a></div>
+        <div class="location">at         <a href="https://github.com/poggit/libasynql/blob/master/libasynql/src/poggit/libasynql/generic/GenericVariable.php#L155">line 155</a></div>
         <code>                    mixed
     <strong>getDefault</strong>()
         </code>
@@ -474,7 +486,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_isOptional">
-        <div class="location">at         <a href="https://github.com/poggit/libasynql/blob/master/libasynql/src/poggit/libasynql/generic/GenericVariable.php#L158">line 158</a></div>
+        <div class="location">at         <a href="https://github.com/poggit/libasynql/blob/master/libasynql/src/poggit/libasynql/generic/GenericVariable.php#L159">line 159</a></div>
         <code>                    
     <strong>isOptional</strong>()
         </code>
@@ -493,7 +505,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_equals">
-        <div class="location">at         <a href="https://github.com/poggit/libasynql/blob/master/libasynql/src/poggit/libasynql/generic/GenericVariable.php#L162">line 162</a></div>
+        <div class="location">at         <a href="https://github.com/poggit/libasynql/blob/master/libasynql/src/poggit/libasynql/generic/GenericVariable.php#L163">line 163</a></div>
         <code>                    
     <strong>equals</strong>(<a href="../../../poggit/libasynql/generic/GenericVariable.html"><abbr title="poggit\libasynql\generic\GenericVariable">GenericVariable</abbr></a> $that, $diff = null)
         </code>
@@ -518,6 +530,25 @@
             </tr>
             </table>
 
+            
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_jsonSerialize">
+        <div class="location">at         <a href="https://github.com/poggit/libasynql/blob/master/libasynql/src/poggit/libasynql/generic/GenericVariable.php#L187">line 187</a></div>
+        <code>                    
+    <strong>jsonSerialize</strong>()
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                <div class="tags">
             
             
             

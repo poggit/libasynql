@@ -99,8 +99,8 @@ Inheritance diagram for SqlThreadPool:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a289da60632aedc04521e823a57447a8a"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classpoggit_1_1libasynql_1_1base_1_1_sql_thread_pool.html#a289da60632aedc04521e823a57447a8a">__construct</a> (callable $workerCreator, int $workerLimit)</td></tr>
-<tr class="separator:a289da60632aedc04521e823a57447a8a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:add65e7a013e4438e3270a182730f7a37"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classpoggit_1_1libasynql_1_1base_1_1_sql_thread_pool.html#add65e7a013e4438e3270a182730f7a37">__construct</a> (callable $workerFactory, int $workerLimit)</td></tr>
+<tr class="separator:add65e7a013e4438e3270a182730f7a37"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa99149be8621fb1b53890ac267e504ef"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classpoggit_1_1libasynql_1_1base_1_1_sql_thread_pool.html#aa99149be8621fb1b53890ac267e504ef">join</a> ()</td></tr>
 <tr class="separator:aa99149be8621fb1b53890ac267e504ef"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3d7e93ce9b22e38634f39dd15774bd5a"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classpoggit_1_1libasynql_1_1base_1_1_sql_thread_pool.html#a3d7e93ce9b22e38634f39dd15774bd5a">stopRunning</a> ()</td></tr>
@@ -134,8 +134,8 @@ Additional Inherited Members</h2></td></tr>
 <div class="textblock">
 <p class="definition">Definition at line <a class="el" href="_sql_thread_pool_8php_source.html#l00029">29</a> of file <a class="el" href="_sql_thread_pool_8php_source.html">SqlThreadPool.php</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="a289da60632aedc04521e823a57447a8a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a289da60632aedc04521e823a57447a8a">&#9670;&nbsp;</a></span>__construct()</h2>
+<a id="add65e7a013e4438e3270a182730f7a37"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#add65e7a013e4438e3270a182730f7a37">&#9670;&nbsp;</a></span>__construct()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -144,7 +144,7 @@ Additional Inherited Members</h2></td></tr>
           <td class="memname">__construct </td>
           <td>(</td>
           <td class="paramtype">callable&#160;</td>
-          <td class="paramname"><em>$workerCreator</em>, </td>
+          <td class="paramname"><em>$workerFactory</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
@@ -162,7 +162,7 @@ Additional Inherited Members</h2></td></tr>
 <p><a class="el" href="classpoggit_1_1libasynql_1_1base_1_1_sql_thread_pool.html">SqlThreadPool</a> constructor.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramtype">callable</td><td class="paramname">$workerCreator</td><td>create a child worker: <code>function(?Threaded $bufferSend = null, ?Threaded $bufferRecv = null) : <a class="el" href="">BaseSqlThread</a>{}</code> </td></tr>
+    <tr><td class="paramtype">callable</td><td class="paramname">$workerFactory</td><td>create a child worker: <code>function(?Threaded $bufferSend = null, ?Threaded $bufferRecv = null) : <a class="el" href="">BaseSqlThread</a>{}</code> </td></tr>
     <tr><td class="paramtype">int</td><td class="paramname">$workerLimit</td><td>the maximum number of workers to create. Workers are created lazily. </td></tr>
   </table>
   </dd>

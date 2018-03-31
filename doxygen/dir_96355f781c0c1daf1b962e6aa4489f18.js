@@ -17,9 +17,7 @@ var dir_96355f781c0c1daf1b962e6aa4489f18 =
     [ "GenericStatement.php", "_generic_statement_8php.html", [
       [ "GenericStatement", "interfacepoggit_1_1libasynql_1_1_generic_statement.html", "interfacepoggit_1_1libasynql_1_1_generic_statement" ]
     ] ],
-    [ "libasynql.php", "libasynql_8php.html", [
-      [ "libasynql", "classpoggit_1_1libasynql_1_1libasynql.html", null ]
-    ] ],
+    [ "libasynql.php", "libasynql_8php.html", "libasynql_8php" ],
     [ "SqlDialect.php", "_sql_dialect_8php.html", [
       [ "SqlDialect", "interfacepoggit_1_1libasynql_1_1_sql_dialect.html", "interfacepoggit_1_1libasynql_1_1_sql_dialect" ]
     ] ],

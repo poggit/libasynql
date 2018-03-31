@@ -3,6 +3,7 @@ var searchData=
   ['schedulequery',['scheduleQuery',['../classpoggit_1_1libasynql_1_1base_1_1_query_send_queue.html#a0322c7305a97417aa3265eea8f463e28',1,'poggit::libasynql::base::QuerySendQueue']]],
   ['set',['SET',['../interfacepoggit_1_1libasynql_1_1mysqli_1_1_mysql_types.html#ae1f95d9ef47c18552af9585737d7652b',1,'poggit::libasynql::mysqli::MysqlTypes']]],
   ['set_5fflag',['SET_FLAG',['../interfacepoggit_1_1libasynql_1_1mysqli_1_1_mysql_flags.html#a48c6d676973f6ccd8c4292a78e58ec91',1,'poggit::libasynql::mysqli::MysqlFlags']]],
+  ['setloggingqueries',['setLoggingQueries',['../classpoggit_1_1libasynql_1_1base_1_1_data_connector_impl.html#a8c5eb182830232a7e2171956860feac4',1,'poggit\libasynql\base\DataConnectorImpl\setLoggingQueries()'],['../interfacepoggit_1_1libasynql_1_1_data_connector.html#a8c5eb182830232a7e2171956860feac4',1,'poggit\libasynql\DataConnector\setLoggingQueries()']]],
   ['short',['SHORT',['../interfacepoggit_1_1libasynql_1_1mysqli_1_1_mysql_types.html#a7c5b0c14382692b4f858ae0e29abc6be',1,'poggit::libasynql::mysqli::MysqlTypes']]],
   ['sqlchangeresult',['SqlChangeResult',['../classpoggit_1_1libasynql_1_1result_1_1_sql_change_result.html',1,'poggit::libasynql::result']]],
   ['sqlchangeresult_2ephp',['SqlChangeResult.php',['../_sql_change_result_8php.html',1,'']]],

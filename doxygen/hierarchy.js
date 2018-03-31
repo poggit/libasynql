@@ -10,7 +10,6 @@ var hierarchy =
       ] ]
     ] ],
     [ "GenericStatementFileParser", "classpoggit_1_1libasynql_1_1generic_1_1_generic_statement_file_parser.html", null ],
-    [ "GenericVariable", "classpoggit_1_1libasynql_1_1generic_1_1_generic_variable.html", null ],
     [ "libasynql", "classpoggit_1_1libasynql_1_1libasynql.html", null ],
     [ "MysqlFlags", "interfacepoggit_1_1libasynql_1_1mysqli_1_1_mysql_flags.html", null ],
     [ "MysqlTypes", "interfacepoggit_1_1libasynql_1_1mysqli_1_1_mysql_types.html", null ],
@@ -31,18 +30,18 @@ var hierarchy =
       ] ],
       [ "SqlThreadPool", "classpoggit_1_1libasynql_1_1base_1_1_sql_thread_pool.html", null ]
     ] ],
-    [ "Exception", null, [
-      [ "SqlError", "classpoggit_1_1libasynql_1_1_sql_error.html", null ]
-    ] ],
     [ "InvalidArgumentException", null, [
       [ "ConfigException", "classpoggit_1_1libasynql_1_1_config_exception.html", null ],
       [ "GenericStatementFileParseException", "classpoggit_1_1libasynql_1_1generic_1_1_generic_statement_file_parse_exception.html", null ]
     ] ],
     [ "JsonSerializable", null, [
+      [ "GenericStatementImpl", "classpoggit_1_1libasynql_1_1generic_1_1_generic_statement_impl.html", null ],
+      [ "GenericVariable", "classpoggit_1_1libasynql_1_1generic_1_1_generic_variable.html", null ],
       [ "MysqlCredentials", "classpoggit_1_1libasynql_1_1mysqli_1_1_mysql_credentials.html", null ]
     ] ],
     [ "RuntimeException", null, [
-      [ "ExtensionMissingException", "classpoggit_1_1libasynql_1_1_extension_missing_exception.html", null ]
+      [ "ExtensionMissingException", "classpoggit_1_1libasynql_1_1_extension_missing_exception.html", null ],
+      [ "SqlError", "classpoggit_1_1libasynql_1_1_sql_error.html", null ]
     ] ],
     [ "Thread", null, [
       [ "SqlSlaveThread", "classpoggit_1_1libasynql_1_1base_1_1_sql_slave_thread.html", null ]

@@ -1,6 +1,7 @@
 var classpoggit_1_1libasynql_1_1_sql_error =
 [
     [ "__construct", "classpoggit_1_1libasynql_1_1_sql_error.html#a2ddf8dcd792256e18f9a38a5a9b8a9c2", null ],
+    [ "flattenTrace", "classpoggit_1_1libasynql_1_1_sql_error.html#accd9250be81041406e403407090ffdeb", null ],
     [ "getArgs", "classpoggit_1_1libasynql_1_1_sql_error.html#a19dde99d8deb1c2e72d40e191fee96b0", null ],
     [ "getErrorMessage", "classpoggit_1_1libasynql_1_1_sql_error.html#a3d24ed0e93b212b4d5e382fa795bf4ef", null ],
     [ "getQuery", "classpoggit_1_1libasynql_1_1_sql_error.html#a55f162785567258fe5138af282e588c2", null ],
