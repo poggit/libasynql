@@ -41,6 +41,8 @@ interface GenericStatement{
 
 	public function getQuery() : string;
 
+	public function getDoc() : string;
+
 	/**
 	 * Returns the variables required by this statement
 	 *

@@ -164,9 +164,30 @@ foreach($results as $queryName => $stmts){
 		$const .= "_" . $i;
 	}
 	$constLog[$const] = $queryName;
-	$descLines = ["<code>" . $queryName . "</code>", "", "Defined in " . implode(", ", array_map(function(GenericStatement $stmt){
+	$descLines = [];
+	$docFile = null;
+	$docString = "";
+	foreach($stmts as $stmt){
+		if(strlen($stmt->getDoc()) > strlen($docString)){
+			$docFile = $stmt->getFile();
+			$docString = $stmt->getDoc();
+		}
+	}
+	if($docFile !== null){
+		$descLines[] = "<i>(Description from {$docFile})</i>";
+		$descLines[] = "";
+		foreach(explode("\n", $docString) as $line){
+			$descLines[] = $line;
+			$descLines[] = "";
+		}
+	}
+	$descLines[] = "<h4>Declared in:</h4>";
+	foreach($stmts as $stmt){
+		$descLines[] = "- {$stmt->getFile()}:{$stmt->getLineNumber()}";
+	}
+	implode(", ", array_map(function(GenericStatement $stmt){
 			return basename($stmt->getFile()) . ":" . $stmt->getLineNumber();
-		}, $stmts))];
+		}, $stmts));
 	/** @var GenericStatement $stmt0 */
 	$stmt0 = array_values($stmts)[0];
 	$file0 = array_keys($stmts)[0];
@@ -205,7 +226,7 @@ foreach($results as $queryName => $stmts){
 	}
 	if(!empty($varFiles)){
 		$descLines[] = "";
-		$descLines[] = "Variables:";
+		$descLines[] = "<h3>Variables</h3>";
 		foreach($varFiles as $varName => $files){
 			$var = $vars0[$varName];
 			$desc = "- <code>:$varName</code> {$var->getType()}";

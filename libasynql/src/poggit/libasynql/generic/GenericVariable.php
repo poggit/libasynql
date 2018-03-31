@@ -24,6 +24,7 @@ namespace poggit\libasynql\generic;
 
 use InvalidArgumentException;
 use InvalidStateException;
+use JsonSerializable;
 use function assert;
 use function in_array;
 use function is_string;
@@ -37,7 +38,7 @@ use function substr;
 /**
  * Represents a variable that can be passed into {@link GenericStatement::format()}
  */
-class GenericVariable{
+class GenericVariable implements JsonSerializable{
 	public const TYPE_STRING = "string";
 	public const TYPE_INT = "int";
 	public const TYPE_FLOAT = "float";
@@ -181,5 +182,15 @@ class GenericVariable{
 			return false;
 		}
 		return true;
+	}
+
+	public function jsonSerialize(){
+		return [
+			"name" => $this->name,
+			"isList" => $this->list,
+			"canEmpty" => $this->canEmpty,
+			"type" => $this->type,
+			"default" => $this->default,
+		];
 	}
 }

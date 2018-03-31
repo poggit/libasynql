@@ -24,9 +24,11 @@ namespace poggit\libasynql\generic;
 
 use InvalidArgumentException;
 use poggit\libasynql\GenericStatement;
+use function array_map;
 use function array_pop;
 use function assert;
 use function count;
+use function explode;
 use function fclose;
 use function fgets;
 use function implode;
@@ -50,6 +52,8 @@ class GenericStatementFileParser{
 	private $identifierStack = [];
 	/** @var bool */
 	private $parsingQuery = false;
+	/** @var string[] */
+	private $docLines = [];
 	/** @var GenericVariable[] */
 	private $variables = [];
 	/** @var string[] */
@@ -142,6 +146,9 @@ class GenericStatementFileParser{
 			case "}":
 				$this->endCommand();
 				return true;
+			case "*":
+				$this->docCommand($args, $line, $argOffsets);
+				return true;
 			case ":":
 				$this->varCommand($args, $line, $argOffsets);
 				return true;
@@ -190,8 +197,12 @@ class GenericStatementFileParser{
 			}
 
 			$query = implode("\n", $this->buffer);
+			$doc = implode("\n", array_map(function($group){
+				return implode(" ", explode("\n", $group)); // single line breaks => trimmed space separations
+			}, explode("\n\n", implode("\n", $this->docLines)))); // double line breaks => single line breaks
 			assert($this->knownDialect !== null);
-			$stmt = GenericStatementImpl::forDialect($this->knownDialect, implode(".", $this->identifierStack), $query, $this->variables, $this->fileName, $this->lineNo);
+			$stmt = GenericStatementImpl::forDialect($this->knownDialect, implode(".", $this->identifierStack), $query, $doc, $this->variables, $this->fileName, $this->lineNo);
+			$this->docLines = [];
 			$this->variables = [];
 			$this->buffer = [];
 			$this->parsingQuery = false;
@@ -223,6 +234,15 @@ class GenericStatementFileParser{
 			$this->error("Duplicate variable definition of :{$var->getName()}");
 		}
 		$this->variables[$var->getName()] = $var;
+		$this->parsingQuery = true;
+	}
+
+	private function docCommand(array $args, string $line, array $argOffsets) : void{
+		if(empty($this->identifierStack)){
+			$this->error("Unexpected documentation; start a query with { first");
+		}
+
+		$this->docLines[] = trim(substr($line, 1));
 		$this->parsingQuery = true;
 	}
 

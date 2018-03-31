@@ -24,6 +24,7 @@ namespace poggit\libasynql\generic;
 
 use AssertionError;
 use InvalidArgumentException;
+use JsonSerializable;
 use poggit\libasynql\GenericStatement;
 use poggit\libasynql\SqlDialect;
 use function get_class;
@@ -33,13 +34,16 @@ use function is_object;
 use function mb_strlen;
 use function mb_strpos;
 use function mb_substr;
+use function str_replace;
 use function uksort;
 
-abstract class GenericStatementImpl implements GenericStatement{
+abstract class GenericStatementImpl implements GenericStatement, JsonSerializable{
 	/** @var string */
 	protected $name;
 	/** @var string */
 	protected $query;
+	/** @var string */
+	protected $doc;
 	/** @var GenericVariable[] */
 	protected $variables;
 	/** @var string|null */
@@ -58,6 +62,10 @@ abstract class GenericStatementImpl implements GenericStatement{
 		return $this->query;
 	}
 
+	public function getDoc() : string{
+		return $this->doc;
+	}
+
 	public function getVariables() : array{
 		return $this->variables;
 	}
@@ -74,25 +82,27 @@ abstract class GenericStatementImpl implements GenericStatement{
 	 * @param string            $dialect
 	 * @param string            $name
 	 * @param string            $query
+	 * @param string            $doc
 	 * @param GenericVariable[] $variables
 	 * @param string|null       $file
 	 * @param int               $lineNo
 	 * @return GenericStatementImpl
 	 */
-	public static function forDialect(string $dialect, string $name, string $query, array $variables, ?string $file, int $lineNo) : GenericStatementImpl{
+	public static function forDialect(string $dialect, string $name, string $query, string $doc, array $variables, ?string $file, int $lineNo) : GenericStatementImpl{
 		static $classMap = [
 			SqlDialect::MYSQL => MysqlStatementImpl::class,
 			SqlDialect::SQLITE => SqliteStatementImpl::class,
 		];
 		$className = $classMap[$dialect];
-		return new $className($name, $query, $variables, $file, $lineNo);
+		return new $className($name, $query, $doc, $variables, $file, $lineNo);
 	}
 
-	public function __construct(string $name, string $query, array $variables, ?string $file, int $lineNo){
+	public function __construct(string $name, string $query, string $doc, array $variables, ?string $file, int $lineNo){
 		$this->name = $name;
 		$this->query = $query;
+		$this->doc = $doc;
 		$this->variables = $variables;
-		$this->file = $file;
+		$this->file = str_replace("\\", "/", $file);
 		$this->lineNo = $lineNo;
 
 		$this->compilePositions();
@@ -193,4 +203,15 @@ abstract class GenericStatementImpl implements GenericStatement{
 	}
 
 	protected abstract function formatVariable(GenericVariable $variable, $value, ?string $placeHolder, array &$outArgs) : string;
+
+	public function jsonSerialize(){
+		return [
+			"name" => $this->name,
+			"query" => $this->query,
+			"doc" => $this->doc,
+			"variables" => $this->variables,
+			"file" => $this->file,
+			"lineNo" => $this->lineNo,
+		];
+	}
 }
