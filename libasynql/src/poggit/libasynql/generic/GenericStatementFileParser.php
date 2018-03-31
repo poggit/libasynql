@@ -197,9 +197,7 @@ class GenericStatementFileParser{
 			}
 
 			$query = implode("\n", $this->buffer);
-			$doc = implode("\n", array_map(function($group){
-				return implode(" ", explode("\n", $group)); // single line breaks => trimmed space separations
-			}, explode("\n\n", implode("\n", $this->docLines)))); // double line breaks => single line breaks
+			$doc = implode("\n",  $this->docLines); // double line breaks => single line breaks
 			assert($this->knownDialect !== null);
 			$stmt = GenericStatementImpl::forDialect($this->knownDialect, implode(".", $this->identifierStack), $query, $doc, $this->variables, $this->fileName, $this->lineNo);
 			$this->docLines = [];

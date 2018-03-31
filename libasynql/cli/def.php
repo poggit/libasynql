@@ -178,7 +178,6 @@ foreach($results as $queryName => $stmts){
 		$descLines[] = "";
 		foreach(explode("\n", $docString) as $line){
 			$descLines[] = $line;
-			$descLines[] = "";
 		}
 	}
 	$descLines[] = "<h4>Declared in:</h4>";
