@@ -36,8 +36,11 @@ use poggit\libasynql\SqlError;
 use poggit\libasynql\SqlResult;
 use poggit\libasynql\SqlThread;
 use SQLite3;
+use function array_values;
 use function assert;
 use function is_array;
+use const INF;
+use const NAN;
 use const SQLITE3_ASSOC;
 use const SQLITE3_BLOB;
 use const SQLITE3_FLOAT;
@@ -103,6 +106,7 @@ class Sqlite3Thread extends SqlSlaveThread{
 				$stmt->close();
 				return $ret;
 			case SqlThread::MODE_SELECT:
+				/** @var SqlColumnInfo[] $colInfo */
 				$colInfo = [];
 				for($i = 0, $iMax = $result->numColumns(); $i < $iMax; ++$i){
 					static $columnTypeMap = [
@@ -116,6 +120,18 @@ class Sqlite3Thread extends SqlSlaveThread{
 				}
 				$rows = [];
 				while(is_array($row = $result->fetchArray(SQLITE3_ASSOC))){
+					foreach(array_values($row) as $i => &$value){
+						if($colInfo[$i]->getType() === SqlColumnInfo::TYPE_FLOAT){
+							if($value === "NAN"){
+								$value = NAN;
+							}elseif($value === "INF"){
+								$value = INF;
+							}elseif($value === "-INF"){
+								$value = -INF;
+							}
+						}
+					}
+					unset($value);
 					$rows[] = $row;
 				}
 				$ret = new SqlSelectResult($colInfo, $rows);

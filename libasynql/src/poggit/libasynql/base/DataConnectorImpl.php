@@ -35,6 +35,7 @@ use poggit\libasynql\result\SqlInsertResult;
 use poggit\libasynql\result\SqlSelectResult;
 use poggit\libasynql\SqlError;
 use poggit\libasynql\SqlThread;
+use Throwable;
 use function json_encode;
 use function str_replace;
 
@@ -82,7 +83,7 @@ class DataConnectorImpl implements DataConnector{
 	}
 
 	public function setLoggingQueries(bool $loggingQueries) : void{
-		$this->loggingQueries = $loggingQueries;
+		$this->loggingQueries = !libasynql::isPackaged() && $loggingQueries;
 	}
 
 	public function isLoggingQueries() : bool{
@@ -138,12 +139,19 @@ class DataConnectorImpl implements DataConnector{
 
 	private function executeImpl(string $queryName, array $args, int $mode, callable $handler, ?callable $onError){
 		$queryId = $this->queryId++;
-		$trace = libasynql::isPackaged() ? null : new Exception();
+		$trace = libasynql::isPackaged() ? null : new Exception("(This is the original stack trace for the following error)");
 		$this->handlers[$queryId] = function($result) use ($handler, $onError, $trace){
 			if($result instanceof SqlError){
 				$this->reportError($onError, $result, $trace);
 			}else{
-				$handler($result);
+				try{
+					$handler($result);
+				}catch(Throwable $t){
+					if(!libasynql::isPackaged()){
+						$this->plugin->getLogger()->logException($trace);
+					}
+					throw $t;
+				}
 			}
 		};
 

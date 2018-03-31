@@ -30,14 +30,14 @@ use poggit\libasynql\generic\GenericStatementFileParseException;
  */
 interface DataConnector{
 	/**
-	 * Sets whether the queries are being logged
+	 * Sets whether the queries are being logged. Only effective when libasynql is not packaged; does nothing if libasynql is packaged.
 	 *
 	 * @param bool $loggingQueries
 	 */
 	public function setLoggingQueries(bool $loggingQueries) : void;
 
 	/**
-	 * Returns whether the queries are being logged
+	 * Returns whether the queries are being logged. Always returns false when libasynql is packaged.
 	 *
 	 * @return bool
 	 */

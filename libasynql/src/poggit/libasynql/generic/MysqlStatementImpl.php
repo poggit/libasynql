@@ -23,6 +23,7 @@ declare(strict_types=1);
 namespace poggit\libasynql\generic;
 
 use InvalidArgumentException;
+use function is_finite;
 use RuntimeException;
 use function array_map;
 use function assert;
@@ -69,6 +70,9 @@ class MysqlStatementImpl extends GenericStatementImpl{
 
 			case GenericVariable::TYPE_FLOAT:
 				assert(is_int($value) || is_float($value));
+				if(!is_finite($value)){
+					throw new InvalidArgumentException("Cannot encode $value in MySQL");
+				}
 				return (string) $value;
 
 			case GenericVariable::TYPE_STRING:
