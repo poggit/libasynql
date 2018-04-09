@@ -22,7 +22,6 @@ declare(strict_types=1);
 
 namespace poggit\libasynql\base;
 
-use function count;
 use Error;
 use Exception;
 use InvalidArgumentException;
@@ -41,10 +40,9 @@ use poggit\libasynql\SqlThread;
 use ReflectionClass;
 use function array_merge;
 use function array_pop;
-use function end;
+use function count;
 use function json_encode;
 use function str_replace;
-use function var_dump;
 
 class DataConnectorImpl implements DataConnector{
 	/** @var Plugin */
@@ -62,8 +60,8 @@ class DataConnectorImpl implements DataConnector{
 	private $task;
 
 	/**
-	 * @param Plugin    $plugin
-	 * @param SqlThread $thread the backend SqlThread to connect with
+	 * @param Plugin      $plugin
+	 * @param SqlThread   $thread      the backend SqlThread to connect with
 	 * @param null|string $placeHolder the backend-implementation-dependent placeholder. <code>"?"</code> for mysqli-based backends, <code>null</code> for PDO-based and SQLite3-based backends.
 	 * @param bool        $logQueries
 	 */

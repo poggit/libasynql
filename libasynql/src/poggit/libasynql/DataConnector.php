@@ -48,7 +48,7 @@ interface DataConnector{
 	 *
 	 * The implementation will close the stream after reading.
 	 *
-	 * @param resource $fh a stream that supports <code>feof()</code>, <code>fgets()</code> and <code>fclose()</code>.
+	 * @param resource $fh       a stream that supports <code>feof()</code>, <code>fgets()</code> and <code>fclose()</code>.
 	 * @param string   $fileName the filename providing the stream, only used for debugging and documentation purposes
 	 *
 	 * @throws GenericStatementFileParseException if the file contains a syntax error or compile error

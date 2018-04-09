@@ -22,10 +22,10 @@ declare(strict_types=1);
 
 namespace poggit\libasynql;
 
+use RuntimeException;
 use function file;
 use function is_file;
 use function php_ini_loaded_file;
-use RuntimeException;
 use function strpos;
 
 class ExtensionMissingException extends RuntimeException{

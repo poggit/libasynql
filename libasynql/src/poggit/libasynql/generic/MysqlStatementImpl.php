@@ -23,7 +23,6 @@ declare(strict_types=1);
 namespace poggit\libasynql\generic;
 
 use InvalidArgumentException;
-use function is_finite;
 use RuntimeException;
 use function array_map;
 use function assert;
@@ -31,6 +30,7 @@ use function bin2hex;
 use function implode;
 use function is_array;
 use function is_bool;
+use function is_finite;
 use function is_float;
 use function is_int;
 use function is_string;

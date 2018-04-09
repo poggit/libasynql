@@ -24,11 +24,9 @@ namespace poggit\libasynql\generic;
 
 use InvalidArgumentException;
 use poggit\libasynql\GenericStatement;
-use function array_map;
 use function array_pop;
 use function assert;
 use function count;
-use function explode;
 use function fclose;
 use function fgets;
 use function implode;
@@ -197,7 +195,7 @@ class GenericStatementFileParser{
 			}
 
 			$query = implode("\n", $this->buffer);
-			$doc = implode("\n",  $this->docLines); // double line breaks => single line breaks
+			$doc = implode("\n", $this->docLines); // double line breaks => single line breaks
 			assert($this->knownDialect !== null);
 			$stmt = GenericStatementImpl::forDialect($this->knownDialect, implode(".", $this->identifierStack), $query, $doc, $this->variables, $this->fileName, $this->lineNo);
 			$this->docLines = [];
