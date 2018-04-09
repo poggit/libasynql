@@ -22,10 +22,13 @@ declare(strict_types=1);
 
 namespace poggit\libasynql\base;
 
+use function count;
+use Error;
 use Exception;
 use InvalidArgumentException;
 use pocketmine\plugin\Plugin;
 use pocketmine\scheduler\PluginTask;
+use pocketmine\utils\Terminal;
 use poggit\libasynql\DataConnector;
 use poggit\libasynql\generic\GenericStatementFileParser;
 use poggit\libasynql\GenericStatement;
@@ -35,9 +38,13 @@ use poggit\libasynql\result\SqlInsertResult;
 use poggit\libasynql\result\SqlSelectResult;
 use poggit\libasynql\SqlError;
 use poggit\libasynql\SqlThread;
-use Throwable;
+use ReflectionClass;
+use function array_merge;
+use function array_pop;
+use function end;
 use function json_encode;
 use function str_replace;
+use function var_dump;
 
 class DataConnectorImpl implements DataConnector{
 	/** @var Plugin */
@@ -55,8 +62,8 @@ class DataConnectorImpl implements DataConnector{
 	private $task;
 
 	/**
-	 * @param Plugin      $plugin
-	 * @param SqlThread   $thread      the backend SqlThread to connect with
+	 * @param Plugin    $plugin
+	 * @param SqlThread $thread the backend SqlThread to connect with
 	 * @param null|string $placeHolder the backend-implementation-dependent placeholder. <code>"?"</code> for mysqli-based backends, <code>null</code> for PDO-based and SQLite3-based backends.
 	 * @param bool        $logQueries
 	 */
@@ -146,11 +153,33 @@ class DataConnectorImpl implements DataConnector{
 			}else{
 				try{
 					$handler($result);
-				}catch(Throwable $t){
+				}catch(Exception $e){
 					if(!libasynql::isPackaged()){
-						$this->plugin->getLogger()->logException($trace);
+						$prop = (new ReflectionClass(Exception::class))->getProperty("trace");
+						$prop->setAccessible(true);
+						$newTrace = $prop->getValue($e);
+						$oldTrace = $prop->getValue($trace);
+						for($i = count($newTrace) - 1, $j = count($oldTrace) - 1; $i >= 0 && $j >= 0 && $newTrace[$i] === $oldTrace[$j]; --$i, --$j){
+							array_pop($newTrace);
+						}
+						$prop->setValue($e, array_merge($newTrace, [
+							[
+								"function" => Terminal::$COLOR_YELLOW . "--- below is the original stack trace ---" . Terminal::$FORMAT_RESET,
+							],
+						], $oldTrace));
 					}
-					throw $t;
+					throw $e;
+				}catch(Error $e){
+					if(!libasynql::isPackaged()){
+						$prop = (new ReflectionClass(Exception::class))->getProperty("trace");
+						$prop->setAccessible(true);
+						$prop->setValue($e, array_merge($prop->getValue($e), [
+							[
+
+							]
+						], $prop->getValue($trace)));
+					}
+					throw $e;
 				}
 			}
 		};
@@ -161,7 +190,7 @@ class DataConnectorImpl implements DataConnector{
 		$query = $this->queries[$queryName]->format($args, $this->placeHolder, $outArgs);
 
 		if($this->loggingQueries){
-			$this->plugin->getLogger()->debug("Queuing mode-$mode query: ". str_replace(["\r\n", "\n"], "\\n ", $query) ." | Args: " . json_encode($outArgs));
+			$this->plugin->getLogger()->debug("Queuing mode-$mode query: " . str_replace(["\r\n", "\n"], "\\n ", $query) . " | Args: " . json_encode($outArgs));
 		}
 
 		$this->thread->addQuery($queryId, $mode, $query, $outArgs);
