@@ -191,7 +191,7 @@ class GenericStatementFileParser{
 
 		if($this->parsingQuery){
 			if(count($this->buffer) === 0){
-				$this->error("Variables are declared but no query is provided");
+				$this->error("Documentation/Variables are declared but no query is provided");
 			}
 
 			$query = implode("\n", $this->buffer);

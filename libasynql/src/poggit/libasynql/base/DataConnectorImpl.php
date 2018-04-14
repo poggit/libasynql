@@ -169,13 +169,18 @@ class DataConnectorImpl implements DataConnector{
 					throw $e;
 				}catch(Error $e){
 					if(!libasynql::isPackaged()){
-						$prop = (new ReflectionClass(Exception::class))->getProperty("trace");
+						$prop = (new ReflectionClass(Error::class))->getProperty("trace");
 						$prop->setAccessible(true);
-						$prop->setValue($e, array_merge($prop->getValue($e), [
+						$newTrace = $prop->getValue($e);
+						$oldTrace = $prop->getValue($trace);
+						for($i = count($newTrace) - 1, $j = count($oldTrace) - 1; $i >= 0 && $j >= 0 && $newTrace[$i] === $oldTrace[$j]; --$i, --$j){
+							array_pop($newTrace);
+						}
+						$prop->setValue($e, array_merge($newTrace, [
 							[
-
-							]
-						], $prop->getValue($trace)));
+								"function" => Terminal::$COLOR_YELLOW . "--- below is the original stack trace ---" . Terminal::$FORMAT_RESET,
+							],
+						], $oldTrace));
 					}
 					throw $e;
 				}
@@ -196,8 +201,14 @@ class DataConnectorImpl implements DataConnector{
 
 	private function reportError(?callable $default, SqlError $error, ?Exception $trace){
 		if($default !== null){
-			$default($error);
-		}else{
+			try{
+				$default($error, $trace);
+				$error = null;
+			}catch(SqlError $err){
+				$error = $err;
+			}
+		}
+		if($error !== null){
 			$this->plugin->getLogger()->error($error->getMessage());
 			if($error->getQuery() !== null){
 				$this->plugin->getLogger()->debug("Query: " . $error->getQuery());
@@ -205,9 +216,9 @@ class DataConnectorImpl implements DataConnector{
 			if($error->getArgs() !== null){
 				$this->plugin->getLogger()->debug("Args: " . json_encode($error->getArgs()));
 			}
-		}
-		if($trace !== null){
-			$this->plugin->getLogger()->debug("Stack trace: " . $trace->getTraceAsString());
+			if($trace !== null){
+				$this->plugin->getLogger()->debug("Stack trace: " . $trace->getTraceAsString());
+			}
 		}
 	}
 
