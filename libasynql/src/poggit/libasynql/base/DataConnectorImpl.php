@@ -172,6 +172,8 @@ class DataConnectorImpl implements DataConnector{
 						$prop = (new ReflectionClass(Error::class))->getProperty("trace");
 						$prop->setAccessible(true);
 						$newTrace = $prop->getValue($e);
+						$prop = (new ReflectionClass(Exception::class))->getProperty("trace");
+						$prop->setAccessible(true);
 						$oldTrace = $prop->getValue($trace);
 						for($i = count($newTrace) - 1, $j = count($oldTrace) - 1; $i >= 0 && $j >= 0 && $newTrace[$i] === $oldTrace[$j]; --$i, --$j){
 							array_pop($newTrace);

@@ -186,8 +186,8 @@ foreach($results as $queryName => $stmts){
 		$descLines[] = "- {$stmt->getFile()}:{$stmt->getLineNumber()}";
 	}
 	implode(", ", array_map(function(GenericStatement $stmt){
-			return basename($stmt->getFile()) . ":" . $stmt->getLineNumber();
-		}, $stmts));
+		return basename($stmt->getFile()) . ":" . $stmt->getLineNumber();
+	}, $stmts));
 	/** @var GenericStatement $stmt0 */
 	$stmt0 = array_values($stmts)[0];
 	$file0 = array_keys($stmts)[0];
