@@ -211,7 +211,7 @@ class MysqliThread extends SqlSlaveThread{
 		$rows = [];
 		while(($row = $result->fetch_assoc()) !== null){
 			foreach($row as $col => &$cell){
-				if(isset($columnFunc[$col])){
+				if($cell !== null && isset($columnFunc[$col])){
 					$cell = $columnFunc[$col]($cell);
 				}
 			}

@@ -142,7 +142,7 @@ class DataConnectorImpl implements DataConnector{
 		}, $onError);
 	}
 
-	private function executeImpl(string $queryName, array $args, int $mode, callable $handler, ?callable $onError){
+	private function executeImpl(string $queryName, array $args, int $mode, callable $handler, ?callable $onError) : void{
 		$queryId = $this->queryId++;
 		$trace = libasynql::isPackaged() ? null : new Exception("(This is the original stack trace for the following error)");
 		$this->handlers[$queryId] = function($result) use ($handler, $onError, $trace){
@@ -201,7 +201,7 @@ class DataConnectorImpl implements DataConnector{
 		$this->thread->addQuery($queryId, $mode, $query, $outArgs);
 	}
 
-	private function reportError(?callable $default, SqlError $error, ?Exception $trace){
+	private function reportError(?callable $default, SqlError $error, ?Exception $trace) : void{
 		if($default !== null){
 			try{
 				$default($error, $trace);
