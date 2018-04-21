@@ -30,6 +30,7 @@ use poggit\libasynql\libasynql;
 use poggit\libasynql\SqlError;
 use poggit\libasynql\SqlResult;
 use poggit\libasynql\SqlThread;
+use function usleep;
 
 abstract class SqlSlaveThread extends Thread implements SqlThread{
 	private static $nextSlaveNumber = 0;
@@ -57,7 +58,7 @@ abstract class SqlSlaveThread extends Thread implements SqlThread{
 		$this->start();
 	}
 
-	public function run(){
+	public function run() : void{
 		$this->registerClassLoader();
 		$error = $this->createConn($resource);
 		$this->connCreated = true;
@@ -78,6 +79,7 @@ abstract class SqlSlaveThread extends Thread implements SqlThread{
 				}
 			}
 			$this->working = false;
+			usleep(100);
 		}
 		$this->close($resource);
 	}
