@@ -137,7 +137,7 @@ class DataConnectorImpl implements DataConnector{
 	public function executeSelect(string $queryName, array $args = [], ?callable $onSelect = null, ?callable $onError = null) : void{
 		$this->executeImpl($queryName, $args, SqlThread::MODE_SELECT, function(SqlSelectResult $result) use ($onSelect){
 			if($onSelect !== null){
-				$onSelect($result);
+				$onSelect($result->getRows(), $result->getColumnInfo());
 			}
 		}, $onError);
 	}

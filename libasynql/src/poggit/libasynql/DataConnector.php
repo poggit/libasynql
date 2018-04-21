@@ -99,7 +99,7 @@ interface DataConnector{
 	 *
 	 * @param string        $queryName the {@link GenericPreparedStatement} query name
 	 * @param mixed[]       $args      the variables as defined in the {@link GenericPreparedStatement}
-	 * @param callable|null $onSelect  an optional callback when the query has succeeded: <code>function({@link \poggit\libasynql\result\SqlSelectResult SqlSelectResult} $result) : void{}</code>
+	 * @param callable|null $onSelect  an optional callback when the query has succeeded: <code>function(array[] $rows, {@link SqlColumnInfo} $columns) : void{}</code>
 	 * @param callable|null $onError   an optional callback when the query has failed: <code>function({@link SqlError} $error) : void{}</code>
 	 */
 	public function executeSelect(string $queryName, array $args = [], ?callable $onSelect = null, ?callable $onError = null) : void;

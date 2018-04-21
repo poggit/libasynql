@@ -229,7 +229,11 @@ foreach($results as $queryName => $stmts){
 		$descLines[] = "<h3>Variables</h3>";
 		foreach($varFiles as $varName => $files){
 			$var = $vars0[$varName];
-			$desc = "- <code>:$varName</code> {$var->getType()}";
+			$desc = "- <code>:{$varName}</code> ";
+			if($var->isNullable()){
+				$desc .= "null|";
+			}
+			$desc .= $var->getType();
 			if($var->isList()){
 				$desc .= $var->canBeEmpty() ? " list" : " non-empty list";
 			}

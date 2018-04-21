@@ -51,6 +51,7 @@ class GenericVariable implements JsonSerializable{
 	protected $name;
 	protected $list = false;
 	protected $canEmpty = false;
+	protected $nullable = false;
 	protected $type;
 	/** @var string|int|float|bool|null */
 	protected $default = null;
@@ -69,6 +70,9 @@ class GenericVariable implements JsonSerializable{
 			$this->canEmpty = true;
 			/** @noinspection CallableParameterUseCaseInTypeContextInspection */
 			$type = substr($type, strlen("list?"));
+		}elseif($type{0} === "?"){
+			$this->nullable = true;
+			$type = substr($type, 1);
 		}
 		$this->type = $type;
 		if($default !== null){
@@ -143,6 +147,10 @@ class GenericVariable implements JsonSerializable{
 		}
 
 		return $this->canEmpty;
+	}
+
+	public function isNullable() : bool{
+		return $this->nullable;
 	}
 
 	public function getType() : string{
