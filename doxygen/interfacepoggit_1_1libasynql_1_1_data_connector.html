@@ -341,7 +341,8 @@ Public Member Functions</h2></td></tr>
   <table class="params">
     <tr><td class="paramtype">string</td><td class="paramname">$queryName</td><td>the <a class="el" href="">GenericPreparedStatement</a> query name </td></tr>
     <tr><td class="paramtype"></td><td class="paramname">mixed[]</td><td>$args the variables as defined in the <a class="el" href="">GenericPreparedStatement</a> </td></tr>
-    <tr><td class="paramtype">callable&#160;|&#160;null</td><td class="paramname">$onSelect</td><td>an optional callback when the query has succeeded: <code>function(poggit\libasynql\result\SqlSelectResultSqlSelectResult$result):void&lt;/code&gt;@paramcallable|null$onErroranoptionalcallbackwhenthequeryhasfailed:&lt;code&gt;function({@link SqlError} $error):void&lt;/code&gt;</code></td></tr>
+    <tr><td class="paramtype">callable&#160;|&#160;null</td><td class="paramname">$onSelect</td><td>an optional callback when the query has succeeded: <code>function(array[] $rows, <a class="el" href="">SqlColumnInfo</a> $columns) : void{}</code> </td></tr>
+    <tr><td class="paramtype">callable&#160;|&#160;null</td><td class="paramname">$onError</td><td>an optional callback when the query has failed: <code>function(<a class="el" href="classpoggit_1_1libasynql_1_1_sql_error.html">SqlError</a> $error) : void{}</code> </td></tr>
   </table>
   </dd>
 </dl>

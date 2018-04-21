@@ -11,6 +11,7 @@ var searchData=
   ['_24lineno',['$lineNo',['../classpoggit_1_1libasynql_1_1generic_1_1_generic_statement_impl.html#a9e2fcfa96c544bf4bd3c5a71a7bf2739',1,'poggit::libasynql::generic::GenericStatementImpl']]],
   ['_24list',['$list',['../classpoggit_1_1libasynql_1_1generic_1_1_generic_variable.html#a358b00350db3d8f227d500337cc437af',1,'poggit::libasynql::generic::GenericVariable']]],
   ['_24name',['$name',['../classpoggit_1_1libasynql_1_1generic_1_1_generic_statement_impl.html#ab2fc40d43824ea3e1ce5d86dee0d763b',1,'poggit\libasynql\generic\GenericStatementImpl\$name()'],['../classpoggit_1_1libasynql_1_1generic_1_1_generic_variable.html#ab2fc40d43824ea3e1ce5d86dee0d763b',1,'poggit\libasynql\generic\GenericVariable\$name()']]],
+  ['_24nullable',['$nullable',['../classpoggit_1_1libasynql_1_1generic_1_1_generic_variable.html#a57b7073e8bc5ba81fb71b49080cbaea6',1,'poggit::libasynql::generic::GenericVariable']]],
   ['_24query',['$query',['../classpoggit_1_1libasynql_1_1generic_1_1_generic_statement_impl.html#af59a5f7cd609e592c41dc3643efd3c98',1,'poggit::libasynql::generic::GenericStatementImpl']]],
   ['_24slavenumber',['$slaveNumber',['../classpoggit_1_1libasynql_1_1base_1_1_sql_slave_thread.html#a2e631353dc91ff2cb3da619da30cd20c',1,'poggit::libasynql::base::SqlSlaveThread']]],
   ['_24type',['$type',['../classpoggit_1_1libasynql_1_1generic_1_1_generic_variable.html#a9a4a6fba2208984cabb3afacadf33919',1,'poggit::libasynql::generic::GenericVariable']]],

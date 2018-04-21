@@ -28,7 +28,7 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 "_config_exception_8php.html",
-"functions_o.html"
+"functions_m.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';
