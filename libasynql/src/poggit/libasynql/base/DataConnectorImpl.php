@@ -169,16 +169,18 @@ class DataConnectorImpl implements DataConnector{
 					throw $e;
 				}catch(Error $e){
 					if(!libasynql::isPackaged()){
-						$prop = (new ReflectionClass(Error::class))->getProperty("trace");
-						$prop->setAccessible(true);
-						$newTrace = $prop->getValue($e);
-						$prop = (new ReflectionClass(Exception::class))->getProperty("trace");
-						$prop->setAccessible(true);
-						$oldTrace = $prop->getValue($trace);
+						$exceptionProperty = (new ReflectionClass(Exception::class))->getProperty("trace");
+						$exceptionProperty->setAccessible(true);
+						$oldTrace = $exceptionProperty->getValue($trace);
+
+						$errorProperty = (new ReflectionClass(Error::class))->getProperty("trace");
+						$errorProperty->setAccessible(true);
+						$newTrace = $errorProperty->getValue($e);
+
 						for($i = count($newTrace) - 1, $j = count($oldTrace) - 1; $i >= 0 && $j >= 0 && $newTrace[$i] === $oldTrace[$j]; --$i, --$j){
 							array_pop($newTrace);
 						}
-						$prop->setValue($e, array_merge($newTrace, [
+						$errorProperty->setValue($e, array_merge($newTrace, [
 							[
 								"function" => Terminal::$COLOR_YELLOW . "--- below is the original stack trace ---" . Terminal::$FORMAT_RESET,
 							],
