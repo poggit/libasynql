@@ -89,7 +89,7 @@ They have their respective methods in DataConnector: `executeGeneric`, `executeC
   - GENERIC: no arguments
   - CHANGE: `function(int $affectedRows)`
   - INSERT: `function(int $insertId, int $affectedRows)`
-  - SELECT: `function(SqlSelectResult $result)`
+  - SELECT: `function(array $rows)`
 - An optional callable triggered if an error occurred. Can accept an `SqlError` object.
 
 ## Prepared Statement File Format
