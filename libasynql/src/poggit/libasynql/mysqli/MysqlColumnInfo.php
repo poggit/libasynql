@@ -38,7 +38,7 @@ class MysqlColumnInfo extends SqlColumnInfo{
 		return $this->flags;
 	}
 
-	public function hasFlag(int $flag) : bool: bool{
+	public function hasFlag(int $flag) : bool{
 		return ($this->flags & $flag) > 0;
 	}
 
