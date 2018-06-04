@@ -4,3 +4,7 @@ root = yes
 [*]
 indent_size = 4
 indent_style = tab
+
+[*.md]
+indent_style = space
+indent_size = 2
