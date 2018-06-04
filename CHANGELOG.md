@@ -1,7 +1,8 @@
 # Changelog
 
 ## Unreleased (v3.0.1)
-
+This is a patch update with minor fixes and API updates. Supports 3.0.0-ALPHA13 and above.
+ 
 ## [v3.0.0](https://github.com/poggit/libasynql/compare/v3.0.0...HEAD) (released 2018-04-25 15:30:00 UTC)
 This is a total rewrite, with an entirely different infrastructure. AsyncTask is no longer used.
 

@@ -28,7 +28,7 @@ use function serialize;
 use function unserialize;
 
 class QuerySendQueue extends Threaded{
-	public function scheduleQuery(int $queryId, int $mode, string $query, array $params){
+	public function scheduleQuery(int $queryId, int $mode, string $query, array $params) : void{
 		$this[] = serialize([$queryId, $mode, $query, $params]);
 	}
 

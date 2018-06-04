@@ -28,6 +28,7 @@ use InvalidArgumentException;
 use pocketmine\plugin\Plugin;
 use pocketmine\scheduler\PluginTask;
 use pocketmine\utils\Terminal;
+use poggit\libasynql\CallbackTask;
 use poggit\libasynql\DataConnector;
 use poggit\libasynql\generic\GenericStatementFileParser;
 use poggit\libasynql\GenericStatement;
@@ -71,20 +72,8 @@ class DataConnectorImpl implements DataConnector{
 		$this->loggingQueries = $logQueries;
 		$this->placeHolder = $placeHolder;
 
-		$this->task = new class($plugin, $this) extends PluginTask{
-			/** @var DataConnectorImpl */
-			private $connector;
-
-			public function __construct(Plugin $plugin, DataConnectorImpl $connector){
-				parent::__construct($plugin);
-				$this->connector = $connector;
-			}
-
-			public function onRun(int $currentTick) : void{
-				$this->connector->checkResults();
-			}
-		};
-		$this->plugin->getServer()->getScheduler()->scheduleRepeatingTask($this->task, 1);
+		$this->task = new CallbackTask([$this, "checkResults"]);
+		$this->plugin->getScheduler()->scheduleRepeatingTask($this->task, 1);
 	}
 
 	public function setLoggingQueries(bool $loggingQueries) : void{
@@ -232,6 +221,6 @@ class DataConnectorImpl implements DataConnector{
 
 	public function close() : void{
 		$this->thread->stopRunning();
-		$this->plugin->getServer()->getScheduler()->cancelTask($this->task->getTaskId());
+		$this->plugin->getScheduler()->cancelTask($this->task->getTaskId());
 	}
 }

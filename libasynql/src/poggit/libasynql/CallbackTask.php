@@ -20,29 +20,19 @@
 
 declare(strict_types=1);
 
-namespace poggit\libasynql\mysqli;
+namespace poggit\libasynql;
 
-use poggit\libasynql\result\SqlColumnInfo;
+use pocketmine\scheduler\Task;
 
-class MysqlColumnInfo extends SqlColumnInfo{
-	private $flags;
-	private $mysqlType;
+class CallbackTask extends Task{
+	/** @var callable */
+	protected $callback;
 
-	public function __construct(string $name, string $type, int $flags, int $mysqlType){
-		parent::__construct($name, $type);
-		$this->flags = $flags;
-		$this->mysqlType = $mysqlType;
+	public function __construct(callable $callback){
+		$this->callback = $callback;
 	}
 
-	public function getFlags() : int{
-		return $this->flags;
-	}
-
-	public function hasFlag(int $flag) : bool: bool{
-		return ($this->flags & $flag) > 0;
-	}
-
-	public function getMysqlType() : int{
-		return $this->mysqlType;
+	public function onRun(int $currentTick) : void{
+		($this->callback)();
 	}
 }

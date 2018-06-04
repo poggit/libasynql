@@ -30,7 +30,7 @@ use function serialize;
 use function unserialize;
 
 class QueryRecvQueue extends Threaded{
-	public function publishResult(int $queryId, SqlResult $result){
+	public function publishResult(int $queryId, SqlResult $result) : void{
 		$this[] = serialize([$queryId, $result]);
 	}
 
