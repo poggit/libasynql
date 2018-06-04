@@ -2,6 +2,7 @@ var searchData=
 [
   ['_24bufferrecv',['$bufferRecv',['../classpoggit_1_1libasynql_1_1base_1_1_sql_slave_thread.html#ae30cfe1be5057283887e2e701b45ab59',1,'poggit::libasynql::base::SqlSlaveThread']]],
   ['_24buffersend',['$bufferSend',['../classpoggit_1_1libasynql_1_1base_1_1_sql_slave_thread.html#a63f611565da48ffcea294eef05bf9e85',1,'poggit::libasynql::base::SqlSlaveThread']]],
+  ['_24callback',['$callback',['../classpoggit_1_1libasynql_1_1_callback_task.html#abc7c2ac0d93d22f71221e8b60512c860',1,'poggit::libasynql::CallbackTask']]],
   ['_24canempty',['$canEmpty',['../classpoggit_1_1libasynql_1_1generic_1_1_generic_variable.html#ac7448c7e8717fb6e6288cb0d3b0fde26',1,'poggit::libasynql::generic::GenericVariable']]],
   ['_24conncreated',['$connCreated',['../classpoggit_1_1libasynql_1_1base_1_1_sql_slave_thread.html#a97319254575e4802aa769b447e5e9d34',1,'poggit::libasynql::base::SqlSlaveThread']]],
   ['_24connerror',['$connError',['../classpoggit_1_1libasynql_1_1base_1_1_sql_slave_thread.html#a9ef909eaf226de3067ea2000071ac83b',1,'poggit::libasynql::base::SqlSlaveThread']]],

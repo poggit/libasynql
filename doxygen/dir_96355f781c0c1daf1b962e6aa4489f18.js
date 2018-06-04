@@ -5,6 +5,9 @@ var dir_96355f781c0c1daf1b962e6aa4489f18 =
     [ "mysqli", "dir_0b3aace0feb512a6957eea85ab18c8d6.html", "dir_0b3aace0feb512a6957eea85ab18c8d6" ],
     [ "result", "dir_59be977821891281486900cb5377ce3c.html", "dir_59be977821891281486900cb5377ce3c" ],
     [ "sqlite3", "dir_7b4d89bad35bd956d8f363cb9a7eb39a.html", "dir_7b4d89bad35bd956d8f363cb9a7eb39a" ],
+    [ "CallbackTask.php", "_callback_task_8php.html", [
+      [ "CallbackTask", "classpoggit_1_1libasynql_1_1_callback_task.html", "classpoggit_1_1libasynql_1_1_callback_task" ]
+    ] ],
     [ "ConfigException.php", "_config_exception_8php.html", [
       [ "ConfigException", "classpoggit_1_1libasynql_1_1_config_exception.html", "classpoggit_1_1libasynql_1_1_config_exception" ]
     ] ],

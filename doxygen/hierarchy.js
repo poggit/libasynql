@@ -43,6 +43,9 @@ var hierarchy =
       [ "ExtensionMissingException", "classpoggit_1_1libasynql_1_1_extension_missing_exception.html", null ],
       [ "SqlError", "classpoggit_1_1libasynql_1_1_sql_error.html", null ]
     ] ],
+    [ "Task", null, [
+      [ "CallbackTask", "classpoggit_1_1libasynql_1_1_callback_task.html", null ]
+    ] ],
     [ "Thread", null, [
       [ "SqlSlaveThread", "classpoggit_1_1libasynql_1_1base_1_1_sql_slave_thread.html", null ]
     ] ],

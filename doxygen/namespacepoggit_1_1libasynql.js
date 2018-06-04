@@ -5,6 +5,7 @@ var namespacepoggit_1_1libasynql =
     [ "mysqli", "namespacepoggit_1_1libasynql_1_1mysqli.html", "namespacepoggit_1_1libasynql_1_1mysqli" ],
     [ "result", "namespacepoggit_1_1libasynql_1_1result.html", "namespacepoggit_1_1libasynql_1_1result" ],
     [ "sqlite3", "namespacepoggit_1_1libasynql_1_1sqlite3.html", "namespacepoggit_1_1libasynql_1_1sqlite3" ],
+    [ "CallbackTask", "classpoggit_1_1libasynql_1_1_callback_task.html", "classpoggit_1_1libasynql_1_1_callback_task" ],
     [ "ConfigException", "classpoggit_1_1libasynql_1_1_config_exception.html", "classpoggit_1_1libasynql_1_1_config_exception" ],
     [ "DataConnector", "interfacepoggit_1_1libasynql_1_1_data_connector.html", "interfacepoggit_1_1libasynql_1_1_data_connector" ],
     [ "ExtensionMissingException", "classpoggit_1_1libasynql_1_1_extension_missing_exception.html", "classpoggit_1_1libasynql_1_1_extension_missing_exception" ],
