@@ -4,12 +4,12 @@ projects:
     type: library
     model: virion
     path: libasynql
-  LibasynqlExample:
-    path: LibasynqlExample
-    libs:
-      - src: /libasynql
-        version: 3.0
-        branch: "*"
+#  LibasynqlExample:
+#    path: LibasynqlExample
+#    libs:
+#      - src: /libasynql
+#        version: 3.0
+#        branch: "*"
         # shade: syntax
         # format: virion
         # vendor: poggit-project
