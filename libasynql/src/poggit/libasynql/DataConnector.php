@@ -105,6 +105,13 @@ interface DataConnector{
 	public function executeSelect(string $queryName, array $args = [], ?callable $onSelect = null, ?callable $onError = null) : void;
 
 	/**
+	 * This function waits all pending queries to complete then returns. This is as if the queries were executed in blocking mode (not async).
+	 *
+	 * This method should only under very rare events like server start/stop. This should not be run trivially (e.g. every time player joins), because otherwise this is not async.
+	 */
+	public function waitAll() : void;
+
+	/**
 	 * Closes the connection and/or all child connections. Remember to call this method when the plugin is disabled or the data provider is switched.
 	 */
 	public function close() : void;
