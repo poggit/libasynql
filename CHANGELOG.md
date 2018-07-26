@@ -8,6 +8,7 @@ Contains minor changes with some externally-usable additions. Supports 3.0.0-ALP
 
 ### Fixed
 - Injecting async trace into Error throwables now hacks with the reflections correctly
+- Null variables can now be used without triggering "Missing required variable" error
 
 ### Updated
 - Deprecation of ServerScheduler
