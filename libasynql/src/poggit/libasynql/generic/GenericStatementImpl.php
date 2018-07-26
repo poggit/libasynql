@@ -22,6 +22,7 @@ declare(strict_types=1);
 
 namespace poggit\libasynql\generic;
 
+use function array_key_exists;
 use AssertionError;
 use InvalidArgumentException;
 use JsonSerializable;
@@ -175,7 +176,7 @@ abstract class GenericStatementImpl implements GenericStatement, JsonSerializabl
 	public function format(array $vars, ?string $placeHolder, ?array &$outArgs) : string{
 		$outArgs = [];
 		foreach($this->variables as $variable){
-			if(!$variable->isOptional() && !isset($vars[$variable->getName()])){
+			if(!$variable->isOptional() && !array_key_exists($variable->getName(), $vars)){
 				throw new InvalidArgumentException("Missing required variable {$variable->getName()}");
 			}
 		}
