@@ -1,6 +1,9 @@
 # Changelog
 
-## [Unreleased (v3.1.1)](https://github.com/poggit/libasynql/compare/v3.0.0...HEAD)
+## [Unreleased (v3.2.0)](https://github.com/poggit/libasynql/compare/v3.0.0...dev)
+The next minor version after 3.1.x
+
+## [Unreleased (v3.1.1)](https://github.com/poggit/libasynql/compare/v3.0.0...master)
 The next patch version after 3.1.0
 
 ## [3.1.0](https://github.com/poggit/libasynql/compare/v3.1.0...v3.0.0)
