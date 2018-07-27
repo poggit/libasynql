@@ -1,7 +1,7 @@
 # Changelog
 
 ## [Unreleased (v3.1.0)](https://github.com/poggit/libasynql/compare/v3.0.0...HEAD)
-Contains minor changes with some externally-usable additions. Supports 3.0.0-ALPHA13 and above.
+Contains minor changes with some externally-usable additions. Supports PocketMine 3.0.0.
 
 ### Added
 - Utility class: `CallbackTask`
