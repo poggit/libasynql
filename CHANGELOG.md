@@ -4,7 +4,8 @@
 Contains minor changes with some externally-usable additions. Supports 3.0.0-ALPHA13 and above.
 
 ### Added
-- `CallbackTask`
+- Utility class: `CallbackTask`
+- Added `DataConnector->waitAll()` to wait for all pending queries to complete. Useful in onEnable() for initializing data.
 
 ### Fixed
 - Injecting async trace into Error throwables now hacks with the reflections correctly
@@ -17,7 +18,7 @@ Contains minor changes with some externally-usable additions. Supports 3.0.0-ALP
 This is a total rewrite, with an entirely different infrastructure. AsyncTask is no longer used.
 
 ### Added
-- `DatabaseConnector` as an abstract wrapper for:
+- `DataConnector` as an abstract wrapper for:
   - `GenericStatementFileParser` to load queries from a Prepared Statement File (PSF) into:
     - `GenericStatement` abstraction that formats prepared statements in different dialects
       - Supports MySQL dialect
