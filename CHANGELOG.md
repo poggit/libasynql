@@ -1,7 +1,7 @@
 # Changelog
 
-## [Unreleased](https://github.com/poggit/libasynql/compare/v3.0.0...HEAD)
-
+## [Unreleased (v3.1.1)](https://github.com/poggit/libasynql/compare/v3.0.0...HEAD)
+The next patch version after 3.1.0
 
 ## [3.1.0](https://github.com/poggit/libasynql/compare/v3.1.0...v3.0.0)
 Contains minor changes with some externally-usable additions. Targets PocketMine API 3.0.0.

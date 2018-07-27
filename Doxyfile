@@ -1,6 +1,6 @@
 DOXYFILE_ENCODING      = UTF-8
 PROJECT_NAME           = libasynql
-PROJECT_NUMBER         = 3.0.0
+PROJECT_NUMBER         = 3.1.1
 PROJECT_BRIEF          = "Asynchronous MySQL access library for PocketMine plugins."
 PROJECT_LOGO           = 
 OUTPUT_DIRECTORY       = .
