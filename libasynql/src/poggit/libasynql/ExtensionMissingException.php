@@ -22,6 +22,7 @@ declare(strict_types=1);
 
 namespace poggit\libasynql;
 
+use pocketmine\utils\TextFormat;
 use RuntimeException;
 use function file;
 use function is_file;
@@ -36,7 +37,7 @@ class ExtensionMissingException extends RuntimeException{
 		if($ini && is_file($ini)){
 			foreach(file($ini) as $i => $line){
 				if(strpos($line, ";extension=") !== false && stripos($line, $extensionName) !== false){
-					$instructions = "Please remove the leading semicolon on line " . ($i + 1) . " of $ini and restart the server so that the $extensionName extension can be loaded.";
+					$instructions = TextFormat::GOLD . "Please remove the leading semicolon on line " . ($i + 1) . " of $ini and restart the server " . TextFormat::RED . "so that the $extensionName extension can be loaded.";
 				}
 			}
 		}
