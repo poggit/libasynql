@@ -9,6 +9,11 @@ The next patch version after 3.1.0
 ### Added
 - ExtensionMissingException is more colorful
 
+### Fixed
+- Slave connector threads no longer inherit classes from the main thread to reduce memory usage.
+  - Only `ini_set` changes and constants (and all builtin functions and classes) are inherited.
+  - User classes will be loaded again on slave threads using the class loader.
+
 ## [3.1.0](https://github.com/poggit/libasynql/compare/v3.0.0...v3.1.0)
 Contains minor changes with some externally-usable additions. Targets PocketMine API 3.0.0.
 
