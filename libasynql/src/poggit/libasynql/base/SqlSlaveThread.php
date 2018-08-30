@@ -32,7 +32,6 @@ use poggit\libasynql\SqlResult;
 use poggit\libasynql\SqlThread;
 use function usleep;
 use const PTHREADS_INHERIT_CONSTANTS;
-use const PTHREADS_INHERIT_FUNCTIONS;
 use const PTHREADS_INHERIT_INI;
 
 abstract class SqlSlaveThread extends Thread implements SqlThread{
@@ -58,7 +57,7 @@ abstract class SqlSlaveThread extends Thread implements SqlThread{
 			$cl = Server::getInstance()->getPluginManager()->getPlugin("DEVirion")->getVirionClassLoader();
 			$this->setClassLoader($cl);
 		}
-		$this->start(PTHREADS_INHERIT_INI | PTHREADS_INHERIT_CONSTANTS | PTHREADS_INHERIT_FUNCTIONS);
+		$this->start(PTHREADS_INHERIT_INI | PTHREADS_INHERIT_CONSTANTS);
 	}
 
 	public function run() : void{
