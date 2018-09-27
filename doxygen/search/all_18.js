@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['zerofill_5fflag',['ZEROFILL_FLAG',['../interfacepoggit_1_1libasynql_1_1mysqli_1_1_mysql_flags.html#a62be02a966ca6b0037673e165b7f5571',1,'poggit::libasynql::mysqli::MysqlFlags']]]
+  ['year',['YEAR',['../interfacepoggit_1_1libasynql_1_1mysqli_1_1_mysql_types.html#a2bac491ba1659b48b536a5485af165b5',1,'poggit::libasynql::mysqli::MysqlTypes']]]
 ];
