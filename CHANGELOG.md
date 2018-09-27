@@ -2,6 +2,7 @@
 
 ## [Unreleased (v3.2.0)](https://github.com/poggit/libasynql/compare/v3.0.0...dev)
 The next minor version after 3.1.x
+- Non-prepared dynamic query strings are now possible
 
 ## [Unreleased (v3.1.1)](https://github.com/poggit/libasynql/compare/v3.0.0...master)
 The next patch version after 3.1.0
@@ -14,7 +15,7 @@ The next patch version after 3.1.0
   - Only `ini_set` changes and constants (and all builtin functions and classes) are inherited.
   - User classes will be loaded again on slave threads using the class loader.
 
-## [3.1.0](https://github.com/poggit/libasynql/compare/v3.0.0...v3.1.0)
+## [3.1.0](https://github.com/poggit/libasynql/compare/v3.0.0...v3.1.0) (released 2018-07-27 15:49:08 UTC)
 Contains minor changes with some externally-usable additions. Targets PocketMine API 3.0.0.
 
 ### Added

@@ -60,6 +60,7 @@ interface DataConnector{
 	 * Loads a pre-formatted query.
 	 *
 	 * @param GenericStatement $stmt
+	 *
 	 * @throws InvalidArgumentException if the statement duplicates the name of one previously loaded
 	 */
 	public function loadQuery(GenericStatement $stmt) : void;
@@ -74,6 +75,8 @@ interface DataConnector{
 	 */
 	public function executeGeneric(string $queryName, array $args = [], ?callable $onSuccess = null, ?callable $onError = null) : void;
 
+	public function executeGenericRaw(string $query, array $args = [], ?callable $onSuccess = null, ?callable $onError = null) : void;
+
 	/**
 	 * Executes a query that changes data.
 	 *
@@ -83,6 +86,8 @@ interface DataConnector{
 	 * @param callable|null $onError   an optional callback when the query has failed: <code>function({@link SqlError} $error) : void{}</code>
 	 */
 	public function executeChange(string $queryName, array $args = [], ?callable $onSuccess = null, ?callable $onError = null) : void;
+
+	public function executeChangeRaw(string $query, array $args = [], ?callable $onSuccess = null, ?callable $onError = null) : void;
 
 	/**
 	 * Executes an insert query that results in an insert ID.
@@ -94,6 +99,8 @@ interface DataConnector{
 	 */
 	public function executeInsert(string $queryName, array $args = [], ?callable $onInserted = null, ?callable $onError = null) : void;
 
+	public function executeInsertRaw(string $query, array $args = [], ?callable $onInserted = null, ?callable $onError = null) : void;
+
 	/**
 	 * Executes a select query that returns an SQL result set. This does not strictly need to be SELECT queries -- reflection queries like MySQL's <code>SHOW TABLES</code> query are also allowed.
 	 *
@@ -103,6 +110,8 @@ interface DataConnector{
 	 * @param callable|null $onError   an optional callback when the query has failed: <code>function({@link SqlError} $error) : void{}</code>
 	 */
 	public function executeSelect(string $queryName, array $args = [], ?callable $onSelect = null, ?callable $onError = null) : void;
+
+	public function executeSelectRaw(string $query, array $args = [], ?callable $onSelect = null, ?callable $onError = null) : void;
 
 	/**
 	 * This function waits all pending queries to complete then returns. This is as if the queries were executed in blocking mode (not async).

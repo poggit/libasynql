@@ -26,7 +26,6 @@ use Error;
 use Exception;
 use InvalidArgumentException;
 use pocketmine\plugin\Plugin;
-use pocketmine\scheduler\PluginTask;
 use pocketmine\utils\Terminal;
 use poggit\libasynql\CallbackTask;
 use poggit\libasynql\DataConnector;
@@ -108,8 +107,24 @@ class DataConnectorImpl implements DataConnector{
 		}, $onError);
 	}
 
+	public function executeGenericRaw(string $query, array $args = [], ?callable $onSuccess = null, ?callable $onError = null) : void{
+		$this->executeImplRaw($query, $args, SqlThread::MODE_GENERIC, function() use ($onSuccess){
+			if($onSuccess !== null){
+				$onSuccess();
+			}
+		}, $onError);
+	}
+
 	public function executeChange(string $queryName, array $args = [], ?callable $onSuccess = null, ?callable $onError = null) : void{
 		$this->executeImpl($queryName, $args, SqlThread::MODE_CHANGE, function(SqlChangeResult $result) use ($onSuccess){
+			if($onSuccess !== null){
+				$onSuccess($result->getAffectedRows());
+			}
+		}, $onError);
+	}
+
+	public function executeChangeRaw(string $query, array $args = [], ?callable $onSuccess = null, ?callable $onError = null) : void{
+		$this->executeImplRaw($query, $args, SqlThread::MODE_CHANGE, function(SqlChangeResult $result) use ($onSuccess){
 			if($onSuccess !== null){
 				$onSuccess($result->getAffectedRows());
 			}
@@ -124,6 +139,14 @@ class DataConnectorImpl implements DataConnector{
 		}, $onError);
 	}
 
+	public function executeInsertRaw(string $query, array $args = [], ?callable $onInserted = null, ?callable $onError = null) : void{
+		$this->executeImplRaw($query, $args, SqlThread::MODE_INSERT, function(SqlInsertResult $result) use ($onInserted){
+			if($onInserted !== null){
+				$onInserted($result->getInsertId(), $result->getAffectedRows());
+			}
+		}, $onError);
+	}
+
 	public function executeSelect(string $queryName, array $args = [], ?callable $onSelect = null, ?callable $onError = null) : void{
 		$this->executeImpl($queryName, $args, SqlThread::MODE_SELECT, function(SqlSelectResult $result) use ($onSelect){
 			if($onSelect !== null){
@@ -132,7 +155,24 @@ class DataConnectorImpl implements DataConnector{
 		}, $onError);
 	}
 
+	public function executeSelectRaw(string $query, array $args = [], ?callable $onSelect = null, ?callable $onError = null) : void{
+		$this->executeImplRaw($query, $args, SqlThread::MODE_SELECT, function(SqlSelectResult $result) use ($onSelect){
+			if($onSelect !== null){
+				$onSelect($result->getRows(), $result->getColumnInfo());
+			}
+		}, $onError);
+	}
+
 	private function executeImpl(string $queryName, array $args, int $mode, callable $handler, ?callable $onError) : void{
+		if(!isset($this->queries[$queryName])){
+			throw new InvalidArgumentException("The query $queryName has not been loaded");
+		}
+		$query = $this->queries[$queryName]->format($args, $this->placeHolder, $outArgs);
+
+		$this->executeImplRaw($query, $outArgs, $mode, $handler, $onError);
+	}
+
+	private function executeImplRaw(string $query, array $args, int $mode, callable $handler, ?callable $onError) : void{
 		$queryId = $this->queryId++;
 		$trace = libasynql::isPackaged() ? null : new Exception("(This is the original stack trace for the following error)");
 		$this->handlers[$queryId] = function($result) use ($handler, $onError, $trace){
@@ -150,6 +190,7 @@ class DataConnectorImpl implements DataConnector{
 						for($i = count($newTrace) - 1, $j = count($oldTrace) - 1; $i >= 0 && $j >= 0 && $newTrace[$i] === $oldTrace[$j]; --$i, --$j){
 							array_pop($newTrace);
 						}
+						/** @noinspection PhpUndefinedMethodInspection */
 						$prop->setValue($e, array_merge($newTrace, [
 							[
 								"function" => Terminal::$COLOR_YELLOW . "--- below is the original stack trace ---" . Terminal::$FORMAT_RESET,
@@ -170,6 +211,7 @@ class DataConnectorImpl implements DataConnector{
 						for($i = count($newTrace) - 1, $j = count($oldTrace) - 1; $i >= 0 && $j >= 0 && $newTrace[$i] === $oldTrace[$j]; --$i, --$j){
 							array_pop($newTrace);
 						}
+						/** @noinspection PhpUndefinedMethodInspection */
 						$errorProperty->setValue($e, array_merge($newTrace, [
 							[
 								"function" => Terminal::$COLOR_YELLOW . "--- below is the original stack trace ---" . Terminal::$FORMAT_RESET,
@@ -180,17 +222,10 @@ class DataConnectorImpl implements DataConnector{
 				}
 			}
 		};
-
-		if(!isset($this->queries[$queryName])){
-			throw new InvalidArgumentException("The query $queryName has not been loaded");
-		}
-		$query = $this->queries[$queryName]->format($args, $this->placeHolder, $outArgs);
-
 		if($this->loggingQueries){
-			$this->plugin->getLogger()->debug("Queuing mode-$mode query: " . str_replace(["\r\n", "\n"], "\\n ", $query) . " | Args: " . json_encode($outArgs));
+			$this->plugin->getLogger()->debug("Queuing mode-$mode query: " . str_replace(["\r\n", "\n"], "\\n ", $query) . " | Args: " . json_encode($args));
 		}
-
-		$this->thread->addQuery($queryId, $mode, $query, $outArgs);
+		$this->thread->addQuery($queryId, $mode, $query, $args);
 	}
 
 	private function reportError(?callable $default, SqlError $error, ?Exception $trace) : void{
