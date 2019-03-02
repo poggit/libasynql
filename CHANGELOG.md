@@ -5,6 +5,7 @@ The next patch version after 3.1.0
 
 ### Added
 - ExtensionMissingException is more colorful
+- MySQL threads ping the server every 5 minutes when sleeping
 
 ### Fixed
 - Slave connector threads no longer inherit classes from the main thread to reduce memory usage.
@@ -24,7 +25,7 @@ Contains minor changes with some externally-usable additions. Targets PocketMine
 
 ### Updated
 - Deprecation of ServerScheduler
- 
+
 ## v3.0.0 (released 2018-04-25 15:30:00 UTC)
 This is a total rewrite, with an entirely different infrastructure. AsyncTask is no longer used.
 

@@ -70,6 +70,7 @@ abstract class SqlSlaveThread extends Thread implements SqlThread{
 			return;
 		}
 
+		$sleepCount = 0;
 		while($this->running){
 			while($this->bufferSend->fetchQuery($queryId, $mode, $query, $params)){
 				$this->working = true;
@@ -79,9 +80,12 @@ abstract class SqlSlaveThread extends Thread implements SqlThread{
 				}catch(SqlError $error){
 					$this->bufferRecv->publishError($queryId, $error);
 				}
+				$sleepCount = 0;
 			}
 			$this->working = false;
+			$this->beforeSleep($resource, $sleepCount);
 			usleep(100);
+			$sleepCount++;
 		}
 		$this->close($resource);
 	}
@@ -142,6 +146,16 @@ abstract class SqlSlaveThread extends Thread implements SqlThread{
 	 * @throws SqlError
 	 */
 	protected abstract function executeQuery($resource, int $mode, string $query, array $params) : SqlResult;
+
+	/**
+	 * Called before the thread sleeps.
+	 *
+	 * @param mixed $resource
+	 * @param int   $sleepCount    the number of times of previous continuous sleeps where the thread has not executed any tasks.
+	 *                             $sleepCount * 100 is the number of microseconds (1e-6 s) that the thread has done nothing.
+	 */
+	protected function beforeSleep($resource, int &$sleepCount) : void{
+	}
 
 	protected abstract function close(&$resource) : void;
 }
