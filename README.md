@@ -203,5 +203,6 @@ Query text is not a command, but the non-commented part between the start and en
 
 Variables are interpolated in query text using the `:var` format. Note that libasynql uses a homebrew algorithm for identifying the variable positions, so they might be inaccurate.
 
-### Overall example
-See [mysql.sql](LibasynqlExample/resources/mysql.sql) and [sqlite3.sql](LibasynqlExample/resources/sqlite3.sql) in the example plugin.
+## Featured examples
+- [cucumber](https://github.com/adeynes/cucumber)
+- [BlockPets](https://github.com/BlockHorizons/BlockPets/blob/4163b4f402494e7ec71b0911c413b8f199904b0e/src/BlockHorizons/BlockPets/pets/datastorage/SQLDataStorer.php)
