@@ -1,10 +1,11 @@
 # Changelog
 
-## [Unreleased (v3.2.0)](https://github.com/poggit/libasynql/compare/v3.0.0...dev)
+## [Unreleased (v3.2.0)](https://github.com/poggit/libasynql/compare/v3.1.1...dev)
 The next minor version after 3.1.x
 - Non-prepared dynamic query strings are now possible
 
-## [Unreleased (v3.1.1)](https://github.com/poggit/libasynql/compare/v3.0.0...master)
+## [3.1.1](https://github.com/poggit/libasynql/compare/v3.1.0...v3.1.1)
+>>>>>>> master
 The next patch version after 3.1.0
 
 ### Added
