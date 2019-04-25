@@ -1,11 +1,15 @@
 # Changelog
 
-## [Unreleased (v3.2.0)](https://github.com/poggit/libasynql/compare/v3.1.1...dev)
+## [3.2.0](https://github.com/poggit/libasynql/compare/v3.1.1...v3.1.2)
 The next minor version after 3.1.x
+
+### Added
 - Non-prepared dynamic query strings are now possible
 
+### Fixed
+- Uses `Thread::wait` instead of `usleep` in slave threads
+
 ## [3.1.1](https://github.com/poggit/libasynql/compare/v3.1.0...v3.1.1)
->>>>>>> master
 The next patch version after 3.1.0
 
 ### Added
