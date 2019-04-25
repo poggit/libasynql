@@ -30,7 +30,6 @@ use poggit\libasynql\libasynql;
 use poggit\libasynql\SqlError;
 use poggit\libasynql\SqlResult;
 use poggit\libasynql\SqlThread;
-use function usleep;
 use const PTHREADS_INHERIT_CONSTANTS;
 use const PTHREADS_INHERIT_INI;
 
@@ -81,7 +80,7 @@ abstract class SqlSlaveThread extends Thread implements SqlThread{
 				}
 			}
 			$this->working = false;
-			usleep(100);
+			$this->wait(2000);
 		}
 		$this->close($resource);
 	}

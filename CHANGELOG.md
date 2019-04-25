@@ -1,5 +1,9 @@
 # Changelog
 
+## [3.1.2](https://github.com/poggit/libasynql/compare/v3.1.1...v3.1.2)
+### Fixed
+- Uses `Thread::wait` instead of `usleep` in slave threads
+
 ## [3.1.1](https://github.com/poggit/libasynql/compare/v3.1.0...v3.1.1)
 The next patch version after 3.1.0
 
