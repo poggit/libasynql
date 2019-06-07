@@ -22,7 +22,8 @@ declare(strict_types=1);
 
 namespace poggit\libasynql;
 
-use pocketmine\plugin\Plugin;
+use InvalidArgumentException;
+use pocketmine\plugin\PluginBase;
 use pocketmine\utils\Terminal;
 use pocketmine\utils\Utils;
 use poggit\libasynql\base\DataConnectorImpl;
@@ -61,14 +62,15 @@ final class libasynql{
 	/**
 	 * Create a {@link DatabaseConnector} from a plugin and a config entry, and initializes it with the relevant SQL files according to the selected dialect
 	 *
-	 * @param Plugin              $plugin     the plugin using libasynql
+	 * @param PluginBase          $plugin     the plugin using libasynql
 	 * @param mixed               $configData the config entry for database settings
 	 * @param string[]|string[][] $sqlMap     an associative array with key as the SQL dialect ("mysql", "sqlite") and value as a string or string array indicating the relevant SQL files in the plugin's resources directory
 	 * @param bool                $logQueries whether libasynql should log the queries with the plugin logger at the DEBUG level. Default <code>!libasynql::isPackaged()</code>.
+	 *
 	 * @return DataConnector
 	 * @throws SqlError if the connection could not be created
 	 */
-	public static function create(Plugin $plugin, $configData, array $sqlMap, bool $logQueries = null) : DataConnector{
+	public static function create(PluginBase $plugin, $configData, array $sqlMap, bool $logQueries = null) : DataConnector{
 		if(!is_array($configData)){
 			throw new ConfigException("Database settings are missing or incorrect");
 		}
@@ -135,7 +137,11 @@ final class libasynql{
 
 		$connector = new DataConnectorImpl($plugin, $pool, $placeHolder, $logQueries ?? !libasynql::isPackaged());
 		foreach(is_string($sqlMap[$dialect]) ? [$sqlMap[$dialect]] : $sqlMap[$dialect] as $file){
-			$connector->loadQueryFile($plugin->getResource($file));
+			$resource = $plugin->getResource($file);
+			if($resource===null){
+				throw new InvalidArgumentException("resources/$file does not exist");
+			}
+			$connector->loadQueryFile($resource);
 		}
 		return $connector;
 	}

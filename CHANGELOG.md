@@ -3,6 +3,12 @@
 ## [3.3.0](https://github.com/poggit/libasynql/compare/v3.2.0...v3.3.0)
 4.0.0 support
 
+### Added
+Show proper error message when passed resource sql files are not found
+
+### Fixed
+Compatibility with 4.0.0
+
 ## [3.2.0](https://github.com/poggit/libasynql/compare/v3.1.1...v3.2.0)
 The next minor version after 3.1.x
 
