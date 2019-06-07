@@ -80,7 +80,9 @@ abstract class SqlSlaveThread extends Thread implements SqlThread{
 				}
 			}
 			$this->working = false;
-			$this->wait(2000);
+			$this->synchronized(function(){
+				$this->wait(2000);
+			});
 		}
 		$this->close($resource);
 	}
