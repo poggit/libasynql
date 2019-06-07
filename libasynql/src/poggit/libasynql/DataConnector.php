@@ -94,7 +94,7 @@ interface DataConnector{
 	 *
 	 * @param string        $queryName  the {@link GenericPreparedStatement} query name
 	 * @param mixed[]       $args       the variables as defined in the {@link GenericPreparedStatement}
-	 * @param callable|null $onInserted an optional callback when the query has succeeded: <code>function(int $insertId, callable $affectedRows) : void{}</code>
+	 * @param callable|null $onInserted an optional callback when the query has succeeded: <code>function(int $insertId, int $affectedRows) : void{}</code>
 	 * @param callable|null $onError    an optional callback when the query has failed: <code>function({@link SqlError} $error) : void{}</code>
 	 */
 	public function executeInsert(string $queryName, array $args = [], ?callable $onInserted = null, ?callable $onError = null) : void;
