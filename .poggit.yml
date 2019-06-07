@@ -4,15 +4,6 @@ projects:
     type: library
     model: virion
     path: libasynql
-#  LibasynqlExample:
-#    path: LibasynqlExample
-#    libs:
-#      - src: /libasynql
-#        version: 3.0
-#        branch: "*"
-        # shade: syntax
-        # format: virion
-        # vendor: poggit-project
 
 # possible shade strategies:
 #   syntax (use token_get_all() to scan all syntactical references)
@@ -20,6 +11,4 @@ projects:
 #   double (use str_replace() with \ and \\; will also replace double-quoted references
 
 # possible formats: virion
-# planning to add composer too
-
 # possible vendors: poggit-project, raw
