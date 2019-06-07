@@ -98,7 +98,7 @@ abstract class SqlSlaveThread extends Thread implements SqlThread{
 		$this->running = false;
 	}
 
-	public function quit(){
+	public function quit() : void{
 		$this->stopRunning();
 	}
 
