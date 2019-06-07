@@ -53,7 +53,7 @@ class Sqlite3Thread extends SqlSlaveThread{
 	private $path;
 
 	public static function createFactory(string $path) : Closure{
-		return function(QuerySendQueue $send, QueryRecvQueue $recv) use ($path){
+		return static function(QuerySendQueue $send, QueryRecvQueue $recv) use ($path){
 			return new Sqlite3Thread($path, $send, $recv);
 		};
 	}

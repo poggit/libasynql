@@ -56,7 +56,7 @@ class MysqliThread extends SqlSlaveThread{
 	private $credentials;
 
 	public static function createFactory(MysqlCredentials $credentials) : Closure{
-		return function(QuerySendQueue $bufferSend, QueryRecvQueue $bufferRecv) use ($credentials){
+		return static function(QuerySendQueue $bufferSend, QueryRecvQueue $bufferRecv) use ($credentials){
 			return new MysqliThread($credentials, $bufferSend, $bufferRecv);
 		};
 	}
@@ -109,7 +109,7 @@ class MysqliThread extends SqlSlaveThread{
 			if(!($stmt instanceof mysqli_stmt)){
 				throw new SqlError(SqlError::STAGE_PREPARE, $mysqli->error, $query, $params);
 			}
-			$types = implode(array_map(function($param) use ($query, $params){
+			$types = implode(array_map(static function($param) use ($query, $params){
 				if(is_string($param)){
 					return "s";
 				}
@@ -160,19 +160,19 @@ class MysqliThread extends SqlSlaveThread{
 			if($field->length === 1){
 				if($field->type === MysqlTypes::TINY){
 					$type = SqlColumnInfo::TYPE_BOOL;
-					$columnFunc[$field->name] = function($tiny){
+					$columnFunc[$field->name] = static function($tiny){
 						return $tiny > 0;
 					};
 				}elseif($field->type === MysqlTypes::BIT){
 					$type = SqlColumnInfo::TYPE_BOOL;
-					$columnFunc[$field->name] = function($bit){
+					$columnFunc[$field->name] = static function($bit){
 						return $bit === "\1";
 					};
 				}
 			}
 			if($field->type === MysqlTypes::LONGLONG){
 				$type = SqlColumnInfo::TYPE_INT;
-				$columnFunc[$field->name] = function($longLong) use ($field){
+				$columnFunc[$field->name] = static function($longLong) use ($field){
 					if($field->flags & MysqlFlags::UNSIGNED_FLAG){
 						if(bccomp($longLong, "9223372036854775807") === 1){
 							$longLong = bcsub($longLong, "18446744073709551616");
@@ -184,7 +184,7 @@ class MysqliThread extends SqlSlaveThread{
 				};
 			}elseif($field->flags & MysqlFlags::TIMESTAMP_FLAG){
 				$type = SqlColumnInfo::TYPE_TIMESTAMP;
-				$columnFunc[$field->name] = function($stamp){
+				$columnFunc[$field->name] = static function($stamp){
 					return strtotime($stamp);
 				};
 			}elseif($field->type === MysqlTypes::NULL){

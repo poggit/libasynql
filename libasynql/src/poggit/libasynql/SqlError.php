@@ -114,7 +114,7 @@ class SqlError extends RuntimeException{
 	protected function flattenTrace() : void{
 		$traceProperty = (new ReflectionClass(Exception::class))->getProperty('trace');
 		$traceProperty->setAccessible(true);
-		$flatten = function(&$value){
+		$flatten = static function(&$value){
 			if($value instanceof Closure){
 				$closureReflection = new ReflectionFunction($value);
 				$value = sprintf(

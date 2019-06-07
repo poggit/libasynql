@@ -110,7 +110,7 @@ abstract class GenericStatementImpl implements GenericStatement, JsonSerializabl
 	}
 
 	protected function compilePositions() : void{
-		uksort($this->variables, function($s1, $s2){
+		uksort($this->variables, static function($s1, $s2){
 			return mb_strlen($s2) <=> mb_strlen($s1);
 		});
 
