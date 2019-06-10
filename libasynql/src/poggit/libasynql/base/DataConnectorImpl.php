@@ -25,6 +25,7 @@ namespace poggit\libasynql\base;
 use Error;
 use Exception;
 use InvalidArgumentException;
+use Logger;
 use pocketmine\plugin\Plugin;
 use pocketmine\utils\Terminal;
 use poggit\libasynql\CallbackTask;
@@ -52,6 +53,8 @@ class DataConnectorImpl implements DataConnector{
 	private $thread;
 	/** @var bool */
 	private $loggingQueries;
+	/** @var Logger|null */
+	private $logger;
 	/** @var GenericStatement[] */
 	private $queries = [];
 	private $handlers = [];
@@ -69,7 +72,7 @@ class DataConnectorImpl implements DataConnector{
 	public function __construct(Plugin $plugin, SqlThread $thread, ?string $placeHolder, bool $logQueries = false){
 		$this->plugin = $plugin;
 		$this->thread = $thread;
-		$this->loggingQueries = $logQueries;
+		$this->logger = $logQueries ? $plugin->getLogger() : null;
 		$this->placeHolder = $placeHolder;
 
 		$this->task = new CallbackTask([$this, "checkResults"]);
@@ -77,11 +80,19 @@ class DataConnectorImpl implements DataConnector{
 	}
 
 	public function setLoggingQueries(bool $loggingQueries) : void{
-		$this->loggingQueries = !libasynql::isPackaged() && $loggingQueries;
+		$this->logger = $loggingQueries ? $this->plugin->getLogger() : null;
 	}
 
 	public function isLoggingQueries() : bool{
-		return $this->loggingQueries;
+		return $this->logger !== null;
+	}
+
+	public function getLogger() : ?Logger{
+		return $this->logger;
+	}
+
+	public function setLogger(?Logger $logger) : void{
+		$this->logger = $logger;
 	}
 
 	public function loadQueryFile($fh, string $fileName = null) : void{
@@ -222,8 +233,8 @@ class DataConnectorImpl implements DataConnector{
 				}
 			}
 		};
-		if($this->loggingQueries){
-			$this->plugin->getLogger()->debug("Queuing mode-$mode query: " . str_replace(["\r\n", "\n"], "\\n ", $query) . " | Args: " . json_encode($args));
+		if($this->logger !== null){
+			$this->logger->debug("Queuing mode-$mode query: " . str_replace(["\r\n", "\n"], "\\n ", $query) . " | Args: " . json_encode($args));
 		}
 		$this->thread->addQuery($queryId, $mode, $query, $args);
 	}

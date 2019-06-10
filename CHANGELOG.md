@@ -4,10 +4,11 @@
 4.0.0 support
 
 ### Added
-Show proper error message when passed resource sql files are not found
+- Show proper error message when passed resource sql files are not found
+- Ability to set custom logger
 
 ### Fixed
-Compatibility with 4.0.0
+- Compatibility with 4.0.0
 
 ## [3.2.0](https://github.com/poggit/libasynql/compare/v3.1.1...v3.2.0)
 The next minor version after 3.1.x
