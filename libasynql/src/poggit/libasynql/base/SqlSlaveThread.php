@@ -25,7 +25,7 @@ namespace poggit\libasynql\base;
 use ClassLoader;
 use InvalidArgumentException;
 use pocketmine\Server;
-use pocketmine\Thread;
+use pocketmine\thread\Thread;
 use poggit\libasynql\libasynql;
 use poggit\libasynql\SqlError;
 use poggit\libasynql\SqlResult;
