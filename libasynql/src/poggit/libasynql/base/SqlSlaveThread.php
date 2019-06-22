@@ -59,8 +59,7 @@ abstract class SqlSlaveThread extends Thread implements SqlThread{
 		$this->start(PTHREADS_INHERIT_INI | PTHREADS_INHERIT_CONSTANTS);
 	}
 
-	public function run() : void{
-		$this->registerClassLoader();
+	protected function onRun() : void{
 		$error = $this->createConn($resource);
 		$this->connCreated = true;
 		$this->connError = $error;
