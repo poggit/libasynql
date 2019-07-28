@@ -48,6 +48,14 @@ class SqliteStatementImpl extends GenericStatementImpl{
 					return $this->formatVariable($unlist, $value, $placeHolder, $outArgs);
 				}, $value)) . ")";
 		}
+		
+		if($value === null){
+			if(!$variable->isNullable()){
+				throw new InvalidArgumentException("The variable :{$variable->getName()} is not nullable");
+			}
+
+			return "NULL";
+		}
 
 		switch($variable->getType()){
 			case GenericVariable::TYPE_BOOL:
