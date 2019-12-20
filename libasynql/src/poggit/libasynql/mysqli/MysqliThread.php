@@ -222,6 +222,14 @@ class MysqliThread extends SqlSlaveThread{
 		return new SqlSelectResult($columns, $rows);
 	}
 
+	protected function beforeSleep($resource, int &$sleepCount) : void{
+		if($sleepCount * 100 >= 1000000 * 60 * 5){
+			/** @var mysqli $resource */
+			$resource->ping();
+			$sleepCount = 0;
+		}
+	}
+
 	protected function close(&$mysqli) : void{
 		assert($mysqli instanceof mysqli);
 		$mysqli->close();
