@@ -1,6 +1,12 @@
 # Changelog
 
-## [3.2.0](https://github.com/poggit/libasynql/compare/v3.1.1...v3.1.2)
+## [3.2.1](https://github.com/poggit/libasynql/compare/v3.2.0...v3.2.0)
+The next patch version after 3.2.0
+
+### Added
+- MySQL threads ping the server every 5 minutes when sleeping
+
+## [3.2.0](https://github.com/poggit/libasynql/compare/v3.1.1...v3.2.0)
 The next minor version after 3.1.x
 
 ### Added
@@ -15,7 +21,6 @@ The next patch version after 3.1.0
 
 ### Added
 - ExtensionMissingException is more colorful
-- MySQL threads ping the server every 5 minutes when sleeping
 
 ### Fixed
 - Slave connector threads no longer inherit classes from the main thread to reduce memory usage.
