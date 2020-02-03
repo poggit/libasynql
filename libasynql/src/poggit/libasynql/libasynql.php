@@ -33,6 +33,7 @@ use poggit\libasynql\mysqli\MysqliThread;
 use poggit\libasynql\sqlite3\Sqlite3Thread;
 use function array_keys;
 use function count;
+use TypeError;
 use function extension_loaded;
 use function implode;
 use function is_array;
@@ -143,7 +144,11 @@ final class libasynql{
 
 		$connector = new DataConnectorImpl($plugin, $pool, $placeHolder, $logQueries ?? !libasynql::isPackaged());
 		foreach(is_string($sqlMap[$dialect]) ? [$sqlMap[$dialect]] : $sqlMap[$dialect] as $file){
-			$connector->loadQueryFile($plugin->getResource($file));
+			$resource = $plugin->getResource($file);
+			if($resource === null){
+				throw new TypeError("Missing $file in resources directory of plugin.");
+			}
+			$connector->loadQueryFile($resource);
 		}
 		return $connector;
 	}
