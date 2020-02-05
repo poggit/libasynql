@@ -23,6 +23,7 @@ declare(strict_types=1);
 namespace poggit\libasynql;
 
 use InvalidArgumentCountException;
+use InvalidArgumentException;
 use pocketmine\plugin\Plugin;
 use pocketmine\utils\Terminal;
 use pocketmine\utils\Utils;
@@ -31,6 +32,7 @@ use poggit\libasynql\base\SqlThreadPool;
 use poggit\libasynql\mysqli\MysqlCredentials;
 use poggit\libasynql\mysqli\MysqliThread;
 use poggit\libasynql\sqlite3\Sqlite3Thread;
+use function array_flip;
 use function array_keys;
 use function count;
 use function extension_loaded;
@@ -84,6 +86,10 @@ final class libasynql{
 
 		if(count($sqlMap) === 0){
 			throw new InvalidArgumentCountException('Parameter $sqlMap cannot be empty');
+		}
+
+		if(count($sqlMap) !== count(array_flip($sqlMap))){
+			throw new InvalidArgumentException("Duplicated SQL files found. Each SQL dialect must be associated with its file.");
 		}
 
 		$pdo = ($configData["prefer-pdo"] ?? false) && extension_loaded("pdo");
@@ -143,8 +149,9 @@ final class libasynql{
 
 		$connector = new DataConnectorImpl($plugin, $pool, $placeHolder, $logQueries ?? !libasynql::isPackaged());
 		foreach(is_string($sqlMap[$dialect]) ? [$sqlMap[$dialect]] : $sqlMap[$dialect] as $file){
-			$connector->loadQueryFile($plugin->getResource($file));
+			$connector->loadQueryFile($plugin->getResource($file), $file);
 		}
+
 		return $connector;
 	}
 
