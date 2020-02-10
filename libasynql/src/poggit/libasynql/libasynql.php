@@ -23,7 +23,6 @@ declare(strict_types=1);
 namespace poggit\libasynql;
 
 use InvalidArgumentCountException;
-use InvalidArgumentException;
 use pocketmine\plugin\Plugin;
 use pocketmine\utils\Terminal;
 use pocketmine\utils\Utils;
