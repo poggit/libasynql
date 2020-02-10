@@ -32,7 +32,6 @@ use poggit\libasynql\base\SqlThreadPool;
 use poggit\libasynql\mysqli\MysqlCredentials;
 use poggit\libasynql\mysqli\MysqliThread;
 use poggit\libasynql\sqlite3\Sqlite3Thread;
-use function array_flip;
 use function array_keys;
 use function count;
 use function extension_loaded;
@@ -86,10 +85,6 @@ final class libasynql{
 
 		if(count($sqlMap) === 0){
 			throw new InvalidArgumentCountException('Parameter $sqlMap cannot be empty');
-		}
-
-		if(count($sqlMap) !== count(array_flip($sqlMap))){
-			throw new InvalidArgumentException("Duplicated SQL files found. Each SQL dialect must be associated with its file.");
 		}
 
 		$pdo = ($configData["prefer-pdo"] ?? false) && extension_loaded("pdo");
