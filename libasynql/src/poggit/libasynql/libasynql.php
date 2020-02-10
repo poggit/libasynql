@@ -143,8 +143,9 @@ final class libasynql{
 
 		$connector = new DataConnectorImpl($plugin, $pool, $placeHolder, $logQueries ?? !libasynql::isPackaged());
 		foreach(is_string($sqlMap[$dialect]) ? [$sqlMap[$dialect]] : $sqlMap[$dialect] as $file){
-			$connector->loadQueryFile($plugin->getResource($file));
+			$connector->loadQueryFile($plugin->getResource($file), $file);
 		}
+		
 		return $connector;
 	}
 
