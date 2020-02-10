@@ -22,6 +22,7 @@ declare(strict_types=1);
 
 namespace poggit\libasynql;
 
+use InvalidArgumentCountException;
 use pocketmine\plugin\Plugin;
 use pocketmine\utils\Terminal;
 use pocketmine\utils\Utils;
@@ -30,7 +31,10 @@ use poggit\libasynql\base\SqlThreadPool;
 use poggit\libasynql\mysqli\MysqlCredentials;
 use poggit\libasynql\mysqli\MysqliThread;
 use poggit\libasynql\sqlite3\Sqlite3Thread;
+use function array_keys;
+use function count;
 use function extension_loaded;
+use function implode;
 use function is_array;
 use function is_string;
 use function strtolower;
@@ -78,6 +82,10 @@ final class libasynql{
 			throw new ConfigException("Database type is missing");
 		}
 
+		if(count($sqlMap) === 0){
+			throw new InvalidArgumentCountException('Parameter $sqlMap cannot be empty');
+		}
+
 		$pdo = ($configData["prefer-pdo"] ?? false) && extension_loaded("pdo");
 
 		$dialect = null;
@@ -122,7 +130,7 @@ final class libasynql{
 		}
 
 		if(!isset($dialect, $factory, $sqlMap[$dialect])){
-			throw new ConfigException("Unsupported database type \"$type\". Try \"sqlite\" or \"mysql\".");
+			throw new ConfigException("Unsupported database type \"$type\". Try \"" . implode("\" or \"", array_keys($sqlMap)) . "\".");
 		}
 
 		$pool = new SqlThreadPool($factory, $configData["worker-limit"] ?? 1);
@@ -135,8 +143,9 @@ final class libasynql{
 
 		$connector = new DataConnectorImpl($plugin, $pool, $placeHolder, $logQueries ?? !libasynql::isPackaged());
 		foreach(is_string($sqlMap[$dialect]) ? [$sqlMap[$dialect]] : $sqlMap[$dialect] as $file){
-			$connector->loadQueryFile($plugin->getResource($file));
+			$connector->loadQueryFile($plugin->getResource($file), $file);
 		}
+
 		return $connector;
 	}
 
