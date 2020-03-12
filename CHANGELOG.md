@@ -1,6 +1,13 @@
 # Changelog
 
-## [3.2.1](https://github.com/poggit/libasynql/compare/v3.2.0...v3.2.0)
+## [3.3.0](https://github.com/poggit/libasynql/compare/v3.2.1...v3.3.0)
+The next minor version after 3.2.1
+
+### Added
+- Usage of pmmp/Snooze instead of usleep to fix high CPU usage
+- MySQL pings are now done before a query, if the connection is dead.
+
+## [3.2.1](https://github.com/poggit/libasynql/compare/v3.2.0...v3.2.1)
 The next patch version after 3.2.0
 
 ### Added
