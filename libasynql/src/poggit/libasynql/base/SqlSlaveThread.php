@@ -25,6 +25,7 @@ namespace poggit\libasynql\base;
 use ClassLoader;
 use InvalidArgumentException;
 use pocketmine\Server;
+use pocketmine\snooze\SleeperNotifier;
 use pocketmine\Thread;
 use poggit\libasynql\libasynql;
 use poggit\libasynql\SqlError;
@@ -34,17 +35,20 @@ use const PTHREADS_INHERIT_CONSTANTS;
 use const PTHREADS_INHERIT_INI;
 
 abstract class SqlSlaveThread extends Thread implements SqlThread{
+	/** @var SleeperNotifier */
+	private $notifier;
+
 	private static $nextSlaveNumber = 0;
 
-	private $running = true;
 	protected $slaveNumber;
 	protected $bufferSend;
 	protected $bufferRecv;
 	protected $connCreated = false;
 	protected $connError;
-	protected $working = false;
 
-	protected function __construct(QuerySendQueue $bufferSend = null, QueryRecvQueue $bufferRecv = null){
+	protected function __construct(SleeperNotifier $notifier, QuerySendQueue $bufferSend = null, QueryRecvQueue $bufferRecv = null){
+		$this->notifier = $notifier;
+
 		$this->slaveNumber = self::$nextSlaveNumber++;
 		$this->bufferSend = $bufferSend ?? new QuerySendQueue();
 		$this->bufferRecv = $bufferRecv ?? new QueryRecvQueue();
@@ -69,37 +73,27 @@ abstract class SqlSlaveThread extends Thread implements SqlThread{
 			return;
 		}
 
-		$sleepCount = 0;
-		while($this->running){
-			while($this->bufferSend->fetchQuery($queryId, $mode, $query, $params)){
-				$this->working = true;
-				try{
-					$result = $this->executeQuery($resource, $mode, $query, $params);
-					$this->bufferRecv->publishResult($queryId, $result);
-				}catch(SqlError $error){
-					$this->bufferRecv->publishError($queryId, $error);
-				}
-				$sleepCount = 0;
+		while(true){
+			$row = $this->bufferSend->fetchQuery();
+			if(!is_string($row)){
+				break;
 			}
-			$this->working = false;
-			$this->beforeSleep($resource, $sleepCount);
-			usleep(100);
-			$sleepCount++;
+			[$queryId, $mode, $query, $params] = unserialize($row, ["allowed_classes" => true]);
+			try{
+				$result = $this->executeQuery($resource, $mode, $query, $params);
+				$this->bufferRecv->publishResult($queryId, $result);
+			}catch(SqlError $error){
+				$this->bufferRecv->publishError($queryId, $error);
+			}
+			$this->synchronized(function() : void{
+				$this->notifier->wakeupSleeper();
+			});
 		}
 		$this->close($resource);
 	}
 
-	/**
-	 * Returns true if this thread is working, false if waiting for requests
-	 *
-	 * @return bool
-	 */
-	public function isWorking() : bool{
-		return $this->working;
-	}
-
 	public function stopRunning() : void{
-		$this->running = false;
+		$this->bufferSend->invalidate();
 	}
 
 	public function quit(){
@@ -146,15 +140,6 @@ abstract class SqlSlaveThread extends Thread implements SqlThread{
 	 */
 	protected abstract function executeQuery($resource, int $mode, string $query, array $params) : SqlResult;
 
-	/**
-	 * Called before the thread sleeps.
-	 *
-	 * @param mixed $resource
-	 * @param int   $sleepCount    the number of times of previous continuous sleeps where the thread has not executed any tasks.
-	 *                             $sleepCount * 100 is the number of microseconds (1e-6 s) that the thread has done nothing.
-	 */
-	protected function beforeSleep($resource, int &$sleepCount) : void{
-	}
 
 	protected abstract function close(&$resource) : void;
 }

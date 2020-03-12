@@ -101,6 +101,20 @@ class MysqlCredentials implements JsonSerializable{
 	}
 
 	/**
+	 * Reuses an existing <a href="https://php.net/mysqli">mysqli</a> instance
+	 *
+	 * @param mysqli $mysqli
+	 *
+	 * @throws SqlError
+	 */
+	public function reconnectMysqli(mysqli &$mysqli) : void{
+		$mysqli->connect($this->host, $this->username, $this->password, $this->schema, $this->port, $this->socket);
+		if($mysqli->connect_error){
+			throw new SqlError(SqlError::STAGE_CONNECT, $mysqli->connect_error);
+		}
+	}
+
+	/**
 	 * Produces a human-readable output without leaking password
 	 *
 	 * @return string

@@ -23,21 +23,48 @@ declare(strict_types=1);
 namespace poggit\libasynql\base;
 
 use Threaded;
-use function is_string;
 use function serialize;
-use function unserialize;
 
 class QuerySendQueue extends Threaded{
-	public function scheduleQuery(int $queryId, int $mode, string $query, array $params) : void{
-		$this[] = serialize([$queryId, $mode, $query, $params]);
+	/** @var bool */
+	private $invalidated = false;
+	/** @var Threaded */
+	private $queries;
+
+	public function __construct(){
+		$this->queries = new Threaded();
 	}
 
-	public function fetchQuery(&$queryId, &$mode, &$query, &$params) : bool{
-		$row = $this->shift();
-		if(is_string($row)){
-			[$queryId, $mode, $query, $params] = unserialize($row, ["allowed_classes" => true]);
-			return true;
+	public function scheduleQuery(int $queryId, int $mode, string $query, array $params) : void{
+		if($this->invalidated){
+			throw new QueueShutdownException("You cannot schedule a query on an invalidated queue.");
 		}
-		return false;
+		$this->synchronized(function() use ($queryId, $mode, $query, $params) : void{
+			$this->queries[] = serialize([$queryId, $mode, $query, $params]);
+			$this->notifyOne();
+		});
+	}
+
+	public function fetchQuery() : ?string {
+		return $this->synchronized(function(): ?string {
+			while($this->queries->count() === 0 && !$this->isInvalidated()){
+				$this->wait();
+			}
+			return $this->queries->shift();
+		});
+	}
+
+	public function invalidate() : void {
+		$this->synchronized(function():void{
+			$this->invalidated = true;
+			$this->notify();
+		});
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function isInvalidated(): bool {
+		return $this->invalidated;
 	}
 }

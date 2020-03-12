@@ -20,19 +20,11 @@
 
 declare(strict_types=1);
 
-namespace poggit\libasynql;
+namespace poggit\libasynql\base;
 
-use pocketmine\scheduler\Task;
 
-class CallbackTask extends Task{
-	/** @var callable */
-	protected $callback;
+use RuntimeException;
 
-	public function __construct(callable $callback){
-		$this->callback = $callback;
-	}
+class QueueShutdownException extends RuntimeException{
 
-	public function onRun(int $currentTick) : void{
-		($this->callback)();
-	}
 }
