@@ -69,7 +69,7 @@ class MysqliThread extends SqlSlaveThread{
 
 	protected function createConn(&$mysqli) : ?string{
 		/** @var MysqlCredentials $cred */
-		$cred = unserialize($this->credentials, ["allowed_classes" => [MysqlCredentials::class]]);
+		$cred = unserialize($this->credentials);
 		try{
 			$mysqli = $cred->newMysqli();
 			return null;
@@ -80,9 +80,9 @@ class MysqliThread extends SqlSlaveThread{
 
 	protected function executeQuery($mysqli, int $mode, string $query, array $params) : SqlResult{
 		assert($mysqli instanceof mysqli);
+		/** @var MysqlCredentials $cred */
+		$cred = unserialize($this->credentials);
 		while(!$mysqli->ping()){
-			/** @var MysqlCredentials $cred */
-			$cred = unserialize($this->credentials, ["allowed_classes" => [MysqlCredentials::class]]);
 			$cred->reconnectMysqli($mysqli);
 			if($this->connError === null){
 				break;

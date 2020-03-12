@@ -85,9 +85,7 @@ abstract class SqlSlaveThread extends Thread implements SqlThread{
 			}catch(SqlError $error){
 				$this->bufferRecv->publishError($queryId, $error);
 			}
-			$this->synchronized(function() : void{
-				$this->notifier->wakeupSleeper();
-			});
+			$this->notifier->wakeupSleeper();
 		}
 		$this->close($resource);
 	}
