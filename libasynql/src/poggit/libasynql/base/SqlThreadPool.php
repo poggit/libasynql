@@ -25,7 +25,6 @@ namespace poggit\libasynql\base;
 use InvalidArgumentException;
 use pocketmine\Server;
 use pocketmine\snooze\SleeperNotifier;
-use poggit\libasynql\DataConnector;
 use poggit\libasynql\SqlThread;
 
 class SqlThreadPool implements SqlThread{
@@ -43,13 +42,13 @@ class SqlThreadPool implements SqlThread{
 	/** @var QueryRecvQueue */
 	private $bufferRecv;
 
-	/** @var DataConnector|null */
+	/** @var DataConnectorImpl|null */
 	private $dataConnector = null;
 
 	/**
-	 * @param DataConnector $dataConnector
+	 * @param DataConnectorImpl $dataConnector
 	 */
-	public function setDataConnector(DataConnector $dataConnector): void {
+	public function setDataConnector(DataConnectorImpl $dataConnector): void {
 		$this->dataConnector = $dataConnector;
 	}
 
@@ -62,7 +61,7 @@ class SqlThreadPool implements SqlThread{
 	public function __construct(callable $workerFactory, int $workerLimit){
 		$this->notifier = new SleeperNotifier();
 		Server::getInstance()->getTickSleeper()->addNotifier($this->notifier, function() : void{
-			assert($this->dataConnector instanceof DataConnector); // otherwise, wtf
+			assert($this->dataConnector instanceof DataConnectorImpl); // otherwise, wtf
 			$this->dataConnector->checkResults();
 		});
 
@@ -71,9 +70,7 @@ class SqlThreadPool implements SqlThread{
 		$this->bufferSend = new QuerySendQueue();
 		$this->bufferRecv = new QueryRecvQueue();
 
-		for($i = 0; $i < $workerLimit; $i++){
-			$this->addWorker();
-		}
+		$this->addWorker();
 	}
 
 	private function addWorker() : void{
@@ -94,6 +91,16 @@ class SqlThreadPool implements SqlThread{
 
 	public function addQuery(int $queryId, int $mode, string $query, array $params) : void{
 		$this->bufferSend->scheduleQuery($queryId, $mode, $query, $params);
+
+		// check if we need to increase worker size
+		foreach($this->workers as $worker){
+			if(!$worker->isBusy()){
+				return;
+			}
+		}
+		if(count($this->workers) < $this->workerLimit){
+			$this->addWorker();
+		}
 	}
 
 	public function readResults(array &$callbacks) : void{

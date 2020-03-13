@@ -45,6 +45,7 @@ abstract class SqlSlaveThread extends Thread implements SqlThread{
 	protected $bufferRecv;
 	protected $connCreated = false;
 	protected $connError;
+	protected $busy = false;
 
 	protected function __construct(SleeperNotifier $notifier, QuerySendQueue $bufferSend = null, QueryRecvQueue $bufferRecv = null){
 		$this->notifier = $notifier;
@@ -78,6 +79,7 @@ abstract class SqlSlaveThread extends Thread implements SqlThread{
 			if(!is_string($row)){
 				break;
 			}
+			$this->busy = true;
 			[$queryId, $mode, $query, $params] = unserialize($row, ["allowed_classes" => true]);
 			try{
 				$result = $this->executeQuery($resource, $mode, $query, $params);
@@ -86,8 +88,16 @@ abstract class SqlSlaveThread extends Thread implements SqlThread{
 				$this->bufferRecv->publishError($queryId, $error);
 			}
 			$this->notifier->wakeupSleeper();
+			$this->busy = false;
 		}
 		$this->close($resource);
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function isBusy(): bool {
+		return $this->busy;
 	}
 
 	public function stopRunning() : void{

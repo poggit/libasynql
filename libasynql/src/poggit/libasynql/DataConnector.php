@@ -121,13 +121,6 @@ interface DataConnector{
 	public function waitAll() : void;
 
 	/**
-	 * This function checks for the results of the queries handled before it was called. and proceeds to run them... check any implementation of SqlThread->readResults()
-	 *
-	 * @internal
-	 */
-	public function checkResults() : void;
-
-	/**
 	 * Closes the connection and/or all child connections. Remember to call this method when the plugin is disabled or the data provider is switched.
 	 */
 	public function close() : void;
