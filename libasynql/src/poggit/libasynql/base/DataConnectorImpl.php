@@ -38,9 +38,11 @@ use poggit\libasynql\result\SqlSelectResult;
 use poggit\libasynql\SqlError;
 use poggit\libasynql\SqlThread;
 use ReflectionClass;
+use TypeError;
 use function array_merge;
 use function array_pop;
 use function count;
+use function is_resource;
 use function json_encode;
 use function str_replace;
 use function usleep;
@@ -85,6 +87,10 @@ class DataConnectorImpl implements DataConnector{
 	}
 
 	public function loadQueryFile($fh, string $fileName = null) : void{
+		if(!is_resource($fh)){
+			throw new TypeError("Missing $fileName in resources directory of plugin.");
+		}
+
 		$parser = new GenericStatementFileParser($fileName, $fh);
 		$parser->parse();
 		foreach($parser->getResults() as $result){
