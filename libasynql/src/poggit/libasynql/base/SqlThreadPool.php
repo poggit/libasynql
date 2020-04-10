@@ -23,10 +23,14 @@ declare(strict_types=1);
 namespace poggit\libasynql\base;
 
 use InvalidArgumentException;
+use pocketmine\Server;
+use pocketmine\snooze\SleeperNotifier;
 use poggit\libasynql\SqlThread;
-use function count;
 
 class SqlThreadPool implements SqlThread{
+	/** @var SleeperNotifier */
+	private $notifier;
+	/** @var callable */
 	private $workerFactory;
 	/** @var SqlSlaveThread[] */
 	private $workers = [];
@@ -38,6 +42,16 @@ class SqlThreadPool implements SqlThread{
 	/** @var QueryRecvQueue */
 	private $bufferRecv;
 
+	/** @var DataConnectorImpl|null */
+	private $dataConnector = null;
+
+	/**
+	 * @param DataConnectorImpl $dataConnector
+	 */
+	public function setDataConnector(DataConnectorImpl $dataConnector): void {
+		$this->dataConnector = $dataConnector;
+	}
+
 	/**
 	 * SqlThreadPool constructor.
 	 *
@@ -45,15 +59,22 @@ class SqlThreadPool implements SqlThread{
 	 * @param int      $workerLimit   the maximum number of workers to create. Workers are created lazily.
 	 */
 	public function __construct(callable $workerFactory, int $workerLimit){
+		$this->notifier = new SleeperNotifier();
+		Server::getInstance()->getTickSleeper()->addNotifier($this->notifier, function() : void{
+			assert($this->dataConnector instanceof DataConnectorImpl); // otherwise, wtf
+			$this->dataConnector->checkResults();
+		});
+
 		$this->workerFactory = $workerFactory;
 		$this->workerLimit = $workerLimit;
 		$this->bufferSend = new QuerySendQueue();
 		$this->bufferRecv = new QueryRecvQueue();
+
 		$this->addWorker();
 	}
 
 	private function addWorker() : void{
-		$this->workers[] = ($this->workerFactory)($this->bufferSend, $this->bufferRecv);
+		$this->workers[] = ($this->workerFactory)($this->notifier, $this->bufferSend, $this->bufferRecv);
 	}
 
 	public function join() : void{
@@ -73,7 +94,7 @@ class SqlThreadPool implements SqlThread{
 
 		// check if we need to increase worker size
 		foreach($this->workers as $worker){
-			if(!$worker->isWorking()){
+			if(!$worker->isBusy()){
 				return;
 			}
 		}

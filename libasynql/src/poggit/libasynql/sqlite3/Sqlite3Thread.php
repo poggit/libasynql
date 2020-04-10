@@ -25,6 +25,7 @@ namespace poggit\libasynql\sqlite3;
 use Closure;
 use Exception;
 use InvalidArgumentException;
+use pocketmine\snooze\SleeperNotifier;
 use poggit\libasynql\base\QueryRecvQueue;
 use poggit\libasynql\base\QuerySendQueue;
 use poggit\libasynql\base\SqlSlaveThread;
@@ -53,13 +54,13 @@ class Sqlite3Thread extends SqlSlaveThread{
 	private $path;
 
 	public static function createFactory(string $path) : Closure{
-		return function(QuerySendQueue $send, QueryRecvQueue $recv) use ($path){
-			return new Sqlite3Thread($path, $send, $recv);
+		return function(SleeperNotifier $notifier, QuerySendQueue $send, QueryRecvQueue $recv) use ($path){
+			return new Sqlite3Thread($path, $notifier, $send, $recv);
 		};
 	}
 
-	public function __construct(string $path, QuerySendQueue $send = null, QueryRecvQueue $recv = null){
-		parent::__construct($send, $recv);
+	public function __construct(string $path, SleeperNotifier $notifier, QuerySendQueue $send = null, QueryRecvQueue $recv = null){
+		parent::__construct($notifier, $send, $recv);
 		$this->path = $path;
 	}
 

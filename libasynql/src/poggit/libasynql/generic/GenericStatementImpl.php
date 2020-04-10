@@ -22,12 +22,12 @@ declare(strict_types=1);
 
 namespace poggit\libasynql\generic;
 
-use function array_key_exists;
 use AssertionError;
 use InvalidArgumentException;
 use JsonSerializable;
 use poggit\libasynql\GenericStatement;
 use poggit\libasynql\SqlDialect;
+use function array_key_exists;
 use function get_class;
 use function gettype;
 use function in_array;
