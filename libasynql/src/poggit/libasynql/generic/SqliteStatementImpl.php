@@ -51,7 +51,7 @@ class SqliteStatementImpl extends GenericStatementImpl{
 		
 		if($value === null){
 			if(!$variable->isNullable()){
-				throw new InvalidArgumentException("The variable :{$variable->getName()} is not nullable");
+				throw new \InvalidArgumentException("The variable :{$variable->getName()} is not nullable");
 			}
 
 			return "NULL";
