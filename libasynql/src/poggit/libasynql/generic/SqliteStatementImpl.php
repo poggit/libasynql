@@ -22,6 +22,7 @@ declare(strict_types=1);
 
 namespace poggit\libasynql\generic;
 
+use InvalidArgumentException;
 use RuntimeException;
 use SQLite3;
 use function array_map;
