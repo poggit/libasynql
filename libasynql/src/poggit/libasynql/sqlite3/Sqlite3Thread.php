@@ -60,8 +60,8 @@ class Sqlite3Thread extends SqlSlaveThread{
 	}
 
 	public function __construct(string $path, SleeperNotifier $notifier, QuerySendQueue $send = null, QueryRecvQueue $recv = null){
-		parent::__construct($notifier, $send, $recv);
 		$this->path = $path;
+		parent::__construct($notifier, $send, $recv);
 	}
 
 	protected function createConn(&$sqlite) : ?string{
