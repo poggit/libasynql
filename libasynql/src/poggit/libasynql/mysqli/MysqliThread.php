@@ -63,8 +63,8 @@ class MysqliThread extends SqlSlaveThread{
 	}
 
 	public function __construct(MysqlCredentials $credentials, SleeperNotifier $notifier, QuerySendQueue $bufferSend = null, QueryRecvQueue $bufferRecv = null){
-		parent::__construct($notifier, $bufferSend, $bufferRecv);
 		$this->credentials = serialize($credentials);
+		parent::__construct($notifier, $bufferSend, $bufferRecv);
 	}
 
 	protected function createConn(&$mysqli) : ?string{
