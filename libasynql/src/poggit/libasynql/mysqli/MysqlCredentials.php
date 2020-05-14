@@ -106,7 +106,7 @@ class MysqlCredentials implements JsonSerializable{
 	 * @param mysqli $mysqli
 	 */
 	public function reconnectMysqli(mysqli &$mysqli) : void{
-		$mysqli->connect($this->host, $this->username, $this->password, $this->schema, $this->port, $this->socket);
+		@$mysqli->connect($this->host, $this->username, $this->password, $this->schema, $this->port, $this->socket);
 	}
 
 	/**

@@ -22,6 +22,7 @@ declare(strict_types=1);
 
 namespace poggit\libasynql\mysqli;
 
+use AttachableThreadedLogger;
 use Closure;
 use InvalidArgumentException;
 use mysqli;
@@ -42,28 +43,38 @@ use function array_map;
 use function assert;
 use function bccomp;
 use function bcsub;
+use function count;
 use function gettype;
 use function implode;
 use function in_array;
 use function is_float;
 use function is_int;
 use function is_string;
+use function min;
 use function serialize;
+use function sleep;
 use function strtotime;
 use function unserialize;
+use const PHP_INT_MAX;
 
 class MysqliThread extends SqlSlaveThread{
 	/** @var string */
 	private $credentials;
+	/** @var string */
+	private $logger;
+	/** @var int */
+	private $attempts;
 
-	public static function createFactory(MysqlCredentials $credentials) : Closure{
-		return function(SleeperNotifier $notifier, QuerySendQueue $bufferSend, QueryRecvQueue $bufferRecv) use ($credentials){
-			return new MysqliThread($credentials, $notifier, $bufferSend, $bufferRecv);
+	public static function createFactory(MysqlCredentials $credentials, AttachableThreadedLogger $logger) : Closure{
+		return function(SleeperNotifier $notifier, QuerySendQueue $bufferSend, QueryRecvQueue $bufferRecv) use ($credentials, $logger){
+			return new MysqliThread($credentials, $notifier, $logger, $bufferSend, $bufferRecv);
 		};
 	}
 
-	public function __construct(MysqlCredentials $credentials, SleeperNotifier $notifier, QuerySendQueue $bufferSend = null, QueryRecvQueue $bufferRecv = null){
+	public function __construct(MysqlCredentials $credentials, SleeperNotifier $notifier, AttachableThreadedLogger $logger, QuerySendQueue $bufferSend = null, QueryRecvQueue $bufferRecv = null){
 		$this->credentials = serialize($credentials);
+		$this->logger = serialize($logger);
+
 		parent::__construct($notifier, $bufferSend, $bufferRecv);
 	}
 
@@ -72,6 +83,7 @@ class MysqliThread extends SqlSlaveThread{
 		$cred = unserialize($this->credentials);
 		try{
 			$mysqli = $cred->newMysqli();
+
 			return null;
 		}catch(SqlError $e){
 			return $e->getErrorMessage();
@@ -82,13 +94,20 @@ class MysqliThread extends SqlSlaveThread{
 		assert($mysqli instanceof mysqli);
 		/** @var MysqlCredentials $cred */
 		$cred = unserialize($this->credentials);
+		/** @var AttachableThreadedLogger $logger */
+		$logger = unserialize($this->logger);
 		if(!$mysqli->ping()){
 			do{
+				$seconds = min(2 ** $this->attempts++, PHP_INT_MAX);
+				$logger->warning("Database connection failed! Trying reconnecting in $seconds seconds.");
+				sleep($seconds);
 				$cred->reconnectMysqli($mysqli);
 			}while($mysqli->connect_error);
+			$logger->info("Database connection restored.");
+			$this->attempts = 0;
 		}
 
-		if(empty($params)){
+		if(count($params) === 0){
 			$result = $mysqli->query($query);
 			if($result === false){
 				throw new SqlError(SqlError::STAGE_EXECUTE, $mysqli->error, $query, []);
@@ -106,11 +125,13 @@ class MysqliThread extends SqlSlaveThread{
 					if($mode === SqlThread::MODE_CHANGE){
 						return new SqlChangeResult($mysqli->affected_rows);
 					}
+
 					return new SqlResult();
 
 				case SqlThread::MODE_SELECT:
 					$ret = $this->toSelectResult($result);
 					$result->close();
+
 					return $ret;
 			}
 		}else{
@@ -138,22 +159,26 @@ class MysqliThread extends SqlSlaveThread{
 				case SqlThread::MODE_GENERIC:
 					$ret = new SqlResult();
 					$stmt->close();
+
 					return $ret;
 
 				case SqlThread::MODE_CHANGE:
 					$ret = new SqlChangeResult($stmt->affected_rows);
 					$stmt->close();
+
 					return $ret;
 
 				case SqlThread::MODE_INSERT:
 					$ret = new SqlInsertResult($stmt->affected_rows, $stmt->insert_id);
 					$stmt->close();
+
 					return $ret;
 
 				case SqlThread::MODE_SELECT:
 					$set = $stmt->get_result();
 					$ret = $this->toSelectResult($set);
 					$set->close();
+
 					return $ret;
 			}
 		}
@@ -186,6 +211,7 @@ class MysqliThread extends SqlSlaveThread{
 						if(bccomp($longLong, "9223372036854775807") === 1){
 							$longLong = bcsub($longLong, "18446744073709551616");
 						}
+
 						return (int) $longLong;
 					}
 
