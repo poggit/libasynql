@@ -101,7 +101,7 @@ class MysqliThread extends SqlSlaveThread{
 				sleep($seconds);
 
 				try{
-					$mysqli = $cred->reconnectMysqli($mysqli);
+					$cred->reconnectMysqli($mysqli);
 					$success = true;
 				}catch(SqlError $e){
 					$attempts++;
