@@ -60,10 +60,8 @@ use const PHP_INT_MAX;
 class MysqliThread extends SqlSlaveThread{
 	/** @var string */
 	private $credentials;
-	/** @var string */
+	/** @var AttachableThreadedLogger */
 	private $logger;
-	/** @var int */
-	private $attempts;
 
 	public static function createFactory(MysqlCredentials $credentials, AttachableThreadedLogger $logger) : Closure{
 		return function(SleeperNotifier $notifier, QuerySendQueue $bufferSend, QueryRecvQueue $bufferRecv) use ($credentials, $logger){
@@ -73,7 +71,7 @@ class MysqliThread extends SqlSlaveThread{
 
 	public function __construct(MysqlCredentials $credentials, SleeperNotifier $notifier, AttachableThreadedLogger $logger, QuerySendQueue $bufferSend = null, QueryRecvQueue $bufferRecv = null){
 		$this->credentials = serialize($credentials);
-		$this->logger = serialize($logger);
+		$this->logger = $logger;
 
 		parent::__construct($notifier, $bufferSend, $bufferRecv);
 	}
@@ -94,17 +92,22 @@ class MysqliThread extends SqlSlaveThread{
 		assert($mysqli instanceof mysqli);
 		/** @var MysqlCredentials $cred */
 		$cred = unserialize($this->credentials);
-		/** @var AttachableThreadedLogger $logger */
-		$logger = unserialize($this->logger);
 		if(!$mysqli->ping()){
+			$success = false;
+			$attempts = 0;
 			do{
-				$seconds = min(2 ** $this->attempts++, PHP_INT_MAX);
-				$logger->warning("Database connection failed! Trying reconnecting in $seconds seconds.");
+				$seconds = min(2 ** $attempts, PHP_INT_MAX);
+				$this->logger->warning("Database connection failed! Trying reconnecting in $seconds seconds.");
 				sleep($seconds);
-				$cred->reconnectMysqli($mysqli);
-			}while($mysqli->connect_error);
-			$logger->info("Database connection restored.");
-			$this->attempts = 0;
+
+				try{
+					$mysqli = $cred->reconnectMysqli($mysqli);
+					$success = true;
+				}catch(SqlError $e){
+					$attempts++;
+				}
+			}while(!$success);
+			$this->logger->info("Database connection restored.");
 		}
 
 		if(count($params) === 0){
@@ -125,13 +128,11 @@ class MysqliThread extends SqlSlaveThread{
 					if($mode === SqlThread::MODE_CHANGE){
 						return new SqlChangeResult($mysqli->affected_rows);
 					}
-
 					return new SqlResult();
 
 				case SqlThread::MODE_SELECT:
 					$ret = $this->toSelectResult($result);
 					$result->close();
-
 					return $ret;
 			}
 		}else{
@@ -159,26 +160,22 @@ class MysqliThread extends SqlSlaveThread{
 				case SqlThread::MODE_GENERIC:
 					$ret = new SqlResult();
 					$stmt->close();
-
 					return $ret;
 
 				case SqlThread::MODE_CHANGE:
 					$ret = new SqlChangeResult($stmt->affected_rows);
 					$stmt->close();
-
 					return $ret;
 
 				case SqlThread::MODE_INSERT:
 					$ret = new SqlInsertResult($stmt->affected_rows, $stmt->insert_id);
 					$stmt->close();
-
 					return $ret;
 
 				case SqlThread::MODE_SELECT:
 					$set = $stmt->get_result();
 					$ret = $this->toSelectResult($set);
 					$set->close();
-
 					return $ret;
 			}
 		}
@@ -211,7 +208,6 @@ class MysqliThread extends SqlSlaveThread{
 						if(bccomp($longLong, "9223372036854775807") === 1){
 							$longLong = bcsub($longLong, "18446744073709551616");
 						}
-
 						return (int) $longLong;
 					}
 

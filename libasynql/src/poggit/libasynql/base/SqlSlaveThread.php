@@ -61,7 +61,6 @@ abstract class SqlSlaveThread extends Thread implements SqlThread{
 			$cl = Server::getInstance()->getPluginManager()->getPlugin("DEVirion")->getVirionClassLoader();
 			$this->setClassLoader($cl);
 		}
-
 		$this->start(PTHREADS_INHERIT_INI | PTHREADS_INHERIT_CONSTANTS);
 	}
 
@@ -97,7 +96,7 @@ abstract class SqlSlaveThread extends Thread implements SqlThread{
 	/**
 	 * @return bool
 	 */
-	public function isBusy() : bool{
+	public function isBusy(): bool {
 		return $this->busy;
 	}
 
