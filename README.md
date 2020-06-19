@@ -206,3 +206,6 @@ Variables are interpolated in query text using the `:var` format. Note that liba
 ## Featured examples
 - [cucumber](https://github.com/adeynes/cucumber)
 - [BlockPets](https://github.com/BlockHorizons/BlockPets/blob/4163b4f402494e7ec71b0911c413b8f199904b0e/src/BlockHorizons/BlockPets/pets/datastorage/SQLDataStorer.php)
+- [BedcoreProtect](https://github.com/matcracker/BedcoreProtect)
+- [PiggyFactions](https://github.com/DaPigGuy/PiggyFactions)
+- [ChestShop](https://github.com/Muqsit/ChestShop)
