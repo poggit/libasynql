@@ -209,7 +209,9 @@ A numeric value that can be parsed by [`(float)` cast, equivalent to `floatval`]
 ###### `timestamp` default
 A numeric value that can be parsed by [`(int)` cast, equivalent to `intval`](https://php.net/intval) or [`(float)` cast, equivalent to `floatval`](https://php.net/floatval)
 
-**Allowed default values: 0, NOW**
+**Allowed default values:**
+- `0`
+- `NOW`
 
 ###### `list`
 An array of values whose type must be specified in the same way as the variable declaration.
