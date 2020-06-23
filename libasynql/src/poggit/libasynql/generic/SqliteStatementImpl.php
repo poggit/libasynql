@@ -73,6 +73,9 @@ class SqliteStatementImpl extends GenericStatementImpl{
 
 			case GenericVariable::TYPE_STRING:
 				assert(is_string($value));
+				if(strstr($value, "\0") !== false){
+					return "X'" . bin2hex($value) . "'";
+				}
 				return "'" . SQLite3::escapeString($value) . "'";
 		}
 
