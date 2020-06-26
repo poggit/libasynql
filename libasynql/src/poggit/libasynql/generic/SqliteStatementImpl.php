@@ -27,6 +27,7 @@ use RuntimeException;
 use SQLite3;
 use function array_map;
 use function assert;
+use function bin2hex;
 use function implode;
 use function is_array;
 use function is_bool;
