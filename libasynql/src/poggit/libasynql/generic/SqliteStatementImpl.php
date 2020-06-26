@@ -33,6 +33,7 @@ use function is_bool;
 use function is_float;
 use function is_int;
 use function is_string;
+use function strpos;
 
 class SqliteStatementImpl extends GenericStatementImpl{
 	public function getDialect() : string{
