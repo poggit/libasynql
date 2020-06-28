@@ -3,8 +3,8 @@
 ## [3.3.1](https://github.com/poggit/libasynql/compare/v3.3.0...v3.3.1)
 The next patch version after 3.3.0
 
-### Added
-- Implemented binary string support
+### Fixed
+- Fixed binary string parameters in SQLite3
 
 ## [3.3.0](https://github.com/poggit/libasynql/compare/v3.2.1...v3.3.0)
 The next minor version after 3.2.1
