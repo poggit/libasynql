@@ -27,12 +27,14 @@ use RuntimeException;
 use SQLite3;
 use function array_map;
 use function assert;
+use function bin2hex;
 use function implode;
 use function is_array;
 use function is_bool;
 use function is_float;
 use function is_int;
 use function is_string;
+use function strpos;
 
 class SqliteStatementImpl extends GenericStatementImpl{
 	public function getDialect() : string{
@@ -73,6 +75,9 @@ class SqliteStatementImpl extends GenericStatementImpl{
 
 			case GenericVariable::TYPE_STRING:
 				assert(is_string($value));
+				if(strpos($value, "\0") !== false){
+					return "X'" . bin2hex($value) . "'";
+				}
 				return "'" . SQLite3::escapeString($value) . "'";
 		}
 
