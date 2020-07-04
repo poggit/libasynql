@@ -104,7 +104,7 @@ abstract class SqlSlaveThread extends Thread implements SqlThread{
 		$this->bufferSend->invalidate();
 	}
 
-	public function quit() : void{
+	public function quit(){
 		$this->stopRunning();
 	}
 
