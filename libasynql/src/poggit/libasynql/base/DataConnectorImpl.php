@@ -25,6 +25,7 @@ namespace poggit\libasynql\base;
 use Error;
 use Exception;
 use InvalidArgumentException;
+use Logger;
 use pocketmine\plugin\Plugin;
 use pocketmine\utils\Terminal;
 use poggit\libasynql\DataConnector;
@@ -53,6 +54,8 @@ class DataConnectorImpl implements DataConnector{
 	private $thread;
 	/** @var bool */
 	private $loggingQueries;
+	/** @var Logger|null */
+	private $logger;
 	/** @var GenericStatement[] */
 	private $queries = [];
 	/** @var callable[] */
@@ -74,16 +77,24 @@ class DataConnectorImpl implements DataConnector{
 			$thread->setDataConnector($this);
 		}
 		$this->thread = $thread;
-		$this->loggingQueries = $logQueries;
+		$this->logger = $logQueries ? $plugin->getLogger() : null;
 		$this->placeHolder = $placeHolder;
 	}
 
 	public function setLoggingQueries(bool $loggingQueries) : void{
-		$this->loggingQueries = !libasynql::isPackaged() && $loggingQueries;
+		$this->logger = $loggingQueries ? $this->plugin->getLogger() : null;
 	}
 
 	public function isLoggingQueries() : bool{
-		return $this->loggingQueries;
+		return $this->logger !== null;
+	}
+
+	public function getLogger() : ?Logger{
+		return $this->logger;
+	}
+
+	public function setLogger(?Logger $logger) : void{
+		$this->logger = $logger;
 	}
 
 	public function loadQueryFile($fh, string $fileName = null) : void{
@@ -106,7 +117,7 @@ class DataConnectorImpl implements DataConnector{
 	}
 
 	public function executeGeneric(string $queryName, array $args = [], ?callable $onSuccess = null, ?callable $onError = null) : void{
-		$this->executeImpl($queryName, $args, SqlThread::MODE_GENERIC, function() use ($onSuccess){
+		$this->executeImpl($queryName, $args, SqlThread::MODE_GENERIC, static function() use ($onSuccess){
 			if($onSuccess !== null){
 				$onSuccess();
 			}
@@ -114,7 +125,7 @@ class DataConnectorImpl implements DataConnector{
 	}
 
 	public function executeGenericRaw(string $query, array $args = [], ?callable $onSuccess = null, ?callable $onError = null) : void{
-		$this->executeImplRaw($query, $args, SqlThread::MODE_GENERIC, function() use ($onSuccess){
+		$this->executeImplRaw($query, $args, SqlThread::MODE_GENERIC, static function() use ($onSuccess){
 			if($onSuccess !== null){
 				$onSuccess();
 			}
@@ -122,7 +133,7 @@ class DataConnectorImpl implements DataConnector{
 	}
 
 	public function executeChange(string $queryName, array $args = [], ?callable $onSuccess = null, ?callable $onError = null) : void{
-		$this->executeImpl($queryName, $args, SqlThread::MODE_CHANGE, function(SqlChangeResult $result) use ($onSuccess){
+		$this->executeImpl($queryName, $args, SqlThread::MODE_CHANGE, static function(SqlChangeResult $result) use ($onSuccess){
 			if($onSuccess !== null){
 				$onSuccess($result->getAffectedRows());
 			}
@@ -130,7 +141,7 @@ class DataConnectorImpl implements DataConnector{
 	}
 
 	public function executeChangeRaw(string $query, array $args = [], ?callable $onSuccess = null, ?callable $onError = null) : void{
-		$this->executeImplRaw($query, $args, SqlThread::MODE_CHANGE, function(SqlChangeResult $result) use ($onSuccess){
+		$this->executeImplRaw($query, $args, SqlThread::MODE_CHANGE, static function(SqlChangeResult $result) use ($onSuccess){
 			if($onSuccess !== null){
 				$onSuccess($result->getAffectedRows());
 			}
@@ -138,7 +149,7 @@ class DataConnectorImpl implements DataConnector{
 	}
 
 	public function executeInsert(string $queryName, array $args = [], ?callable $onInserted = null, ?callable $onError = null) : void{
-		$this->executeImpl($queryName, $args, SqlThread::MODE_INSERT, function(SqlInsertResult $result) use ($onInserted){
+		$this->executeImpl($queryName, $args, SqlThread::MODE_INSERT, static function(SqlInsertResult $result) use ($onInserted){
 			if($onInserted !== null){
 				$onInserted($result->getInsertId(), $result->getAffectedRows());
 			}
@@ -146,7 +157,7 @@ class DataConnectorImpl implements DataConnector{
 	}
 
 	public function executeInsertRaw(string $query, array $args = [], ?callable $onInserted = null, ?callable $onError = null) : void{
-		$this->executeImplRaw($query, $args, SqlThread::MODE_INSERT, function(SqlInsertResult $result) use ($onInserted){
+		$this->executeImplRaw($query, $args, SqlThread::MODE_INSERT, static function(SqlInsertResult $result) use ($onInserted){
 			if($onInserted !== null){
 				$onInserted($result->getInsertId(), $result->getAffectedRows());
 			}
@@ -154,7 +165,7 @@ class DataConnectorImpl implements DataConnector{
 	}
 
 	public function executeSelect(string $queryName, array $args = [], ?callable $onSelect = null, ?callable $onError = null) : void{
-		$this->executeImpl($queryName, $args, SqlThread::MODE_SELECT, function(SqlSelectResult $result) use ($onSelect){
+		$this->executeImpl($queryName, $args, SqlThread::MODE_SELECT, static function(SqlSelectResult $result) use ($onSelect){
 			if($onSelect !== null){
 				$onSelect($result->getRows(), $result->getColumnInfo());
 			}
@@ -162,7 +173,7 @@ class DataConnectorImpl implements DataConnector{
 	}
 
 	public function executeSelectRaw(string $query, array $args = [], ?callable $onSelect = null, ?callable $onError = null) : void{
-		$this->executeImplRaw($query, $args, SqlThread::MODE_SELECT, function(SqlSelectResult $result) use ($onSelect){
+		$this->executeImplRaw($query, $args, SqlThread::MODE_SELECT, static function(SqlSelectResult $result) use ($onSelect){
 			if($onSelect !== null){
 				$onSelect($result->getRows(), $result->getColumnInfo());
 			}
@@ -228,8 +239,8 @@ class DataConnectorImpl implements DataConnector{
 				}
 			}
 		};
-		if($this->loggingQueries){
-			$this->plugin->getLogger()->debug("Queuing mode-$mode query: " . str_replace(["\r\n", "\n"], "\\n ", $query) . " | Args: " . json_encode($args));
+		if($this->logger !== null){
+			$this->logger->debug("Queuing mode-$mode query: " . str_replace(["\r\n", "\n"], "\\n ", $query) . " | Args: " . json_encode($args));
 		}
 		$this->thread->addQuery($queryId, $mode, $query, $args);
 	}

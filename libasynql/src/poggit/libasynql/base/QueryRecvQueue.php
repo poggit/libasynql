@@ -34,7 +34,7 @@ class QueryRecvQueue extends Threaded{
 		$this[] = serialize([$queryId, $result]);
 	}
 
-	public function publishError(int $queryId, SqlError $error){
+	public function publishError(int $queryId, SqlError $error) : void{
 		$this[] = serialize([$queryId, $error]);
 	}
 

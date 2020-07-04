@@ -23,6 +23,7 @@ declare(strict_types=1);
 namespace poggit\libasynql;
 
 use InvalidArgumentException;
+use Logger;
 use poggit\libasynql\generic\GenericStatementFileParseException;
 
 /**
@@ -30,18 +31,32 @@ use poggit\libasynql\generic\GenericStatementFileParseException;
  */
 interface DataConnector{
 	/**
-	 * Sets whether the queries are being logged. Only effective when libasynql is not packaged; does nothing if libasynql is packaged.
+	 * If true, logger is set to the plugin logger. If false, queries are not logged.
 	 *
 	 * @param bool $loggingQueries
 	 */
 	public function setLoggingQueries(bool $loggingQueries) : void;
 
 	/**
-	 * Returns whether the queries are being logged. Always returns false when libasynql is packaged.
+	 * Returns whether the logger is nnot null, i.e. queries are being logged.
 	 *
 	 * @return bool
 	 */
 	public function isLoggingQueries() : bool;
+
+	/**
+	 * Sets the logger used to log queries, or null to not log queries
+	 *
+	 * @param Logger|null $logger
+	 */
+	public function setLogger(?Logger $logger) : void;
+
+	/**
+	 * Returns the logger used to log queries, or null if not logging queries
+	 *
+	 * @return Logger|null
+	 */
+	public function getLogger() : ?Logger;
 
 	/**
 	 * Loads pre-formatted queries from a readable stream resource.
