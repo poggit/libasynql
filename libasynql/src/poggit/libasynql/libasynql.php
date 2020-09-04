@@ -150,11 +150,11 @@ final class libasynql{
 	}
 
 	private static function resolvePath(string $folder, string $path) : string{
-		if($path{0} === "/"){
+		if($path[0] === "/"){
 			return $path;
 		}
 		if(Utils::getOS() === "win"){
-			if($path{0} === "\\" || $path{1} === ":"){
+			if($path[0] === "\\" || $path[1] === ":"){
 				return $path;
 			}
 		}
