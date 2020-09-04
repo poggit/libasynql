@@ -1,4 +1,4 @@
-# libasynql v3.0.0 <img src="https://poggit.pmmp.io/ci.badge/poggit/libasynql/libasynql" align="right"/>
+# libasynql v3.3.0 <img src="https://poggit.pmmp.io/ci.badge/poggit/libasynql/libasynql" align="right"/>
 Asynchronous SQL access library for PocketMine plugins.
 
 ## Usage
@@ -168,6 +168,12 @@ A variable declaration declares the required and optional variables for this que
 #### Symbol
 - `:`
 
+### Nullable variable declaration
+Declare if the variable can accepts `null` values. It is only allowed inside a query declaration.
+
+#### Symbol
+- `?`
+
 #### Arguments
 ##### VAR_NAME
 The name of the variable. Any characters apart from spaces, tabs and colons are allowed. However, to comply with ordinary SQL editors, using "normal" symbols (e.g. variable names in other programming languages) is recommended.
@@ -178,6 +184,8 @@ The variable type. Possible values:
 - `int`
 - `float`
 - `bool`
+- `timestamp`
+- `list`
 
 ##### VAR_DEFAULT
 If the variable is optional, it declares a default value.
@@ -197,6 +205,26 @@ A numeric value that can be parsed by [`(float)` cast, equivalent to `floatval`]
 
 ###### `bool` default
 `true`, `on`, `yes` or `1` will result in true. Other values, as long as there is something, will result default false. (If there is nothing, the variable will not be optional)
+
+###### `timestamp` default
+A numeric value that can be parsed by [`(int)` cast, equivalent to `intval`](https://php.net/intval) or [`(float)` cast, equivalent to `floatval`](https://php.net/floatval)
+
+**Allowed default values:**
+- `0`
+- `NOW`
+
+###### `list`
+An array of values whose type must be specified in the same way as the variable declaration.
+
+**Default value is not allowed**
+
+Example:
+```sql
+-- #{ group.name
+-- #    :var_name1 list:int
+-- #    :var_name2 list?float
+-- #}
+```
 
 ### Query text
 Query text is not a command, but the non-commented part between the start and end commands of a query declaration.
