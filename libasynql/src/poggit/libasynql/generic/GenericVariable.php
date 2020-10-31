@@ -70,7 +70,7 @@ class GenericVariable implements JsonSerializable{
 			$this->canEmpty = true;
 			/** @noinspection CallableParameterUseCaseInTypeContextInspection */
 			$type = substr($type, strlen("list?"));
-		}elseif($type{0} === "?"){
+		}elseif($type[0] === "?"){
 			$this->nullable = true;
 			$type = substr($type, 1);
 		}
@@ -81,7 +81,7 @@ class GenericVariable implements JsonSerializable{
 			}
 			switch($type){
 				case self::TYPE_STRING:
-					if($default{0} === "\"" && $default{strlen($default) - 1} === "\""){
+					if($default[0] === "\"" && $default[strlen($default) - 1] === "\""){
 						$default = json_decode($default);
 						assert(is_string($default));
 					}

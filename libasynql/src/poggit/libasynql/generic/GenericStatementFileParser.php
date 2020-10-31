@@ -124,7 +124,7 @@ class GenericStatementFileParser{
 		if($line === ''){
 			return true;
 		}
-		$cmd = $line{0};
+		$cmd = $line[0];
 		$args = [];
 		$argOffsets = [];
 		$regex = /** @lang RegExp */

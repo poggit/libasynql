@@ -152,7 +152,7 @@ fwrite($fh, $STRUCT . ' ' . array_slice($fqnPieces, -1)[0] . '{' . $EOL);
 $constLog = [];
 foreach($results as $queryName => $stmts){
 	$const = preg_replace('/[^A-Z0-9]+/i', "_", strtoupper($queryName));
-	if(ctype_digit($queryName{0})){
+	if(ctype_digit($queryName[0])){
 		$const = "_" . $const;
 	}
 	if(isset($constLog[$const])){
