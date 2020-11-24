@@ -38,7 +38,7 @@ interface DataConnector{
 	public function setLoggingQueries(bool $loggingQueries) : void;
 
 	/**
-	 * Returns whether the logger is nnot null, i.e. queries are being logged.
+	 * Returns whether the logger is not null, i.e. queries are being logged.
 	 *
 	 * @return bool
 	 */
@@ -63,8 +63,8 @@ interface DataConnector{
 	 *
 	 * The implementation will close the stream after reading.
 	 *
-	 * @param resource $fh       a stream that supports <code>feof()</code>, <code>fgets()</code> and <code>fclose()</code>.
-	 * @param string   $fileName the filename providing the stream, only used for debugging and documentation purposes
+	 * @param resource    $fh       a stream that supports <code>feof()</code>, <code>fgets()</code> and <code>fclose()</code>.
+	 * @param string|null $fileName the filename providing the stream, only used for debugging and documentation purposes
 	 *
 	 * @throws GenericStatementFileParseException if the file contains a syntax error or compile error
 	 * @throws InvalidArgumentException if the file introduces statements that duplicate the names of those previously loaded
