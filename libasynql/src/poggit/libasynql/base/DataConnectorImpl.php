@@ -52,8 +52,6 @@ class DataConnectorImpl implements DataConnector{
 	private $plugin;
 	/** @var SqlThread */
 	private $thread;
-	/** @var bool */
-	private $loggingQueries;
 	/** @var PluginLogger|null */
 	private $logger;
 	/** @var GenericStatement[] */
