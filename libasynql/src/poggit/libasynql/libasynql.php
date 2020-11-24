@@ -22,7 +22,6 @@ declare(strict_types=1);
 
 namespace poggit\libasynql;
 
-use InvalidArgumentCountException;
 use InvalidArgumentException;
 use pocketmine\plugin\PluginBase;
 use pocketmine\utils\Terminal;
@@ -85,7 +84,7 @@ final class libasynql{
 		}
 
 		if(count($sqlMap) === 0){
-			throw new InvalidArgumentCountException('Parameter $sqlMap cannot be empty');
+			throw new InvalidArgumentException('Parameter $sqlMap cannot be empty');
 		}
 
 		$pdo = ($configData["prefer-pdo"] ?? false) && extension_loaded("pdo");
