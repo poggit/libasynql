@@ -1,5 +1,11 @@
 # libasynql <img src="https://poggit.pmmp.io/ci.badge/poggit/libasynql/libasynql" align="right"/>
 Asynchronous SQL access library for PocketMine plugins.
+## Why should I use this library and what asynchronous means?
+When a excuting a SQL query at the main thread, **there will be a delay made** by MySQL for communicating between the databse server or Sqlite for interacting with the file system. And the delay will completely block the main thread and **causes lag to the server**.
+
+Libasynql uses **different threads for excuting the queries** so the main thread will not be affect by the lag!
+
+*Look in [here](https://github.com/SOF3/pmmp-wilderness/wiki/PocketMine-Plugin-Development-FAQ#what-is-threading-does-it-make-the-server-faster) as well if you want to learn more about threadding.*
 
 ## Usage
 The basic use of libasynql has 5 steps:
