@@ -76,6 +76,9 @@ In case of error, a ConfigException or an SqlError will be thrown. If not caught
 ### Creating SQL files
 In the resources file, create one file for each SQL dialect you are supporting, e.g. `resources/sqlite.sql` and `resources/mysql.sql`.
 
+#### Do I copy the SQL files to the plugin data folder?
+No, you don't have to copy the SQL file to the plugin data folder. The content in the files can already be read by libasynql when they are inside the resources folder
+
 Write down all the queries you are going to use in each file, using the [Prepared Statement File format](#prepared-statement-file-format).
 
 ### Calling libasynql functions
@@ -212,3 +215,4 @@ Variables are interpolated in query text using the `:var` format. Note that liba
 ## Featured examples
 - [cucumber](https://github.com/adeynes/cucumber)
 - [BlockPets](https://github.com/BlockHorizons/BlockPets/blob/4163b4f402494e7ec71b0911c413b8f199904b0e/src/BlockHorizons/BlockPets/pets/datastorage/SQLDataStorer.php)
+
