@@ -76,8 +76,8 @@ In case of error, a ConfigException or an SqlError will be thrown. If not caught
 ### Creating SQL files
 In the resources file, create one file for each SQL dialect you are supporting, e.g. `resources/sqlite.sql` and `resources/mysql.sql`.
 
-#### Do I copy the SQL files to the plugin data folder?
-No, you don't have to copy the SQL file to the plugin data folder. The content in the files can already be read by libasynql when they are inside the resources folder
+#### Do I save the SQL files to the plugin data folder?
+No, you don't have to save / copy the SQL file to the plugin data folder. The content in the files can already be read by libasynql when they are in the resources folder
 
 Write down all the queries you are going to use in each file, using the [Prepared Statement File format](#prepared-statement-file-format).
 
@@ -93,7 +93,7 @@ There are 4 query modes you can ues: GENERIC, CHANGE, INSERT and SELECT.
 They have their respective methods in DataConnector: `executeGeneric`, `executeChange`, `executeInsert`, `executeSelect`. They require the same parameters:
 
 - The name of the prepared statement
-- The variables for the query, in the form of an associative array "variable name (without colon)" => value
+- The variables for the query, in the form of an associative array "variable name (without colon in the start)" => value
 - An optional callable triggered if the query succeeded, accepting different arguments:
   - GENERIC: no arguments
   - CHANGE: `function(int $affectedRows)`
@@ -206,6 +206,39 @@ A numeric value that can be parsed by [`(float)` cast, equivalent to `floatval`]
 
 ###### `bool` default
 `true`, `on`, `yes` or `1` will result in true. Other values, as long as there is something, will result default false. (If there is nothing, the variable will not be optional)
+
+#### Example of using variables
+##### SQL file
+```sql
+-- #{ example
+-- #    { insert
+-- # 	  :foo string
+-- # 	  :bar int
+INSERT INTO example(
+	foo_column
+	bar_column
+) VALUES (
+	:foo
+	:bar
+);
+-- #    }
+-- #    { select
+-- # 	  :foo string
+-- # 	  :bar int
+SELECT FROM example
+WHERE foo_column = :foo
+LIMIT :bar;
+-- #    }
+-- #}
+```
+##### Code
+```php
+// Example of using variable in insert statements
+$this->database->excuteInsert("example.insert", ["foo" => "sample text", "bar" => 123]);
+
+// Example of using variable in select statements
+$this->database->executeSelect("example.select", ["foo" => "sample text", "bar" => 1]);
+```
 
 ### Query text
 Query text is not a command, but the non-commented part between the start and end commands of a query declaration.
