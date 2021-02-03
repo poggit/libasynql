@@ -1,7 +1,7 @@
 # libasynql <img src="https://poggit.pmmp.io/ci.badge/poggit/libasynql/libasynql" align="right"/>
 Asynchronous SQL access library for PocketMine plugins.
 ## Why should I use this library and what asynchronous means?
-When excuting a SQL query at the main thread, **there will be a delay made** by MySQL for communicating between the database server or Sqlite for interacting with the file system. And the delay will completely block the main thread and **causes lag to the server**.
+When executing a SQL query on the main thread, **there will be a delay** to wait for the MySQL server or SQLite for interacting with the file system. The delay will block the main thread and **cause lag to the server**.
 
 Libasynql uses **different threads for excuting the queries** so the main thread will not be affect by the lag!
 
@@ -285,4 +285,3 @@ $this->database->executeGeneric("common.mistake.asynchronous", [], function() : 
 ## Featured examples
 - [cucumber](https://github.com/adeynes/cucumber)
 - [BlockPets](https://github.com/BlockHorizons/BlockPets/blob/4163b4f402494e7ec71b0911c413b8f199904b0e/src/BlockHorizons/BlockPets/pets/datastorage/SQLDataStorer.php)
-
