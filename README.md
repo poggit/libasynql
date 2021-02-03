@@ -237,7 +237,9 @@ LIMIT :bar;
 $this->database->executeInsert("example.insert", ["foo" => "sample text", "bar" => 123]);
 
 // Example of using variable in select statements
-$this->database->executeSelect("example.select", ["foo" => "sample text", "bar" => 1]);
+$this->database->executeSelect("example.select", ["foo" => "sample text", "bar" => 1], function(array $rows) : void {
+  echo $rows["bar_column"];
+});
 ```
 
 ### Query text
