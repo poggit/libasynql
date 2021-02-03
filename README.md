@@ -218,7 +218,7 @@ INSERT INTO example(
 	foo_column
 	bar_column
 ) VALUES (
-	:foo
+	:foo,
 	:bar
 );
 -- #    }
@@ -234,7 +234,7 @@ LIMIT :bar;
 ##### Code
 ```php
 // Example of using variable in insert statements
-$this->database->excuteInsert("example.insert", ["foo" => "sample text", "bar" => 123]);
+$this->database->executeInsert("example.insert", ["foo" => "sample text", "bar" => 123]);
 
 // Example of using variable in select statements
 $this->database->executeSelect("example.select", ["foo" => "sample text", "bar" => 1]);
@@ -252,7 +252,7 @@ SELECT * FROM example;
 ```
 
 ## Things to beware
-### Common mistakes
+### Race condition
 ```php
 public $foo = 'bar';
 
@@ -271,9 +271,9 @@ $this->database->executeGeneric("common.mistake.asynchronous", [], function() : 
 });
 echo $this->getFoo();
 ```
-The result will be `bar` because the queries are ran in asynchronous, the code in the main thread will always <!-- Correct me if I'm wrong -->run faster than it.
+The result will be `bar` because the queries are run asynchronously. The code on the main thread will run faster than it.
 
-To make the code gives out a correct result, you have to ensure `$this->setFoo()` runs before `echo $this->getFoo()`. The appropriate way is to put into the callback function, just like below:
+To make the code give a correct result, you have to ensure `$this->setFoo()` runs before `echo $this->getFoo()`. The appropriate way is to move `getFoo()` into the callback function, just like below:
 ```php
 $this->database->executeGeneric("common.mistake.asynchronous", [], function() : void {
 	$this->setFoo();
