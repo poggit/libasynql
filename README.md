@@ -5,7 +5,7 @@ When executing a SQL query on the main thread, **there will be a delay** to wait
 
 Libasynql uses **different threads for executing the queries** so the main thread will not lag!
 
-*Look in [here](https://github.com/SOF3/pmmp-wilderness/wiki/PocketMine-Plugin-Development-FAQ#what-is-threading-does-it-make-the-server-faster) as well if you want to learn more about threadding.*
+*Look in [here](https://github.com/SOF3/pmmp-wilderness/wiki/PocketMine-Plugin-Development-FAQ#what-is-threading-does-it-make-the-server-faster) as well if you want to learn more about threading.*
 
 ## Usage
 The basic use of libasynql has 5 steps:
