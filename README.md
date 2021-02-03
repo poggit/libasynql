@@ -1,7 +1,7 @@
 # libasynql <img src="https://poggit.pmmp.io/ci.badge/poggit/libasynql/libasynql" align="right"/>
 Asynchronous SQL access library for PocketMine plugins.
 ## Why should I use this library and what asynchronous means?
-When a excuting a SQL query at the main thread, **there will be a delay made** by MySQL for communicating between the databse server or Sqlite for interacting with the file system. And the delay will completely block the main thread and **causes lag to the server**.
+When excuting a SQL query at the main thread, **there will be a delay made** by MySQL for communicating between the database server or Sqlite for interacting with the file system. And the delay will completely block the main thread and **causes lag to the server**.
 
 Libasynql uses **different threads for excuting the queries** so the main thread will not be affect by the lag!
 
@@ -225,7 +225,7 @@ INSERT INTO example(
 -- #    { select
 -- # 	  :foo string
 -- # 	  :bar int
-SELECT FROM example
+SELECT * FROM example
 WHERE foo_column = :foo
 LIMIT :bar;
 -- #    }
@@ -244,6 +244,43 @@ $this->database->executeSelect("example.select", ["foo" => "sample text", "bar" 
 Query text is not a command, but the non-commented part between the start and end commands of a query declaration.
 
 Variables are interpolated in query text using the `:var` format. Note that libasynql uses a homebrew algorithm for identifying the variable positions, so they might be inaccurate.
+```sql
+-- #{ query.declarartion
+SELECT * FROM example;
+-- The line above is a query text
+-- #}
+```
+
+## Things to beware
+### Common mistakes
+```php
+public $foo = 'bar';
+
+public function setFoo() : void {
+	$this->foo = 'foo';
+}
+
+public function getFoo() : string {
+	return $this->foo;
+}
+```
+
+```php
+$this->database->executeGeneric("common.mistake.asynchronous", [], function() : void {
+	$this->setFoo();
+});
+echo $this->getFoo();
+```
+The result will be `bar` because the queries are ran in asynchronous, the code in the main thread will always <!-- Correct me if I'm wrong -->run faster than it.
+
+To make the code gives out a correct result, you have to ensure `$this->setFoo()` runs before `echo $this->getFoo()`. The appropriate way is to put into the callback function, just like below:
+```php
+$this->database->executeGeneric("common.mistake.asynchronous", [], function() : void {
+	$this->setFoo();
+	echo $this->getFoo();
+});
+```
+
 
 ## Featured examples
 - [cucumber](https://github.com/adeynes/cucumber)
