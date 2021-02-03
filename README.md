@@ -93,7 +93,7 @@ There are 4 query modes you can ues: GENERIC, CHANGE, INSERT and SELECT.
 They have their respective methods in DataConnector: `executeGeneric`, `executeChange`, `executeInsert`, `executeSelect`. They require the same parameters:
 
 - The name of the prepared statement
-- The variables for the query, in the form of an associative array "variable name (without colon in the start)" => value
+- The variables for the query, in the form of an associative array "variable name (without the leading colon)" => value
 - An optional callable triggered if the query succeeded, accepting different arguments:
   - GENERIC: no arguments
   - CHANGE: `function(int $affectedRows)`
