@@ -238,7 +238,9 @@ $this->database->executeInsert("example.insert", ["foo" => "sample text", "bar" 
 
 // Example of using variable in select statements
 $this->database->executeSelect("example.select", ["foo" => "sample text", "bar" => 1], function(array $rows) : void {
-  echo $rows["bar_column"];
+  foreach ($rows as $result) {
+    echo $result["bar_column"];
+  }
 });
 ```
 
