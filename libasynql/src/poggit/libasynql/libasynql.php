@@ -121,7 +121,7 @@ final class libasynql{
 				if($pdo){
 					// TODO add PDO support
 				}else{
-					$factory = MysqliThread::createFactory($cred);
+					$factory = MysqliThread::createFactory($cred, $plugin->getServer()->getLogger());
 					$placeHolder = "?";
 				}
 				$dialect = "mysql";
@@ -145,7 +145,7 @@ final class libasynql{
 		foreach(is_string($sqlMap[$dialect]) ? [$sqlMap[$dialect]] : $sqlMap[$dialect] as $file){
 			$connector->loadQueryFile($plugin->getResource($file), $file);
 		}
-		
+
 		return $connector;
 	}
 

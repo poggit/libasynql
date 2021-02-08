@@ -22,6 +22,7 @@ declare(strict_types=1);
 
 namespace poggit\libasynql\mysqli;
 
+use AttachableThreadedLogger;
 use Closure;
 use InvalidArgumentException;
 use mysqli;
@@ -42,28 +43,36 @@ use function array_map;
 use function assert;
 use function bccomp;
 use function bcsub;
+use function count;
 use function gettype;
 use function implode;
 use function in_array;
 use function is_float;
 use function is_int;
 use function is_string;
+use function min;
 use function serialize;
+use function sleep;
 use function strtotime;
 use function unserialize;
+use const PHP_INT_MAX;
 
 class MysqliThread extends SqlSlaveThread{
 	/** @var string */
 	private $credentials;
+	/** @var AttachableThreadedLogger */
+	private $logger;
 
-	public static function createFactory(MysqlCredentials $credentials) : Closure{
-		return function(SleeperNotifier $notifier, QuerySendQueue $bufferSend, QueryRecvQueue $bufferRecv) use ($credentials){
-			return new MysqliThread($credentials, $notifier, $bufferSend, $bufferRecv);
+	public static function createFactory(MysqlCredentials $credentials, AttachableThreadedLogger $logger) : Closure{
+		return function(SleeperNotifier $notifier, QuerySendQueue $bufferSend, QueryRecvQueue $bufferRecv) use ($credentials, $logger){
+			return new MysqliThread($credentials, $notifier, $logger, $bufferSend, $bufferRecv);
 		};
 	}
 
-	public function __construct(MysqlCredentials $credentials, SleeperNotifier $notifier, QuerySendQueue $bufferSend = null, QueryRecvQueue $bufferRecv = null){
+	public function __construct(MysqlCredentials $credentials, SleeperNotifier $notifier, AttachableThreadedLogger $logger, QuerySendQueue $bufferSend = null, QueryRecvQueue $bufferRecv = null){
 		$this->credentials = serialize($credentials);
+		$this->logger = $logger;
+
 		parent::__construct($notifier, $bufferSend, $bufferRecv);
 	}
 
@@ -72,6 +81,7 @@ class MysqliThread extends SqlSlaveThread{
 		$cred = unserialize($this->credentials);
 		try{
 			$mysqli = $cred->newMysqli();
+
 			return null;
 		}catch(SqlError $e){
 			return $e->getErrorMessage();
@@ -82,13 +92,25 @@ class MysqliThread extends SqlSlaveThread{
 		assert($mysqli instanceof mysqli);
 		/** @var MysqlCredentials $cred */
 		$cred = unserialize($this->credentials);
-		while(!$mysqli->ping()){
-			$cred->reconnectMysqli($mysqli);
-			if($this->connError === null){
-				break;
-			}
+		if(!$mysqli->ping()){
+			$success = false;
+			$attempts = 0;
+			do{
+				$seconds = min(2 ** $attempts, PHP_INT_MAX);
+				$this->logger->warning("Database connection failed! Trying reconnecting in $seconds seconds.");
+				sleep($seconds);
+
+				try{
+					$cred->reconnectMysqli($mysqli);
+					$success = true;
+				}catch(SqlError $e){
+					$attempts++;
+				}
+			}while(!$success);
+			$this->logger->info("Database connection restored.");
 		}
-		if(empty($params)){
+
+		if(count($params) === 0){
 			$result = $mysqli->query($query);
 			if($result === false){
 				throw new SqlError(SqlError::STAGE_EXECUTE, $mysqli->error, $query, []);
