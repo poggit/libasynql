@@ -32,11 +32,13 @@ use poggit\libasynql\generic\GenericStatementFileParser;
 use poggit\libasynql\GenericStatement;
 use poggit\libasynql\libasynql;
 use poggit\libasynql\result\SqlChangeResult;
+use poggit\libasynql\result\SqlColumnInfo;
 use poggit\libasynql\result\SqlInsertResult;
 use poggit\libasynql\result\SqlSelectResult;
 use poggit\libasynql\SqlError;
 use poggit\libasynql\SqlThread;
 use ReflectionClass;
+use SOFe\AwaitGenerator\Await;
 use TypeError;
 use function array_merge;
 use function array_pop;
@@ -121,6 +123,14 @@ class DataConnectorImpl implements DataConnector{
 		}, $onError);
 	}
 
+	public function asyncGeneric(string $queryName, array $args = []) : Generator{
+		$onSuccess = yield Await::RESOLVE;
+		$onError = yield Await::REJECT;
+		$this->executeGeneric($queryName, $args, $onSuccess, $onError);
+		yield Await::ONCE;
+		return null;
+	}
+
 	public function executeChange(string $queryName, array $args = [], ?callable $onSuccess = null, ?callable $onError = null) : void{
 		$this->executeImpl($queryName, $args, SqlThread::MODE_CHANGE, function(SqlChangeResult $result) use ($onSuccess){
 			if($onSuccess !== null){
@@ -135,6 +145,14 @@ class DataConnectorImpl implements DataConnector{
 				$onSuccess($result->getAffectedRows());
 			}
 		}, $onError);
+	}
+
+	public function asyncChange(string $queryName, array $args = []) : Generator{
+		$onSuccess = yield Await::RESOLVE;
+		$onError = yield Await::REJECT;
+		$this->executeChange($queryName, $args, $onSuccess, $onError);
+		$affectedRows = yield Await::ONCE;
+		return $affectedRows;
 	}
 
 	public function executeInsert(string $queryName, array $args = [], ?callable $onInserted = null, ?callable $onError = null) : void{
@@ -153,6 +171,16 @@ class DataConnectorImpl implements DataConnector{
 		}, $onError);
 	}
 
+	public function asyncInsert(string $queryName, array $args = []) : Generator{
+		$onSuccess = yield Await::RESOLVE;
+		$onError = yield Await::REJECT;
+		$this->executeInsert($queryName, $args, static function(int $insertId, int $affectedRows) use($onSuccess) : void{
+			$onSuccess([$insertId, $affectedRows]);
+		}, $onError);
+		$affectedRows = yield Await::ONCE;
+		return $affectedRows;
+	}
+
 	public function executeSelect(string $queryName, array $args = [], ?callable $onSelect = null, ?callable $onError = null) : void{
 		$this->executeImpl($queryName, $args, SqlThread::MODE_SELECT, function(SqlSelectResult $result) use ($onSelect){
 			if($onSelect !== null){
@@ -167,6 +195,26 @@ class DataConnectorImpl implements DataConnector{
 				$onSelect($result->getRows(), $result->getColumnInfo());
 			}
 		}, $onError);
+	}
+
+	public function asyncSelect(string $queryName, array $args = []) : Generator{
+		$onSuccess = yield Await::RESOLVE;
+		$onError = yield Await::REJECT;
+		$this->executeSelect($queryName, $args, static function(array[] $rows, SqlColumnInfo $columns) use($onSuccess) : void{
+			$onSuccess($rows);
+		}, $onError);
+		$rows = yield Await::ONCE;
+		return $rows;
+	}
+
+	public function asyncSelectWithInfo(string $queryName, array $args = []) : Generator{
+		$onSuccess = yield Await::RESOLVE;
+		$onError = yield Await::REJECT;
+		$this->executeInsert($queryName, $args, static function(array[] $rows, SqlColumnInfo $columns) use($onSuccess) : void{
+			$onSuccess([$rows, $columns]);
+		}, $onError);
+		$rows = yield Await::ONCE;
+		return $rows;
 	}
 
 	private function executeImpl(string $queryName, array $args, int $mode, callable $handler, ?callable $onError) : void{
