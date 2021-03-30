@@ -24,6 +24,7 @@ namespace poggit\libasynql\base;
 
 use Error;
 use Exception;
+use Generator;
 use InvalidArgumentException;
 use pocketmine\plugin\Plugin;
 use pocketmine\utils\Terminal;
