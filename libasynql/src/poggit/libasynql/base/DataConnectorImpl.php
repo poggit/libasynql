@@ -152,8 +152,8 @@ class DataConnectorImpl implements DataConnector{
 		$onSuccess = yield Await::RESOLVE;
 		$onError = yield Await::REJECT;
 		$this->executeChange($queryName, $args, $onSuccess, $onError);
-		$affectedRows = yield Await::ONCE;
-		return $affectedRows;
+		//Return $affectedRows
+		return yield Await::ONCE;
 	}
 
 	public function executeInsert(string $queryName, array $args = [], ?callable $onInserted = null, ?callable $onError = null) : void{
@@ -178,8 +178,8 @@ class DataConnectorImpl implements DataConnector{
 		$this->executeInsert($queryName, $args, static function(int $insertId, int $affectedRows) use($onSuccess) : void{
 			$onSuccess([$insertId, $affectedRows]);
 		}, $onError);
-		$affectedRows = yield Await::ONCE;
-		return $affectedRows;
+		//Return $affectedRows
+		return yield Await::ONCE;
 	}
 
 	public function executeSelect(string $queryName, array $args = [], ?callable $onSelect = null, ?callable $onError = null) : void{
@@ -201,11 +201,11 @@ class DataConnectorImpl implements DataConnector{
 	public function asyncSelect(string $queryName, array $args = []) : Generator{
 		$onSuccess = yield Await::RESOLVE;
 		$onError = yield Await::REJECT;
-		$this->executeSelect($queryName, $args, static function(array $rows, SqlColumnInfo $columns) use($onSuccess) : void{
+		$this->executeSelect($queryName, $args, static function(array $rows) use($onSuccess) : void{
 			$onSuccess($rows);
 		}, $onError);
-		$rows = yield Await::ONCE;
-		return $rows;
+		//Return $rows
+		return yield Await::ONCE;
 	}
 
 	public function asyncSelectWithInfo(string $queryName, array $args = []) : Generator{
@@ -214,8 +214,8 @@ class DataConnectorImpl implements DataConnector{
 		$this->executeInsert($queryName, $args, static function(array $rows, SqlColumnInfo $columns) use($onSuccess) : void{
 			$onSuccess([$rows, $columns]);
 		}, $onError);
-		$rows = yield Await::ONCE;
-		return $rows;
+		//Return $rows
+		return yield Await::ONCE;
 	}
 
 	private function executeImpl(string $queryName, array $args, int $mode, callable $handler, ?callable $onError) : void{
