@@ -200,7 +200,7 @@ class DataConnectorImpl implements DataConnector{
 	public function asyncSelect(string $queryName, array $args = []) : Generator{
 		$onSuccess = yield Await::RESOLVE;
 		$onError = yield Await::REJECT;
-		$this->executeSelect($queryName, $args, static function(array[] $rows, SqlColumnInfo $columns) use($onSuccess) : void{
+		$this->executeSelect($queryName, $args, static function(array $rows, SqlColumnInfo $columns) use($onSuccess) : void{
 			$onSuccess($rows);
 		}, $onError);
 		$rows = yield Await::ONCE;
@@ -210,7 +210,7 @@ class DataConnectorImpl implements DataConnector{
 	public function asyncSelectWithInfo(string $queryName, array $args = []) : Generator{
 		$onSuccess = yield Await::RESOLVE;
 		$onError = yield Await::REJECT;
-		$this->executeInsert($queryName, $args, static function(array[] $rows, SqlColumnInfo $columns) use($onSuccess) : void{
+		$this->executeInsert($queryName, $args, static function(array $rows, SqlColumnInfo $columns) use($onSuccess) : void{
 			$onSuccess([$rows, $columns]);
 		}, $onError);
 		$rows = yield Await::ONCE;
