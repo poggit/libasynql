@@ -94,8 +94,6 @@ interface DataConnector{
 	/**
 	 * Executes a query that changes data.
 	 *
-	 * This is the await-generator variant. Non await-generator users should not use this function.
-	 *
 	 * @param string        $queryName the {@link GenericPreparedStatement} query name
 	 * @param mixed[]       $args      the variables as defined in the {@link GenericPreparedStatement}
 	 * @param callable|null $onSuccess an optional callback when the query has succeeded: <code>function(int $affectedRows) : void{}</code>
