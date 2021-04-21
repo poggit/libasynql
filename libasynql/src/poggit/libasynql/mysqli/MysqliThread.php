@@ -46,6 +46,7 @@ use function gettype;
 use function implode;
 use function in_array;
 use function is_float;
+use function is_null;
 use function is_int;
 use function is_string;
 use function serialize;
@@ -119,7 +120,8 @@ class MysqliThread extends SqlSlaveThread{
 				throw new SqlError(SqlError::STAGE_PREPARE, $mysqli->error, $query, $params);
 			}
 			$types = implode(array_map(function($param) use ($query, $params){
-				if(is_string($param)){
+				//When the parameter is null, MySQL will automatically handle it independently from the type.
+				if(is_null($param) || is_string($param)){
 					return "s";
 				}
 				if(is_float($param)){
