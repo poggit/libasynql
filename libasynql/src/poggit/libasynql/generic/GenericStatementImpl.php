@@ -103,7 +103,7 @@ abstract class GenericStatementImpl implements GenericStatement, JsonSerializabl
 		$this->query = $query;
 		$this->doc = $doc;
 		$this->variables = $variables;
-		$this->file = str_replace("\\", "/", $file);
+		$this->file = $file !== null ? str_replace("\\", "/", $file) : null;
 		$this->lineNo = $lineNo;
 
 		$this->compilePositions();
