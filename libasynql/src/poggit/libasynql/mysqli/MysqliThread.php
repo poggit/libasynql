@@ -183,7 +183,7 @@ class MysqliThread extends SqlSlaveThread{
 				$type = SqlColumnInfo::TYPE_INT;
 				$columnFunc[$field->name] = function($longLong) use ($field){
 					if($field->flags & MysqlFlags::UNSIGNED_FLAG){
-						if(bccomp($longLong, "9223372036854775807") === 1){
+						if(bccomp(strval($longLong), "9223372036854775807") === 1){
 							$longLong = bcsub($longLong, "18446744073709551616");
 						}
 						return (int) $longLong;
