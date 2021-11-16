@@ -2,3 +2,5 @@
 .sami/
 *.tmp
 *.bak
+vendor/
+composer.phar
