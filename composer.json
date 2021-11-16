@@ -10,5 +10,12 @@
 		"ext-mysqli": "*",
 		"ext-bcmath": "*",
 		"ext-sqlite3": "*"
+	},
+	"autoload": {
+		"psr-4": {
+			"": [
+				"libasynql/src/"
+			]
+		}
 	}
 }
