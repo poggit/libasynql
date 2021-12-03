@@ -1,0 +1,20 @@
+{
+	"name": "reef_network/libasynql",
+	"description": "libasynql for ReefNetwork",
+	"license": "Apache-2.0",
+	"require": {
+		"pocketmine/pocketmine-mp": "4.*",
+		"ext-mbstring": "*",
+		"ext-ctype": "*",
+		"ext-mysqli": "*",
+		"ext-bcmath": "*",
+		"ext-sqlite3": "*"
+	},
+	"autoload": {
+		"psr-4": {
+			"": [
+				"libasynql/src/"
+			]
+		}
+	}
+}
