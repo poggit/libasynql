@@ -5,6 +5,11 @@
         "pocketmine/pocketmine-mp": "^4.0.0"
     },
     "license": "Apache-2.0",
+	"autoload": {
+		"psr-0": {
+			"poggit\\libasynql\\": "libasynql/src/"
+		}
+	},
     "authors": [
         {
             "name": "SOFe",
