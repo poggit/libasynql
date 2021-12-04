@@ -33,6 +33,7 @@ use poggit\libasynql\SqlResult;
 use poggit\libasynql\SqlThread;
 use const PTHREADS_INHERIT_CONSTANTS;
 use const PTHREADS_INHERIT_INI;
+use function assert;
 
 abstract class SqlSlaveThread extends Thread implements SqlThread{
 	/** @var SleeperNotifier */
@@ -79,13 +80,18 @@ abstract class SqlSlaveThread extends Thread implements SqlThread{
 				break;
 			}
 			$this->busy = true;
-			[$queryId, $mode, $query, $params] = unserialize($row, ["allowed_classes" => true]);
+			[$queryId, $mode, $queries, $params] = unserialize($row, ["allowed_classes" => true]);
+
 			try{
-				$result = $this->executeQuery($resource, $mode, $query, $params);
-				$this->bufferRecv->publishResult($queryId, $result);
+				$results = [];
+				foreach($queries as $index => $query) {
+					$results[] = $this->executeQuery($resource, $mode, $query, $params[$index]);
+				}
+				$this->bufferRecv->publishResult($queryId, $results);
 			}catch(SqlError $error){
 				$this->bufferRecv->publishError($queryId, $error);
 			}
+
 			$this->notifier->wakeupSleeper();
 			$this->busy = false;
 		}
@@ -110,17 +116,17 @@ abstract class SqlSlaveThread extends Thread implements SqlThread{
 		parent::quit();
 	}
 
-	public function addQuery(int $queryId, int $mode, string $query, array $params) : void{
-		$this->bufferSend->scheduleQuery($queryId, $mode, $query, $params);
+	public function addQuery(int $queryId, int $mode, array $queries, array $params) : void{
+		$this->bufferSend->scheduleQuery($queryId, $mode, $queries, $params);
 	}
 
 	public function readResults(array &$callbacks) : void{
-		while($this->bufferRecv->fetchResult($queryId, $result)){
+		while($this->bufferRecv->fetchResults($queryId, $results)){
 			if(!isset($callbacks[$queryId])){
 				throw new InvalidArgumentException("Missing handler for query #$queryId");
 			}
 
-			$callbacks[$queryId]($result);
+			$callbacks[$queryId]($results);
 			unset($callbacks[$queryId]);
 		}
 	}

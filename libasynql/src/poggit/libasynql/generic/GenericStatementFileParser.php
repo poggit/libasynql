@@ -54,7 +54,10 @@ class GenericStatementFileParser{
 	private $docLines = [];
 	/** @var GenericVariable[] */
 	private $variables = [];
-	/** @var string[] */
+
+	/** @var string[] the delimited buffers for the current query */
+	private $currentBuffers = [];
+	/** @var string[] the lines for the current delimited query buffer */
 	private $buffer = [];
 
 	/** @var string|null */
@@ -141,6 +144,9 @@ class GenericStatementFileParser{
 			case "{":
 				$this->startCommand($args);
 				return true;
+			case "&":
+				$this->delimiterCommand();
+				return true;
 			case "}":
 				$this->endCommand();
 				return true;
@@ -184,6 +190,18 @@ class GenericStatementFileParser{
 		$this->identifierStack[] = $args[0];
 	}
 
+	private function delimiterCommand() : void{
+		if(!$this->parsingQuery){
+			$this->error("Unexpected &, start a query first");
+		}
+
+		if(count($this->buffer) === 0){
+			$this->error("Encountered delimiter line without any query content");;
+		}
+
+		$this->flushBuffer();
+	}
+
 	private function endCommand() : void{
 		if(count($this->identifierStack) === 0){
 			$this->error("No matching { for }");
@@ -194,12 +212,16 @@ class GenericStatementFileParser{
 				$this->error("Documentation/Variables are declared but no query is provided");
 			}
 
-			$query = implode("\n", $this->buffer);
+			$this->flushBuffer();
+			$buffers = $this->currentBuffers;
+
 			$doc = implode("\n", $this->docLines); // double line breaks => single line breaks
 			assert($this->knownDialect !== null);
-			$stmt = GenericStatementImpl::forDialect($this->knownDialect, implode(".", $this->identifierStack), $query, $doc, $this->variables, $this->fileName, $this->lineNo);
+			$stmt = GenericStatementImpl::forDialect($this->knownDialect, implode(".", $this->identifierStack), $buffers, $doc, $this->variables, $this->fileName, $this->lineNo);
+
 			$this->docLines = [];
 			$this->variables = [];
+			$this->currentBuffers = [];
 			$this->buffer = [];
 			$this->parsingQuery = false;
 
@@ -210,6 +232,12 @@ class GenericStatementFileParser{
 		} // end query
 
 		array_pop($this->identifierStack);
+	}
+
+	private function flushBuffer() : void {
+		$buffer = implode("\n", $this->buffer);
+		$this->currentBuffers[] = $buffer;
+		$this->buffer = [];
 	}
 
 	private function varCommand(array $args, string $line, array $argOffsets) : void{

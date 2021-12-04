@@ -89,8 +89,8 @@ class SqlThreadPool implements SqlThread{
 		}
 	}
 
-	public function addQuery(int $queryId, int $mode, string $query, array $params) : void{
-		$this->bufferSend->scheduleQuery($queryId, $mode, $query, $params);
+	public function addQuery(int $queryId, int $mode, array $queries, array $params) : void{
+		$this->bufferSend->scheduleQuery($queryId, $mode, $queries, $params);
 
 		// check if we need to increase worker size
 		foreach($this->workers as $worker){
@@ -104,12 +104,12 @@ class SqlThreadPool implements SqlThread{
 	}
 
 	public function readResults(array &$callbacks) : void{
-		while($this->bufferRecv->fetchResult($queryId, $result)){
+		while($this->bufferRecv->fetchResults($queryId, $results)){
 			if(!isset($callbacks[$queryId])){
 				throw new InvalidArgumentException("Missing handler for query #$queryId");
 			}
 
-			$callbacks[$queryId]($result);
+			$callbacks[$queryId]($results);
 			unset($callbacks[$queryId]);
 		}
 	}

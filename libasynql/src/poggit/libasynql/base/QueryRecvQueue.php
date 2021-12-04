@@ -30,18 +30,21 @@ use function serialize;
 use function unserialize;
 
 class QueryRecvQueue extends Threaded{
-	public function publishResult(int $queryId, SqlResult $result) : void{
-		$this[] = serialize([$queryId, $result]);
+	/**
+	 * @param SqlResult[] $results
+	 */
+	public function publishResult(int $queryId, array $results) : void{
+		$this[] = serialize([$queryId, $results]);
 	}
 
 	public function publishError(int $queryId, SqlError $error) : void{
 		$this[] = serialize([$queryId, $error]);
 	}
 
-	public function fetchResult(&$queryId, &$result) : bool{
+	public function fetchResults(&$queryId, &$results) : bool{
 		$row = $this->shift();
 		if(is_string($row)){
-			[$queryId, $result] = unserialize($row, ["allowed_classes" => true]);
+			[$queryId, $results] = unserialize($row, ["allowed_classes" => true]);
 			return true;
 		}
 		return false;

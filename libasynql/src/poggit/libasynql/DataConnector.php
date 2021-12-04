@@ -90,10 +90,13 @@ interface DataConnector{
 	 */
 	public function executeGeneric(string $queryName, array $args = [], ?callable $onSuccess = null, ?callable $onError = null) : void;
 
-	public function executeGenericRaw(string $query, array $args = [], ?callable $onSuccess = null, ?callable $onError = null) : void;
+	public function executeGenericRaw(array $queries, array $args = [], ?callable $onSuccess = null, ?callable $onError = null) : void;
 
 	/**
 	 * Executes a query that changes data.
+	 *
+	 * If multiple delimited queries exist in the query, they will be executed in order, but only the last result will be returned.
+	 * The last statement must be a change query.
 	 *
 	 * @param string        $queryName the {@link GenericPreparedStatement} query name
 	 * @param mixed[]       $args      the variables as defined in the {@link GenericPreparedStatement}
@@ -102,10 +105,13 @@ interface DataConnector{
 	 */
 	public function executeChange(string $queryName, array $args = [], ?callable $onSuccess = null, ?callable $onError = null) : void;
 
-	public function executeChangeRaw(string $query, array $args = [], ?callable $onSuccess = null, ?callable $onError = null) : void;
+	public function executeChangeRaw(array $queries, array $args = [], ?callable $onSuccess = null, ?callable $onError = null) : void;
 
 	/**
 	 * Executes an insert query that results in an insert ID.
+	 *
+	 * If multiple delimited queries exist in the query, they will be executed in order, but only the last result will be returned.
+	 * The last statement must be an insert query.
 	 *
 	 * @param string        $queryName  the {@link GenericPreparedStatement} query name
 	 * @param mixed[]       $args       the variables as defined in the {@link GenericPreparedStatement}
@@ -114,10 +120,13 @@ interface DataConnector{
 	 */
 	public function executeInsert(string $queryName, array $args = [], ?callable $onInserted = null, ?callable $onError = null) : void;
 
-	public function executeInsertRaw(string $query, array $args = [], ?callable $onInserted = null, ?callable $onError = null) : void;
+	public function executeInsertRaw(array $queries, array $args = [], ?callable $onInserted = null, ?callable $onError = null) : void;
 
 	/**
 	 * Executes a select query that returns an SQL result set. This does not strictly need to be SELECT queries -- reflection queries like MySQL's <code>SHOW TABLES</code> query are also allowed.
+	 *
+	 * If multiple delimited queries exist in the query, they will be executed in order, but only the last result will be returned.
+	 * The last statement must be a select query (or e.g. <code>SHOW TABLES</code> queries).
 	 *
 	 * @param string        $queryName the {@link GenericPreparedStatement} query name
 	 * @param mixed[]       $args      the variables as defined in the {@link GenericPreparedStatement}
@@ -126,7 +135,17 @@ interface DataConnector{
 	 */
 	public function executeSelect(string $queryName, array $args = [], ?callable $onSelect = null, ?callable $onError = null) : void;
 
-	public function executeSelectRaw(string $query, array $args = [], ?callable $onSelect = null, ?callable $onError = null) : void;
+	public function executeSelectRaw(array $queries, array $args = [], ?callable $onSelect = null, ?callable $onError = null) : void;
+
+	/**
+	 * Executes a query with probably multiple delimited queries, and returns an array of {@link SqlResult}s mapping to each query.
+	 *
+	 * @param string        $queryName the {@link GenericPreparedStatement} query name
+	 * @param mixed[]       $args      the variables as defined in the {@link GenericPreparedStatement}
+	 * @param callable|null $onSelect  an optional callback when the query has succeeded: <code>function(SqlResult[] $results) : void{}</code>
+	 * @param callable|null $onError   an optional callback when the query has failed: <code>function({@link SqlError} $error) : void{}</code>
+	 */
+	public function executeMulti(string $queryName, array $args, int $mode, ?callable $handler = null, ?callable $onError = null) : void{
 
 	/**
 	 * This function waits all pending queries to complete then returns. This is as if the queries were executed in blocking mode (not async).
