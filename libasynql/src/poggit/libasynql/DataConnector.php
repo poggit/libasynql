@@ -145,7 +145,7 @@ interface DataConnector{
 	 * @param callable|null $onSelect  an optional callback when the query has succeeded: <code>function(SqlResult[] $results) : void{}</code>
 	 * @param callable|null $onError   an optional callback when the query has failed: <code>function({@link SqlError} $error) : void{}</code>
 	 */
-	public function executeMulti(string $queryName, array $args, int $mode, ?callable $handler = null, ?callable $onError = null) : void{
+	public function executeMulti(string $queryName, array $args, int $mode, ?callable $handler = null, ?callable $onError = null) : void;
 
 	/**
 	 * This function waits all pending queries to complete then returns. This is as if the queries were executed in blocking mode (not async).
