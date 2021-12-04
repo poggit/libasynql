@@ -23,6 +23,7 @@ declare(strict_types=1);
 namespace poggit\libasynql;
 
 use InvalidArgumentException;
+use pocketmine\plugin\PluginLogger;
 use poggit\libasynql\generic\GenericStatementFileParseException;
 
 /**
@@ -30,26 +31,40 @@ use poggit\libasynql\generic\GenericStatementFileParseException;
  */
 interface DataConnector{
 	/**
-	 * Sets whether the queries are being logged. Only effective when libasynql is not packaged; does nothing if libasynql is packaged.
+	 * If true, logger is set to the plugin logger. If false, queries are not logged.
 	 *
 	 * @param bool $loggingQueries
 	 */
 	public function setLoggingQueries(bool $loggingQueries) : void;
 
 	/**
-	 * Returns whether the queries are being logged. Always returns false when libasynql is packaged.
+	 * Returns whether the logger is not null, i.e. queries are being logged.
 	 *
 	 * @return bool
 	 */
 	public function isLoggingQueries() : bool;
 
 	/**
+	 * Sets the logger used to log queries, or null to not log queries
+	 *
+	 * @param PluginLogger|null $logger
+	 */
+	public function setLogger(?PluginLogger $logger) : void;
+
+	/**
+	 * Returns the logger used to log queries, or null if not logging queries
+	 *
+	 * @return PluginLogger|null
+	 */
+	public function getLogger() : ?PluginLogger;
+
+	/**
 	 * Loads pre-formatted queries from a readable stream resource.
 	 *
 	 * The implementation will close the stream after reading.
 	 *
-	 * @param resource $fh       a stream that supports <code>feof()</code>, <code>fgets()</code> and <code>fclose()</code>.
-	 * @param string   $fileName the filename providing the stream, only used for debugging and documentation purposes
+	 * @param resource    $fh       a stream that supports <code>feof()</code>, <code>fgets()</code> and <code>fclose()</code>.
+	 * @param string|null $fileName the filename providing the stream, only used for debugging and documentation purposes
 	 *
 	 * @throws GenericStatementFileParseException if the file contains a syntax error or compile error
 	 * @throws InvalidArgumentException if the file introduces statements that duplicate the names of those previously loaded

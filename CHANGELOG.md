@@ -1,5 +1,17 @@
 # Changelog
 
+## [3.4.0](https://github.com/poggit/libasynql/compare/v3.3.1...v3.4.0)
+The next minor version after 3.3.1
+
+### Added
+- Show proper error message when passed resource sql files are not found
+- Ability to set custom logger
+
+### Fixed
+- Fixed invalid resource filename
+- Fixed SQL map size with 0 elements
+- Compatibility with 4.0.0
+
 ## [3.3.1](https://github.com/poggit/libasynql/compare/v3.3.0...v3.3.1)
 The next patch version after 3.3.0
 

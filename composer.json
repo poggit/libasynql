@@ -1,0 +1,14 @@
+{
+    "name": "sofe/libasynql",
+    "type": "library",
+    "require": {
+        "pocketmine/pocketmine-mp": "^4.0.0"
+    },
+    "license": "Apache-2.0",
+    "authors": [
+        {
+            "name": "SOFe",
+            "email": "sofe2038@gmail.com"
+        }
+    ]
+}
