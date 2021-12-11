@@ -37,11 +37,11 @@ final class PsfGroup {
 		return $this->prefix;
 	}
 
-	public function addGroup(PsfGroup $group) {
+	public function addGroup(PsfGroup $group) : void {
 		$this->groups[] = $group;
 	}
 
-	public function addQuery(PsfQuery $query) {
+	public function addQuery(PsfQuery $query) : void {
 		$this->queries[] = $query;
 	}
 

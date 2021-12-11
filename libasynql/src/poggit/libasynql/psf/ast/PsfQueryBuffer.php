@@ -36,4 +36,11 @@ final class PsfQueryBuffer {
 	public function getComponents(): array {
 		return $this->components;
 	}
+
+	/**
+	 * @param list<PsfBufferComponent> $components
+	 */
+	public function setComponents(array $components): void {
+		$this->components = $components;
+	}
 }

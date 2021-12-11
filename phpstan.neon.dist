@@ -1,0 +1,4 @@
+parameters:
+	level: 8
+	paths:
+		- libasynql/src/poggit/libasynql/psf

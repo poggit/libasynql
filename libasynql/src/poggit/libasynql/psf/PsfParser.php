@@ -122,7 +122,7 @@ final class PsfParser {
 					$doc = new PsfQueryDoc($line);
 					$query->addDoc($doc);
 				} elseif($command === "}") {
-					return;
+					break;
 				} elseif($command === "&") {
 					$buffer = new PsfQueryBuffer;
 					$query->addQueryBuffer($buffer);
@@ -160,6 +160,9 @@ final class PsfParser {
 					}
 				}
 			}
+		}
+
+		foreach($query->getQueryBuffers() as $buffer) {
 		}
 	}
 

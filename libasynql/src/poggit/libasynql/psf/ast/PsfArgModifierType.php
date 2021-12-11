@@ -26,7 +26,7 @@ use poggit\libasynql\psf\StringStream;
 
 use function strpos;
 
-final class PsfArgModifierType {
+final class PsfArgModifierType implements PsfArgType {
 	public const MODIFIER_LIST = "list:";
 	public const MODIFIER_OPTIONAL = "optional:";
 
