@@ -3,11 +3,20 @@
     "type": "library",
     "require": {
         "pocketmine/pocketmine-mp": "^4.0.0"
+	},
+    "require-dev": {
+		"phpunit/phpunit": "^9",
+		"phpstan/phpstan": "^0.12.84"
     },
     "license": "Apache-2.0",
 	"autoload": {
 		"psr-0": {
 			"poggit\\libasynql\\": "libasynql/src/"
+		}
+	},
+	"autoload-dev": {
+		"psr-4": {
+			"poggit\\libasynql\\tests\\": "tests/"
 		}
 	},
     "authors": [

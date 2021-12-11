@@ -1,0 +1,61 @@
+<?php
+
+/*
+ * libasynql
+ *
+ * Copyright (C) 2018 SOFe
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+declare(strict_types=1);
+
+namespace poggit\libasynql\psf\ast;
+
+final class PsfGroup {
+	/** @var list<PsfGroup> */
+	private array $groups = [];
+
+	/** @var list<PsfQuery> */
+	private array $queries = [];
+
+	public function __construct(
+		private string $prefix,
+	) {}
+
+	public function getPrefix(): string {
+		return $this->prefix;
+	}
+
+	public function addGroup(PsfGroup $group) {
+		$this->groups[] = $group;
+	}
+
+	public function addQuery(PsfQuery $query) {
+		$this->queries[] = $query;
+	}
+
+	/**
+	 * @return list<PsfGroup>
+	 */
+	public function getGroups(): array {
+		return $this->groups;
+	}
+
+	/**
+	 * @return list<PsfQuery>
+	 */
+	public function getQueries(): array {
+		return $this->queries;
+	}
+}
