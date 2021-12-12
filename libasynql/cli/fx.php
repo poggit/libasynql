@@ -262,7 +262,7 @@ foreach($results as $queryName => $stmts){
 			}
 			$argList .= ", ";
 
-			$descLine[] = "@param $varDocType \$$varName";
+			$descLines[] = "@param $varDocType \$$varName";
 		}
 	}
 	if(stripos(trim($stmt->getQuery()), "select") === 0) {
