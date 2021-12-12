@@ -265,10 +265,11 @@ foreach($results as $queryName => $stmts){
 			$descLines[] = "@param $varDocType \$$varName";
 		}
 	}
-	if(stripos(trim($stmt->getQuery()), "select") === 0) {
+	$lastQuery = trim($stmt->getQuery()[count($stmt->getQuery()) - 1]);
+	if(stripos($lastQuery, "select") === 0) {
 		$execute = "executeSelect";
 		$return = "list<array<string, mixed>>";
-	} elseif(stripos(trim($stmt->getQuery()), "insert") === 0) {
+	} elseif(stripos($lastQuery, "insert") === 0) {
 		$execute = "executeInsert";
 		$return = "int";
 	} else {
