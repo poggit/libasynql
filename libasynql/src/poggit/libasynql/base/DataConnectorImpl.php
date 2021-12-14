@@ -122,7 +122,7 @@ class DataConnectorImpl implements DataConnector{
 		}, $onError);
 	}
 
-	public function executeGenericRaw(array $queries, array $args = [], ?callable $onSuccess = null, ?callable $onError = null) : void{
+	public function executeGenericRaw(array $queries, array $args = [[]], ?callable $onSuccess = null, ?callable $onError = null) : void{
 		$this->executeImplRaw($queries, $args, SqlThread::MODE_GENERIC, static function() use ($onSuccess){
 			if($onSuccess !== null){
 				$onSuccess();
@@ -138,10 +138,10 @@ class DataConnectorImpl implements DataConnector{
 		}, $onError);
 	}
 
-	public function executeChangeRaw(array $queries, array $args = [], ?callable $onSuccess = null, ?callable $onError = null) : void{
-		$this->executeImplRaw($queries, $args, SqlThread::MODE_CHANGE, static function(SqlChangeResult $result) use ($onSuccess){
+	public function executeChangeRaw(array $queries, array $args = [[]], ?callable $onSuccess = null, ?callable $onError = null) : void{
+		$this->executeImplRaw($queries, $args, SqlThread::MODE_CHANGE, static function(array $results) use ($onSuccess){
 			if($onSuccess !== null){
-				$onSuccess($result->getAffectedRows());
+				$onSuccess(array_map(fn($result) => $result->getAffectedRows(), $results));
 			}
 		}, $onError);
 	}
@@ -154,10 +154,10 @@ class DataConnectorImpl implements DataConnector{
 		}, $onError);
 	}
 
-	public function executeInsertRaw(array $queries, array $args = [], ?callable $onInserted = null, ?callable $onError = null) : void{
-		$this->executeImplRaw($queries, $args, SqlThread::MODE_INSERT, static function(SqlInsertResult $result) use ($onInserted){
+	public function executeInsertRaw(array $queries, array $args = [[]], ?callable $onInserted = null, ?callable $onError = null) : void{
+		$this->executeImplRaw($queries, $args, SqlThread::MODE_INSERT, static function(array $results) use ($onInserted){
 			if($onInserted !== null){
-				$onInserted($result->getInsertId(), $result->getAffectedRows());
+				$onInserted(array_map(fn($result) => $result->getInsertId(), $results));
 			}
 		}, $onError);
 	}
@@ -170,10 +170,10 @@ class DataConnectorImpl implements DataConnector{
 		}, $onError);
 	}
 
-	public function executeSelectRaw(array $queries, array $args = [], ?callable $onSelect = null, ?callable $onError = null) : void{
-		$this->executeImplRaw($queries, $args, SqlThread::MODE_SELECT, static function(SqlSelectResult $result) use ($onSelect){
+	public function executeSelectRaw(array $queries, array $args = [[]], ?callable $onSelect = null, ?callable $onError = null) : void{
+		$this->executeImplRaw($queries, $args, SqlThread::MODE_SELECT, static function(array $results) use ($onSelect){
 			if($onSelect !== null){
-				$onSelect($result->getRows(), $result->getColumnInfo());
+				$onSelect(array_map(fn($result) => $result->getRows(), $results));
 			}
 		}, $onError);
 	}
