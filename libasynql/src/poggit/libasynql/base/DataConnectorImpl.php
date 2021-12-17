@@ -25,8 +25,8 @@ namespace poggit\libasynql\base;
 use Error;
 use Exception;
 use InvalidArgumentException;
+use Logger;
 use pocketmine\plugin\Plugin;
-use pocketmine\plugin\PluginLogger;
 use pocketmine\utils\Terminal;
 use poggit\libasynql\DataConnector;
 use poggit\libasynql\generic\GenericStatementFileParser;
@@ -52,7 +52,7 @@ class DataConnectorImpl implements DataConnector{
 	private $plugin;
 	/** @var SqlThread */
 	private $thread;
-	/** @var PluginLogger|null */
+	/** @var Logger|null */
 	private $logger;
 	/** @var GenericStatement[] */
 	private $queries = [];
@@ -87,11 +87,11 @@ class DataConnectorImpl implements DataConnector{
 		return $this->logger !== null;
 	}
 
-	public function getLogger() : ?PluginLogger{
+	public function getLogger() : ?Logger{
 		return $this->logger;
 	}
 
-	public function setLogger(?PluginLogger $logger) : void{
+	public function setLogger(?Logger $logger) : void{
 		$this->logger = $logger;
 	}
 
