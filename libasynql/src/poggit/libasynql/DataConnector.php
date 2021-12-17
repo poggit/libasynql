@@ -90,8 +90,6 @@ interface DataConnector{
 	 */
 	public function executeGeneric(string $queryName, array $args = [], ?callable $onSuccess = null, ?callable $onError = null) : void;
 
-	public function executeGenericRaw(array $queries, array $args = [], ?callable $onSuccess = null, ?callable $onError = null) : void;
-
 	/**
 	 * Executes a query that changes data.
 	 *
@@ -104,8 +102,6 @@ interface DataConnector{
 	 * @param callable|null $onError   an optional callback when the query has failed: <code>function({@link SqlError} $error) : void{}</code>
 	 */
 	public function executeChange(string $queryName, array $args = [], ?callable $onSuccess = null, ?callable $onError = null) : void;
-
-	public function executeChangeRaw(array $queries, array $args = [], ?callable $onSuccess = null, ?callable $onError = null) : void;
 
 	/**
 	 * Executes an insert query that results in an insert ID.
@@ -120,8 +116,6 @@ interface DataConnector{
 	 */
 	public function executeInsert(string $queryName, array $args = [], ?callable $onInserted = null, ?callable $onError = null) : void;
 
-	public function executeInsertRaw(array $queries, array $args = [], ?callable $onInserted = null, ?callable $onError = null) : void;
-
 	/**
 	 * Executes a select query that returns an SQL result set. This does not strictly need to be SELECT queries -- reflection queries like MySQL's <code>SHOW TABLES</code> query are also allowed.
 	 *
@@ -135,8 +129,6 @@ interface DataConnector{
 	 */
 	public function executeSelect(string $queryName, array $args = [], ?callable $onSelect = null, ?callable $onError = null) : void;
 
-	public function executeSelectRaw(array $queries, array $args = [], ?callable $onSelect = null, ?callable $onError = null) : void;
-
 	/**
 	 * Executes a query with probably multiple delimited queries, and returns an array of {@link SqlResult}s mapping to each query.
 	 *
@@ -146,6 +138,13 @@ interface DataConnector{
 	 * @param callable|null $onError   an optional callback when the query has failed: <code>function({@link SqlError} $error) : void{}</code>
 	 */
 	public function executeMulti(string $queryName, array $args, int $mode, ?callable $handler = null, ?callable $onError = null) : void;
+
+	/**
+	 * @param string[] $queries
+	 * @param mixed[][] $args
+	 * @param int[] $modes
+	 */
+	public function executeImplRaw(array $queries, array $args, array $modes, callable $handler, ?callable $onError) : void;
 
 	/**
 	 * This function waits all pending queries to complete then returns. This is as if the queries were executed in blocking mode (not async).

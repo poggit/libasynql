@@ -48,7 +48,7 @@ interface SqlThread{
 	 * @param string[] $query
 	 * @param mixed[]  $params
 	 */
-	public function addQuery(int $queryId, int $mode, array $queries, array $params) : void;
+	public function addQuery(int $queryId, array $modes, array $queries, array $params) : void;
 
 	/**
 	 * Handles the results that this query has completed

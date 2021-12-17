@@ -80,12 +80,12 @@ abstract class SqlSlaveThread extends Thread implements SqlThread{
 				break;
 			}
 			$this->busy = true;
-			[$queryId, $mode, $queries, $params] = unserialize($row, ["allowed_classes" => true]);
+			[$queryId, $modes, $queries, $params] = unserialize($row, ["allowed_classes" => true]);
 
 			try{
 				$results = [];
 				foreach($queries as $index => $query) {
-					$results[] = $this->executeQuery($resource, $mode, $query, $params[$index]);
+					$results[] = $this->executeQuery($resource, $modes[$index], $query, $params[$index]);
 				}
 				$this->bufferRecv->publishResult($queryId, $results);
 			}catch(SqlError $error){
@@ -116,8 +116,8 @@ abstract class SqlSlaveThread extends Thread implements SqlThread{
 		parent::quit();
 	}
 
-	public function addQuery(int $queryId, int $mode, array $queries, array $params) : void{
-		$this->bufferSend->scheduleQuery($queryId, $mode, $queries, $params);
+	public function addQuery(int $queryId, array $modes, array $queries, array $params) : void{
+		$this->bufferSend->scheduleQuery($queryId, $modes, $queries, $params);
 	}
 
 	public function readResults(array &$callbacks) : void{

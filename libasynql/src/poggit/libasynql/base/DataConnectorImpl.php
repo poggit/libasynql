@@ -39,6 +39,7 @@ use poggit\libasynql\SqlError;
 use poggit\libasynql\SqlThread;
 use ReflectionClass;
 use TypeError;
+use function array_fill;
 use function array_merge;
 use function array_pop;
 use function count;
@@ -122,26 +123,10 @@ class DataConnectorImpl implements DataConnector{
 		}, $onError);
 	}
 
-	public function executeGenericRaw(array $queries, array $args = [[]], ?callable $onSuccess = null, ?callable $onError = null) : void{
-		$this->executeImplRaw($queries, $args, SqlThread::MODE_GENERIC, static function() use ($onSuccess){
-			if($onSuccess !== null){
-				$onSuccess();
-			}
-		}, $onError);
-	}
-
 	public function executeChange(string $queryName, array $args = [], ?callable $onSuccess = null, ?callable $onError = null) : void{
 		$this->executeImplLast($queryName, $args, SqlThread::MODE_CHANGE, static function(SqlChangeResult $result) use ($onSuccess){
 			if($onSuccess !== null){
 				$onSuccess($result->getAffectedRows());
-			}
-		}, $onError);
-	}
-
-	public function executeChangeRaw(array $queries, array $args = [[]], ?callable $onSuccess = null, ?callable $onError = null) : void{
-		$this->executeImplRaw($queries, $args, SqlThread::MODE_CHANGE, static function(array $results) use ($onSuccess){
-			if($onSuccess !== null){
-				$onSuccess(array_map(fn($result) => $result->getAffectedRows(), $results));
 			}
 		}, $onError);
 	}
@@ -154,26 +139,10 @@ class DataConnectorImpl implements DataConnector{
 		}, $onError);
 	}
 
-	public function executeInsertRaw(array $queries, array $args = [[]], ?callable $onInserted = null, ?callable $onError = null) : void{
-		$this->executeImplRaw($queries, $args, SqlThread::MODE_INSERT, static function(array $results) use ($onInserted){
-			if($onInserted !== null){
-				$onInserted(array_map(fn($result) => $result->getInsertId(), $results));
-			}
-		}, $onError);
-	}
-
 	public function executeSelect(string $queryName, array $args = [], ?callable $onSelect = null, ?callable $onError = null) : void{
 		$this->executeImplLast($queryName, $args, SqlThread::MODE_SELECT, static function(SqlSelectResult $result) use ($onSelect){
 			if($onSelect !== null){
 				$onSelect($result->getRows(), $result->getColumnInfo());
-			}
-		}, $onError);
-	}
-
-	public function executeSelectRaw(array $queries, array $args = [[]], ?callable $onSelect = null, ?callable $onError = null) : void{
-		$this->executeImplRaw($queries, $args, SqlThread::MODE_SELECT, static function(array $results) use ($onSelect){
-			if($onSelect !== null){
-				$onSelect(array_map(fn($result) => $result->getRows(), $results));
 			}
 		}, $onError);
 	}
@@ -199,10 +168,18 @@ class DataConnectorImpl implements DataConnector{
 
 		$queries = $this->queries[$queryName]->format($args, $this->placeHolder, $outArgs);
 
-		$this->executeImplRaw($queries, $outArgs, $mode, $handler, $onError);
+		$modes = array_fill(0, count($queries), SqlThread::MODE_GENERIC);
+		$modes[count($modes) - 1] = $mode;
+
+		$this->executeImplRaw($queries, $outArgs, $modes, $handler, $onError);
 	}
 
-	private function executeImplRaw(array $queries, array $args, int $mode, callable $handler, ?callable $onError) : void{
+	/**
+	 * @param string[] $queries
+	 * @param mixed[][] $args
+	 * @param int[] $modes
+	 */
+	public function executeImplRaw(array $queries, array $args, array $modes, callable $handler, ?callable $onError) : void{
 		$queryId = $this->queryId++;
 		$trace = libasynql::isPackaged() ? null : new Exception("(This is the original stack trace for the following error)");
 		$this->handlers[$queryId] = function($results) use ($handler, $onError, $trace){
@@ -255,11 +232,12 @@ class DataConnectorImpl implements DataConnector{
 
 		if($this->logger !== null){
 			foreach($queries as $index => $query) {
+				$mode = $modes[$index];
 				$this->logger->debug("Queuing mode-$mode query: " . str_replace(["\r\n", "\n"], "\\n ", $query) . " | Args: " . json_encode($args[$index]));
 			}
 		}
 
-		$this->thread->addQuery($queryId, $mode, $queries, $args);
+		$this->thread->addQuery($queryId, $modes, $queries, $args);
 	}
 
 	private function reportError(?callable $default, SqlError $error, ?Exception $trace) : void{
