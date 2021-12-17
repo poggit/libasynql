@@ -46,6 +46,8 @@ abstract class GenericStatementImpl implements GenericStatement, JsonSerializabl
 	/** @var string */
 	protected $doc;
 	/** @var GenericVariable[] */
+	protected $orderedVariables;
+	/** @var GenericVariable[] */
 	protected $variables;
 	/** @var string|null */
 	protected $file;
@@ -65,6 +67,10 @@ abstract class GenericStatementImpl implements GenericStatement, JsonSerializabl
 
 	public function getDoc() : string{
 		return $this->doc;
+	}
+
+	public function getOrderedVariables() : array{
+		return $this->orderedVariables;
 	}
 
 	public function getVariables() : array{
@@ -102,6 +108,7 @@ abstract class GenericStatementImpl implements GenericStatement, JsonSerializabl
 		$this->name = $name;
 		$this->query = $query;
 		$this->doc = $doc;
+		$this->orderedVariables = $variables;
 		$this->variables = $variables;
 		$this->file = $file !== null ? str_replace("\\", "/", $file) : null;
 		$this->lineNo = $lineNo;

@@ -188,7 +188,7 @@ foreach($results as $queryName => $stmts){
 	/** @var GenericStatement $stmt0 */
 	$stmt0 = array_values($stmts)[0];
 	$file0 = array_keys($stmts)[0];
-	$variables = $vars0 = $stmt0->getVariables();
+	$variables = $vars0 = $stmt0->getOrderedVariables();
 	$varFiles = [];
 	foreach($variables as $varName => $variable){
 		$varFiles[$varName] = [$file0 => $variable->isOptional()];
@@ -197,7 +197,7 @@ foreach($results as $queryName => $stmts){
 		if($file === $file0){
 			continue;
 		}
-		$vars = $stmt->getVariables();
+		$vars = $stmt->getOrderedVariables();
 		foreach($vars0 as $varName => $var0){
 			if(isset($vars[$varName])){
 				/** @noinspection NotOptimalIfConditionsInspection */

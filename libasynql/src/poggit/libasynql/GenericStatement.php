@@ -44,6 +44,13 @@ interface GenericStatement{
 	public function getDoc() : string;
 
 	/**
+	 * The variable list ordered by original declaration order
+	 *
+	 * @return GenericVariable[]
+	 */
+	public function getOrderedVariables() : array;
+
+	/**
 	 * Returns the variables required by this statement
 	 *
 	 * @return GenericVariable[]
