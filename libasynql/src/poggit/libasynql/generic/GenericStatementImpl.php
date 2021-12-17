@@ -123,12 +123,12 @@ abstract class GenericStatementImpl implements GenericStatement, JsonSerializabl
 
 		$usedNames = [];
 
-		$positions = [];
-		$quotesState = null;
-
 		$newQuery = [];
 
 		foreach($this->query as $bufferId => $buffer) {
+			$positions = [];
+			$quotesState = null;
+
 			$this->varPositions[$bufferId] = [];
 
 			for($i = 1, $iMax = mb_strlen($buffer); $i < $iMax; ++$i){
