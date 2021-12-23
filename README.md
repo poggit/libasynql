@@ -65,19 +65,19 @@ class Main extends PluginBase{
 ```
 
 The [`\poggit\libasynql\libasynql::create()`](https://poggit.github.io/libasynql/doxygen/classpoggit_1_1libasynql_1_1libasynql.html#add1449f8fef87cc275a3d99f2440c642) method accepts 3 parameters:
-- Your plugin main
-- The config entry where the database settings should be found
-- An array for your SQL files. For each SQL dialect you are supporting, use it as the key, and use the path (or array of paths, relative to the `resources` folder) of the SQL files as the value. We are going to create them in the next step.
+- Your plugin main (rasically `$this` if the code runs in onEnable())
+- The config entry where the database settings should be found (read the example from both)
+- An array for your SQL files. For each SQL dialect you are supporting, use it as the key, and use the path (or array of paths, relative to the `resources` folder) of the SQL files as the value. We are going to create them in the [next step](#creating-sql-files).
 
-It returns a [`\poggit\libasynql\DataConnector`](https://poggit.github.io/libasynql/doxygen/interfacepoggit_1_1libasynql_1_1_data_connector.html) object, which is the main query interface.
+It returns a [`\poggit\libasynql\DataConnector`](https://poggit.github.io/libasynql/doxygen/interfacepoggit_1_1libasynql_1_1_data_connector.html) object, which is the main query interface. You may store this object in a property for later use, `$this->database` for example.
 
-In case of error, a ConfigException or an SqlError will be thrown. If not caught by the plugin, this will go straight out of onEnable() and disable the plugin. Therefore, make sure to check `isset($this->database)` before calling `$this->database->close()` in onDisable().
+In case of error, a ConfigException or an SqlError will be thrown. If not caught by the plugin, this will go straight out of onEnable() and disable the plugin. **Therefore, make sure to check `isset($this->database)` before calling `$this->database->close()` in onDisable().**
 
 ### Creating SQL files
 In the resources file, create one file for each SQL dialect you are supporting, e.g. `resources/sqlite.sql` and `resources/mysql.sql`.
 
 #### Do I save the SQL files to the plugin data folder?
-No, you don't have to copy the SQL files to the plugin data folder. The files are read by libasynql from the resources folder directly.
+No, you **don't** have to copy the SQL files to the plugin data folder (``$this->saveResource("$name.sql")``). The files are read by libasynql from the resources folder directly.
 
 Write down all the queries you are going to use in each file, using the [Prepared Statement File format](#prepared-statement-file-format).
 
@@ -210,6 +210,7 @@ A numeric value that can be parsed by [`(float)` cast, equivalent to `floatval`]
 #### Example of using variables
 ##### SQL file
 ```sql
+-- #! sqlite
 -- #{ example
 -- #    { insert
 -- # 	  :foo string
