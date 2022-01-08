@@ -26,6 +26,7 @@ use Error;
 use Exception;
 use Generator;
 use InvalidArgumentException;
+use Logger;
 use pocketmine\plugin\Plugin;
 use pocketmine\utils\Terminal;
 use poggit\libasynql\DataConnector;
@@ -41,6 +42,7 @@ use poggit\libasynql\SqlThread;
 use ReflectionClass;
 use SOFe\AwaitGenerator\Await;
 use TypeError;
+use function array_fill;
 use function array_merge;
 use function array_pop;
 use function count;
@@ -54,8 +56,8 @@ class DataConnectorImpl implements DataConnector{
 	private $plugin;
 	/** @var SqlThread */
 	private $thread;
-	/** @var bool */
-	private $loggingQueries;
+	/** @var Logger|null */
+	private $logger;
 	/** @var GenericStatement[] */
 	private $queries = [];
 	/** @var callable[] */
@@ -77,16 +79,24 @@ class DataConnectorImpl implements DataConnector{
 			$thread->setDataConnector($this);
 		}
 		$this->thread = $thread;
-		$this->loggingQueries = $logQueries;
+		$this->logger = $logQueries ? $plugin->getLogger() : null;
 		$this->placeHolder = $placeHolder;
 	}
 
 	public function setLoggingQueries(bool $loggingQueries) : void{
-		$this->loggingQueries = !libasynql::isPackaged() && $loggingQueries;
+		$this->logger = $loggingQueries ? $this->plugin->getLogger() : null;
 	}
 
 	public function isLoggingQueries() : bool{
-		return $this->loggingQueries;
+		return $this->logger !== null;
+	}
+
+	public function getLogger() : ?Logger{
+		return $this->logger;
+	}
+
+	public function setLogger(?Logger $logger) : void{
+		$this->logger = $logger;
 	}
 
 	public function loadQueryFile($fh, string $fileName = null) : void{
@@ -109,15 +119,7 @@ class DataConnectorImpl implements DataConnector{
 	}
 
 	public function executeGeneric(string $queryName, array $args = [], ?callable $onSuccess = null, ?callable $onError = null) : void{
-		$this->executeImpl($queryName, $args, SqlThread::MODE_GENERIC, function() use ($onSuccess){
-			if($onSuccess !== null){
-				$onSuccess();
-			}
-		}, $onError);
-	}
-
-	public function executeGenericRaw(string $query, array $args = [], ?callable $onSuccess = null, ?callable $onError = null) : void{
-		$this->executeImplRaw($query, $args, SqlThread::MODE_GENERIC, function() use ($onSuccess){
+		$this->executeImplLast($queryName, $args, SqlThread::MODE_GENERIC, static function() use ($onSuccess){
 			if($onSuccess !== null){
 				$onSuccess();
 			}
@@ -133,15 +135,7 @@ class DataConnectorImpl implements DataConnector{
 	}
 
 	public function executeChange(string $queryName, array $args = [], ?callable $onSuccess = null, ?callable $onError = null) : void{
-		$this->executeImpl($queryName, $args, SqlThread::MODE_CHANGE, function(SqlChangeResult $result) use ($onSuccess){
-			if($onSuccess !== null){
-				$onSuccess($result->getAffectedRows());
-			}
-		}, $onError);
-	}
-
-	public function executeChangeRaw(string $query, array $args = [], ?callable $onSuccess = null, ?callable $onError = null) : void{
-		$this->executeImplRaw($query, $args, SqlThread::MODE_CHANGE, function(SqlChangeResult $result) use ($onSuccess){
+		$this->executeImplLast($queryName, $args, SqlThread::MODE_CHANGE, static function(SqlChangeResult $result) use ($onSuccess){
 			if($onSuccess !== null){
 				$onSuccess($result->getAffectedRows());
 			}
@@ -157,15 +151,7 @@ class DataConnectorImpl implements DataConnector{
 	}
 
 	public function executeInsert(string $queryName, array $args = [], ?callable $onInserted = null, ?callable $onError = null) : void{
-		$this->executeImpl($queryName, $args, SqlThread::MODE_INSERT, function(SqlInsertResult $result) use ($onInserted){
-			if($onInserted !== null){
-				$onInserted($result->getInsertId(), $result->getAffectedRows());
-			}
-		}, $onError);
-	}
-
-	public function executeInsertRaw(string $query, array $args = [], ?callable $onInserted = null, ?callable $onError = null) : void{
-		$this->executeImplRaw($query, $args, SqlThread::MODE_INSERT, function(SqlInsertResult $result) use ($onInserted){
+		$this->executeImplLast($queryName, $args, SqlThread::MODE_INSERT, static function(SqlInsertResult $result) use ($onInserted){
 			if($onInserted !== null){
 				$onInserted($result->getInsertId(), $result->getAffectedRows());
 			}
@@ -183,17 +169,23 @@ class DataConnectorImpl implements DataConnector{
 	}
 
 	public function executeSelect(string $queryName, array $args = [], ?callable $onSelect = null, ?callable $onError = null) : void{
-		$this->executeImpl($queryName, $args, SqlThread::MODE_SELECT, function(SqlSelectResult $result) use ($onSelect){
+		$this->executeImplLast($queryName, $args, SqlThread::MODE_SELECT, static function(SqlSelectResult $result) use ($onSelect){
 			if($onSelect !== null){
 				$onSelect($result->getRows(), $result->getColumnInfo());
 			}
 		}, $onError);
 	}
 
-	public function executeSelectRaw(string $query, array $args = [], ?callable $onSelect = null, ?callable $onError = null) : void{
-		$this->executeImplRaw($query, $args, SqlThread::MODE_SELECT, function(SqlSelectResult $result) use ($onSelect){
-			if($onSelect !== null){
-				$onSelect($result->getRows(), $result->getColumnInfo());
+	private function executeImplLast(string $queryName, array $args, int $mode, callable $handler, ?callable $onError) : void{
+		$this->executeImpl($queryName, $args, $mode, static function($results) use($handler){
+			$handler($results[count($results) - 1]);
+		}, $onError);
+	}
+
+	public function executeMulti(string $queryName, array $args, int $mode, ?callable $handler = null, ?callable $onError = null) : void{
+		$this->executeImpl($queryName, $args, $mode, static function($results) use($handler) {
+			if($handler !== null){
+				$handler($results);
 			}
 		}, $onError);
 	}
@@ -222,20 +214,29 @@ class DataConnectorImpl implements DataConnector{
 		if(!isset($this->queries[$queryName])){
 			throw new InvalidArgumentException("The query $queryName has not been loaded");
 		}
-		$query = $this->queries[$queryName]->format($args, $this->placeHolder, $outArgs);
 
-		$this->executeImplRaw($query, $outArgs, $mode, $handler, $onError);
+		$queries = $this->queries[$queryName]->format($args, $this->placeHolder, $outArgs);
+
+		$modes = array_fill(0, count($queries), SqlThread::MODE_GENERIC);
+		$modes[count($modes) - 1] = $mode;
+
+		$this->executeImplRaw($queries, $outArgs, $modes, $handler, $onError);
 	}
 
-	private function executeImplRaw(string $query, array $args, int $mode, callable $handler, ?callable $onError) : void{
+	/**
+	 * @param string[] $queries
+	 * @param mixed[][] $args
+	 * @param int[] $modes
+	 */
+	public function executeImplRaw(array $queries, array $args, array $modes, callable $handler, ?callable $onError) : void{
 		$queryId = $this->queryId++;
 		$trace = libasynql::isPackaged() ? null : new Exception("(This is the original stack trace for the following error)");
-		$this->handlers[$queryId] = function($result) use ($handler, $onError, $trace){
-			if($result instanceof SqlError){
-				$this->reportError($onError, $result, $trace);
+		$this->handlers[$queryId] = function($results) use ($handler, $onError, $trace){
+			if($results instanceof SqlError){
+				$this->reportError($onError, $results, $trace);
 			}else{
 				try{
-					$handler($result);
+					$handler($results);
 				}catch(Exception $e){
 					if(!libasynql::isPackaged()){
 						$prop = (new ReflectionClass(Exception::class))->getProperty("trace");
@@ -277,10 +278,15 @@ class DataConnectorImpl implements DataConnector{
 				}
 			}
 		};
-		if($this->loggingQueries){
-			$this->plugin->getLogger()->debug("Queuing mode-$mode query: " . str_replace(["\r\n", "\n"], "\\n ", $query) . " | Args: " . json_encode($args));
+
+		if($this->logger !== null){
+			foreach($queries as $index => $query) {
+				$mode = $modes[$index];
+				$this->logger->debug("Queuing mode-$mode query: " . str_replace(["\r\n", "\n"], "\\n ", $query) . " | Args: " . json_encode($args[$index]));
+			}
 		}
-		$this->thread->addQuery($queryId, $mode, $query, $args);
+
+		$this->thread->addQuery($queryId, $modes, $queries, $args);
 	}
 
 	private function reportError(?callable $default, SqlError $error, ?Exception $trace) : void{

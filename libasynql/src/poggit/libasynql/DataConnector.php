@@ -23,7 +23,9 @@ declare(strict_types=1);
 namespace poggit\libasynql;
 
 use InvalidArgumentException;
+
 use Generator;
+use Logger;
 use poggit\libasynql\generic\GenericStatementFileParseException;
 use poggit\libasynql\result\SqlColumnInfo;
 use SOFe\AwaitGenerator\Await;
@@ -33,26 +35,40 @@ use SOFe\AwaitGenerator\Await;
  */
 interface DataConnector{
 	/**
-	 * Sets whether the queries are being logged. Only effective when libasynql is not packaged; does nothing if libasynql is packaged.
+	 * If true, logger is set to the plugin logger. If false, queries are not logged.
 	 *
 	 * @param bool $loggingQueries
 	 */
 	public function setLoggingQueries(bool $loggingQueries) : void;
 
 	/**
-	 * Returns whether the queries are being logged. Always returns false when libasynql is packaged.
+	 * Returns whether the logger is not null, i.e. queries are being logged.
 	 *
 	 * @return bool
 	 */
 	public function isLoggingQueries() : bool;
 
 	/**
+	 * Sets the logger used to log queries, or null to not log queries
+	 *
+	 * @param Logger|null $logger
+	 */
+	public function setLogger(?Logger $logger) : void;
+
+	/**
+	 * Returns the logger used to log queries, or null if not logging queries
+	 *
+	 * @return Logger|null
+	 */
+	public function getLogger() : ?Logger;
+
+	/**
 	 * Loads pre-formatted queries from a readable stream resource.
 	 *
 	 * The implementation will close the stream after reading.
 	 *
-	 * @param resource $fh       a stream that supports <code>feof()</code>, <code>fgets()</code> and <code>fclose()</code>.
-	 * @param string   $fileName the filename providing the stream, only used for debugging and documentation purposes
+	 * @param resource    $fh       a stream that supports <code>feof()</code>, <code>fgets()</code> and <code>fclose()</code>.
+	 * @param string|null $fileName the filename providing the stream, only used for debugging and documentation purposes
 	 *
 	 * @throws GenericStatementFileParseException if the file contains a syntax error or compile error
 	 * @throws InvalidArgumentException if the file introduces statements that duplicate the names of those previously loaded
@@ -78,8 +94,6 @@ interface DataConnector{
 	 */
 	public function executeGeneric(string $queryName, array $args = [], ?callable $onSuccess = null, ?callable $onError = null) : void;
 
-	public function executeGenericRaw(string $query, array $args = [], ?callable $onSuccess = null, ?callable $onError = null) : void;
-
 	/**
 	 * Executes a generic query that either succeeds or fails.
 	 *
@@ -94,14 +108,15 @@ interface DataConnector{
 	/**
 	 * Executes a query that changes data.
 	 *
+	 * If multiple delimited queries exist in the query, they will be executed in order, but only the last result will be returned.
+	 * The last statement must be a change query.
+	 *
 	 * @param string        $queryName the {@link GenericPreparedStatement} query name
 	 * @param mixed[]       $args      the variables as defined in the {@link GenericPreparedStatement}
 	 * @param callable|null $onSuccess an optional callback when the query has succeeded: <code>function(int $affectedRows) : void{}</code>
 	 * @param callable|null $onError   an optional callback when the query has failed: <code>function({@link SqlError} $error) : void{}</code>
 	 */
 	public function executeChange(string $queryName, array $args = [], ?callable $onSuccess = null, ?callable $onError = null) : void;
-
-	public function executeChangeRaw(string $query, array $args = [], ?callable $onSuccess = null, ?callable $onError = null) : void;
 
 	/**
 	 * Executes a query that changes data.
@@ -119,14 +134,15 @@ interface DataConnector{
 	/**
 	 * Executes an insert query that results in an insert ID.
 	 *
+	 * If multiple delimited queries exist in the query, they will be executed in order, but only the last result will be returned.
+	 * The last statement must be an insert query.
+	 *
 	 * @param string        $queryName  the {@link GenericPreparedStatement} query name
 	 * @param mixed[]       $args       the variables as defined in the {@link GenericPreparedStatement}
 	 * @param callable|null $onInserted an optional callback when the query has succeeded: <code>function(int $insertId, int $affectedRows) : void{}</code>
 	 * @param callable|null $onError    an optional callback when the query has failed: <code>function({@link SqlError} $error) : void{}</code>
 	 */
 	public function executeInsert(string $queryName, array $args = [], ?callable $onInserted = null, ?callable $onError = null) : void;
-
-	public function executeInsertRaw(string $query, array $args = [], ?callable $onInserted = null, ?callable $onError = null) : void;
 
 	/**
 	 * Executes an insert query that results in an insert ID.
@@ -152,14 +168,32 @@ interface DataConnector{
 	/**
 	 * Executes a select query that returns an SQL result set. This does not strictly need to be SELECT queries -- reflection queries like MySQL's <code>SHOW TABLES</code> query are also allowed.
 	 *
+	 * If multiple delimited queries exist in the query, they will be executed in order, but only the last result will be returned.
+	 * The last statement must be a select query (or e.g. <code>SHOW TABLES</code> queries).
+	 *
 	 * @param string        $queryName the {@link GenericPreparedStatement} query name
 	 * @param mixed[]       $args      the variables as defined in the {@link GenericPreparedStatement}
-	 * @param callable|null $onSelect  an optional callback when the query has succeeded: <code>function(array[] $rows, {@link SqlColumnInfo} $columns) : void{}</code>
+	 * @param callable|null $onSelect  an optional callback when the query has succeeded: <code>function(array[] $rows, SqlColumnInfo[] $columns) : void{}</code>
 	 * @param callable|null $onError   an optional callback when the query has failed: <code>function({@link SqlError} $error) : void{}</code>
 	 */
 	public function executeSelect(string $queryName, array $args = [], ?callable $onSelect = null, ?callable $onError = null) : void;
 
-	public function executeSelectRaw(string $query, array $args = [], ?callable $onSelect = null, ?callable $onError = null) : void;
+	/**
+	 * Executes a query with probably multiple delimited queries, and returns an array of {@link SqlResult}s mapping to each query.
+	 *
+	 * @param string        $queryName the {@link GenericPreparedStatement} query name
+	 * @param mixed[]       $args      the variables as defined in the {@link GenericPreparedStatement}
+	 * @param callable|null $onSelect  an optional callback when the query has succeeded: <code>function(SqlResult[] $results) : void{}</code>
+	 * @param callable|null $onError   an optional callback when the query has failed: <code>function({@link SqlError} $error) : void{}</code>
+	 */
+	public function executeMulti(string $queryName, array $args, int $mode, ?callable $handler = null, ?callable $onError = null) : void;
+
+	/**
+	 * @param string[] $queries
+	 * @param mixed[][] $args
+	 * @param int[] $modes
+	 */
+	public function executeImplRaw(array $queries, array $args, array $modes, callable $handler, ?callable $onError) : void;
 
 	/**
 	 * Executes a select query that returns an SQL result set. This does not strictly need to be SELECT queries -- reflection queries like MySQL's <code>SHOW TABLES</code> query are also allowed.

@@ -108,6 +108,7 @@ class GenericVariable implements JsonSerializable{
 						throw new InvalidArgumentException("Invalid timestamp default");
 					}
 					$this->default = $default;
+					break;
 
 				default:
 					throw new InvalidArgumentException("Unknown type \"$type\"");
