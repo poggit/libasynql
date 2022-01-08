@@ -23,7 +23,6 @@ declare(strict_types=1);
 namespace poggit\libasynql;
 
 use InvalidArgumentException;
-
 use Generator;
 use Logger;
 use poggit\libasynql\generic\GenericStatementFileParseException;
