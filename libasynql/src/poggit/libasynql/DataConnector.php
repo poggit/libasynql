@@ -215,18 +215,17 @@ interface DataConnector{
 	 *
 	 * The generator returns a two-element array.
 	 * The first element is the array of rows.
-	 * The second element is a \link{SqlColumnInfo} object.
+	 * The second element is an array of \link{SqlColumnInfo} objects.
 	 *
 	 * Example usage:
 	 *
 	 * ```
-	 * [$rows, $info] = yield $connector->asyncSelect(Queries::QUERY_NAME, $some, $arguments);
-	 * assert($info instanceof SqlColumnInfo);
+	 * [$rows, $info] = yield $connector->asyncSelectWithInfo(Queries::QUERY_NAME, $some, $arguments);
 	 * ```
 	 *
 	 * @param string  $queryName the {@link GenericPreparedStatement} query name
 	 * @param mixed[] $args      the variables as defined in the {@link GenericPreparedStatement}
-	 * @return Generator<mixed, Await::RESOLVE|Await::REJECT, mixed, array{int, int}>
+	 * @return Generator<mixed, Await::RESOLVE|Await::REJECT, mixed, array{array[], SqlColumnInfo[]}>
 	 */
 	public function asyncSelectWithInfo(string $queryName, array $args = []) : Generator;
 
