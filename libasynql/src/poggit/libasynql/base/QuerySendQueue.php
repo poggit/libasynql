@@ -67,4 +67,8 @@ class QuerySendQueue extends Threaded{
 	public function isInvalidated(): bool {
 		return $this->invalidated;
 	}
+
+	public function getQueriesCount() : int{
+		return $this->queries->count();
+	}
 }

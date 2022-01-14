@@ -34,11 +34,17 @@ class QueryRecvQueue extends Threaded{
 	 * @param SqlResult[] $results
 	 */
 	public function publishResult(int $queryId, array $results) : void{
-		$this[] = serialize([$queryId, $results]);
+		$this->synchronized(function() use ($queryId, $results) : void{
+			$this[] = serialize([$queryId, $results]);
+			$this->notify();
+		});
 	}
 
 	public function publishError(int $queryId, SqlError $error) : void{
-		$this[] = serialize([$queryId, $error]);
+		$this->synchronized(function() use ($error, $queryId) : void{
+			$this[] = serialize([$queryId, $error]);
+			$this->notify();
+		});
 	}
 
 	public function fetchResults(&$queryId, &$results) : bool{
@@ -48,5 +54,17 @@ class QueryRecvQueue extends Threaded{
 			return true;
 		}
 		return false;
+	}
+
+	/**
+	 * @param SqlError|SqlResults[]|null $results
+	 */
+	public function waitForResults(?int &$queryId, SqlError|array|null &$results) : void{
+		$this->synchronized(function() : void{
+			if($this->count() === 0){
+				$this->wait();
+			}
+		});
+		$this->fetchResults($queryId, $results);
 	}
 }
