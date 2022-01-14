@@ -30,6 +30,8 @@ use function serialize;
 use function unserialize;
 
 class QueryRecvQueue extends Threaded{
+	private int $availableThreads = 0;
+
 	/**
 	 * @param SqlResult[] $results
 	 */
@@ -59,12 +61,23 @@ class QueryRecvQueue extends Threaded{
 	/**
 	 * @param SqlError|SqlResults[]|null $results
 	 */
-	public function waitForResults(?int &$queryId, SqlError|array|null &$results) : void{
-		$this->synchronized(function() : void{
-			if($this->count() === 0){
+	public function waitForResults(?int &$queryId, SqlError|array|null &$results) : bool{
+		return $this->synchronized(function() use (&$queryId, &$results) : bool{
+			while($this->count() === 0 && $this->availableThreads > 0){
 				$this->wait();
 			}
+			return $this->fetchResults($queryId, $results);
 		});
-		$this->fetchResults($queryId, $results);
+	}
+
+	public function addAvailableThread() : void{
+		$this->synchronized(fn() => ++$this->availableThreads);
+	}
+
+	public function removeAvailableThread() : void{
+		$this->synchronized(function() : void{
+			--$this->availableThreads;
+			$this->notify();
+		});
 	}
 }

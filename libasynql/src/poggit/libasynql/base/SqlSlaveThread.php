@@ -54,6 +54,7 @@ abstract class SqlSlaveThread extends Thread implements SqlThread{
 		$this->slaveNumber = self::$nextSlaveNumber++;
 		$this->bufferSend = $bufferSend ?? new QuerySendQueue();
 		$this->bufferRecv = $bufferRecv ?? new QueryRecvQueue();
+		$this->bufferRecv->addAvailableThread();
 
 		if(!libasynql::isPackaged()){
 			/** @noinspection PhpUndefinedMethodInspection */
@@ -75,7 +76,9 @@ abstract class SqlSlaveThread extends Thread implements SqlThread{
 		}
 
 		while(true){
+			$this->bufferRecv->removeAvailableThread();
 			$row = $this->bufferSend->fetchQuery();
+			$this->bufferRecv->addAvailableThread();
 			if(!is_string($row)){
 				break;
 			}
@@ -95,6 +98,7 @@ abstract class SqlSlaveThread extends Thread implements SqlThread{
 			$this->notifier->wakeupSleeper();
 			$this->busy = false;
 		}
+		$this->bufferRecv->removeAvailableThread();
 		$this->close($resource);
 	}
 
@@ -121,9 +125,6 @@ abstract class SqlSlaveThread extends Thread implements SqlThread{
 	}
 
 	public function readResults(array &$callbacks) : void{
-		if($this->bufferRecv->count() === 0 && $this->bufferSend->getQueriesCount() === 0){
-			return;
-		}
 		while($this->bufferRecv->waitForResults($queryId, $results)){
 			if(!isset($callbacks[$queryId])){
 				throw new InvalidArgumentException("Missing handler for query #$queryId");
