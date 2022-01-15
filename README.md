@@ -77,7 +77,7 @@ In case of error, a ConfigException or an SqlError will be thrown. If not caught
 In the resources file, create one file for each SQL dialect you are supporting, e.g. `resources/sqlite.sql` and `resources/mysql.sql`.
 
 #### Do I save the SQL files to the plugin data folder?
-No, you **don't** have to copy the SQL files to the plugin data folder (`$this->saveResource("$name.sql")`). The files are read by libasynql from the resources folder directly.
+No, you do **not** have to copy the SQL files to the plugin data folder (i.e. do **not** add `$this->saveResource("db.sql")`). The files are read by libasynql from the phar resources directly.
 
 Write down all the queries you are going to use in each file, using the [Prepared Statement File format](#prepared-statement-file-format).
 
