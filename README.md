@@ -66,7 +66,7 @@ class Main extends PluginBase{
 
 The [`\poggit\libasynql\libasynql::create()`](https://poggit.github.io/libasynql/doxygen/classpoggit_1_1libasynql_1_1libasynql.html#add1449f8fef87cc275a3d99f2440c642) method accepts 3 parameters:
 - Your plugin main (basically `$this` if the code runs in onEnable())
-- The config entry where the database settings should be found (read the example from both)
+- The config entry where the database settings should be found (read the example from above)
 - An array for your SQL files. For each SQL dialect you are supporting, use it as the key, and use the path (or array of paths, relative to the `resources` folder) of the SQL files as the value. We are going to create them in the [next step](#creating-sql-files).
 
 It returns a [`\poggit\libasynql\DataConnector`](https://poggit.github.io/libasynql/doxygen/interfacepoggit_1_1libasynql_1_1_data_connector.html) object, which is the main query interface. You may store this object in a property for later use, `$this->database` for example.
