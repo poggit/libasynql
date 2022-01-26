@@ -111,7 +111,8 @@ class Sqlite3Thread extends SqlSlaveThread{
 				$colInfo = [];
 				$rows = [];
 				while(is_array($row = $result->fetchArray(SQLITE3_ASSOC))){
-					foreach(array_values($row) as $i => &$value){
+					$row = array_values($row);
+					foreach($row as $i => &$value){
 						static $columnTypeMap = [
 							SQLITE3_INTEGER => SqlColumnInfo::TYPE_INT,
 							SQLITE3_FLOAT => SqlColumnInfo::TYPE_FLOAT,
