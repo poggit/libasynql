@@ -111,7 +111,6 @@ class Sqlite3Thread extends SqlSlaveThread{
 				$colInfo = [];
 				$rows = [];
 				while(is_array($row = $result->fetchArray(SQLITE3_ASSOC))){
-					$columnName = $result->columnName($i);
 					foreach(array_values($row) as $i => $value){
 						static $columnTypeMap = [
 							SQLITE3_INTEGER => SqlColumnInfo::TYPE_INT,
@@ -120,6 +119,7 @@ class Sqlite3Thread extends SqlSlaveThread{
 							SQLITE3_BLOB => SqlColumnInfo::TYPE_STRING,
 							SQLITE3_NULL => SqlColumnInfo::TYPE_NULL,
 						];
+						$columnName = $result->columnName($i);
 						$colInfo[$i] = new SqlColumnInfo($columnName, $columnTypeMap[$result->columnType($i)]);
 						if($colInfo[$i]->getType() === SqlColumnInfo::TYPE_FLOAT){
 							if($value === "NAN"){
