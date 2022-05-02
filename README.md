@@ -1,5 +1,11 @@
-# libasynql v3.0.0 <img src="https://poggit.pmmp.io/ci.badge/poggit/libasynql/libasynql" align="right"/>
+# libasynql <img src="https://poggit.pmmp.io/ci.badge/poggit/libasynql/libasynql" align="right"/>
 Asynchronous SQL access library for PocketMine plugins.
+## Why should I use this library and what does asynchronous mean?
+When executing a SQL query on the main thread, **there will be a delay** to wait for the MySQL server or SQLite for interacting with the file system. The delay will block the main thread and **cause lag to the server**.
+
+Libasynql uses **different threads for executing the queries** so the main thread will not lag!
+
+*Look in [here](https://github.com/SOF3/pmmp-wilderness/wiki/PocketMine-Plugin-Development-FAQ#what-is-threading-does-it-make-the-server-faster) as well if you want to learn more about threading.*
 
 ## Usage
 The basic use of libasynql has 5 steps:
@@ -70,6 +76,9 @@ In case of error, a ConfigException or an SqlError will be thrown. If not caught
 ### Creating SQL files
 In the resources file, create one file for each SQL dialect you are supporting, e.g. `resources/sqlite.sql` and `resources/mysql.sql`.
 
+#### Do I save the SQL files to the plugin data folder?
+No, you don't have to copy the SQL files to the plugin data folder. The files are read by libasynql from the resources folder directly.
+
 Write down all the queries you are going to use in each file, using the [Prepared Statement File format](#prepared-statement-file-format).
 
 ### Calling libasynql functions
@@ -84,7 +93,7 @@ There are 4 query modes you can ues: GENERIC, CHANGE, INSERT and SELECT.
 They have their respective methods in DataConnector: `executeGeneric`, `executeChange`, `executeInsert`, `executeSelect`. They require the same parameters:
 
 - The name of the prepared statement
-- The variables for the query, in the form of an associative array "variable name (without colon)" => value
+- The variables for the query, in the form of an associative array "variable name (without the leading colon)" => value
 - An optional callable triggered if the query succeeded, accepting different arguments:
   - GENERIC: no arguments
   - CHANGE: `function(int $affectedRows)`
@@ -198,10 +207,84 @@ A numeric value that can be parsed by [`(float)` cast, equivalent to `floatval`]
 ###### `bool` default
 `true`, `on`, `yes` or `1` will result in true. Other values, as long as there is something, will result default false. (If there is nothing, the variable will not be optional)
 
+#### Example of using variables
+##### SQL file
+```sql
+-- #{ example
+-- #    { insert
+-- # 	  :foo string
+-- # 	  :bar int
+INSERT INTO example(
+	foo_column
+	bar_column
+) VALUES (
+	:foo,
+	:bar
+);
+-- #    }
+-- #    { select
+-- # 	  :foo string
+-- # 	  :bar int
+SELECT * FROM example
+WHERE foo_column = :foo
+LIMIT :bar;
+-- #    }
+-- #}
+```
+##### Code
+```php
+// Example of using variable in insert statements
+$this->database->executeInsert("example.insert", ["foo" => "sample text", "bar" => 123]);
+
+// Example of using variable in select statements
+$this->database->executeSelect("example.select", ["foo" => "sample text", "bar" => 1], function(array $rows) : void {
+  foreach ($rows as $result) {
+    echo $result["bar_column"];
+  }
+});
+```
+
 ### Query text
 Query text is not a command, but the non-commented part between the start and end commands of a query declaration.
 
 Variables are interpolated in query text using the `:var` format. Note that libasynql uses a homebrew algorithm for identifying the variable positions, so they might be inaccurate.
+```sql
+-- #{ query.declarartion
+SELECT * FROM example;
+-- The line above is a query text
+-- #}
+```
+
+## Things to beware
+### Race condition
+```php
+public $foo = 'bar';
+
+public function setFoo() : void {
+	$this->foo = 'foo';
+}
+
+public function getFoo() : string {
+	return $this->foo;
+}
+```
+
+```php
+$this->database->executeGeneric("common.mistake.asynchronous", [], function() : void {
+	$this->setFoo();
+});
+echo $this->getFoo();
+```
+The result will be `bar` because the queries are run asynchronously. The code on the main thread will run faster than it.
+
+To make the code give a correct result, you have to ensure `$this->setFoo()` runs before `echo $this->getFoo()`. The appropriate way is to move `getFoo()` into the callback function, just like below:
+```php
+$this->database->executeGeneric("common.mistake.asynchronous", [], function() : void {
+	$this->setFoo();
+	echo $this->getFoo();
+});
+```
+
 
 ## Featured examples
 - [cucumber](https://github.com/adeynes/cucumber)
