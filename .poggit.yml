@@ -4,6 +4,9 @@ projects:
     type: library
     model: virion
     path: libasynql
+    libs:
+      - src: SOF3/await-generator/await-generator
+        version: "^3.0.0"
 
 # possible shade strategies:
 #   syntax (use token_get_all() to scan all syntactical references)

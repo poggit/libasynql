@@ -35,13 +35,20 @@ interface GenericStatement{
 	/**
 	 * Returns the identifier name of this query
 	 *
-	 * @return string
+	 * @return string[]
 	 */
 	public function getName() : string;
 
-	public function getQuery() : string;
+	public function getQuery() : array;
 
 	public function getDoc() : string;
+
+	/**
+	 * The variable list ordered by original declaration order
+	 *
+	 * @return GenericVariable[]
+	 */
+	public function getOrderedVariables() : array;
 
 	/**
 	 * Returns the variables required by this statement
@@ -59,8 +66,8 @@ interface GenericStatement{
 	 *
 	 * @param mixed[]     $vars        the input arguments
 	 * @param string|null $placeHolder the backend-dependent variable placeholder constant, if any
-	 * @param mixed[]     &$outArgs    will be filled with the variables to be passed to the backend
-	 * @return string
+	 * @param mixed[][]   &$outArgs    will be filled with the variables to be passed to the backend
+	 * @return string[]
 	 */
-	public function format(array $vars, ?string $placeHolder, ?array &$outArgs) : string;
+	public function format(array $vars, ?string $placeHolder, ?array &$outArgs) : array;
 }

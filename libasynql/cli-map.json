@@ -1,3 +1,4 @@
 {
-	"def": "cli/def.php"
+	"def": "cli/def.php",
+	"fx": "cli/fx.php"
 }

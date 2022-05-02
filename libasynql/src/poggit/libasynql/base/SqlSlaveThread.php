@@ -26,13 +26,14 @@ use ClassLoader;
 use InvalidArgumentException;
 use pocketmine\Server;
 use pocketmine\snooze\SleeperNotifier;
-use pocketmine\Thread;
+use pocketmine\thread\Thread;
 use poggit\libasynql\libasynql;
 use poggit\libasynql\SqlError;
 use poggit\libasynql\SqlResult;
 use poggit\libasynql\SqlThread;
 use const PTHREADS_INHERIT_CONSTANTS;
 use const PTHREADS_INHERIT_INI;
+use function assert;
 
 abstract class SqlSlaveThread extends Thread implements SqlThread{
 	/** @var SleeperNotifier */
@@ -59,13 +60,12 @@ abstract class SqlSlaveThread extends Thread implements SqlThread{
 			/** @noinspection NullPointerExceptionInspection */
 			/** @var ClassLoader $cl */
 			$cl = Server::getInstance()->getPluginManager()->getPlugin("DEVirion")->getVirionClassLoader();
-			$this->setClassLoader($cl);
+			$this->setClassLoaders([Server::getInstance()->getLoader(), $cl]);
 		}
 		$this->start(PTHREADS_INHERIT_INI | PTHREADS_INHERIT_CONSTANTS);
 	}
 
-	public function run() : void{
-		$this->registerClassLoader();
+	protected function onRun() : void{
 		$error = $this->createConn($resource);
 		$this->connCreated = true;
 		$this->connError = $error;
@@ -80,13 +80,18 @@ abstract class SqlSlaveThread extends Thread implements SqlThread{
 				break;
 			}
 			$this->busy = true;
-			[$queryId, $mode, $query, $params] = unserialize($row, ["allowed_classes" => true]);
+			[$queryId, $modes, $queries, $params] = unserialize($row, ["allowed_classes" => true]);
+
 			try{
-				$result = $this->executeQuery($resource, $mode, $query, $params);
-				$this->bufferRecv->publishResult($queryId, $result);
+				$results = [];
+				foreach($queries as $index => $query) {
+					$results[] = $this->executeQuery($resource, $modes[$index], $query, $params[$index]);
+				}
+				$this->bufferRecv->publishResult($queryId, $results);
 			}catch(SqlError $error){
 				$this->bufferRecv->publishError($queryId, $error);
 			}
+
 			$this->notifier->wakeupSleeper();
 			$this->busy = false;
 		}
@@ -106,21 +111,22 @@ abstract class SqlSlaveThread extends Thread implements SqlThread{
 		parent::quit();
 	}
 
-	public function quit(){
+	public function quit() : void{
 		$this->stopRunning();
+		parent::quit();
 	}
 
-	public function addQuery(int $queryId, int $mode, string $query, array $params) : void{
-		$this->bufferSend->scheduleQuery($queryId, $mode, $query, $params);
+	public function addQuery(int $queryId, array $modes, array $queries, array $params) : void{
+		$this->bufferSend->scheduleQuery($queryId, $modes, $queries, $params);
 	}
 
 	public function readResults(array &$callbacks) : void{
-		while($this->bufferRecv->fetchResult($queryId, $result)){
+		while($this->bufferRecv->fetchResults($queryId, $results)){
 			if(!isset($callbacks[$queryId])){
 				throw new InvalidArgumentException("Missing handler for query #$queryId");
 			}
 
-			$callbacks[$queryId]($result);
+			$callbacks[$queryId]($results);
 			unset($callbacks[$queryId]);
 		}
 	}
