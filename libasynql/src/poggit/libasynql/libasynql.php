@@ -122,7 +122,7 @@ final class libasynql{
 				if($pdo){
 					// TODO add PDO support
 				}else{
-					$factory = MysqliThread::createFactory($cred);
+					$factory = MysqliThread::createFactory($cred, $plugin->getServer()->getLogger());
 					$placeHolder = "?";
 				}
 				$dialect = "mysql";
@@ -150,7 +150,7 @@ final class libasynql{
 			}
 			$connector->loadQueryFile($resource);
 		}
-		
+
 		return $connector;
 	}
 
