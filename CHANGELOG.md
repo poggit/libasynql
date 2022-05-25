@@ -1,5 +1,15 @@
 # Changelog
 
+## [4.1.0](https://github.com/poggit/libasynql/compare/v4.0.1...v4.1.0)
+
+### Added
+- await-generator support
+
+### Fixed
+- Fixed reconnection to MySQL
+- Fixed $row arrays have no keys
+- Fixed `$value` variable not updating in SQLite3 threads
+
 ## [4.0.1](https://github.com/poggit/libasynql/compare/v4.0.0...v4.0.1)
 There are no changes. The version was bumped by accident.
 
