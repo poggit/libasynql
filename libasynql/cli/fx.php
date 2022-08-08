@@ -60,6 +60,7 @@ $EOL = PHP_EOL;
 $INDENT = "\t";
 $prefix = "";
 $STRUCT = "interface";
+$genDir = realpath($srcDir);
 
 $sqlFiles = [];
 
@@ -82,6 +83,11 @@ while(isset($argv[$i]) && strpos($argv[$i], "--") === 0){
 				echo "[!] Invalid EOL option '" . $argv[$i + 1] . "'\n";
 				exit(2);
 		}
+		$i += 2;
+		continue;
+	}
+	if($argv[$i] === "--gen"){
+		$genDir = $argv[$i + 1];
 		$i += 2;
 		continue;
 	}
@@ -144,7 +150,7 @@ foreach($sqlFiles as $sqlFile){
 }
 ksort($results, SORT_NATURAL);
 
-$itfFile = realpath($srcDir) . "/" . str_replace("\\", "/", $fqn) . ".php";
+$itfFile = $genDir . "/" . str_replace("\\", "/", $fqn) . ".php";
 @mkdir(dirname($itfFile), 0777, true);
 
 $fh = fopen($itfFile, "wb");
