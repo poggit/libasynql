@@ -1,5 +1,10 @@
 # Changelog
 
+## [4.1.1](https://github.com/poggit/libasynql/compare/v4.1.0...v4.1.1)
+
+### Added
+- `--gen` option in `fx`
+
 ## [4.1.0](https://github.com/poggit/libasynql/compare/v4.0.1...v4.1.0)
 
 ### Added
