@@ -155,7 +155,7 @@ interface DataConnector{
 	 * Example usage:
 	 *
 	 * ```
-	 * [$insertId, $affectedRows] = yield $connector->asyncChange(Queries::QUERY_NAME, $some, $arguments);
+	 * [$insertId, $affectedRows] = yield from $connector->asyncChange(Queries::QUERY_NAME, $some, $arguments);
 	 * ```
 	 *
 	 * @param string  $queryName the {@link GenericPreparedStatement} query name
@@ -219,7 +219,7 @@ interface DataConnector{
 	 * Example usage:
 	 *
 	 * ```
-	 * [$rows, $info] = yield $connector->asyncSelectWithInfo(Queries::QUERY_NAME, $some, $arguments);
+	 * [$rows, $info] = yield from $connector->asyncSelectWithInfo(Queries::QUERY_NAME, $some, $arguments);
 	 * ```
 	 *
 	 * @param string  $queryName the {@link GenericPreparedStatement} query name
