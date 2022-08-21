@@ -27,6 +27,10 @@ final class Main extends PluginBase implements Listener {
 		$this->getServer()->getPluginManager()->registerEvents($this, $this);
 	}
 
+	protected function onDisable(): void {
+		$this->db->close();
+	}
+
 	public function onChat(PlayerChatEvent $event) : void {
 		$this->db->executeGeneric("add", ["player" => $event->getPlayer()->getName()], null,
 			fn(SqlError $err) => $this->getLogger()->error($err->getMessage()));
