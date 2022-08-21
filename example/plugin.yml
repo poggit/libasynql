@@ -1,0 +1,12 @@
+name: libasynql-example
+version: 0.1.0
+api: 4.0.0
+main: Poggit\ChatCount\Main
+
+permissions:
+  chatcount:
+    description: Permission to use /chatcount
+commands:
+  chatcount:
+    description: Check player chat count.
+    usage: /chatcount [player]
