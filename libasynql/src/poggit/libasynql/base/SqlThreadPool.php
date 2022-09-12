@@ -104,7 +104,7 @@ class SqlThreadPool implements SqlThread{
 	}
 
 	public function readResults(array &$callbacks) : void{
-		while($this->bufferRecv->fetchResults($queryId, $results)){
+		while($this->bufferRecv->waitForResults($queryId, $results)){
 			if(!isset($callbacks[$queryId])){
 				throw new InvalidArgumentException("Missing handler for query #$queryId");
 			}

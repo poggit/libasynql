@@ -30,15 +30,23 @@ use function serialize;
 use function unserialize;
 
 class QueryRecvQueue extends Threaded{
+	private int $availableThreads = 0;
+
 	/**
 	 * @param SqlResult[] $results
 	 */
 	public function publishResult(int $queryId, array $results) : void{
-		$this[] = serialize([$queryId, $results]);
+		$this->synchronized(function() use ($queryId, $results) : void{
+			$this[] = serialize([$queryId, $results]);
+			$this->notify();
+		});
 	}
 
 	public function publishError(int $queryId, SqlError $error) : void{
-		$this[] = serialize([$queryId, $error]);
+		$this->synchronized(function() use ($error, $queryId) : void{
+			$this[] = serialize([$queryId, $error]);
+			$this->notify();
+		});
 	}
 
 	public function fetchResults(&$queryId, &$results) : bool{
@@ -48,5 +56,28 @@ class QueryRecvQueue extends Threaded{
 			return true;
 		}
 		return false;
+	}
+
+	/**
+	 * @param SqlError|SqlResults[]|null $results
+	 */
+	public function waitForResults(?int &$queryId, SqlError|array|null &$results) : bool{
+		return $this->synchronized(function() use (&$queryId, &$results) : bool{
+			while($this->count() === 0 && $this->availableThreads > 0){
+				$this->wait();
+			}
+			return $this->fetchResults($queryId, $results);
+		});
+	}
+
+	public function addAvailableThread() : void{
+		$this->synchronized(fn() => ++$this->availableThreads);
+	}
+
+	public function removeAvailableThread() : void{
+		$this->synchronized(function() : void{
+			--$this->availableThreads;
+			$this->notify();
+		});
 	}
 }
