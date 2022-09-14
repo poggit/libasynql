@@ -1,5 +1,10 @@
 # Changelog
 
+## [4.1.1](https://github.com/poggit/libasynql/compare/v4.1.1...v4.1.2)
+
+### Added
+- Indicate query name in the "the variable is not used anywhere" error message
+
 ## [4.1.1](https://github.com/poggit/libasynql/compare/v4.1.0...v4.1.1)
 
 ### Added

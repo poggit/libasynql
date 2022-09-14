@@ -184,7 +184,7 @@ abstract class GenericStatementImpl implements GenericStatement, JsonSerializabl
 
 		foreach($this->variables as $variable){
 			if(!isset($usedNames[$variable->getName()])){
-				throw new InvalidArgumentException("The variable {$variable->getName()} is not used anywhere in the query! Check for typos.");
+				throw new InvalidArgumentException("The variable {$variable->getName()} is not used anywhere in the query \"{$this->name}\"! Check for typos.");
 			}
 		}
 	}
