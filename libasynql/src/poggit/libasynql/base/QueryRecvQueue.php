@@ -57,26 +57,32 @@ class QueryRecvQueue extends Threaded{
 	}
 
 	/**
-	 * @param SqlError|SqlResults[]|null $results
+	 * @return list<array{int, SqlError|SqlResults[]|null}>
 	 */
-	public function waitForResults(?int &$queryId, SqlError|array|null &$results) : bool{
-		return $this->synchronized(function() use (&$queryId, &$results) : bool{
-			while($this->count() === 0){
-				$this->wait();
+	public function fetchAllResults(): array{
+		return $this->synchronized(function(): array{
+			$ret = [];
+			while($this->fetchResults($queryId, $results)){
+				$ret[] = [$queryId, $results];
 			}
-			return $this->fetchResults($queryId, $results);
+			return $ret;
 		});
 	}
 
 	/**
-	 * @deprecated TODO: This is staying for BC reasons, remove in the next major update
+	 * @return list<array{int, SqlError|SqlResults[]|null}>
 	 */
-	public function addAvailableThread() : void{
-	}
-
-	/**
-	 * @deprecated TODO: This is staying for BC reasons, remove in the next major update
-	 */
-	public function removeAvailableThread() : void{
+	public function waitForResults(int $expectedResults): array{
+		return $this->synchronized(function() use ($expectedResults) : array{
+			$ret = [];
+			while(count($ret) < $expectedResults){
+				if(!$this->fetchResults($queryId, $results)){
+					$this->wait();
+					continue;
+				}
+				$ret[] = [$queryId, $results];
+			}
+			return $ret;
+		});
 	}
 }
