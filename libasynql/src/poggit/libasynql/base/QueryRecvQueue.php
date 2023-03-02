@@ -30,7 +30,6 @@ use function serialize;
 use function unserialize;
 
 class QueryRecvQueue extends Threaded{
-	private int $availableThreads = 0;
 
 	/**
 	 * @param SqlResult[] $results
@@ -50,12 +49,11 @@ class QueryRecvQueue extends Threaded{
 	}
 
 	public function fetchResults(&$queryId, &$results) : bool{
-		while(is_int($row = $this->shift())); //Somehow $this->availableThreads are here, so we have to remove them. TODO: Remove available threads in the next major update.
-		if($row === null){
-			return false;
+		if(is_string($row = $this->shift())){
+			[$queryId, $results] = unserialize($row, ["allowed_classes" => true]);
+			return true;
 		}
-		[$queryId, $results] = unserialize($row, ["allowed_classes" => true]);
-		return true;
+		return false;
 	}
 
 	/**
@@ -63,21 +61,22 @@ class QueryRecvQueue extends Threaded{
 	 */
 	public function waitForResults(?int &$queryId, SqlError|array|null &$results) : bool{
 		return $this->synchronized(function() use (&$queryId, &$results) : bool{
-			while($this->count() === 0 && $this->availableThreads > 0){
+			while($this->count() === 0){
 				$this->wait();
 			}
 			return $this->fetchResults($queryId, $results);
 		});
 	}
 
+	/**
+	 * @deprecated TODO: This is staying for BC reasons, remove in the next major update
+	 */
 	public function addAvailableThread() : void{
-		$this->synchronized(fn() => ++$this->availableThreads);
 	}
 
+	/**
+	 * @deprecated TODO: This is staying for BC reasons, remove in the next major update
+	 */
 	public function removeAvailableThread() : void{
-		$this->synchronized(function() : void{
-			--$this->availableThreads;
-			$this->notify();
-		});
 	}
 }
