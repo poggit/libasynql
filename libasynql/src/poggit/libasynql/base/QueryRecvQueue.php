@@ -50,12 +50,10 @@ class QueryRecvQueue extends Threaded{
 	}
 
 	public function fetchResults(&$queryId, &$results) : bool{
-		while($this->count() > 0){
-			$row = $this->shift();
-			if(is_string($row)){
-				[$queryId, $results] = unserialize($row, ["allowed_classes" => true]);
-				return true;
-			}
+		if($this->count() > 0){
+			while(($row = $this->shift()) === null);
+			[$queryId, $results] = unserialize($row, ["allowed_classes" => true]);
+			return true;
 		}
 		return false;
 	}
