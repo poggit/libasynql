@@ -50,12 +50,12 @@ class QueryRecvQueue extends Threaded{
 	}
 
 	public function fetchResults(&$queryId, &$results) : bool{
-		if($this->count() > 0){
-			while(($row = $this->shift()) === null);
-			[$queryId, $results] = unserialize($row, ["allowed_classes" => true]);
-			return true;
+		while(is_int($row = $this->shift())); //Somehow $this->availableThreads are here, so we have to remove them. TODO: Remove available threads in the next major update.
+		if($row === null){
+			return false;
 		}
-		return false;
+		[$queryId, $results] = unserialize($row, ["allowed_classes" => true]);
+		return true;
 	}
 
 	/**
