@@ -2,6 +2,6 @@ name: libasynql
 authors:
   - SOFe
 antigen: poggit\libasynql
-version: 4.1.1
+version: 4.1.2
 api:
   - 4.0.0

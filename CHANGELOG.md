@@ -1,9 +1,12 @@
 # Changelog
 
-## [4.1.1](https://github.com/poggit/libasynql/compare/v4.1.1...v4.1.2)
+## [4.1.2](https://github.com/poggit/libasynql/compare/v4.1.1...v4.1.2)
 
 ### Added
 - Indicate query name in the "the variable is not used anywhere" error message
+
+### Fixed
+- Fixed queries not executing until the next sleeper wakeup
 
 ## [4.1.1](https://github.com/poggit/libasynql/compare/v4.1.0...v4.1.1)
 
