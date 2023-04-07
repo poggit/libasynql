@@ -1,5 +1,10 @@
 # Changelog
 
+## [4.1.4](https://github.com/poggit/libasynql/compare/v4.1.3...v4.1.4)
+
+### Added
+- Virion 3.0 support
+
 ## [4.1.3](https://github.com/poggit/libasynql/compare/v4.1.2...v4.1.3)
 
 ### Fixed
