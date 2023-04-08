@@ -1,5 +1,8 @@
 # Changelog
 
+## [4.1.6](https://github.com/poggit/libasynql/compare/v4.1.5...v4.1.6)
+- Set `def` and `fx` as composer bin for running from vendor
+
 ## [4.1.5](https://github.com/poggit/libasynql/compare/v4.1.4...v4.1.5)
 - Move `libasynql::detectPackaged()` call into `libasynql::create()`
 
