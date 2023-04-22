@@ -20,8 +20,10 @@
 		"libasynql/cli/def.php",
 		"libasynql/cli/fx.php"
 	],
-	"x-virion": {
-		"spec": "3.0",
-		"namespace-root": "poggit\\libasynql"
+	"extra":{
+		"virion": {
+			"spec": "3.0",
+			"namespace-root": "poggit\\libasynql"
+		}
 	}
 }
