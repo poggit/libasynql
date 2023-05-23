@@ -22,22 +22,19 @@ declare(strict_types=1);
 
 namespace poggit\libasynql\base;
 
-use ClassLoader;
 use InvalidArgumentException;
+use pmmp\thread\Thread as NativeThread;
 use pocketmine\Server;
+use pocketmine\snooze\SleeperHandlerEntry;
 use pocketmine\snooze\SleeperNotifier;
 use pocketmine\thread\Thread;
 use poggit\libasynql\libasynql;
 use poggit\libasynql\SqlError;
 use poggit\libasynql\SqlResult;
 use poggit\libasynql\SqlThread;
-use const PTHREADS_INHERIT_CONSTANTS;
-use const PTHREADS_INHERIT_INI;
-use function assert;
 
 abstract class SqlSlaveThread extends Thread implements SqlThread{
-	/** @var SleeperNotifier */
-	private $notifier;
+	private SleeperHandlerEntry $entry;
 
 	private static $nextSlaveNumber = 0;
 
@@ -48,8 +45,8 @@ abstract class SqlSlaveThread extends Thread implements SqlThread{
 	protected $connError;
 	protected $busy = false;
 
-	protected function __construct(SleeperNotifier $notifier, QuerySendQueue $bufferSend = null, QueryRecvQueue $bufferRecv = null){
-		$this->notifier = $notifier;
+	protected function __construct(SleeperHandlerEntry $notifier, QuerySendQueue $bufferSend = null, QueryRecvQueue $bufferRecv = null){
+		$this->entry = $notifier;
 
 		$this->slaveNumber = self::$nextSlaveNumber++;
 		$this->bufferSend = $bufferSend ?? new QuerySendQueue();
@@ -63,13 +60,15 @@ abstract class SqlSlaveThread extends Thread implements SqlThread{
 			$cl = Server::getInstance()->getPluginManager()->getPlugin("DEVirion")->getVirionClassLoader();
 			$this->setClassLoaders([Server::getInstance()->getLoader(), $cl]);
 		}
-		$this->start(PTHREADS_INHERIT_INI | PTHREADS_INHERIT_CONSTANTS);
+		$this->start(NativeThread::INHERIT_INI | NativeThread::INHERIT_CONSTANTS);
 	}
 
 	protected function onRun() : void{
 		$error = $this->createConn($resource);
 		$this->connCreated = true;
 		$this->connError = $error;
+
+		$notifier = $this->entry->createNotifier();
 
 		if($error !== null){
 			return;
@@ -87,7 +86,7 @@ abstract class SqlSlaveThread extends Thread implements SqlThread{
 
 			try{
 				$results = [];
-				foreach($queries as $index => $query) {
+				foreach($queries as $index => $query){
 					$results[] = $this->executeQuery($resource, $modes[$index], $query, $params[$index]);
 				}
 				$this->bufferRecv->publishResult($queryId, $results);
@@ -95,7 +94,7 @@ abstract class SqlSlaveThread extends Thread implements SqlThread{
 				$this->bufferRecv->publishError($queryId, $error);
 			}
 
-			$this->notifier->wakeupSleeper();
+			$notifier->wakeupSleeper();
 			$this->busy = false;
 		}
 		$this->bufferRecv->removeAvailableThread();
@@ -105,7 +104,7 @@ abstract class SqlSlaveThread extends Thread implements SqlThread{
 	/**
 	 * @return bool
 	 */
-	public function isBusy(): bool {
+	public function isBusy() : bool{
 		return $this->busy;
 	}
 

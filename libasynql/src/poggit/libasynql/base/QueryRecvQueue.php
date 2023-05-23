@@ -22,21 +22,21 @@ declare(strict_types=1);
 
 namespace poggit\libasynql\base;
 
+use pmmp\thread\ThreadSafe;
+use pmmp\thread\ThreadSafeArray;
 use poggit\libasynql\SqlError;
 use poggit\libasynql\SqlResult;
-use ThreadedArray;
-use ThreadedBase;
 use function is_string;
 use function serialize;
 use function unserialize;
 
-class QueryRecvQueue extends ThreadedBase{
+class QueryRecvQueue extends ThreadSafe{
 	private int $availableThreads = 0;
 
-	private ThreadedArray $queue;
+	private ThreadSafeArray $queue;
 
 	public function __construct(){
-		$this->queue = new ThreadedArray();
+		$this->queue = new ThreadSafeArray();
 	}
 
 	/**
@@ -66,7 +66,7 @@ class QueryRecvQueue extends ThreadedBase{
 	}
 
 	/**
-	 * @param SqlError|SqlResults[]|null $results
+	 * @param SqlError|SqlResult[]|null $results
 	 */
 	public function waitForResults(?int &$queryId, SqlError|array|null &$results) : bool{
 		return $this->synchronized(function() use (&$queryId, &$results) : bool{

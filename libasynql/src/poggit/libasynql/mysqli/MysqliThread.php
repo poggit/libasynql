@@ -22,13 +22,14 @@ declare(strict_types=1);
 
 namespace poggit\libasynql\mysqli;
 
-use AttachableThreadedLogger;
 use Closure;
 use InvalidArgumentException;
 use mysqli;
 use mysqli_result;
 use mysqli_stmt;
+use pocketmine\snooze\SleeperHandlerEntry;
 use pocketmine\snooze\SleeperNotifier;
+use pocketmine\thread\log\AttachableThreadSafeLogger;
 use poggit\libasynql\base\QueryRecvQueue;
 use poggit\libasynql\base\QuerySendQueue;
 use poggit\libasynql\base\SqlSlaveThread;
@@ -60,20 +61,20 @@ use const PHP_INT_MAX;
 class MysqliThread extends SqlSlaveThread{
 	/** @var string */
 	private $credentials;
-	/** @var AttachableThreadedLogger */
+	/** @var AttachableThreadSafeLogger */
 	private $logger;
 
-	public static function createFactory(MysqlCredentials $credentials, AttachableThreadedLogger $logger) : Closure{
-		return function(SleeperNotifier $notifier, QuerySendQueue $bufferSend, QueryRecvQueue $bufferRecv) use ($credentials, $logger){
+	public static function createFactory(MysqlCredentials $credentials, AttachableThreadSafeLogger $logger) : Closure{
+		return function(SleeperHandlerEntry $notifier, QuerySendQueue $bufferSend, QueryRecvQueue $bufferRecv) use ($credentials, $logger){
 			return new MysqliThread($credentials, $notifier, $logger, $bufferSend, $bufferRecv);
 		};
 	}
 
-	public function __construct(MysqlCredentials $credentials, SleeperNotifier $notifier, AttachableThreadedLogger $logger, QuerySendQueue $bufferSend = null, QueryRecvQueue $bufferRecv = null){
+	public function __construct(MysqlCredentials $credentials, SleeperHandlerEntry $entry, AttachableThreadSafeLogger $logger, QuerySendQueue $bufferSend = null, QueryRecvQueue $bufferRecv = null){
 		$this->credentials = serialize($credentials);
 		$this->logger = $logger;
 
-		parent::__construct($notifier, $bufferSend, $bufferRecv);
+		parent::__construct($entry, $bufferSend, $bufferRecv);
 	}
 
 	protected function createConn(&$mysqli) : ?string{
