@@ -45,8 +45,8 @@ abstract class SqlSlaveThread extends Thread implements SqlThread{
 	protected $connError;
 	protected $busy = false;
 
-	protected function __construct(SleeperHandlerEntry $notifier, QuerySendQueue $bufferSend = null, QueryRecvQueue $bufferRecv = null){
-		$this->entry = $notifier;
+	protected function __construct(SleeperHandlerEntry $entry, QuerySendQueue $bufferSend = null, QueryRecvQueue $bufferRecv = null){
+		$this->entry = $entry;
 
 		$this->slaveNumber = self::$nextSlaveNumber++;
 		$this->bufferSend = $bufferSend ?? new QuerySendQueue();
