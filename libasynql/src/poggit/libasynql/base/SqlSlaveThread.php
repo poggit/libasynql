@@ -26,7 +26,6 @@ use InvalidArgumentException;
 use pmmp\thread\Thread as NativeThread;
 use pocketmine\Server;
 use pocketmine\snooze\SleeperHandlerEntry;
-use pocketmine\snooze\SleeperNotifier;
 use pocketmine\thread\Thread;
 use poggit\libasynql\libasynql;
 use poggit\libasynql\SqlError;
@@ -34,7 +33,7 @@ use poggit\libasynql\SqlResult;
 use poggit\libasynql\SqlThread;
 
 abstract class SqlSlaveThread extends Thread implements SqlThread{
-	private SleeperHandlerEntry $entry;
+	private SleeperHandlerEntry $sleeperEntry;
 
 	private static $nextSlaveNumber = 0;
 
@@ -46,7 +45,7 @@ abstract class SqlSlaveThread extends Thread implements SqlThread{
 	protected $busy = false;
 
 	protected function __construct(SleeperHandlerEntry $entry, QuerySendQueue $bufferSend = null, QueryRecvQueue $bufferRecv = null){
-		$this->entry = $entry;
+		$this->sleeperEntry = $entry;
 
 		$this->slaveNumber = self::$nextSlaveNumber++;
 		$this->bufferSend = $bufferSend ?? new QuerySendQueue();
@@ -60,7 +59,7 @@ abstract class SqlSlaveThread extends Thread implements SqlThread{
 			$cl = Server::getInstance()->getPluginManager()->getPlugin("DEVirion")->getVirionClassLoader();
 			$this->setClassLoaders([Server::getInstance()->getLoader(), $cl]);
 		}
-		$this->start(NativeThread::INHERIT_INI | NativeThread::INHERIT_CONSTANTS);
+		$this->start(NativeThread::INHERIT_INI);
 	}
 
 	protected function onRun() : void{
@@ -68,7 +67,7 @@ abstract class SqlSlaveThread extends Thread implements SqlThread{
 		$this->connCreated = true;
 		$this->connError = $error;
 
-		$notifier = $this->entry->createNotifier();
+		$notifier = $this->sleeperEntry->createNotifier();
 
 		if($error !== null){
 			return;

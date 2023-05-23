@@ -29,7 +29,7 @@ use poggit\libasynql\SqlThread;
 
 class SqlThreadPool implements SqlThread{
 
-	private SleeperHandlerEntry $entry;
+	private SleeperHandlerEntry $sleeperEntry;
 	/** @var callable */
 	private $workerFactory;
 	/** @var SqlSlaveThread[] */
@@ -59,7 +59,7 @@ class SqlThreadPool implements SqlThread{
 	 * @param int      $workerLimit   the maximum number of workers to create. Workers are created lazily.
 	 */
 	public function __construct(callable $workerFactory, int $workerLimit){
-		$this->entry = Server::getInstance()->getTickSleeper()->addNotifier(function() : void{
+		$this->sleeperEntry = Server::getInstance()->getTickSleeper()->addNotifier(function() : void{
 			assert($this->dataConnector instanceof DataConnectorImpl); // otherwise, wtf
 			$this->dataConnector->checkResults();
 		});
@@ -73,7 +73,7 @@ class SqlThreadPool implements SqlThread{
 	}
 
 	private function addWorker() : void{
-		$this->workers[] = ($this->workerFactory)($this->entry, $this->bufferSend, $this->bufferRecv);
+		$this->workers[] = ($this->workerFactory)($this->sleeperEntry, $this->bufferSend, $this->bufferRecv);
 	}
 
 	public function join() : void{
