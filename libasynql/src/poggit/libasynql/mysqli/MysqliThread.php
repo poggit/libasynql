@@ -65,8 +65,8 @@ class MysqliThread extends SqlSlaveThread{
 	private $logger;
 
 	public static function createFactory(MysqlCredentials $credentials, AttachableThreadSafeLogger $logger) : Closure{
-		return function(SleeperHandlerEntry $notifier, QuerySendQueue $bufferSend, QueryRecvQueue $bufferRecv) use ($credentials, $logger){
-			return new MysqliThread($credentials, $notifier, $logger, $bufferSend, $bufferRecv);
+		return function(SleeperHandlerEntry $sleeperEntry, QuerySendQueue $bufferSend, QueryRecvQueue $bufferRecv) use ($credentials, $logger){
+			return new MysqliThread($credentials, $sleeperEntry, $logger, $bufferSend, $bufferRecv);
 		};
 	}
 
