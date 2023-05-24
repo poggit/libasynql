@@ -2,7 +2,7 @@
     "name": "sof3/libasynql",
     "type": "library",
     "require": {
-        "pocketmine/pocketmine-mp": "^4.0.0"
+        "pocketmine/pocketmine-mp": "dev-major-next"
     },
     "license": "Apache-2.0",
 	"autoload": {
