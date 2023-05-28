@@ -43,8 +43,7 @@ class MysqlSslCredentials implements JsonSerializable{
 	 * @param array       $array
 	 * @return MysqlSslCredentials
 	 */
-	public static function fromArray(array $array): MysqlSslCredentials
-	{
+	public static function fromArray(array $array) : MysqlSslCredentials{
 		return new MysqlSslCredentials(
 			$array["key"] ?? "",
 			$array["certificate"] ?? "",
@@ -63,8 +62,7 @@ class MysqlSslCredentials implements JsonSerializable{
 	 * @param string $caPath
 	 * @param string $cipherAlgorithms
 	 */
-	public function __construct(string $key = "", string $certificate = "", string $caCertificate = "", string $caPath = "", string $cipherAlgorithms = "")
-	{
+	public function __construct(string $key = "", string $certificate = "", string $caCertificate = "", string $caPath = "", string $cipherAlgorithms = ""){
 		$this->key = $key;
 		$this->certificate = $certificate;
 		$this->caCertificate = $caCertificate;
@@ -77,8 +75,7 @@ class MysqlSslCredentials implements JsonSerializable{
 	 *
 	 * @param mysqli $mysqli
 	 */
-	public function applyToInstance(mysqli $mysqli): void
-	{
+	public function applyToInstance(mysqli $mysqli) : void{
 		$mysqli->ssl_set(
 			$this->key,
 			$this->certificate,
@@ -88,8 +85,7 @@ class MysqlSslCredentials implements JsonSerializable{
 		);
 	}
 
-	public function jsonSerialize(): array
-	{
+	public function jsonSerialize() : array{
 		return [
 			"key" => $this->key,
 			"certificate" => $this->certificate,

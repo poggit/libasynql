@@ -106,8 +106,7 @@ class MysqlCredentials implements JsonSerializable{
 	 *
 	 * @throws SqlError
 	 */
-	public function newMysqli(): mysqli
-	{
+	public function newMysqli() : mysqli{
 		$mysqli = mysqli_init();
 		if ($mysqli === false) {
 			throw new SqlError(SqlError::STAGE_CONNECT, "Failed to initialize mysqli");
@@ -129,8 +128,7 @@ class MysqlCredentials implements JsonSerializable{
 	 *
 	 * @throws SqlError
 	 */
-	public function reconnectMysqli(mysqli $mysqli): void
-	{
+	public function reconnectMysqli(mysqli $mysqli) : void{
 		@mysqli_real_connect($mysqli, $this->host, $this->username, $this->password, $this->schema, $this->port, $this->socket);
 		if ($mysqli->connect_error) {
 			throw new SqlError(SqlError::STAGE_CONNECT, $mysqli->connect_error);
@@ -142,8 +140,7 @@ class MysqlCredentials implements JsonSerializable{
 	 *
 	 * @return string
 	 */
-	public function __toString(): string
-	{
+	public function __toString() : string{
 		return "$this->username@$this->host:$this->port/schema,$this->socket";
 	}
 
@@ -152,8 +149,7 @@ class MysqlCredentials implements JsonSerializable{
 	 *
 	 * @return array
 	 */
-	public function __debugInfo()
-	{
+	public function __debugInfo(){
 		return [
 			"host" => $this->host,
 			"username" => $this->username,
@@ -165,8 +161,7 @@ class MysqlCredentials implements JsonSerializable{
 		];
 	}
 
-	public function jsonSerialize(): array
-	{
+	public function jsonSerialize() : array{
 		return [
 			"host" => $this->host,
 			"username" => $this->username,
