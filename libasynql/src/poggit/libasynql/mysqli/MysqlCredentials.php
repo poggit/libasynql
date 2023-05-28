@@ -63,7 +63,7 @@ class MysqlCredentials implements JsonSerializable{
 	 */
 	public static function fromArray(array $array, ?string $defaultSchema = null): MysqlCredentials
 	{
-		if (!isset($defaultSchema, $array["schema"])) {
+		if(!isset($defaultSchema, $array["schema"])) {
 			throw new ConfigException("The attribute \"schema\" is missing in the MySQL settings");
 		}
 		return new MysqlCredentials(
@@ -108,14 +108,14 @@ class MysqlCredentials implements JsonSerializable{
 	 */
 	public function newMysqli() : mysqli{
 		$mysqli = mysqli_init();
-		if ($mysqli === false) {
+		if($mysqli === false) {
 			throw new SqlError(SqlError::STAGE_CONNECT, "Failed to initialize mysqli");
 		}
-		if ($this->sslCredentials !== null) {
+		if($this->sslCredentials !== null) {
 			$this->sslCredentials->applyToInstance($mysqli);
 		}
 		@mysqli_real_connect($mysqli, $this->host, $this->username, $this->password, $this->schema, $this->port, $this->socket);
-		if ($mysqli->connect_error) {
+		if($mysqli->connect_error) {
 			throw new SqlError(SqlError::STAGE_CONNECT, $mysqli->connect_error);
 		}
 		return $mysqli;
@@ -130,7 +130,7 @@ class MysqlCredentials implements JsonSerializable{
 	 */
 	public function reconnectMysqli(mysqli $mysqli) : void{
 		@mysqli_real_connect($mysqli, $this->host, $this->username, $this->password, $this->schema, $this->port, $this->socket);
-		if ($mysqli->connect_error) {
+		if($mysqli->connect_error) {
 			throw new SqlError(SqlError::STAGE_CONNECT, $mysqli->connect_error);
 		}
 	}
