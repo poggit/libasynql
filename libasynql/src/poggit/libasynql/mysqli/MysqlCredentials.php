@@ -28,8 +28,7 @@ use poggit\libasynql\ConfigException;
 use poggit\libasynql\SqlError;
 use function strlen;
 
-class MysqlCredentials implements JsonSerializable
-{
+class MysqlCredentials implements JsonSerializable{
 	/** @var string $host */
 	private $host;
 	/** @var string $username */
@@ -42,7 +41,7 @@ class MysqlCredentials implements JsonSerializable
 	private $port;
 	/** @var string $socket */
 	private $socket;
-	/** @var MysqlSslCredentials */
+	/** @var MysqlSslCredentials|null */
 	private $sslCredentials;
 
 

@@ -25,8 +25,7 @@ namespace poggit\libasynql\mysqli;
 use JsonSerializable;
 use mysqli;
 
-class MysqlSslCredentials implements JsonSerializable
-{
+class MysqlSslCredentials implements JsonSerializable{
 	/** @var string $key */
 	private $key;
 	/** @var string $certificate */
