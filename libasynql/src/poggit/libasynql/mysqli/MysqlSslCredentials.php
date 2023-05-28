@@ -55,7 +55,7 @@ class MysqlSslCredentials implements JsonSerializable{
 	}
 
 	/**
-	 * Constructs a new {@link MysqlCredentials} by passing parameters directly.
+	 * Constructs a new {@link MysqlSslCredentials} by passing parameters directly.
 	 *
 	 * @param string $key
 	 * @param string $certificate
