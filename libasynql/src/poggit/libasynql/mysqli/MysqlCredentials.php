@@ -61,8 +61,7 @@ class MysqlCredentials implements JsonSerializable{
 	 * @return MysqlCredentials
 	 * @throws ConfigException If <code>schema</code> is missing and <code>$defaultSchema</code> is null/not passed
 	 */
-	public static function fromArray(array $array, ?string $defaultSchema = null): MysqlCredentials
-	{
+	public static function fromArray(array $array, ?string $defaultSchema = null) : MysqlCredentials{
 		if(!isset($defaultSchema, $array["schema"])) {
 			throw new ConfigException("The attribute \"schema\" is missing in the MySQL settings");
 		}
@@ -88,8 +87,7 @@ class MysqlCredentials implements JsonSerializable{
 	 * @param string $socket
 	 * @param MysqlSslCredentials|null $sslCredentials
 	 */
-	public function __construct(string $host, string $username, string $password, string $schema, int $port = 3306, string $socket = "", ?MysqlSslCredentials $sslCredentials = null)
-	{
+	public function __construct(string $host, string $username, string $password, string $schema, int $port = 3306, string $socket = "", ?MysqlSslCredentials $sslCredentials = null){
 		$this->host = $host;
 		$this->username = $username;
 		$this->password = $password;
