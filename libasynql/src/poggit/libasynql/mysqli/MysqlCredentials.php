@@ -72,7 +72,7 @@ class MysqlCredentials implements JsonSerializable{
 			$array["schema"] ?? $defaultSchema,
 			$array["port"] ?? 3306,
 			$array["socket"] ?? "",
-			isset($array["ssl"]) ? MysqlSslCredentials::fromArray($array["ssl"]) : null
+			isset($array["ssl"]) ? MysqlSslCredentials::fromArray($array["ssl"]) : null,
 		);
 	}
 
@@ -155,7 +155,7 @@ class MysqlCredentials implements JsonSerializable{
 			"schema" => $this->schema,
 			"port" => $this->port,
 			"socket" => $this->socket,
-			"sslCredentials" => $this->sslCredentials
+			"sslCredentials" => $this->sslCredentials,
 		];
 	}
 
@@ -167,7 +167,7 @@ class MysqlCredentials implements JsonSerializable{
 			"schema" => $this->schema,
 			"port" => $this->port,
 			"socket" => $this->socket,
-			"sslCredentials" => $this->sslCredentials
+			"sslCredentials" => $this->sslCredentials,
 		];
 	}
 }
