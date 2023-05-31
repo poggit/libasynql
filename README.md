@@ -35,6 +35,9 @@ database:
     username: root
     password: ""
     schema: your_schema
+    # SSL support
+    ssl:
+      ca-certificate: /etc/ssl/certs/ca-certificates.crt
   # The maximum number of simultaneous SQL queries
   # Recommended: 1 for sqlite, 2 for MySQL. You may want to further increase this value if your MySQL connection is very slow.
   worker-limit: 1
