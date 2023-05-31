@@ -56,11 +56,11 @@ class MysqlSslCredentials implements JsonSerializable{
 	/**
 	 * Constructs a new {@link MysqlSslCredentials} by passing parameters directly.
 	 *
-	 * @param string $key - The path name to the key file
-	 * @param string $certificate - The path name to the certificate file
-	 * @param string $caCertificate - The path name to the certificate authority file
-	 * @param string $caPath - The path name to a directory that contains trusted SSL CA certificates in PEM format
-	 * @param string $cipherAlgorithms - A list of allowable ciphers use for SSL encryption
+	 * @param string|null $key - The path name to the key file
+	 * @param string|null $certificate - The path name to the certificate file
+	 * @param string|null $caCertificate - The path name to the certificate authority file
+	 * @param string|null $caPath - The path name to a directory that contains trusted SSL CA certificates in PEM format
+	 * @param string|null $cipherAlgorithms - A list of allowable ciphers used for SSL encryption
 	 */
 	public function __construct(?string $key = null, ?string $certificate = null, ?string $caCertificate = null, ?string $caPath = null, ?string $cipherAlgorithms = null){
 		$this->key = $key;
