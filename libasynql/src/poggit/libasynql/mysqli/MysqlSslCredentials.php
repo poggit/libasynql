@@ -45,11 +45,11 @@ class MysqlSslCredentials implements JsonSerializable{
 	 */
 	public static function fromArray(array $array) : MysqlSslCredentials{
 		return new MysqlSslCredentials(
-			$array["key"],
-			$array["certificate"],
-			$array["ca-certificate"],
-			$array["ca-path"],
-			$array["cipher-algorithms"],
+			$array["key"] ?? null,
+			$array["certificate"] ?? null,
+			$array["ca-certificate"] ?? null,
+			$array["ca-path"] ?? null,
+			$array["cipher-algorithms"] ?? null,
 		);
 	}
 
