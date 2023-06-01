@@ -15,5 +15,11 @@
             "name": "SOFe",
             "email": "sofe2038@gmail.com"
         }
-    ]
+    ],
+	"extra":{
+        "virion": {
+            "spec": "3.0",
+            "namespace-root": "poggit\\libasynql"
+        }
+    }
 }
