@@ -22,34 +22,43 @@ declare(strict_types=1);
 
 namespace poggit\libasynql\base;
 
+use pmmp\thread\ThreadSafe;
+use pmmp\thread\ThreadSafeArray;
 use poggit\libasynql\SqlError;
 use poggit\libasynql\SqlResult;
-use Threaded;
 use function is_string;
 use function serialize;
 use function unserialize;
 
-class QueryRecvQueue extends Threaded{
+class QueryRecvQueue extends ThreadSafe{
+	private int $availableThreads = 0;
+
+	private ThreadSafeArray $queue;
+
+	public function __construct(){
+		$this->queue = new ThreadSafeArray();
+	}
 
 	/**
 	 * @param SqlResult[] $results
 	 */
 	public function publishResult(int $queryId, array $results) : void{
 		$this->synchronized(function() use ($queryId, $results) : void{
-			$this[] = serialize([$queryId, $results]);
+			$this->queue[] = serialize([$queryId, $results]);
 			$this->notify();
 		});
 	}
 
 	public function publishError(int $queryId, SqlError $error) : void{
 		$this->synchronized(function() use ($error, $queryId) : void{
-			$this[] = serialize([$queryId, $error]);
+			$this->queue[] = serialize([$queryId, $error]);
 			$this->notify();
 		});
 	}
 
 	public function fetchResults(&$queryId, &$results) : bool{
-		if(is_string($row = $this->shift())){
+		$row = $this->queue->shift();
+		if(is_string($row)){
 			[$queryId, $results] = unserialize($row, ["allowed_classes" => true]);
 			return true;
 		}
@@ -57,7 +66,7 @@ class QueryRecvQueue extends Threaded{
 	}
 
 	/**
-	 * @return list<array{int, SqlError|SqlResults[]|null}>
+	 * @param SqlError|SqlResult[]|null $results
 	 */
 	public function fetchAllResults(): array{
 		return $this->synchronized(function(): array{
