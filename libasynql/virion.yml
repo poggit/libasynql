@@ -4,4 +4,4 @@ authors:
 antigen: poggit\libasynql
 version: 4.1.6
 api:
-  - 4.0.0
+  - 5.0.0
