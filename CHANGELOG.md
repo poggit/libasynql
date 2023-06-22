@@ -1,5 +1,8 @@
 # Changelog
 
+## [4.2.0](https://github.com/poggit/libasynql/compare/v4.1.6...v4.2.0)
+- Support for PocketMine API 5
+
 ## [4.1.6](https://github.com/poggit/libasynql/compare/v4.1.5...v4.1.6)
 - Set `def` and `fx` as composer bin for running from vendor
 
