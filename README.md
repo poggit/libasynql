@@ -271,22 +271,43 @@ public function getFoo() : string {
 ```
 
 ```php
-$this->database->executeGeneric("common.mistake.asynchronous", [], function() : void {
+$this->database->executeGeneric("beware.of.race_condition", [], function() : void {
 	$this->setFoo();
 });
 echo $this->getFoo();
 ```
-The result will be `bar` because the queries are run asynchronously. The code on the main thread will run faster than it.
+The result will be `bar` because the queries are run asynchronously. The code on the main thread will run earlier than it.
 
 To make the code give a correct result, you have to ensure `$this->setFoo()` runs before `echo $this->getFoo()`. The appropriate way is to move `getFoo()` into the callback function, just like below:
 ```php
-$this->database->executeGeneric("common.mistake.asynchronous", [], function() : void {
+$this->database->executeGeneric("beware.of.race_condition", [], function() : void {
 	$this->setFoo();
 	echo $this->getFoo();
 });
 ```
+### Returning the result from callback
+Still, because of race condition (please read the above section), it is impossible to return the result nor using it outside of the callback scope.
+For those who is trying to design an API function or want to exchange the results with other parts of the code, please consider turning them also into callbacks:
+```php
+public function myAPI(\Closure $userCallback)
+    $this->database->executeSelect("beware.of.return_from_callback", [], function($result) use ($userCallback) : void {
+	    $userCallback($result);
+    });
 
+    // Simpler versions:
+    $this->database->executeSelect("beware.of.return_from_callback", [], fn($result) => $userCallback($result));
+    $this->database->executeSelect("beware.of.return_from_callback", [], $userCallback);
+}
 
+private function userExample() {
+    $this->myAPI(fn($result) => var_dump($result));
+    // Since PHP 8.1:
+    $this->myAPI(var_dump(...));
+}
+```
+#### Callbacks will clutter your code
+While using callbacks might be one straightforward solution to your problems, this has a large trade off--you must sacrifice the code readability.
+Hence, [async/await](https://github.com/SOF3/await-generator) would also be a worthy topic which contributes your programming skillset despite its steep learning curve. At the end of the day, you will finally be able to overcome race condition and "return" the result!
 ## Featured examples
 - [cucumber](https://github.com/adeynes/cucumber)
 - [BlockPets](https://github.com/BlockHorizons/BlockPets/blob/4163b4f402494e7ec71b0911c413b8f199904b0e/src/BlockHorizons/BlockPets/pets/datastorage/SQLDataStorer.php)
