@@ -305,7 +305,7 @@ private function userExample() {
 }
 ```
 ### Callbacks will clutter your code
-While using callbacks might be one straightforward solution to your problems, there exists a large trade off--you must sacrifice the code readability.
+While using callbacks might be one straightforward solution to your problems, there exists a large trade off—you must sacrifice the code readability.
 Hence, [async/await](https://github.com/SOF3/await-generator) would also be a worthy topic which contributes your programming skillset despite its steep learning curve. At the end of the day, you will finally be able to overcome race condition and "return" the result!
 ## Featured examples
 - [cucumber](https://github.com/adeynes/cucumber)
