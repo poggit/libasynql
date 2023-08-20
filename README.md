@@ -299,12 +299,6 @@ public function myAPI(\Closure $userCallback)
     $this->database->executeSelect("beware.of.return_from_callback", [], fn($result) => $userCallback($result));
     $this->database->executeSelect("beware.of.return_from_callback", [], $userCallback);
 }
-
-private function userExample() {
-    $this->myAPI(fn($result) => var_dump($result));
-    // Since PHP 8.1:
-    $this->myAPI(var_dump(...));
-}
 ```
 
 ### Callbacks will clutter your code
