@@ -302,7 +302,7 @@ public function myAPI(\Closure $userCallback)
 ```
 
 ### Callbacks will clutter your code
-While using callbacks might be one straightforward solution to your problems, there exists a significant trade off—you must sacrifice the code readability.
+While using callbacks might be one straightforward solution to your problems, there exists a significant trade off &mdash; you must sacrifice the code readability.
 Hence, we recommend learning the [async/await](https://github.com/SOF3/await-generator) code style and use it to reduce the mess.
 ## Featured examples
 - [cucumber](https://github.com/adeynes/cucumber)
