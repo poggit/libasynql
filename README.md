@@ -302,9 +302,8 @@ public function myAPI(\Closure $userCallback)
 ```
 
 ### Callbacks will clutter your code
-While using callbacks might be one straightforward solution to your problems, there exists a large trade off—you must sacrifice the code readability.
-Hence, [async/await](https://github.com/SOF3/await-generator) would also be a worthy topic which contributes your programming skillset despite its steep learning curve. At the end of the day, you will finally be able to overcome race condition and "return" the result!
-
+While using callbacks might be one straightforward solution to your problems, there exists a significant trade off—you must sacrifice the code readability.
+Hence, we recommend learning the [async/await](https://github.com/SOF3/await-generator) code style and use it to reduce the mess.
 ## Featured examples
 - [cucumber](https://github.com/adeynes/cucumber)
 - [BlockPets](https://github.com/BlockHorizons/BlockPets/blob/4163b4f402494e7ec71b0911c413b8f199904b0e/src/BlockHorizons/BlockPets/pets/datastorage/SQLDataStorer.php)
