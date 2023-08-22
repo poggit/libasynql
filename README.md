@@ -271,22 +271,39 @@ public function getFoo() : string {
 ```
 
 ```php
-$this->database->executeGeneric("common.mistake.asynchronous", [], function() : void {
+$this->database->executeGeneric("beware.of.race_condition", [], function() : void {
 	$this->setFoo();
 });
 echo $this->getFoo();
 ```
-The result will be `bar` because the queries are run asynchronously. The code on the main thread will run faster than it.
+The result will be `bar` because the queries are run asynchronously. The code on the main thread will run earlier than it.
 
 To make the code give a correct result, you have to ensure `$this->setFoo()` runs before `echo $this->getFoo()`. The appropriate way is to move `getFoo()` into the callback function, just like below:
 ```php
-$this->database->executeGeneric("common.mistake.asynchronous", [], function() : void {
+$this->database->executeGeneric("beware.of.race_condition", [], function() : void {
 	$this->setFoo();
 	echo $this->getFoo();
 });
 ```
 
+### Returning the result from callback
+Due to race condition (as explained in the section above), it is not viable to return the result nor use it beyond the scope of the callback. If you are aiming to create an API function or seek to share the results with other parts of the code, it is advisable to convert the code into callbacks as well:
 
+```php
+public function myAPI(\Closure $userCallback)
+    $this->database->executeSelect("beware.of.return_from_callback", [], function($result) use ($userCallback) : void {
+	    $userCallback($result);
+    });
+
+    // Simpler versions:
+    $this->database->executeSelect("beware.of.return_from_callback", [], fn($result) => $userCallback($result));
+    $this->database->executeSelect("beware.of.return_from_callback", [], $userCallback);
+}
+```
+
+### Callbacks will clutter your code
+While using callbacks might be one straightforward solution to your problems, there exists a significant trade off &mdash; you must sacrifice the code readability.
+Hence, we recommend learning the [async/await](https://github.com/SOF3/await-generator) code style and use it to reduce the mess.
 ## Featured examples
 - [cucumber](https://github.com/adeynes/cucumber)
 - [BlockPets](https://github.com/BlockHorizons/BlockPets/blob/4163b4f402494e7ec71b0911c413b8f199904b0e/src/BlockHorizons/BlockPets/pets/datastorage/SQLDataStorer.php)
