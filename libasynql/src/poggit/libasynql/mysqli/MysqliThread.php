@@ -93,7 +93,14 @@ class MysqliThread extends SqlSlaveThread{
 		assert($mysqli instanceof mysqli);
 		/** @var MysqlCredentials $cred */
 		$cred = unserialize($this->credentials);
-		if(!$mysqli->ping()){
+		$ping = false;
+
+		mysqli_report(MYSQLI_REPORT_OFF);
+		try {
+			$ping = @$mysqli->ping();
+		} catch (\mysqli_sql_exception $err){}
+		
+		if(!$ping){
 			$success = false;
 			$attempts = 0;
 			do{
