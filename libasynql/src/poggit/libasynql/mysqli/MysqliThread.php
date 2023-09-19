@@ -22,7 +22,6 @@ declare(strict_types=1);
 
 namespace poggit\libasynql\mysqli;
 
-use AttachableThreadedLogger;
 use Closure;
 use ErrorException;
 use InvalidArgumentException;
@@ -31,8 +30,8 @@ use mysqli_result;
 use mysqli_sql_exception;
 use mysqli_stmt;
 use pocketmine\errorhandler\ErrorToExceptionHandler;
+use pocketmine\snooze\SleeperHandlerEntry;
 use pocketmine\snooze\SleeperNotifier;
-use pocketmine\utils\Utils;
 use poggit\libasynql\base\QueryRecvQueue;
 use poggit\libasynql\base\QuerySendQueue;
 use poggit\libasynql\base\SqlSlaveThread;
@@ -64,20 +63,20 @@ use const PHP_INT_MAX;
 class MysqliThread extends SqlSlaveThread{
 	/** @var string */
 	private $credentials;
-	/** @var AttachableThreadedLogger */
+	/** @var AttachableThreadSafeLogger */
 	private $logger;
 
-	public static function createFactory(MysqlCredentials $credentials, AttachableThreadedLogger $logger) : Closure{
-		return function(SleeperNotifier $notifier, QuerySendQueue $bufferSend, QueryRecvQueue $bufferRecv) use ($credentials, $logger){
-			return new MysqliThread($credentials, $notifier, $logger, $bufferSend, $bufferRecv);
+	public static function createFactory(MysqlCredentials $credentials, AttachableThreadSafeLogger $logger) : Closure{
+		return function(SleeperHandlerEntry $sleeperEntry, QuerySendQueue $bufferSend, QueryRecvQueue $bufferRecv) use ($credentials, $logger){
+			return new MysqliThread($credentials, $sleeperEntry, $logger, $bufferSend, $bufferRecv);
 		};
 	}
 
-	public function __construct(MysqlCredentials $credentials, SleeperNotifier $notifier, AttachableThreadedLogger $logger, QuerySendQueue $bufferSend = null, QueryRecvQueue $bufferRecv = null){
+	public function __construct(MysqlCredentials $credentials, SleeperHandlerEntry $entry, AttachableThreadSafeLogger $logger, QuerySendQueue $bufferSend = null, QueryRecvQueue $bufferRecv = null){
 		$this->credentials = serialize($credentials);
 		$this->logger = $logger;
 
-		parent::__construct($notifier, $bufferSend, $bufferRecv);
+		parent::__construct($entry, $bufferSend, $bufferRecv);
 	}
 
 	protected function createConn(&$mysqli) : ?string{
@@ -96,7 +95,14 @@ class MysqliThread extends SqlSlaveThread{
 		assert($mysqli instanceof mysqli);
 		/** @var MysqlCredentials $cred */
 		$cred = unserialize($this->credentials);
-		if(!$mysqli->ping()){
+		$ping = false;
+
+		mysqli_report(MYSQLI_REPORT_OFF);
+		try {
+			$ping = @$mysqli->ping();
+		} catch (\mysqli_sql_exception $err){}
+		
+		if(!$ping){
 			$success = false;
 			$attempts = 0;
 			do{

@@ -41,6 +41,9 @@ class MysqlCredentials implements JsonSerializable{
 	private $port;
 	/** @var string $socket */
 	private $socket;
+	/** @var MysqlSslCredentials|null */
+	private $sslCredentials;
+
 
 	/**
 	 * Creates a new {@link MysqlCredentials} instance from an array (e.g. from Config), with the following defaults:
@@ -62,8 +65,15 @@ class MysqlCredentials implements JsonSerializable{
 		if(!isset($defaultSchema, $array["schema"])){
 			throw new ConfigException("The attribute \"schema\" is missing in the MySQL settings");
 		}
-		return new MysqlCredentials($array["host"] ?? "127.0.0.1", $array["username"] ?? "root",
-			$array["password"] ?? "", $array["schema"] ?? $defaultSchema, $array["port"] ?? 3306, $array["socket"] ?? "");
+		return new MysqlCredentials(
+			$array["host"] ?? "127.0.0.1",
+			$array["username"] ?? "root",
+			$array["password"] ?? "",
+			$array["schema"] ?? $defaultSchema,
+			$array["port"] ?? 3306,
+			$array["socket"] ?? "",
+			isset($array["ssl"]) ? MysqlSslCredentials::fromArray($array["ssl"]) : null,
+		);
 	}
 
 	/**
@@ -75,14 +85,16 @@ class MysqlCredentials implements JsonSerializable{
 	 * @param string $schema
 	 * @param int    $port
 	 * @param string $socket
+	 * @param MysqlSslCredentials|null $sslCredentials
 	 */
-	public function __construct(string $host, string $username, string $password, string $schema, int $port = 3306, string $socket = ""){
+	public function __construct(string $host, string $username, string $password, string $schema, int $port = 3306, string $socket = "", ?MysqlSslCredentials $sslCredentials = null){
 		$this->host = $host;
 		$this->username = $username;
 		$this->password = $password;
 		$this->schema = $schema;
 		$this->port = $port;
 		$this->socket = $socket;
+		$this->sslCredentials = $sslCredentials;
 	}
 
 	/**
@@ -93,7 +105,14 @@ class MysqlCredentials implements JsonSerializable{
 	 * @throws SqlError
 	 */
 	public function newMysqli() : mysqli{
-		$mysqli = @new mysqli($this->host, $this->username, $this->password, $this->schema, $this->port, $this->socket);
+		$mysqli = mysqli_init();
+		if($mysqli === false){
+			throw new SqlError(SqlError::STAGE_CONNECT, "Failed to initialize mysqli");
+		}
+		if($this->sslCredentials !== null){
+			$this->sslCredentials->applyToInstance($mysqli);
+		}
+		@mysqli_real_connect($mysqli, $this->host, $this->username, $this->password, $this->schema, $this->port, $this->socket);
 		if($mysqli->connect_error){
 			throw new SqlError(SqlError::STAGE_CONNECT, $mysqli->connect_error);
 		}
@@ -108,7 +127,7 @@ class MysqlCredentials implements JsonSerializable{
 	 * @throws SqlError
 	 */
 	public function reconnectMysqli(mysqli $mysqli) : void{
-		@$mysqli->connect($this->host, $this->username, $this->password, $this->schema, $this->port, $this->socket);
+		@mysqli_real_connect($mysqli, $this->host, $this->username, $this->password, $this->schema, $this->port, $this->socket);
 		if($mysqli->connect_error){
 			throw new SqlError(SqlError::STAGE_CONNECT, $mysqli->connect_error);
 		}
@@ -135,7 +154,8 @@ class MysqlCredentials implements JsonSerializable{
 			"password" => str_repeat("*", strlen($this->password)),
 			"schema" => $this->schema,
 			"port" => $this->port,
-			"socket" => $this->socket
+			"socket" => $this->socket,
+			"sslCredentials" => $this->sslCredentials,
 		];
 	}
 
@@ -146,7 +166,8 @@ class MysqlCredentials implements JsonSerializable{
 			"password" => $this->password,
 			"schema" => $this->schema,
 			"port" => $this->port,
-			"socket" => $this->socket
+			"socket" => $this->socket,
+			"sslCredentials" => $this->sslCredentials,
 		];
 	}
 }

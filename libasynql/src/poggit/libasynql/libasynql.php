@@ -74,6 +74,8 @@ final class libasynql{
 	 * @throws SqlError if the connection could not be created
 	 */
 	public static function create(PluginBase $plugin, $configData, array $sqlMap, bool $logQueries = null) : DataConnector{
+		libasynql::detectPackaged();
+
 		if(!is_array($configData)){
 			throw new ConfigException("Database settings are missing or incorrect");
 		}
@@ -166,12 +168,3 @@ final class libasynql{
 		return $folder . $path;
 	}
 }
-
-/**
- * An empty function accepting void parameters and returning void. Can be used as a dummy function.
- */
-function nop() : void{
-
-}
-
-libasynql::detectPackaged();

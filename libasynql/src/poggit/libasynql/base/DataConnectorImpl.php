@@ -314,12 +314,12 @@ class DataConnectorImpl implements DataConnector{
 
 	public function waitAll() : void{
 		while(!empty($this->handlers)){
-			$this->checkResults();
+			$this->thread->readResults($this->handlers, count($this->handlers));
 		}
 	}
 
 	public function checkResults() : void{
-		$this->thread->readResults($this->handlers);
+		$this->thread->readResults($this->handlers, null);
 	}
 
 	public function close() : void{

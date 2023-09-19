@@ -2,18 +2,29 @@
     "name": "sof3/libasynql",
     "type": "library",
     "require": {
-        "pocketmine/pocketmine-mp": "^4.0.0"
+        "pocketmine/pocketmine-mp": "^5.0.0-BETA4",
+		"sof3/await-generator": "^2.0.0 || ^3.0.0"
     },
     "license": "Apache-2.0",
-	"autoload": {
-		"psr-0": {
-			"poggit\\libasynql\\": "libasynql/src/"
-		}
-	},
+    "autoload": {
+        "psr-0": {
+            "poggit\\libasynql\\": "libasynql/src/"
+        }
+    },
     "authors": [
         {
             "name": "SOFe",
             "email": "sofe2038@gmail.com"
         }
-    ]
+    ],
+    "bin": [
+        "libasynql/cli/def.php",
+        "libasynql/cli/fx.php"
+    ],
+    "extra":{
+        "virion": {
+            "spec": "3.0",
+            "namespace-root": "poggit\\libasynql"
+        }
+    }
 }

@@ -24,7 +24,14 @@ use poggit\libasynql\generic\GenericStatementFileParseException;
 use poggit\libasynql\generic\GenericStatementFileParser;
 use poggit\libasynql\GenericStatement;
 
-require_once __DIR__ . "/../cli-autoload.php";
+if(Phar::running()) {
+	// virion cli mode
+	require_once __DIR__ . "/../cli-autoload.php";
+} else {
+	// composer bin mode
+	require_once __DIR__ . "/../../../../autoload.php";
+	array_splice($argv, 1, 0, ["fx"]);
+}
 
 if(!isset($argv[4])){
 	echo "[!] Usage: php " . escapeshellarg($argv[0]) . " def <src> <fqn> <SQL file>\n";
