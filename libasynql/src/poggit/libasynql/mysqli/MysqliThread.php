@@ -24,11 +24,15 @@ namespace poggit\libasynql\mysqli;
 
 use AttachableThreadedLogger;
 use Closure;
+use ErrorException;
 use InvalidArgumentException;
 use mysqli;
 use mysqli_result;
+use mysqli_sql_exception;
 use mysqli_stmt;
+use pocketmine\errorhandler\ErrorToExceptionHandler;
 use pocketmine\snooze\SleeperNotifier;
+use pocketmine\utils\Utils;
 use poggit\libasynql\base\QueryRecvQueue;
 use poggit\libasynql\base\QuerySendQueue;
 use poggit\libasynql\base\SqlSlaveThread;
@@ -111,8 +115,9 @@ class MysqliThread extends SqlSlaveThread{
 		}
 
 		if(count($params) === 0){
-			$result = $mysqli->query($query);
-			if($result === false){
+			try{
+				$result = Utils::assumeNotFalse(fn() => $mysqli->query($query));
+			}catch(mysqli_sql_exception){
 				throw new SqlError(SqlError::STAGE_EXECUTE, $mysqli->error, $query, []);
 			}
 			switch($mode){
@@ -136,8 +141,9 @@ class MysqliThread extends SqlSlaveThread{
 					return $ret;
 			}
 		}else{
-			$stmt = $mysqli->prepare($query);
-			if(!($stmt instanceof mysqli_stmt)){
+			try{
+				$stmt = Utils::assumeNotFalse(fn() => $mysqli->prepare($query));
+			}catch(mysqli_sql_exception){
 				throw new SqlError(SqlError::STAGE_PREPARE, $mysqli->error, $query, $params);
 			}
 			$types = implode(array_map(static function($param) use ($query, $params){
@@ -153,8 +159,10 @@ class MysqliThread extends SqlSlaveThread{
 				throw new SqlError(SqlError::STAGE_PREPARE, "Cannot bind value of type " . gettype($param), $query, $params);
 			}, $params));
 			$stmt->bind_param($types, ...$params);
-			if(!$stmt->execute()){
-				throw new SqlError(SqlError::STAGE_EXECUTE, $stmt->error, $query, $params);
+			try{
+				$stmt->execute();
+			}catch(mysqli_sql_exception){
+				throw new SqlError(SqlError::STAGE_EXECUTE, $mysqli->error, $query, $params);
 			}
 			switch($mode){
 				case SqlThread::MODE_GENERIC:
