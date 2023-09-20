@@ -23,8 +23,10 @@ declare(strict_types=1);
 namespace poggit\libasynql\sqlite3;
 
 use Closure;
+use ErrorException;
 use Exception;
 use InvalidArgumentException;
+use pocketmine\errorhandler\ErrorToExceptionHandler;
 use pocketmine\snooze\SleeperHandlerEntry;
 use pocketmine\snooze\SleeperNotifier;
 use poggit\libasynql\base\QueryRecvQueue;
@@ -77,8 +79,9 @@ class Sqlite3Thread extends SqlSlaveThread{
 
 	protected function executeQuery($sqlite, int $mode, string $query, array $params) : SqlResult{
 		assert($sqlite instanceof SQLite3);
-		$stmt = $sqlite->prepare($query);
-		if($stmt === false){
+		try{
+			$stmt = ErrorToExceptionHandler::trapAndRemoveFalse(fn() => $sqlite->prepare($query));
+		}catch(ErrorException){
 			throw new SqlError(SqlError::STAGE_PREPARE, $sqlite->lastErrorMsg(), $query, $params);
 		}
 		foreach($params as $paramName => $param){
@@ -87,8 +90,9 @@ class Sqlite3Thread extends SqlSlaveThread{
 				throw new SqlError(SqlError::STAGE_PREPARE, "when binding $paramName: " . $sqlite->lastErrorMsg(), $query, $params);
 			}
 		}
-		$result = $stmt->execute();
-		if($result === false){
+		try{
+			$result = ErrorToExceptionHandler::trapAndRemoveFalse(fn() => $stmt->execute());
+		}catch(ErrorException){
 			throw new SqlError(SqlError::STAGE_EXECUTE, $sqlite->lastErrorMsg(), $query, $params);
 		}
 		switch($mode){
