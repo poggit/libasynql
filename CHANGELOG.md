@@ -1,5 +1,8 @@
 # Changelog
 
+## [4.2.1](https://github.com/poggit/libasynql/compare/v4.2.0...v4.2.1)
+- Fixed missing import
+
 ## [4.2.0](https://github.com/poggit/libasynql/compare/v4.1.6...v4.2.0)
 - Support for PocketMine API 5
 
