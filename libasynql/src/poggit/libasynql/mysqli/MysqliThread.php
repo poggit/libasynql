@@ -33,6 +33,7 @@ use pocketmine\errorhandler\ErrorToExceptionHandler;
 use pocketmine\snooze\SleeperHandlerEntry;
 use pocketmine\snooze\SleeperNotifier;
 use pocketmine\thread\log\AttachableThreadSafeLogger;
+use pocketmine\utils\Utils;
 use poggit\libasynql\base\QueryRecvQueue;
 use poggit\libasynql\base\QuerySendQueue;
 use poggit\libasynql\base\SqlSlaveThread;
