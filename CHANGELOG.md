@@ -1,5 +1,8 @@
 # Changelog
 
+## [4.2.2](https://github.com/poggit/libasynql/compare/v4.2.1...v4.2.2)
+- Fixed missing import
+
 ## [4.2.1](https://github.com/poggit/libasynql/compare/v4.2.0...v4.2.1)
 - Fixed missing import
 
