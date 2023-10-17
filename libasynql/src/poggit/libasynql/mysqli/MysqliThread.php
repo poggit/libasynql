@@ -124,7 +124,7 @@ class MysqliThread extends SqlSlaveThread{
 
 		if(count($params) === 0){
 			try{
-				$result = Utils::assumeNotFalse(fn() => $mysqli->query($query));
+				$result = Utils::assumeNotFalse($mysqli->query($query));
 			}catch(mysqli_sql_exception){
 				throw new SqlError(SqlError::STAGE_EXECUTE, $mysqli->error, $query, []);
 			}
@@ -150,7 +150,7 @@ class MysqliThread extends SqlSlaveThread{
 			}
 		}else{
 			try{
-				$stmt = Utils::assumeNotFalse(fn() => $mysqli->prepare($query));
+				$stmt = Utils::assumeNotFalse($mysqli->prepare($query));
 			}catch(mysqli_sql_exception){
 				throw new SqlError(SqlError::STAGE_PREPARE, $mysqli->error, $query, $params);
 			}
