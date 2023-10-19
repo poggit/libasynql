@@ -23,17 +23,12 @@ declare(strict_types=1);
 namespace poggit\libasynql\mysqli;
 
 use Closure;
-use ErrorException;
 use InvalidArgumentException;
 use mysqli;
 use mysqli_result;
 use mysqli_sql_exception;
-use mysqli_stmt;
-use pocketmine\errorhandler\ErrorToExceptionHandler;
 use pocketmine\snooze\SleeperHandlerEntry;
-use pocketmine\snooze\SleeperNotifier;
 use pocketmine\thread\log\AttachableThreadSafeLogger;
-use pocketmine\utils\Utils;
 use poggit\libasynql\base\QueryRecvQueue;
 use poggit\libasynql\base\QuerySendQueue;
 use poggit\libasynql\base\SqlSlaveThread;
@@ -93,6 +88,20 @@ class MysqliThread extends SqlSlaveThread{
 		}
 	}
 
+	private function queryWithErrors(Closure $handle, ?Closure $onError = null)
+	{
+		mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
+
+		try {
+			$result = $handle();
+			return $result;
+		} catch (mysqli_sql_exception $err){
+			if($onError !== null) $onError($err);
+		} finally {
+			mysqli_report(MYSQLI_REPORT_OFF);
+		}
+	}
+
 	protected function executeQuery($mysqli, int $mode, string $query, array $params) : SqlResult{
 		assert($mysqli instanceof mysqli);
 		/** @var MysqlCredentials $cred */
@@ -102,7 +111,7 @@ class MysqliThread extends SqlSlaveThread{
 		mysqli_report(MYSQLI_REPORT_OFF);
 		try {
 			$ping = @$mysqli->ping();
-		} catch (\mysqli_sql_exception $err){}
+		} catch (mysqli_sql_exception $err){}
 		
 		if(!$ping){
 			$success = false;
@@ -123,11 +132,11 @@ class MysqliThread extends SqlSlaveThread{
 		}
 
 		if(count($params) === 0){
-			try{
-				$result = Utils::assumeNotFalse($mysqli->query($query));
-			}catch(mysqli_sql_exception){
-				throw new SqlError(SqlError::STAGE_EXECUTE, $mysqli->error, $query, []);
-			}
+			$result = $this->queryWithErrors(
+				fn() => $mysqli->query($query),
+				fn() => throw new SqlError(SqlError::STAGE_EXECUTE, $mysqli->error, $query, [])
+			);;
+
 			switch($mode){
 				case SqlThread::MODE_GENERIC:
 				case SqlThread::MODE_CHANGE:
@@ -149,11 +158,11 @@ class MysqliThread extends SqlSlaveThread{
 					return $ret;
 			}
 		}else{
-			try{
-				$stmt = Utils::assumeNotFalse($mysqli->prepare($query));
-			}catch(mysqli_sql_exception){
-				throw new SqlError(SqlError::STAGE_PREPARE, $mysqli->error, $query, $params);
-			}
+			$stmt = $this->queryWithErrors(
+				fn() => $mysqli->prepare($query),
+				fn() => throw new SqlError(SqlError::STAGE_EXECUTE, $mysqli->error, $query, [])
+			);;
+
 			$types = implode(array_map(static function($param) use ($query, $params){
 				if(is_string($param)){
 					return "s";
