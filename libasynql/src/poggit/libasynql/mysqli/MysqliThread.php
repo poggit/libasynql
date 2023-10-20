@@ -135,7 +135,7 @@ class MysqliThread extends SqlSlaveThread{
 			$result = $this->queryWithErrors(
 				fn() => $mysqli->query($query),
 				fn() => throw new SqlError(SqlError::STAGE_EXECUTE, $mysqli->error, $query, [])
-			);;
+			);
 
 			switch($mode){
 				case SqlThread::MODE_GENERIC:
@@ -161,7 +161,7 @@ class MysqliThread extends SqlSlaveThread{
 			$stmt = $this->queryWithErrors(
 				fn() => $mysqli->prepare($query),
 				fn() => throw new SqlError(SqlError::STAGE_EXECUTE, $mysqli->error, $query, [])
-			);;
+			);
 
 			$types = implode(array_map(static function($param) use ($query, $params){
 				if(is_string($param)){
