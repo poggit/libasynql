@@ -88,7 +88,7 @@ class MysqliThread extends SqlSlaveThread{
 		}
 	}
 
-	private function queryWithErrors(Closure $handle, ?Closure $onError = null)
+	private static function queryWithErrors(Closure $handle, ?Closure $onError = null)
 	{
 		mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 
@@ -132,7 +132,7 @@ class MysqliThread extends SqlSlaveThread{
 		}
 
 		if(count($params) === 0){
-			$result = $this->queryWithErrors(
+			$result = self::queryWithErrors(
 				fn() => $mysqli->query($query),
 				fn() => throw new SqlError(SqlError::STAGE_EXECUTE, $mysqli->error, $query, [])
 			);
@@ -158,9 +158,9 @@ class MysqliThread extends SqlSlaveThread{
 					return $ret;
 			}
 		}else{
-			$stmt = $this->queryWithErrors(
+			$stmt = self::queryWithErrors(
 				fn() => $mysqli->prepare($query),
-				fn() => throw new SqlError(SqlError::STAGE_EXECUTE, $mysqli->error, $query, [])
+				fn() => throw new SqlError(SqlError::STAGE_PREPARE, $mysqli->error, $query, [])
 			);
 
 			$types = implode(array_map(static function($param) use ($query, $params){
