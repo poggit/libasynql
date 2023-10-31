@@ -160,7 +160,7 @@ class MysqliThread extends SqlSlaveThread{
 		}else{
 			$stmt = self::queryWithErrors(
 				fn() => $mysqli->prepare($query),
-				fn() => throw new SqlError(SqlError::STAGE_PREPARE, $mysqli->error, $query, [])
+				fn() => throw new SqlError(SqlError::STAGE_PREPARE, $mysqli->error, $query, $params)
 			);
 
 			$types = implode(array_map(static function($param) use ($query, $params){
