@@ -118,9 +118,6 @@ class MysqlCredentials implements JsonSerializable{
 		}catch (mysqli_sql_exception $e){
 			throw new SqlError(SqlError::STAGE_CONNECT, $e->getMessage());
 		}
-		if($mysqli->connect_error){
-			throw new SqlError(SqlError::STAGE_CONNECT, $mysqli->connect_error);
-		}
 		return $mysqli;
 	}
 
