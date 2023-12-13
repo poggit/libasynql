@@ -115,7 +115,20 @@ class MysqlCredentials implements JsonSerializable{
 		}
 		try {
 			@mysqli_real_connect($mysqli, $this->host, $this->username, $this->password, $this->schema, $this->port, $this->socket);
+			if($mysqli->connect_error){
+				throw new SqlError(SqlError::STAGE_CONNECT, $mysqli->connect_error);
+			}
 		}catch (mysqli_sql_exception $e){
+			//TODO HACK! extensive testing showed that both ways of error handling are acceptable.
+			// maybe it depends on php build, or OS type? I don't really know. Testing it on windows
+			// shows that mysqli_real_connect throws mysqli exception if it is a first connection.
+			// Exception is being thrown before we could actually check connect_error
+			// so we are forced to catch mysqli_sql_exception
+			// On the other hand, if we try to reconnectMysqli, there is no mysqli exception thrown,
+			// instead, we should check connect_error to find out if connect is successful or not
+			// (looks like first connection is throwing, and other ones do not)
+			// tested on 8.1.23 (ZTS Visual C++ 2019 x64) Windows
+
 			throw new SqlError(SqlError::STAGE_CONNECT, $e->getMessage());
 		}
 		return $mysqli;
@@ -129,9 +142,13 @@ class MysqlCredentials implements JsonSerializable{
 	 * @throws SqlError
 	 */
 	public function reconnectMysqli(mysqli $mysqli) : void{
-		@mysqli_real_connect($mysqli, $this->host, $this->username, $this->password, $this->schema, $this->port, $this->socket);
-		if($mysqli->connect_error){
-			throw new SqlError(SqlError::STAGE_CONNECT, $mysqli->connect_error);
+		try {
+			@mysqli_real_connect($mysqli, $this->host, $this->username, $this->password, $this->schema, $this->port, $this->socket);
+			if ($mysqli->connect_error) {
+				throw new SqlError(SqlError::STAGE_CONNECT, $mysqli->connect_error);
+			}
+		}catch (mysqli_sql_exception $e){
+			throw new SqlError(SqlError::STAGE_CONNECT, $e->getMessage());
 		}
 	}
 
