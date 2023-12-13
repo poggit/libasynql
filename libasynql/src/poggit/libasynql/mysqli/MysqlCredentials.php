@@ -24,6 +24,7 @@ namespace poggit\libasynql\mysqli;
 
 use JsonSerializable;
 use mysqli;
+use mysqli_sql_exception;
 use poggit\libasynql\ConfigException;
 use poggit\libasynql\SqlError;
 use function strlen;
@@ -112,7 +113,11 @@ class MysqlCredentials implements JsonSerializable{
 		if($this->sslCredentials !== null){
 			$this->sslCredentials->applyToInstance($mysqli);
 		}
-		@mysqli_real_connect($mysqli, $this->host, $this->username, $this->password, $this->schema, $this->port, $this->socket);
+		try {
+			@mysqli_real_connect($mysqli, $this->host, $this->username, $this->password, $this->schema, $this->port, $this->socket);
+		}catch (mysqli_sql_exception $e){
+			throw new SqlError(SqlError::STAGE_CONNECT, $e->getMessage());
+		}
 		if($mysqli->connect_error){
 			throw new SqlError(SqlError::STAGE_CONNECT, $mysqli->connect_error);
 		}
