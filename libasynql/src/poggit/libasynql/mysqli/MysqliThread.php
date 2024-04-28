@@ -153,6 +153,9 @@ class MysqliThread extends SqlSlaveThread{
 					return new SqlResult();
 
 				case SqlThread::MODE_SELECT:
+					if($result === false){
+						throw new SqlError(SqlError::STAGE_EXECUTE, $mysqli->error, $query, $params);
+					}
 					$ret = $this->toSelectResult($result);
 					$result->close();
 					return $ret;
@@ -199,6 +202,9 @@ class MysqliThread extends SqlSlaveThread{
 
 				case SqlThread::MODE_SELECT:
 					$set = $stmt->get_result();
+					if($set === false){
+						throw new SqlError(SqlError::STAGE_EXECUTE, $mysqli->error, $query, $params);
+					}
 					$ret = $this->toSelectResult($set);
 					$set->close();
 					return $ret;
