@@ -1,5 +1,11 @@
 # Changelog
 
+## [4.2.3](https://github.com/poggit/libasynql/compare/v4.2.2...v4.2.3)
+- Throw SqlError on select query return false
+- Catch `mysqli_sql_exception` when calling `mysqli_real_connect`
+- Fix the preparation stage and make the function static.
+- Fixed passing a closure in Utils::assumeNotFalse
+
 ## [4.2.2](https://github.com/poggit/libasynql/compare/v4.2.1...v4.2.2)
 - Fixed missing import
 
