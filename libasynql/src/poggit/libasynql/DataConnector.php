@@ -239,4 +239,21 @@ interface DataConnector{
 	 * Closes the connection and/or all child connections. Remember to call this method when the plugin is disabled or the data provider is switched.
 	 */
 	public function close() : void;
+
+    /**
+     * Executes a raw SQL query, not preloaded nor mapped by name.
+     *
+     * This method allows you to execute any SQL statement given as a string with its parameters, without loading it from a query file.
+     *
+     * WARNING: This method bypasses libasynql's query mapping, backend compatibility checks, and query optimizations.
+     * It is your responsibility to ensure SQL syntax is correct and compatible with the underlying backend (MySQL/SQLite).
+     * Prefer using preloaded queries for maintainability and multi-backend support.
+     *
+     * @param string        $query      The raw SQL statement to execute (placeholders must match the backend).
+     * @param mixed[]       $args       The values to bind to the query placeholders.
+     * @param int           $mode       The query mode (SqlThread::MODE_GENERIC, ::MODE_CHANGE, etc.).
+     * @param callable|null $onSuccess  An optional callback when the query has succeeded: <code>function(mixed $result) : void{}</code>
+     * @param callable|null $onError    An optional callback when the query has failed: <code>function({@link SqlError} $error) : void{}</code>
+     */
+    public function executeRawQuery(string $query, array $args = [], int $mode = SqlThread::MODE_GENERIC, ?callable $onSuccess = null, ?callable $onError = null): void;
 }

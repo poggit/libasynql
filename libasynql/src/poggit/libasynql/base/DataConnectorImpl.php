@@ -325,4 +325,22 @@ class DataConnectorImpl implements DataConnector{
 	public function close() : void{
 		$this->thread->stopRunning();
 	}
+
+    public function executeRawQuery(string $query, array $args = [], int $mode = SqlThread::MODE_GENERIC, ?callable $onSuccess = null, ?callable $onError = null): void {
+        $queryId = $this->queryId++;
+        $trace = libasynql::isPackaged() ? null : new Exception("(This is the original stack trace for the following error)");
+        $this->handlers[$queryId] = function($results) use ($onSuccess, $onError, $trace) {
+            if ($results instanceof SqlError) {
+                $this->reportError($onError, $results, $trace);
+            } else {
+                if ($onSuccess !== null) {
+                    $onSuccess($results);
+                }
+            }
+        };
+
+        $this->logger?->debug("Raw query: " . str_replace(["\r\n", "\n"], "\\n ", $query) . " | Args: " . json_encode($args));
+
+        $this->thread->addQuery($queryId, [$mode], [$query], [$args]);
+    }
 }
