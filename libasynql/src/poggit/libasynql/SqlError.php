@@ -60,7 +60,7 @@ class SqlError extends RuntimeException{
 	private $query;
 	private $args;
 
-	public function __construct(string $stage, string $errorMessage, string $query = null, array $args = null){
+	public function __construct(string $stage, string $errorMessage, ?string $query = null, ?array $args = null){
 		$this->stage = $stage;
 		$this->errorMessage = $errorMessage;
 		$this->query = $query;

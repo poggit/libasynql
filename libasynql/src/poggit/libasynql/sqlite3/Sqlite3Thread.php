@@ -62,7 +62,7 @@ class Sqlite3Thread extends SqlSlaveThread{
 		};
 	}
 
-	public function __construct(string $path, SleeperHandlerEntry $entry, QuerySendQueue $send = null, QueryRecvQueue $recv = null){
+	public function __construct(string $path, SleeperHandlerEntry $entry, ?QuerySendQueue $send = null, ?QueryRecvQueue $recv = null){
 		$this->path = $path;
 		parent::__construct($entry, $send, $recv);
 	}

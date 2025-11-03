@@ -73,7 +73,7 @@ final class libasynql{
 	 * @return DataConnector
 	 * @throws SqlError if the connection could not be created
 	 */
-	public static function create(PluginBase $plugin, $configData, array $sqlMap, bool $logQueries = null) : DataConnector{
+	public static function create(PluginBase $plugin, $configData, array $sqlMap, ?bool $logQueries = null) : DataConnector{
 		libasynql::detectPackaged();
 
 		if(!is_array($configData)){

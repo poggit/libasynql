@@ -72,7 +72,7 @@ interface DataConnector{
 	 * @throws GenericStatementFileParseException if the file contains a syntax error or compile error
 	 * @throws InvalidArgumentException if the file introduces statements that duplicate the names of those previously loaded
 	 */
-	public function loadQueryFile($fh, string $fileName = null) : void;
+	public function loadQueryFile($fh, ?string $fileName = null) : void;
 
 	/**
 	 * Loads a pre-formatted query.
