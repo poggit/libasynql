@@ -125,7 +125,7 @@ class Sqlite3Thread extends SqlSlaveThread{
 							SQLITE3_NULL => SqlColumnInfo::TYPE_NULL,
 						];
 						$value = $row[$columnName];
-						$colInfo[$i] = new SqlColumnInfo($columnName, $columnTypeMap[$result->columnType($i)]);
+						$colInfo[$i] = new SqlColumnInfo((string) $columnName, $columnTypeMap[$result->columnType($i)]);
 						if($colInfo[$i]->getType() === SqlColumnInfo::TYPE_FLOAT){
 							if($value === "NAN"){
 								$value = NAN;
