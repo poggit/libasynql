@@ -199,13 +199,13 @@ interface DataConnector{
 	 *
 	 * This function is the await-generator variant. Non await-generator users should not use this function.
 	 *
-	 * The generator returns the number of affected rows.
+	 * The generator returns the array of rows.
 	 *
 	 * If {@link SqlColumnInfo} is needed, use `asyncSelectWithInfo` instead.
 	 *
 	 * @param string  $queryName the {@link GenericPreparedStatement} query name
 	 * @param mixed[] $args      the variables as defined in the {@link GenericPreparedStatement}
-	 * @return Generator<mixed, Await::RESOLVE|Await::REJECT, mixed, array[] $rows>
+	 * @return Generator<mixed, Await::RESOLVE|Await::REJECT, mixed, array[]>
 	 */
 	public function asyncSelect(string $queryName, array $args = []) : Generator;
 
