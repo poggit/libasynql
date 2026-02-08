@@ -99,7 +99,7 @@ class DataConnectorImpl implements DataConnector{
 		$this->logger = $logger;
 	}
 
-	public function loadQueryFile($fh, string $fileName = null) : void{
+	public function loadQueryFile($fh, ?string $fileName = null) : void{
 		if(!is_resource($fh)){
 			throw new TypeError("Missing $fileName in resources directory of plugin.");
 		}

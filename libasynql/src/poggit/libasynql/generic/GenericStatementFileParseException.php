@@ -29,7 +29,7 @@ class GenericStatementFileParseException extends InvalidArgumentException{
 	private $lineNo;
 	private $queryFile;
 
-	public function __construct(string $problem, int $lineNo, string $file = null){
+	public function __construct(string $problem, int $lineNo, ?string $file = null){
 		$this->problem = $problem;
 		$this->lineNo = $lineNo;
 		$this->queryFile = $file ?? "SQL file";
